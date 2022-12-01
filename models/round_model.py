@@ -7,40 +7,24 @@ db = TinyDB('db.json')
 tournament_table = db.table('tournament') 
 
 
-class Tournament_model(): 
+class Round_model(): 
 
-    def __init__(self, name, site, t_date, nb_rounds, rounds, players, duration, description): 
-        self.name = name 
-        self.site = site 
-        self.t_date = t_date 
-        self.nb_rounds = nb_rounds 
-        self.rounds = rounds 
-        self.players = players 
-        self.duration = duration 
-        self.description = description 
-
+    def __init__(self, round):  # ? 
+        self.round = round 
+        
+        
     def __str__(self):
-        begin_phrase = f'Tournoi {self.name}, lieu : {self.site}, date : {self.t_date}, {self.nb_rounds} tours, liste des tours : ' 
-        roundsList = '' 
-        middle_phrase = f', joueurs : ' 
-        playersList = '' 
-        end_phrase = f', temps de jeu : {self.duration}. Description : {self.description}' 
-        for r in self.rounds: 
-            roundsList += str(r) 
-        for p in self.players: 
-            playersList += str(p) 
-        return f'{begin_phrase} {self.rounds} {middle_phrase} {self.players} {end_phrase}' 
+        roundList = f'Liste des matches : \n' 
+        for m in self.round: 
+            roundList += f'{str(m)}\n' 
 
-    
-    def instantiate_tournoi(self):  # tournamentDict 
+        return f'{roundList}' 
 
-        tournamentDict = {
-            'name': 'nom', 
-            'site': 'lieu', 
-            't_date': '01/12/2022', 
-            'nb_rounds': 4, 
-            'rounds': {
-                'matches': [
+
+    def print_round(self): 
+
+        self.round_x = Round_model( 
+            round = [
                     (
                         [1, 0], [2, 0]
                     ), (
@@ -51,57 +35,85 @@ class Tournament_model():
                         [7, 0], [8, 0]
                     ) 
                 ] 
-            }, 
-            'players': {
-                1: 1, 
-                2: 2, 
-                3: 3, 
-                4: 4, 
-                5: 5, 
-                6: 6, 
-                7: 7, 
-                8: 8, 
-            }, 
-            'duration': 'blitz', 
-            'description': 'Observations du directeur du tournoi.' 
-        }
-
-        self.tournament_x = Tournament_model( 
-            name = tournamentDict['name'],  
-            site = tournamentDict['site'],  
-            t_date = tournamentDict['t_date'],  
-            nb_rounds = tournamentDict['nb_rounds'], 
-            rounds = tournamentDict['rounds'], 
-            players = tournamentDict['players'], 
-            duration = tournamentDict['duration'], 
-            description = tournamentDict['description'] 
         ) 
-        # print(f'tournament_x TM97 : {self.tournament_x}') 
-        # print(f'type(self.tournament_x) TM98 : {type(self.tournament_x)}') 
+        print(f'self.round_x RM39 : \n{self.round_x}') 
 
-        return self.tournament_x 
+        return self.round_x 
+
+
+
+
+    
+    # def instantiate_tournoi(self):  # tournamentDict 
+
+    #     tournamentDict = {
+    #         'name': 'nom', 
+    #         'site': 'lieu', 
+    #         't_date': '01/12/2022', 
+    #         'nb_rounds': 4, 
+    #         'rounds': {
+    #             'matches': [
+    #                 (
+    #                     [1, 0], [2, 0]
+    #                 ), (
+    #                     [3, 0], [4, 0]
+    #                 ), (
+    #                     [5, 0], [6, 0]
+    #                 ), (
+    #                     [7, 0], [8, 0]
+    #                 ) 
+    #             ] 
+    #         }, 
+    #         'players': {
+    #             1: 1, 
+    #             2: 2, 
+    #             3: 3, 
+    #             4: 4, 
+    #             5: 5, 
+    #             6: 6, 
+    #             7: 7, 
+    #             8: 8, 
+    #         }, 
+    #         'duration': 'blitz', 
+    #         'description': 'Observations du directeur du tournoi.' 
+    #     }
+
+    #     self.tournament_x = Tournament_model( 
+    #         name = tournamentDict['name'],  
+    #         site = tournamentDict['site'],  
+    #         t_date = tournamentDict['t_date'],  
+    #         nb_rounds = tournamentDict['nb_rounds'], 
+    #         rounds = tournamentDict['rounds'], 
+    #         players = tournamentDict['players'], 
+    #         duration = tournamentDict['duration'], 
+    #         description = tournamentDict['description'] 
+    #     ) 
+    #     # print(f'tournament_x TM97 : {self.tournament_x}') 
+    #     # print(f'type(self.tournament_x) TM98 : {type(self.tournament_x)}') 
+
+    #     return self.tournament_x 
     
 
-    def serialize_tournament(self): 
+    # def serialize_tournament(self): 
 
-        # print(f'tournament_x TM103 : {self.tournament_x}') 
+    #     # print(f'tournament_x TM103 : {self.tournament_x}') 
 
-        serialized_tournament = {
-            'name': self.tournament_x.name, 
-            'site': self.tournament_x.site, 
-            't_date': self.tournament_x.t_date, 
-            'nb_rounds': self.tournament_x.nb_rounds, 
-            'rounds': self.tournament_x.rounds, 
-            'players': self.tournament_x.players,
-            'duration': self.tournament_x.duration, 
-            'description': self.tournament_x.description 
-        }
+    #     serialized_tournament = {
+    #         'name': self.tournament_x.name, 
+    #         'site': self.tournament_x.site, 
+    #         't_date': self.tournament_x.t_date, 
+    #         'nb_rounds': self.tournament_x.nb_rounds, 
+    #         'rounds': self.tournament_x.rounds, 
+    #         'players': self.tournament_x.players,
+    #         'duration': self.tournament_x.duration, 
+    #         'description': self.tournament_x.description 
+    #     }
 
-        tournament_table.truncate() 
-        # # Enregistrer les joueurs sérialisés dans la bdd : 
-        tournament_table.insert(serialized_tournament) 
+    #     tournament_table.truncate() 
+    #     # # Enregistrer les joueurs sérialisés dans la bdd : 
+    #     tournament_table.insert(serialized_tournament) 
 
-        return serialized_tournament 
+    #     return serialized_tournament 
 
 
 
