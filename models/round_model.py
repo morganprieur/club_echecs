@@ -51,7 +51,7 @@ class Round_model():
     #     return self.round_x 
 
     
-    def instantiate_round(self, roundDict): 
+    def instantiate_round(self, roundDicts): 
 
         # roundDict = { 
         #     'round_name': 'round 1', 
@@ -70,18 +70,28 @@ class Round_model():
         #     'end_datetime': '02/12/22 - 09:23' 
         # } 
 
-        for r in roundDict: 
+        for r in roundDicts: 
 
             self.round_x = Round_model( 
-                round_name = roundDict['round_name'], 
-                round_matches = roundDict['round_matches'], 
-                start_datetime = roundDict['start_datetime'], 
-                end_datetime = roundDict['end_datetime'] 
+                round_name = roundDicts[0][1]['round_name'], 
+                round_matches = roundDicts[0][1]['round_matches'], 
+                start_datetime = roundDicts[0][1]['start_datetime'], 
+                end_datetime = roundDicts[0][1]['end_datetime'] 
             ) 
         # print(f'tournament_x TM97 : {self.round_x}') 
         # print(f'type(self.tournament_x) TM98 : {type(self.round_x)}') 
 
         return self.round_x 
+
+    def instantiate_rounds(self, roundDicts): 
+
+        self.rounds = [] 
+
+        for i in range(len(roundDicts)): 
+            self.instantiate_round(self, roundDicts) 
+            self.rounds.append(self.round_x) 
+        
+        return self.rounds 
     
 
     # def serialize_tournament(self): 

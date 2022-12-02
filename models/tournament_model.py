@@ -19,8 +19,8 @@ class Tournament_model():
         self.duration = duration 
         self.description = description 
 
-    def __str__(self):
-        begin_phrase = f'Nom du tournoi : {self.name} \nlieu : {self.site} \ndate(s) : {self.t_date} \n{self.nb_rounds} tours \nliste des tours : (instances de tours à mettre ici ###) \n' 
+    def __str__(self):  # , roundDicts        
+        begin_phrase = f'Nom du tournoi : {self.name} \nlieu : {self.site} \ndate(s) : {self.t_date} \n{self.nb_rounds} tours \nliste des tours : \n' # (instances de tours à mettre ici ###)  
         # roundsList = '' 
         round_name = '' 
         round_matches = '' 
@@ -35,20 +35,38 @@ class Tournament_model():
         #     'matches': roundDict['round_matches'], 
         #     'date-heure début': roundDict['start_datetime'], 
         #     'date-heure fin': roundDict['start_datetime']
-        # }, 
+        # }, round_number 
+        # for i in round_number: 
+        #     pass 
+        # print(f'len(self.rounds) : {len(self.rounds)}') 
         for r in range(len(self.rounds)): 
-            # roundsList += f'{self.rounds[r]} \n' 
-            round_name += f'{self.rounds[r+1]["round_name"]}\n' 
-            round_matches += f'{self.rounds[r+1]["matches"]}\n' 
-            start_datetime += f'{self.rounds[r+1]["date-heure début"]}\n' 
-            end_datetime += f'{self.rounds[r+1]["date-heure fin"]}\n' 
+            # print(f'len(self.rounds[r]) : {len(self.rounds[r])}') 
+        # for r in self.rounds: 
+            # print(f'r : {r}') 
+            # print(f'len(self.rounds[r]) : {len(self.rounds[r])}') 
+            # print(f'self.rounds[r] : {self.rounds[r]}') 
+            # for i in range(len(self.rounds[r])): 
+            #     print(f'i range/len : {i}') 
+            #     print(f'type(i) range/len : {type(i)}') 
+            for i in self.rounds[r]: 
+                # print(f'i : {i}') 
+                # print(f'type(i) : {type(i)}') 
+                # print(f'self.rounds[r][1] : {self.rounds[r][1]}') 
+                round_name += f'{self.rounds[r][int(i)]["round_name"]}\n' 
+                round_matches += f'{self.rounds[r][int(i)]["round_matches"]}\n' 
+                start_datetime += f'{self.rounds[r][int(i)]["start_datetime"]}\n' 
+                end_datetime += f'{self.rounds[r][int(i)]["end_datetime"]}\n' 
         for p in self.players: 
             playersList += f'{p} \n' 
         return f'{begin_phrase}\nnom : {round_name}matches : {round_matches}heure début : {start_datetime}heure fin : {end_datetime}{middle_phrase}{playersList}{end_phrase}' 
         # return f'{begin_phrase}{roundsList}{middle_phrase}{playersList}{end_phrase}' 
 
-    
-    def instantiate_tournoi(self, tournamentDict, roundDict):  #  
+    # 'rounds': { 
+    #     1: roundDicts[0][1], 
+    #     2: roundDicts[0][2],  
+    # }, ### comment intégrer l'objet Round ici ? 
+
+    def instantiate_tournament(self, tournamentDict, roundDicts):  #  
 
         self.tournament_x = Tournament_model( 
             name = tournamentDict['name'],  
@@ -56,14 +74,15 @@ class Tournament_model():
             t_date = tournamentDict['t_date'],  
             nb_rounds = tournamentDict['nb_rounds'], 
             # rounds = tournamentDict['rounds'], 
-            rounds = { 
-                1: {
-                    'round_name': roundDict['round_name'], 
-                    'matches': roundDict['round_matches'], 
-                    'date-heure début': roundDict['start_datetime'], 
-                    'date-heure fin': roundDict['end_datetime']
-                }  
-            }, 
+            rounds = # [ 
+                roundDicts, 
+                # {      # key=1/2...: value='round_name'... 
+                # 'round_name' = roundDicts[0]["1"]['round_name'],  ### TypeError: tuple indices must be integers or slices, not str 
+                # 'round_matches' = roundDicts[0]["1"]['round_matches'], 
+                # 'start_datetime' = roundDicts[0]["1"]['start_datetime'], 
+                # 'end_datetime' = roundDicts[0]["1"]['end_datetime'] 
+                # }, 
+            # ], 
             players = tournamentDict['players'], 
             duration = tournamentDict['duration'], 
             description = tournamentDict['description'] 
