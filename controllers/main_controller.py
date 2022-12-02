@@ -90,12 +90,13 @@ class Main_controller():
             'description': 'Observations du directeur du tournoi.' 
         } 
 
-        # tournament_obj = 
-        Tournament_model.instantiate_tournament(Tournament_model, tournamentDict, roundDicts) 
-        Tournament_model.serialize_tournament(Tournament_model) 
-
-        # Round_model.instantiate_round(Round_model, roundDict) 
         Round_model.instantiate_rounds(Round_model, roundDicts)
+
+        # Tournament_model.instantiate_tournament(Tournament_model, tournamentDict, roundDicts) 
+        Tournament_model.instantiate_tournament(Tournament_model, tournamentDict, Round_model.round_x) 
+        Tournament_model.serialize_tournament(Tournament_model) 
+ 
+        # Round_model.instantiate_rounds(Round_model, roundDicts)
 
         Player_model.instantiate_player(Player_model, playerDict) 
 
