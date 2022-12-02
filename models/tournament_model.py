@@ -20,16 +20,16 @@ class Tournament_model():
         self.description = description 
 
     def __str__(self):
-        begin_phrase = f'Tournoi {self.name}, lieu : {self.site}, date : {self.t_date}, {self.nb_rounds} tours, liste des tours : \n' 
+        begin_phrase = f'Nom du tournoi : {self.name} \nlieu : {self.site} \ndate(s) : {self.t_date} \n{self.nb_rounds} tours \nliste des tours : (instances de tours à mettre ici ###) \n' 
         roundsList = '' 
-        middle_phrase = f', joueurs : \n' 
+        middle_phrase = f'joueurs : (instances de joueurs à mettre ici ###) \n' 
         playersList = '' 
-        end_phrase = f', temps de jeu : {self.duration}. Description : {self.description}' 
+        end_phrase = f'temps de jeu : {self.duration}. \nDescription : {self.description}' 
         for r in self.rounds: 
-            roundsList += f'{str(r)}\n' 
+            roundsList += f'{r} \n' 
         for p in self.players: 
-            playersList += f'{str(p)}\n' 
-        return f'{begin_phrase} {self.rounds} {middle_phrase} {self.players} {end_phrase}' 
+            playersList += f'{p} \n' 
+        return f'{begin_phrase}{roundsList}{middle_phrase}{playersList}{end_phrase}' 
 
     
     def instantiate_tournoi(self, tournamentDict):  #  

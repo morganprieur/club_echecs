@@ -6,92 +6,82 @@ from tinydb import TinyDB
 db = TinyDB('db.json') 
 tournament_table = db.table('tournament') 
 
+# un champ de nom. Actuellement, nous appelons nos tours "Round 1", "Round 2", etc. 
+# Elle doit également contenir un champ Date et heure de début et un champ Date et heure de fin, 
+# qui doivent tous deux être automatiquement remplis lorsque l'utilisateur crée un tour et le marque comme terminé. 
+# Les instances de round doivent être stockées dans une liste sur l'instance de tournoi à laquelle elles appartiennent.
 
 class Round_model(): 
 
-    def __init__(self, round):  # ? 
-        self.round = round 
-        
-        
-    def __str__(self):
-        roundList = f'Liste des matches : \n' 
-        for m in self.round: 
-            roundList += f'{str(m)}\n' 
-
-        return f'{roundList}' 
-
-
-    def print_round(self): 
-
-        self.round_x = Round_model( 
-            round = [
-                    (
-                        [1, 0], [2, 0]
-                    ), (
-                        [3, 0], [4, 0]
-                    ), (
-                        [5, 0], [6, 0]
-                    ), (
-                        [7, 0], [8, 0]
-                    ) 
-                ] 
-        ) 
-        print(f'self.round_x RM39 : \n{self.round_x}') 
-
-        return self.round_x 
-
-
-
-
+    def __init__(self, round_name, round_matches, start_datetime, end_datetime):  ### datetime automatique ### 
+        self.round_name = round_name 
+        self.round_matches = round_matches 
+        self.start_datetime = start_datetime 
+        self.end_datetime = end_datetime 
     
-    # def instantiate_tournoi(self):  # tournamentDict 
 
-    #     tournamentDict = {
-    #         'name': 'nom', 
-    #         'site': 'lieu', 
-    #         't_date': '01/12/2022', 
-    #         'nb_rounds': 4, 
-    #         'rounds': {
-    #             'matches': [
+    def __str__(self):
+        round_matchesList = f'' 
+        for m in range(len(self.round_matches)): 
+            round_matchesList += f' {str(self.round_matches[m])} \n' 
+
+        return f'Nom du round : {self.round_name} \nListe des matches : \n{round_matchesList}début : {self.start_datetime} \nfin : {self.end_datetime}' 
+
+
+    # def print_round(self): 
+
+    #     self.round_x = Round_model( 
+    #         round = [
     #                 (
     #                     [1, 0], [2, 0]
-    #                 ), (
+    #                 ), 
+    #                 (
     #                     [3, 0], [4, 0]
-    #                 ), (
+    #                 ), 
+    #                 (
     #                     [5, 0], [6, 0]
-    #                 ), (
+    #                 ),
+    #                  (
     #                     [7, 0], [8, 0]
     #                 ) 
     #             ] 
-    #         }, 
-    #         'players': {
-    #             1: 1, 
-    #             2: 2, 
-    #             3: 3, 
-    #             4: 4, 
-    #             5: 5, 
-    #             6: 6, 
-    #             7: 7, 
-    #             8: 8, 
-    #         }, 
-    #         'duration': 'blitz', 
-    #         'description': 'Observations du directeur du tournoi.' 
-    #     }
-
-    #     self.tournament_x = Tournament_model( 
-    #         name = tournamentDict['name'],  
-    #         site = tournamentDict['site'],  
-    #         t_date = tournamentDict['t_date'],  
-    #         nb_rounds = tournamentDict['nb_rounds'], 
-    #         rounds = tournamentDict['rounds'], 
-    #         players = tournamentDict['players'], 
-    #         duration = tournamentDict['duration'], 
-    #         description = tournamentDict['description'] 
     #     ) 
-    #     # print(f'tournament_x TM97 : {self.tournament_x}') 
-    #     # print(f'type(self.tournament_x) TM98 : {type(self.tournament_x)}') 
+    #     print(f'self.round_x RM39 : \n{self.round_x}') 
 
-    #     return self.tournament_x 
+    #     return self.round_x 
+
+    
+    def instantiate_round(self, roundDict): 
+
+        # roundDict = { 
+        #     'round_name': 'round 1', 
+        #     'round_matches': [
+        #         (
+        #             [1, 0], [2, 0]
+        #         ), (
+        #             [3, 0], [4, 0]
+        #         ), (
+        #             [5, 0], [6, 0]
+        #         ), (
+        #             [7, 0], [8, 0]
+        #         ) 
+        #     ], 
+        #     'start_datetime': '02/12/22 - 07:23', 
+        #     'end_datetime': '02/12/22 - 09:23' 
+        # } 
+
+        for r in roundDict: 
+
+            self.round_x = Round_model( 
+                round_name = roundDict['round_name'], 
+                round_matches = roundDict['round_matches'], 
+                start_datetime = roundDict['start_datetime'], 
+                end_datetime = roundDict['end_datetime'] 
+            ) 
+        # print(f'tournament_x TM97 : {self.round_x}') 
+        # print(f'type(self.tournament_x) TM98 : {type(self.round_x)}') 
+
+        return self.round_x 
     
 
     # def serialize_tournament(self): 

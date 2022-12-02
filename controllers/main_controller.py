@@ -12,9 +12,26 @@ class Main_controller():
 
         print('start main controller') 
 
+        roundDict = { 
+            'round_name': 'round 1', 
+            'round_matches': [
+                (
+                    [1, 0], [2, 0]
+                ), (
+                    [3, 0], [4, 0]
+                ), (
+                    [5, 0], [6, 0]
+                ), (
+                    [7, 0], [8, 0]
+                ) 
+            ], 
+            'start_datetime': '02/12/22 - 07:23', 
+            'end_datetime': '02/12/22 - 09:23' 
+        } 
+
         tournamentDict = {
-            'name': 'nom', 
-            'site': 'lieu', 
+            'name': 'Tournoi 1', 
+            'site': 'lieu 1', 
             't_date': ['01/12/2022',], 
             'nb_rounds': 4, 
             'rounds': {  ### comment intégrer l'objet Round ici ? 
@@ -80,10 +97,13 @@ class Main_controller():
         Tournament_model.instantiate_tournoi(Tournament_model, tournamentDict) 
         Tournament_model.serialize_tournament(Tournament_model) 
 
-        Round_model.print_round(Round_model) 
+        Round_model.instantiate_round(Round_model, roundDict) 
 
-        print(f'Tournament_model.tournament_x C17 : \n{Tournament_model.tournament_x}') 
+        # Round_model.print_round(Round_model) 
+
+        print(f'\nTournament_model.tournament_x C104 : \n{Tournament_model.tournament_x}') 
         # print(f'type(Tournament_model.tournament_x) TM18 : {type(Tournament_model.tournament_x)}') 
+        print(f'\nRound_model.round_x C106 : \n{Round_model.round_x}') 
 
 
     
