@@ -4,6 +4,7 @@
 
 from models.tournament_model import Tournament_model 
 from models.round_model import Round_model 
+from models.player_model import Player_model 
 
 
 class Main_controller(): 
@@ -11,6 +12,14 @@ class Main_controller():
     def start(): 
 
         print('start main controller') 
+
+        playerDict = { 
+            'lastname': 'nom 1',  
+            'firstname': 'prénom 1', 
+            'birthdate': '02/12/2001', 
+            'genre': 'F', 
+            'classement': '41' 
+        } 
 
         roundDict = { 
             'round_name': 'round 1', 
@@ -54,11 +63,14 @@ class Main_controller():
 
         Round_model.instantiate_round(Round_model, roundDict) 
 
+        Player_model.instantiate_player(Player_model, playerDict) 
+
         # Round_model.print_round(Round_model) 
 
-        print(f'\nTournament_model.tournament_x C104 : \n{Tournament_model.tournament_x}') 
+        print(f'\nTournament_model.tournament_x C70 : \n{Tournament_model.tournament_x}') 
         # print(f'type(Tournament_model.tournament_x) TM18 : {type(Tournament_model.tournament_x)}') 
-        print(f'\nRound_model.round_x C106 : \n{Round_model.round_x}') 
+        print(f'\nRound_model.round_x C72 : \n{Round_model.round_x}') 
+        print(f'\nPlayer_model.player_x C73 : \n{Player_model.player_x}') 
 
 
     
