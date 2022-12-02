@@ -52,8 +52,6 @@ class Player_model():
             classement=playerDict['classement'] 
         ) 
 
-        # print(f'player_x PM55 :  {player_x}') 
-
         return self.player_x 
 
 
