@@ -90,109 +90,132 @@ class Main_controller():
             'description': 'Observations du directeur du tournoi.' 
         } 
 
-        Round_model.instantiate_rounds(Round_model, roundDicts)
+        # # Round_model.instantiate_round(Round_model, roundDict) 
+        # Round_model.instantiate_rounds(Round_model, roundDicts) 
 
+        # # tournament_obj = 
         # Tournament_model.instantiate_tournament(Tournament_model, tournamentDict, roundDicts) 
-        Tournament_model.instantiate_tournament(Tournament_model, tournamentDict, Round_model.round_x) 
-        Tournament_model.serialize_tournament(Tournament_model) 
- 
-        # Round_model.instantiate_rounds(Round_model, roundDicts)
+        # Tournament_model.serialize_tournament(Tournament_model) 
 
-        Player_model.instantiate_player(Player_model, playerDict) 
+    #### PJ 
+        players = []
+        with open("utils/players.csv", "r") as file:
+            # utils\players.csv
+            for line in file:
+                if line.startswith("lastname"):
+                    continue
+
+                lastname, firstname, age, genre, rank = line.strip().split(";") 
+                players.append(Player_model(lastname, firstname, age, genre, rank)) 
+    #### PJ / 
+        print("file : ", players) 
+        for p in players: 
+            print("file : ", p.lastname) 
+            print("file : ", p.firstname) 
+            print("file : ", p.age) 
+            print("file : ", p.genre) 
+            print("file : ", p.rank) 
+        # print("player2.lastname : ", players[2].firstname) 
+
+        Player_model.instantiate_player(Player_model, players) 
+        Player_model.serialize_multi_players(players) 
+        # Player_model.instantiate_player(Player_model, playerDict) 
 
         # Round_model.print_round(Round_model) 
 
-        print(f'\nTournament_model.tournament_obj C95 : \n{Tournament_model.tournament_x}') 
+        # print(f'\nTournament_model.tournament_obj C95 : \n{Tournament_model.tournament_x}') 
+
         # print(f'\ntournament_obj C95 : \n{Tournament_model.__str__(tournament_obj, roundDicts)}') 
         # print(f'\ntournament_obj C95 : \n{tournament_obj, tournamentDict, roundDicts}') 
         # print(f'\nTournament_model.tournament_x C70 : \n{Tournament_model.tournament_x}') 
         # print(f'type(Tournament_model.tournament_x) TM18 : {type(Tournament_model.tournament_x)}') 
         
         # print(f'\nRound_model.round_x C98 : \n{Round_model.round_x}') 
-        print(f'\nPlayer_model.player_x C99 : \n{Player_model.player_x}') 
+        # print(f'\nPlayer_model.player_x C99 : \n{Player_model.player_x}') 
+        
 
 
-""" 
-tournament_obj C95 : 
-( 
-    <models.tournament_model.Tournament_model object at 0x00000226BD6CEA10>,  # --> tournament_obj 
-    { 
-        'name': 'Tournoi 1', 
-        'site': 'lieu 1', 
-        't_date': ['01/12/2022'], 
-        'nb_rounds': 4, 
-        'rounds': { 
-            1: { 
-                'round_name': 'round 1', 
-                'round_matches': [ 
-                    ([1, 0], [2, 0]), 
-                    ([3, 0], [4, 0]), 
-                    ([5, 0], [6, 0]), 
-                    ([7, 0], [8, 0]) 
-                ], 
-                'start_datetime': '02/12/22 - 07:23', 
-                'end_datetime': '02/12/22 - 09:23' 
-            }, 
-            2: { 
-                'round_name': 'round 1', 
-                'round_matches': [ 
-                    ([1, 0], [3, 0]), 
-                    ([5, 0], [7, 0]), 
-                    ([2, 0], [4, 0]), 
-                    ([6, 0], [8, 0]) 
-                ], 
-                'start_datetime': '02/12/22 - 11:11', 
-                'end_datetime': '02/12/22 - 13:11' 
-            }  
-        }, 
-        'players': { 
-            1: 1, 
-            2: 2, 
-            3: 3, 
-            4: 4, 
-            5: 5, 
-            6: 6, 
-            7: 7, 
-            8: 8 
-        }, 
-        'duration': 'blitz', 
-        'description': 'Observations du directeur du tournoi.' 
-    },                                                                         # --> tournamentDict 
-
+    """ 
+    tournament_obj C95 : 
     ( 
+        <models.tournament_model.Tournament_model object at 0x00000226BD6CEA10>,  # --> tournament_obj 
         { 
-            1: { 
-                'round_name': 'round 1', 
-                'round_matches': [ 
-                    ([1, 0], [2, 0]), 
-                    ([3, 0], [4, 0]), 
-                    ([5, 0], [6, 0]), 
-                    ([7, 0], [8, 0]) 
-                ], 
-                'start_datetime': '02/12/22 - 07:23', 
-                'end_datetime': '02/12/22 - 09:23' 
+            'name': 'Tournoi 1', 
+            'site': 'lieu 1', 
+            't_date': ['01/12/2022'], 
+            'nb_rounds': 4, 
+            'rounds': { 
+                1: { 
+                    'round_name': 'round 1', 
+                    'round_matches': [ 
+                        ([1, 0], [2, 0]), 
+                        ([3, 0], [4, 0]), 
+                        ([5, 0], [6, 0]), 
+                        ([7, 0], [8, 0]) 
+                    ], 
+                    'start_datetime': '02/12/22 - 07:23', 
+                    'end_datetime': '02/12/22 - 09:23' 
+                }, 
+                2: { 
+                    'round_name': 'round 1', 
+                    'round_matches': [ 
+                        ([1, 0], [3, 0]), 
+                        ([5, 0], [7, 0]), 
+                        ([2, 0], [4, 0]), 
+                        ([6, 0], [8, 0]) 
+                    ], 
+                    'start_datetime': '02/12/22 - 11:11', 
+                    'end_datetime': '02/12/22 - 13:11' 
+                }  
             }, 
-            2: { 
-                'round_name': 'round 1', 
-                'round_matches': [ 
-                    ([1, 0], [3, 0]), 
-                    ([5, 0], [7, 0]), 
-                    ([2, 0], [4, 0]), 
-                    ([6, 0], [8, 0]) 
-                ], 
-                'start_datetime': '02/12/22 - 11:11', 
-                'end_datetime': '02/12/22 - 13:11' 
-            } 
-        }, 
-    )                                                                           # --> roundDicts 
-) 
+            'players': { 
+                1: 1, 
+                2: 2, 
+                3: 3, 
+                4: 4, 
+                5: 5, 
+                6: 6, 
+                7: 7, 
+                8: 8 
+            }, 
+            'duration': 'blitz', 
+            'description': 'Observations du directeur du tournoi.' 
+        },                                                                         # --> tournamentDict 
+
+        ( 
+            { 
+                1: { 
+                    'round_name': 'round 1', 
+                    'round_matches': [ 
+                        ([1, 0], [2, 0]), 
+                        ([3, 0], [4, 0]), 
+                        ([5, 0], [6, 0]), 
+                        ([7, 0], [8, 0]) 
+                    ], 
+                    'start_datetime': '02/12/22 - 07:23', 
+                    'end_datetime': '02/12/22 - 09:23' 
+                }, 
+                2: { 
+                    'round_name': 'round 1', 
+                    'round_matches': [ 
+                        ([1, 0], [3, 0]), 
+                        ([5, 0], [7, 0]), 
+                        ([2, 0], [4, 0]), 
+                        ([6, 0], [8, 0]) 
+                    ], 
+                    'start_datetime': '02/12/22 - 11:11', 
+                    'end_datetime': '02/12/22 - 13:11' 
+                } 
+            }, 
+        )                                                                           # --> roundDicts 
+    ) 
 
 
-"""
+    """
 
     
 
-""" 
+    """ 
         tournamentDict = {
             'name': 'Tournoi 1', 
             'site': 'lieu 1', 
@@ -257,6 +280,6 @@ tournament_obj C95 :
             'duration': 'blitz', 
             'description': 'Observations du directeur du tournoi.' 
         } 
-"""
+    """
 
 
