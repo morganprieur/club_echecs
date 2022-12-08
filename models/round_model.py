@@ -73,6 +73,7 @@ class Round_model():
         for r in roundDicts: 
 
             self.round_x = Round_model( 
+                # round_name = r['round_name'],  ### 
                 round_name = roundDicts[0][1]['round_name'], 
                 round_matches = roundDicts[0][1]['round_matches'], 
                 start_datetime = roundDicts[0][1]['start_datetime'], 

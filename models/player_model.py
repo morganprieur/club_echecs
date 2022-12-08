@@ -15,12 +15,12 @@ class Player_model():
     # players = [] 
     # serialized_players = [] 
 
-    def __init__(self, lastname, firstname, birthdate, genre, classement):  # , global_score 
+    def __init__(self, lastname, firstname, age, genre, rank):  # , global_score 
         self.lastname = lastname  
         self.firstname = firstname 
-        self.birthdate = birthdate 
+        self.age = age 
         self.genre = genre 
-        self.classement = classement 
+        self.rank = rank 
         # self.global_score = global_score 
 
     def __str__(self): 
@@ -31,26 +31,53 @@ class Player_model():
             born = 'née' 
         elif self.genre == 'A\n' or self.genre == 'A': 
             born = 'né.e' 
-        return f'{self.firstname} {self.lastname} {born} on {self.birthdate} range: {self.classement}.'  # , global score: {self.global_score}.' 
+        return f'{self.firstname} {self.lastname} {born} on {self.age} range: {self.rank}.'  # , global score: {self.global_score}.' 
 
 
-    def instantiate_player(self, playerDict): 
+    def instantiate_player(self, players): 
 
-        playerDict = { 
-            'lastname': 'nom 1',  
-            'firstname': 'prénom 1', 
-            'birthdate': '02/12/2001', 
-            'genre': 'F', 
-            'classement': '41' 
-        } 
+        # playerDict = { 
+        #     'lastname': 'nom 1',  
+        #     'firstname': 'prénom 1', 
+        #     'birthdate': '02/12/2001', 
+        #     'genre': 'F', 
+        #     'classement': '41' 
+        # } 
 
-        self.player_x = Player_model( 
-            lastname=playerDict['lastname'], 
-            firstname=playerDict['firstname'], 
-            birthdate=playerDict['birthdate'], 
-            genre=playerDict['genre'], 
-            classement=playerDict['classement'] 
-        ) 
+        for p in players: 
+            self.player_x = Player_model( 
+                lastname=p, 
+                firstname=p, 
+                age=p, 
+                genre=p, 
+                rank=p 
+                # lastname=players['lastname'], 
+                # firstname=players['firstname'], 
+                # birthdate=players['birthdate'], 
+                # genre=players['genre'], 
+                # classement=players['classement'] 
+            ) 
+            # print(f'\nPlayer_model.player_x PM60 : \n{Player_model.player_x}') 
+        
+
+    # def instantiate_player(self, playerDict): 
+
+    #     playerDict = { 
+    #         'lastname': 'nom 1',  
+    #         'firstname': 'prénom 1', 
+    #         'birthdate': '02/12/2001', 
+    #         'genre': 'F', 
+    #         'classement': '41' 
+    #     } 
+
+    #     self.player_x = Player_model( 
+    #         lastname=playerDict['lastname'], 
+    #         firstname=playerDict['firstname'], 
+    #         birthdate=playerDict['birthdate'], 
+    #         genre=playerDict['genre'], 
+    #         classement=playerDict['classement'] 
+    #     ) 
+            # print(f'\nPlayer_model.player_x PM80 : \n{Player_model.player_x}') 
 
         return self.player_x 
 
@@ -87,40 +114,40 @@ class Player_model():
     #     return players 
 
 
-    # def serialize_multi_players(players):  # , serialized_players 
-    #     """ Serialization of the players data in order to register them 
-    #         in the DB. 
-    #     Args:
-    #         players (list): list of object Players 
-    #     Returns:
-    #         serialized_players (list): the players in the expected format for the DB 
-    #     """
-    #     serialized_players = [] 
+    def serialize_multi_players(players):  # , serialized_players 
+        """ Serialization of the players data in order to register them 
+            in the DB. 
+        Args:
+            players (list): list of object Players 
+        Returns:
+            serialized_players (list): the players in the expected format for the DB 
+        """
+        serialized_players = [] 
 
-    #     # print(f'players C48 : {players}')   # inversés 
-    #     # print(f'players C48 : {players[0].lastname}') 
-    #     for p_obj in range(len(players)): 
-    #         # print(f'type(p_obj) : {type(p_obj)}\n') 
-    #         # print(f'p_obj : {p_obj}\n') 
-    #         # print(f'players[{p_obj}] : {players[p_obj]}\n') 
-    #         serialized_player_data = {
-    #             'lastname': players[p_obj].lastname, 
-    #             'firstname': players[p_obj].firstname, 
-    #             'birthdate': players[p_obj].birthdate, 
-    #             'genre': players[p_obj].genre, 
-    #             'classement': players[p_obj].classement, 
-    #             'global_score': players[p_obj].global_score 
-    #         } 
+        # print(f'players C48 : {players}')   # inversés 
+        # print(f'players C48 : {players[0].lastname}') 
+        for p_obj in range(len(players)): 
+            # print(f'type(p_obj) : {type(p_obj)}\n') 
+            # print(f'p_obj : {p_obj}\n') 
+            # print(f'players[{p_obj}] : {players[p_obj]}\n') 
+            serialized_player_data = {
+                'lastname': players[p_obj].lastname, 
+                'firstname': players[p_obj].firstname, 
+                'age': players[p_obj].age, 
+                'genre': players[p_obj].genre, 
+                'rank': players[p_obj].rank, 
+                # 'global_score': players[p_obj].global_score 
+            } 
 
-    #         serialized_players.append(serialized_player_data) 
+            serialized_players.append(serialized_player_data) 
 
-    #     # print(f'serialized_players M88 : {serialized_players}')     # ok 
+        # print(f'serialized_players M88 : {serialized_players}')     # ok 
 
-    #     players_table.truncate() 
-    #     # # Enregistrer les joueurs sérialisés dans la bdd : 
-    #     players_table.insert_multiple(serialized_players) 
+        players_table.truncate() 
+        # # Enregistrer les joueurs sérialisés dans la bdd : 
+        players_table.insert_multiple(serialized_players) 
 
-    #     return serialized_players 
+        return serialized_players 
 
 
     # Vider la BDD avant d'enregistrer les nouveaux joueurs 

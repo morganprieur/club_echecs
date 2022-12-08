@@ -90,25 +90,49 @@ class Main_controller():
             'description': 'Observations du directeur du tournoi.' 
         } 
 
-        # tournament_obj = 
-        Tournament_model.instantiate_tournament(Tournament_model, tournamentDict, roundDicts) 
-        Tournament_model.serialize_tournament(Tournament_model) 
+        # # Round_model.instantiate_round(Round_model, roundDict) 
+        # Round_model.instantiate_rounds(Round_model, roundDicts) 
 
-        # Round_model.instantiate_round(Round_model, roundDict) 
-        Round_model.instantiate_rounds(Round_model, roundDicts)
+        # # tournament_obj = 
+        # Tournament_model.instantiate_tournament(Tournament_model, tournamentDict, roundDicts) 
+        # Tournament_model.serialize_tournament(Tournament_model) 
 
-        Player_model.instantiate_player(Player_model, playerDict) 
+#### PJ 
+        players = []
+        with open("utils/players.csv", "r") as file:
+            # utils\players.csv
+            for line in file:
+                if line.startswith("lastname"):
+                    continue
+
+                lastname, firstname, age, genre, rank = line.strip().split(";") 
+                players.append(Player_model(lastname, firstname, age, genre, rank)) 
+#### PJ / 
+        print("file : ", players) 
+        for p in players: 
+            print("file : ", p.lastname) 
+            print("file : ", p.firstname) 
+            print("file : ", p.age) 
+            print("file : ", p.genre) 
+            print("file : ", p.rank) 
+        # print("player2.lastname : ", players[2].firstname) 
+
+        Player_model.instantiate_player(Player_model, players) 
+        Player_model.serialize_multi_players(players) 
+        # Player_model.instantiate_player(Player_model, playerDict) 
 
         # Round_model.print_round(Round_model) 
 
-        print(f'\nTournament_model.tournament_obj C95 : \n{Tournament_model.tournament_x}') 
+        # print(f'\nTournament_model.tournament_obj C95 : \n{Tournament_model.tournament_x}') 
+
         # print(f'\ntournament_obj C95 : \n{Tournament_model.__str__(tournament_obj, roundDicts)}') 
         # print(f'\ntournament_obj C95 : \n{tournament_obj, tournamentDict, roundDicts}') 
         # print(f'\nTournament_model.tournament_x C70 : \n{Tournament_model.tournament_x}') 
         # print(f'type(Tournament_model.tournament_x) TM18 : {type(Tournament_model.tournament_x)}') 
         
         # print(f'\nRound_model.round_x C98 : \n{Round_model.round_x}') 
-        print(f'\nPlayer_model.player_x C99 : \n{Player_model.player_x}') 
+        # print(f'\nPlayer_model.player_x C99 : \n{Player_model.player_x}') 
+        
 
 
 """ 

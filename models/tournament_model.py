@@ -40,18 +40,8 @@ class Tournament_model():
         #     pass 
         # print(f'len(self.rounds) : {len(self.rounds)}') 
         for r in range(len(self.rounds)): 
-            # print(f'len(self.rounds[r]) : {len(self.rounds[r])}') 
-        # for r in self.rounds: 
-            # print(f'r : {r}') 
-            # print(f'len(self.rounds[r]) : {len(self.rounds[r])}') 
-            # print(f'self.rounds[r] : {self.rounds[r]}') 
-            # for i in range(len(self.rounds[r])): 
-            #     print(f'i range/len : {i}') 
-            #     print(f'type(i) range/len : {type(i)}') 
             for i in self.rounds[r]: 
-                # print(f'i : {i}') 
-                # print(f'type(i) : {type(i)}') 
-                # print(f'self.rounds[r][1] : {self.rounds[r][1]}') 
+                # round_name += f'{i["round_name"]}\n'  ###  
                 round_name += f'{self.rounds[r][int(i)]["round_name"]}\n' 
                 round_matches += f'{self.rounds[r][int(i)]["round_matches"]}\n' 
                 start_datetime += f'{self.rounds[r][int(i)]["start_datetime"]}\n' 
