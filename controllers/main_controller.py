@@ -100,7 +100,6 @@ class Main_controller():
     #### PJ 
         players = []
         with open("utils/players.csv", "r") as file:
-            # utils\players.csv
             for line in file:
                 if line.startswith("lastname"):
                     continue
@@ -109,17 +108,30 @@ class Main_controller():
                 players.append(Player_model(lastname, firstname, age, genre, rank)) 
     #### PJ / 
         print("file : ", players) 
-        for p in players: 
-            print("file : ", p.lastname) 
-            print("file : ", p.firstname) 
-            print("file : ", p.age) 
-            print("file : ", p.genre) 
-            print("file : ", p.rank) 
+        # for p in players: 
+        #     print("file : ", p.lastname) 
+        #     print("file : ", p.firstname) 
+        #     print("file : ", p.age) 
+        #     print("file : ", p.genre) 
+        #     print("file : ", p.rank) 
         # print("player2.lastname : ", players[2].firstname) 
 
         Player_model.instantiate_player(Player_model, players) 
         Player_model.serialize_multi_players(players) 
         # Player_model.instantiate_player(Player_model, playerDict) 
+        
+        tournaments = [] 
+        with open("utils/tournaments.csv", "r") as t_file: 
+            for t_line in t_file: 
+                if t_line.startswith("name"): 
+                    continue 
+
+                name, site, t_date, nb_rounds, rounds, players, duration, description = t_line.strip().split(";") 
+                tournaments.append(Tournament_model(name, site, t_date, nb_rounds, rounds, players, duration, description)) 
+                
+        Tournament_model.instantiate_tournament(Tournament_model, tournaments, roundDicts) 
+        Tournament_model.serialize_tournament(Tournament_model) 
+
 
         # Round_model.print_round(Round_model) 
 

@@ -20,7 +20,7 @@ class Tournament_model():
         self.description = description 
 
     def __str__(self):  # , roundDicts        
-        begin_phrase = f'Nom du tournoi : {self.name} \nlieu : {self.site} \ndate(s) : {self.t_date} \n{self.nb_rounds} tours \nliste des tours : \n' # (instances de tours à mettre ici ###)  
+        begin_phrase = f'\nNom du tournoi : {self.name} \nlieu : {self.site} \ndate(s) : {self.t_date} \n{self.nb_rounds} tours \nliste des tours : \n' # (instances de tours à mettre ici ###)  
         # roundsList = '' 
         round_name = '' 
         round_matches = '' 
@@ -46,8 +46,10 @@ class Tournament_model():
                 round_matches += f'{self.rounds[r][int(i)]["round_matches"]}\n' 
                 start_datetime += f'{self.rounds[r][int(i)]["start_datetime"]}\n' 
                 end_datetime += f'{self.rounds[r][int(i)]["end_datetime"]}\n' 
-        for p in self.players: 
-            playersList += f'{p} \n' 
+        # print(f'type(self.players) TM49 : {type(self.players)}')  # str 
+        if self.players:  # TypeError: 'Tournament_model' object is not iterable ### 
+            for p in self.players: 
+                playersList += f'{p} \n' 
         return f'{begin_phrase}\nnom : {round_name}matches : {round_matches}heure début : {start_datetime}heure fin : {end_datetime}{middle_phrase}{playersList}{end_phrase}' 
         # return f'{begin_phrase}{roundsList}{middle_phrase}{playersList}{end_phrase}' 
 
@@ -56,26 +58,39 @@ class Tournament_model():
     #     2: roundDicts[0][2],  
     # }, ### comment intégrer l'objet Round ici ? 
 
-    def instantiate_tournament(self, tournamentDict, roundDicts):  #  
 
-        self.tournament_x = Tournament_model( 
-            name = tournamentDict['name'],  
-            site = tournamentDict['site'],  
-            t_date = tournamentDict['t_date'],  
-            nb_rounds = tournamentDict['nb_rounds'], 
-            # rounds = tournamentDict['rounds'], 
-            rounds = # [ 
-                roundDicts, 
-                # {      # key=1/2...: value='round_name'... 
-                # 'round_name' = roundDicts[0]["1"]['round_name'],  ### TypeError: tuple indices must be integers or slices, not str 
-                # 'round_matches' = roundDicts[0]["1"]['round_matches'], 
-                # 'start_datetime' = roundDicts[0]["1"]['start_datetime'], 
-                # 'end_datetime' = roundDicts[0]["1"]['end_datetime'] 
-                # }, 
-            # ], 
-            players = tournamentDict['players'], 
-            duration = tournamentDict['duration'], 
-            description = tournamentDict['description'] 
+    def instantiate_tournament(self, tournaments, roundDicts): 
+        print(f'type(tournaments) TM61 : {type(tournaments)}') 
+        # for t in tournaments: 
+        #     self.tournament_x = Tournament_model( 
+        #         lastname=p, 
+        #         firstname=p, 
+        #         age=p, 
+        #         genre=p, 
+        #         rank=p 
+        #     )
+
+        for t in tournaments: 
+            print(f't TM63 : {t}') 
+            # print(f'type(tournaments[t]) TM61 : {type(tournaments[t])}') 
+            self.tournament_x = Tournament_model( 
+                name = t,  
+                site = t,  
+                t_date = t,  
+                nb_rounds = t, 
+                # rounds = tournaments['rounds'], 
+                rounds = # [ 
+                    roundDicts, 
+                    # {      # key=1/2...: value='round_name'... 
+                    # 'round_name' = roundDicts[0]["1"]['round_name'],  ### TypeError: tuple indices must be integers or slices, not str 
+                    # 'round_matches' = roundDicts[0]["1"]['round_matches'], 
+                    # 'start_datetime' = roundDicts[0]["1"]['start_datetime'], 
+                    # 'end_datetime' = roundDicts[0]["1"]['end_datetime'] 
+                    # }, 
+                # ], 
+                players = t, 
+                duration = t, 
+                description = t 
         ) 
         # print(f'tournament_x TM97 : {self.tournament_x}') 
         # print(f'type(self.tournament_x) TM98 : {type(self.tournament_x)}') 
@@ -85,7 +100,7 @@ class Tournament_model():
 
     def serialize_tournament(self): 
 
-        # print(f'tournament_x TM103 : {self.tournament_x}') 
+        print(f'tournament_x TM103 : {self.tournament_x}') 
 
         serialized_tournament = {
             'name': self.tournament_x.name, 
