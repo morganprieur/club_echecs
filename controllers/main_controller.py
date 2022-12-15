@@ -120,20 +120,6 @@ class Main_controller():
         # Player_model.instantiate_player(Player_model, players) 
         Player_model.serialize_multi_players(players) 
         
-        tournaments = [] 
-        with open("utils/tournaments.csv", "r") as t_file: 
-            for t_line in t_file: 
-                if t_line.startswith("name"): 
-                    continue 
-
-                name, site, t_date, nb_rounds, rounds, players, duration, description = t_line.strip().split(";") 
-                tournaments.append(Tournament_model(name, site, t_date, nb_rounds, rounds, players, duration, description)) 
-        print(f'tournaments MC131 : {tournaments}') 
-
-        # Tournament_model.instantiate_tournament(Tournament_model, tournaments, roundDicts) 
-        # Tournament_model.serialize_tournament(Tournament_model) 
-        Tournament_model.serialize_tournament(tournaments) 
-
 
         matches = [] 
         player1 = [] 
@@ -160,6 +146,35 @@ class Main_controller():
         # Tournament_model.serialize_tournament(Tournament_model) 
         Match_model.serialize_match(matches) 
 
+
+        rounds = [] 
+        with open("utils/rounds.csv", "r") as r_file: 
+            for r_line in r_file: 
+                if r_line.startswith("round_name"): 
+                    continue 
+
+                round_name, round_matches, start_datetime, end_datetime = r_line.strip().split(";") 
+                rounds.append(Round_model(round_name, round_matches, start_datetime, end_datetime)) 
+        print(f'rounds MC131 : {rounds}') 
+
+        # Tournament_model.instantiate_tournament(Tournament_model, tournaments, roundDicts) 
+        # Tournament_model.serialize_tournament(Tournament_model) 
+        Round_model.serialize_round(rounds) 
+
+
+        tournaments = [] 
+        with open("utils/tournaments.csv", "r") as t_file: 
+            for t_line in t_file: 
+                if t_line.startswith("name"): 
+                    continue 
+
+                name, site, t_date, nb_rounds, rounds, players, duration, description = t_line.strip().split(";") 
+                tournaments.append(Tournament_model(name, site, t_date, nb_rounds, rounds, players, duration, description)) 
+        print(f'tournaments MC131 : {tournaments}') 
+
+        # Tournament_model.instantiate_tournament(Tournament_model, tournaments, roundDicts) 
+        # Tournament_model.serialize_tournament(Tournament_model) 
+        Tournament_model.serialize_tournament(tournaments) 
 
         # Round_model.print_round(Round_model) 
 
