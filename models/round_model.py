@@ -5,6 +5,8 @@
 from tinydb import TinyDB 
 db = TinyDB('db.json') 
 round_table = db.table('round_table') 
+from tinydb.operations import add 
+
 
 # liste des matches 
 # un champ de nom. Actuellement, nous appelons nos tours "Round 1", "Round 2", etc. 
@@ -32,36 +34,46 @@ class Round_model():
 
 
 
-    def serialize_round(rounds, matches):  # matches = serialized_matches 
+    def serialize_round(round, matches):  # matches = serialized_matches 
 
         print(f'matches RM37 : {matches}') 
         print(f'matches RM38 : {type(matches)}') 
 
-        print(f'type(rounds[0]) RM37 : {type(rounds[0])}') 
+        print(f'type(round) RM37 : {type(round)}') 
 
-        serialized_rounds = [] 
-
-        for r_obj in rounds: 
-            print(f'rounds.index(r_obj) RM48 : {rounds.index(r_obj)}') 
-            serialized_round = {
-                'round_name': r_obj.round_name, 
-                # 'round_matches': r_obj.round_matches, 
-                # 'round_matches': r_obj.matches, 
-                # 'round_matches': matches[rounds.index(r_obj)] if matches[rounds.index(r_obj)] != None else '',  # marche mais c'est pas ça qu'il faut... 
-                'round_matches': matches, 
-                'start_datetime': r_obj.start_datetime, 
-                'end_datetime': r_obj.end_datetime 
-            } 
-            serialized_rounds.append(serialized_round) 
-            print(f'serialized_round RM49 : {serialized_round}')         
-            print(f'type(serialized_round["round_name"]) RM50 : {type(serialized_round["round_name"])}') 
+        serialized_round = {
+            'round_name': round.round_name, 
+            'round_matches': matches, 
+            'start_datetime': round.start_datetime, 
+            'end_datetime': round.end_datetime 
+        } 
+        print(f'serialized_round RM49 : {serialized_round}')         
+        print(f'type(serialized_round["round_name"]) RM50 : {type(serialized_round["round_name"])}') 
 
 
-        round_table.truncate() 
+        # round_table.truncate() 
         # Register the serialized matches into the DB: 
-        round_table.insert_multiple(serialized_rounds) 
+        # round_table.insert_multiple(serialized_rounds) 
 
-        return serialized_rounds 
+        # round_table.insert(serialized_round) 
+        
+        # db.update(delete('key1'), User.name == 'John') 
+        # db.upsert(Document({'name': 'John', 'logged-in': True}, doc_id=12)) 
+        # round_table.update(add(1), round_table.end_datetime == 'John') 
+        # db.get(User.name == 'John') 
+        print(len(round_table)) 
+        # r_table = round_table.all() 
+        r_table = round_table.all() 
+        # db.get(round_table.round_name=='round 2') 
+        for i in r_table: 
+            for key, value in i.items(): 
+                if value=='round 2': 
+                    # print(key, value) 
+                    print(f'i : {i}') 
+        # print(f'r_table : {r_table}') 
+        # round_table.update(round_table({'end_datetime': '2022-12-15 18:28'}, doc_id=1)) 
+
+        return serialized_round 
 
 
 """ 

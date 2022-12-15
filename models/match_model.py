@@ -31,9 +31,9 @@ class Match_model():
             print(f'type(serialized_match["match"]) MM30 : {type(serialized_match["match"])}') 
 
 
-        match_table.truncate() 
-        # Register the serialized matches into the DB: 
-        match_table.insert_multiple(serialized_matches) 
+        # match_table.truncate() 
+        # # Register the serialized matches into the DB: 
+        # match_table.insert_multiple(serialized_matches) 
 
         return serialized_matches 
 
