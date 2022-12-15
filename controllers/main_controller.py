@@ -107,7 +107,7 @@ class Main_controller():
                 lastname, firstname, age, genre, rank = line.strip().split(";") 
                 players.append(Player_model(lastname, firstname, age, genre, rank)) 
     #### PJ / 
-        print("file : ", players) 
+        print("file C110 : ", players) 
         # for p in players: 
         #     print("file : ", p.lastname) 
         #     print("file : ", p.firstname) 
@@ -116,7 +116,7 @@ class Main_controller():
         #     print("file : ", p.rank) 
         # print("player2.lastname : ", players[2].firstname) 
 
-        Player_model.instantiate_player(Player_model, players) 
+        # Player_model.instantiate_player(Player_model, players) 
         Player_model.serialize_multi_players(players) 
         # Player_model.instantiate_player(Player_model, playerDict) 
         
@@ -128,9 +128,11 @@ class Main_controller():
 
                 name, site, t_date, nb_rounds, rounds, players, duration, description = t_line.strip().split(";") 
                 tournaments.append(Tournament_model(name, site, t_date, nb_rounds, rounds, players, duration, description)) 
-                
-        Tournament_model.instantiate_tournament(Tournament_model, tournaments, roundDicts) 
-        Tournament_model.serialize_tournament(Tournament_model) 
+        print(f'tournaments MC131 : {tournaments}') 
+
+        # Tournament_model.instantiate_tournament(Tournament_model, tournaments, roundDicts) 
+        # Tournament_model.serialize_tournament(Tournament_model) 
+        Tournament_model.serialize_tournament(tournaments) 
 
 
         # Round_model.print_round(Round_model) 

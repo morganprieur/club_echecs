@@ -27,7 +27,7 @@ class Tournament_model():
         start_datetime = '' 
         end_datetime = '' 
         middle_phrase = f'\njoueurs de ce tournoi : (instances de joueurs à mettre ici ###) \n' 
-        playersList = '' 
+        playersList = [] 
         end_phrase = f'temps de jeu : {self.duration}. \nDescription : {self.description}' 
         # print(f'rounds TM28 : {self.rounds}')
         # rounds = { 
@@ -46,11 +46,11 @@ class Tournament_model():
                 round_matches += f'{self.rounds[r][int(i)]["round_matches"]}\n' 
                 start_datetime += f'{self.rounds[r][int(i)]["start_datetime"]}\n' 
                 end_datetime += f'{self.rounds[r][int(i)]["end_datetime"]}\n' 
-        # print(f'type(self.players) TM49 : {type(self.players)}')  # str 
-        if self.players:  # TypeError: 'Tournament_model' object is not iterable ### 
-            for p in self.players: 
-                playersList += f'{p} \n' 
-        return f'{begin_phrase}\nnom : {round_name}matches : {round_matches}heure début : {start_datetime}heure fin : {end_datetime}{middle_phrase}{playersList}{end_phrase}' 
+        # print(f'len(self.players) TM49 : {len(self.players)}')  # str # object of type 'Tournament_model' has no len() 
+        # if self.players:  # TypeError: 'Tournament_model' object is not iterable ### 
+        #     for p in self.players: 
+        #         playersList.append(p) 
+        return f'{begin_phrase}\nnom : {round_name}matches : {round_matches}heure début : {start_datetime}heure fin : {end_datetime}{middle_phrase}{end_phrase}'  # {playersList} 
         # return f'{begin_phrase}{roundsList}{middle_phrase}{playersList}{end_phrase}' 
 
     # 'rounds': { 
@@ -60,7 +60,8 @@ class Tournament_model():
 
 
     def instantiate_tournament(self, tournaments, roundDicts): 
-        print(f'type(tournaments) TM61 : {type(tournaments)}') 
+        print(f'type(tournaments) TM63 : {type(tournaments)}') 
+        print(f'tournaments TM64 : {tournaments}')  # tounrament == déjà un objet 
         # for t in tournaments: 
         #     self.tournament_x = Tournament_model( 
         #         lastname=p, 
@@ -68,18 +69,22 @@ class Tournament_model():
         #         age=p, 
         #         genre=p, 
         #         rank=p 
-        #     )
+        #     ) 
+
+        # for p in players: 
+        #     self.player_x = Player_model( 
+        #         lastname=p, 
 
         for t in tournaments: 
             print(f't TM63 : {t}') 
             # print(f'type(tournaments[t]) TM61 : {type(tournaments[t])}') 
             self.tournament_x = Tournament_model( 
-                name = t,  
-                site = t,  
-                t_date = t,  
-                nb_rounds = t, 
+                name=t,  
+                site=t,  
+                t_date=t,  
+                nb_rounds=t, 
                 # rounds = tournaments['rounds'], 
-                rounds = # [ 
+                rounds= # [ 
                     roundDicts, 
                     # {      # key=1/2...: value='round_name'... 
                     # 'round_name' = roundDicts[0]["1"]['round_name'],  ### TypeError: tuple indices must be integers or slices, not str 
@@ -88,30 +93,52 @@ class Tournament_model():
                     # 'end_datetime' = roundDicts[0]["1"]['end_datetime'] 
                     # }, 
                 # ], 
-                players = t, 
-                duration = t, 
-                description = t 
-        ) 
-        # print(f'tournament_x TM97 : {self.tournament_x}') 
-        # print(f'type(self.tournament_x) TM98 : {type(self.tournament_x)}') 
+                players=t, 
+                duration=t, 
+                description=t 
+            ) 
+            print(f'tournament_x.name TM95 : {self.tournament_x.name}') 
+            print(f'type(self.tournament_x.name) TM96 : {type(self.tournament_x.name)}') 
 
         return self.tournament_x 
     
 
-    def serialize_tournament(self): 
+    # def serialize_tournament(self): 
+    def serialize_tournament(tournaments): 
 
-        print(f'tournament_x TM103 : {self.tournament_x}') 
+        print(f'type(tournaments[0]) TM109 : {type(tournaments[0])}') 
+        # print(f'dir(self) TM104 : {dir(self)}')  # inception 
+        # print(f'type(self.tournament_x) TM105 : {type(self.tournament_x)}') 
 
-        serialized_tournament = {
-            'name': self.tournament_x.name, 
-            'site': self.tournament_x.site, 
-            't_date': self.tournament_x.t_date, 
-            'nb_rounds': self.tournament_x.nb_rounds, 
-            'rounds': self.tournament_x.rounds, 
-            'players': self.tournament_x.players,
-            'duration': self.tournament_x.duration, 
-            'description': self.tournament_x.description 
-        }
+        # serialized_players = [] 
+        # # print(f'players C48 : {players}')   # inversés 
+        # # print(f'players C48 : {players[0].lastname}') 
+        # for p_obj in range(len(players)): 
+        #     # print(f'type(p_obj) : {type(p_obj)}\n') 
+        #     # print(f'p_obj : {p_obj}\n') 
+        #     # print(f'players[{p_obj}] : {players[p_obj]}\n') 
+        #     serialized_player_data = {
+        #         'lastname': players[p_obj].lastname, 
+
+        # for t in self.tournament_x: 
+            # print(f't TM109 : {t}') 
+        serialized_tournaments = [] 
+
+        for t_obj in tournaments: 
+            serialized_tournament = {
+                'name': t_obj.name, 
+                'site': t_obj.site, 
+                't_date': t_obj.t_date, 
+                'nb_rounds': t_obj.nb_rounds, 
+                'rounds': t_obj.rounds, 
+                'players': t_obj.players,
+                'duration': t_obj.duration, 
+                'description': t_obj.description 
+            } 
+            serialized_tournaments.append(serialized_tournament) 
+            print(f'type(serialized_tournament["name"]) TM116 : {type(serialized_tournament["name"])}') 
+
+        print(f'serialized_tournament TM118 : {serialized_tournament}')         
 
         tournament_table.truncate() 
         # # Enregistrer les joueurs sérialisés dans la bdd : 

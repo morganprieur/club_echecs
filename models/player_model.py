@@ -126,16 +126,16 @@ class Player_model():
 
         # print(f'players C48 : {players}')   # inversés 
         # print(f'players C48 : {players[0].lastname}') 
-        for p_obj in range(len(players)): 
+        for p_obj in players: 
             # print(f'type(p_obj) : {type(p_obj)}\n') 
             # print(f'p_obj : {p_obj}\n') 
             # print(f'players[{p_obj}] : {players[p_obj]}\n') 
             serialized_player_data = {
-                'lastname': players[p_obj].lastname, 
-                'firstname': players[p_obj].firstname, 
-                'age': players[p_obj].age, 
-                'genre': players[p_obj].genre, 
-                'rank': players[p_obj].rank, 
+                'lastname': p_obj.lastname, 
+                'firstname': p_obj.firstname, 
+                'age': p_obj.age, 
+                'genre': p_obj.genre, 
+                'rank': p_obj.rank, 
                 # 'global_score': players[p_obj].global_score 
             } 
 

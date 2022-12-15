@@ -1,5 +1,5 @@
-lastname;firstname;age;genre;rank
-nom1;prénom1;20;M;1
-nom2;prénom2;20;F;2
-nom3;prénom3;33;M;5
-nom4;prénom4;28;A;11
+lastname;firstname;birthdate;genre;rank
+nom1;prénom1;2001-12-15;M;1
+nom2;prénom2;2002-12-15;F;2
+nom3;prénom3;2003-12-15;M;5
+nom4;prénom4;2004-12-15;A;11
