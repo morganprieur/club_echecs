@@ -144,7 +144,7 @@ class Main_controller():
 
         # Tournament_model.instantiate_tournament(Tournament_model, tournaments, roundDicts) 
         # Tournament_model.serialize_tournament(Tournament_model) 
-        Match_model.serialize_match(matches) 
+        serialized_matches = Match_model.serialize_match(matches) 
 
 
         rounds = [] 
@@ -154,12 +154,15 @@ class Main_controller():
                     continue 
 
                 round_name, round_matches, start_datetime, end_datetime = r_line.strip().split(";") 
-                rounds.append(Round_model(round_name, round_matches, start_datetime, end_datetime)) 
+                # rounds.append(Round_model(round_name, round_matches, start_datetime, end_datetime)) 
+                rounds.append(Round_model(round_name, matches, start_datetime, end_datetime)) 
         print(f'rounds MC131 : {rounds}') 
 
         # Tournament_model.instantiate_tournament(Tournament_model, tournaments, roundDicts) 
         # Tournament_model.serialize_tournament(Tournament_model) 
-        Round_model.serialize_round(rounds) 
+        print(f'serialized_matches MC164 : {serialized_matches}') 
+        print(f'type(serialized_matches) MC165 : {type(serialized_matches)}') 
+        Round_model.serialize_round(rounds, serialized_matches) 
 
 
         tournaments = [] 
