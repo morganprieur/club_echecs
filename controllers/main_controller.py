@@ -4,6 +4,7 @@
 
 from models.tournament_model import Tournament_model 
 from models.round_model import Round_model 
+from models.match_model import Match_model 
 from models.player_model import Player_model 
 
 
@@ -118,7 +119,6 @@ class Main_controller():
 
         # Player_model.instantiate_player(Player_model, players) 
         Player_model.serialize_multi_players(players) 
-        # Player_model.instantiate_player(Player_model, playerDict) 
         
         tournaments = [] 
         with open("utils/tournaments.csv", "r") as t_file: 
@@ -133,6 +133,32 @@ class Main_controller():
         # Tournament_model.instantiate_tournament(Tournament_model, tournaments, roundDicts) 
         # Tournament_model.serialize_tournament(Tournament_model) 
         Tournament_model.serialize_tournament(tournaments) 
+
+
+        matches = [] 
+        player1 = [] 
+        player2 = [] 
+        players = [] 
+        match = tuple 
+        print(f'type(match) MC148 : {type(match)}') 
+        with open("utils/matches.csv", "r") as m_file: 
+            for m_line in m_file: 
+                if m_line.startswith("player1"): 
+                    continue 
+
+                player1, player2 = m_line.strip().split(";") 
+                match = (player1, player2) 
+                print(f'player1 MC151 : {player1}') 
+                print(f'player2 MC152 : {player2}') 
+                print(f'match MC153 : {match}') 
+                print(f'type(match) MC153 : {type(match)}') 
+                matches.append(Match_model(match)) 
+
+        print(f'matches MC149 : {matches}') 
+
+        # Tournament_model.instantiate_tournament(Tournament_model, tournaments, roundDicts) 
+        # Tournament_model.serialize_tournament(Tournament_model) 
+        Match_model.serialize_match(matches) 
 
 
         # Round_model.print_round(Round_model) 

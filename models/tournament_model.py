@@ -107,21 +107,7 @@ class Tournament_model():
     def serialize_tournament(tournaments): 
 
         print(f'type(tournaments[0]) TM109 : {type(tournaments[0])}') 
-        # print(f'dir(self) TM104 : {dir(self)}')  # inception 
-        # print(f'type(self.tournament_x) TM105 : {type(self.tournament_x)}') 
 
-        # serialized_players = [] 
-        # # print(f'players C48 : {players}')   # inversés 
-        # # print(f'players C48 : {players[0].lastname}') 
-        # for p_obj in range(len(players)): 
-        #     # print(f'type(p_obj) : {type(p_obj)}\n') 
-        #     # print(f'p_obj : {p_obj}\n') 
-        #     # print(f'players[{p_obj}] : {players[p_obj]}\n') 
-        #     serialized_player_data = {
-        #         'lastname': players[p_obj].lastname, 
-
-        # for t in self.tournament_x: 
-            # print(f't TM109 : {t}') 
         serialized_tournaments = [] 
 
         for t_obj in tournaments: 
@@ -141,55 +127,11 @@ class Tournament_model():
         print(f'serialized_tournament TM118 : {serialized_tournament}')         
 
         tournament_table.truncate() 
-        # # Enregistrer les joueurs sérialisés dans la bdd : 
-        tournament_table.insert(serialized_tournament) 
+        # Register the serialized tournaments into the DB: 
+        tournament_table.insert_multiple(serialized_tournaments) 
 
-        return serialized_tournament 
+        return serialized_tournaments 
 
-
-
-
-    # def serialize_multi_players(players, serialized_players): 
-    #     """ Serialization of the players data in order to register them 
-    #         in the DB. 
-    #     Args:
-    #         players (list): list of object Players 
-    #     Returns:
-    #         serialized_players (list): the players in the expected format for the DB 
-    #     """
-    #     # serialized_players = [] 
-
-    #     # print(f'players C48 : {players}')   # inversés 
-    #     # print(f'players C48 : {players[0].lastname}') 
-    #     for p_obj in range(len(players)): 
-    #         # print(f'type(p_obj) : {type(p_obj)}\n') 
-    #         # print(f'p_obj : {p_obj}\n') 
-    #         # print(f'players[{p_obj}] : {players[p_obj]}\n') 
-    #         serialized_player_data = {
-    #             'lastname': players[p_obj].lastname, 
-    #             'firstname': players[p_obj].firstname, 
-    #             'birthdate': players[p_obj].birthdate, 
-    #             'genre': players[p_obj].genre, 
-    #             'classement': players[p_obj].classement, 
-    #             'global_score': players[p_obj].global_score 
-    #         } 
-
-    #         serialized_players.append(serialized_player_data) 
-
-    #     # print(f'serialized_players M88 : {serialized_players}')     # ok 
-
-    #     players_table.truncate() 
-    #     # # Enregistrer les joueurs sérialisés dans la bdd : 
-    #     players_table.insert_multiple(serialized_players) 
-
-    #     return serialized_players 
-
-    # Vider la BDD avant d'enregistrer les nouveaux joueurs 
-    # (ne pas le faire pour les tournois, si on doit garder un historique des tournois) 
-    # players_table.truncate() 
-    # Enregistrer les joueurs sérialisés dans la bdd : 
-    ### à décommenter pour enregistrer dans la DB 
-    # players_table.insert_multiple(serialized_players) 
 
 """ 
     Chaque tournoi doit contenir au moins les informations suivantes :
