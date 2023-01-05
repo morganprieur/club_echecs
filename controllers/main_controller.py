@@ -100,7 +100,7 @@ class Main_controller():
 
     #### PJ 
         players = []
-        with open("utils/players.csv", "r") as file:
+        with open("utils/players.csv", "r", encoding='utf-8') as file:
             for line in file:
                 if line.startswith("lastname"):
                     continue
@@ -118,7 +118,12 @@ class Main_controller():
         # print("player2.lastname : ", players[2].firstname) 
 
         # Player_model.instantiate_player(Player_model, players) 
-        Player_model.serialize_multi_players(players) 
+        # ser_players = Player_model.to_dict(Player_model, exclude=None) 
+        # ser_players = Player_model.to_dict(players, exclude=None) 
+        ser_players = Player_model.serialize_multi_players(Player_model, players) 
+        print(f'ser_players MC124 : {ser_players}') 
+        # Player_model.register_players(Player_model.serialized_players)
+        Player_model.register_players(Player_model, Player_model.serialized_players) 
         
 
         matches = [] 
@@ -144,7 +149,7 @@ class Main_controller():
 
         # Tournament_model.instantiate_tournament(Tournament_model, tournaments, roundDicts) 
         # Tournament_model.serialize_tournament(Tournament_model) 
-        serialized_matches = Match_model.serialize_match(matches) 
+        serialized_matches = Match_model.serialize_match(match)  # serialize dans un for pour 1 seul objet ### 
 
 
         # rounds = [] 
@@ -184,7 +189,7 @@ class Main_controller():
 
         # Tournament_model.instantiate_tournament(Tournament_model, tournaments, roundDicts) 
         # Tournament_model.serialize_tournament(Tournament_model) 
-        Tournament_model.serialize_tournament(tournament) 
+        Tournament_model.serialize_tournament(Tournament_model, tournament) 
 
         # Round_model.print_round(Round_model) 
 

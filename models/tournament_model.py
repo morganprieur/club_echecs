@@ -103,9 +103,20 @@ class Tournament_model():
 
         return self.tournament_x 
     
+    ### Voir pour sérialiser : 
+    def to_dict(self, exclude=None): 
+        exclude = exclude or []
+        return {
+            key: getattr(self, key)
+            for key in dir(self)
+            if not key.startswith("_")
+            and key not in exclude
+            and not callable(getattr(self, key))
+            and isinstance(getattr(self, key), (str, int, float))
+      } 
 
     # def serialize_tournament(self): 
-    def serialize_tournament(tournament): 
+    def serialize_tournament(self, tournament):  # avec (self) ### 
 
         print(f'type(tournament) TM109 : {type(tournament)}') 
 
@@ -134,6 +145,9 @@ class Tournament_model():
         # tournament_table.insert(serialized_tournament) 
 
         return serialized_tournament 
+    
+
+    
 
 
 """ 
