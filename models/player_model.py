@@ -3,10 +3,10 @@
 
 # from Models.abstract_model_classes import Persist_entity 
 
-# TinyDB 
-from tinydb import TinyDB
-db = TinyDB('db.json') 
-players_table = db.table('players') 
+# # TinyDB 
+# from tinydb import TinyDB
+# db = TinyDB('db.json') 
+# players_table = db.table('players') 
 import json 
 
 
@@ -115,19 +115,19 @@ class Player_model():
         
     #     return players 
 
-    ### Voir pour sérialiser : 
-    def to_dict(self, exclude=None): 
-        print(f'self PM119 : {self}') 
-        print(f'dir(self) PM120 : {dir(self)}') 
-        exclude = exclude or []
-        return {
-            key: getattr(self, key)
-            for key in dir(self)
-            if not key.startswith("_")
-            and key not in exclude
-            and not callable(getattr(self, key))
-            and isinstance(getattr(self, key), (str, int, float))
-      } 
+    # ### Voir pour sérialiser : 
+    # def to_dict(self, exclude=None): 
+    #     print(f'self PM119 : {self}') 
+    #     print(f'dir(self) PM120 : {dir(self)}') 
+    #     exclude = exclude or []
+    #     return {
+    #         key: getattr(self, key)
+    #         for key in dir(self)
+    #         if not key.startswith("_")
+    #         and key not in exclude
+    #         and not callable(getattr(self, key))
+    #         and isinstance(getattr(self, key), (str, int, float))
+    #   } 
 
 
     def serialize_multi_players(self, players):  # , serialized_players 

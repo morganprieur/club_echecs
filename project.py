@@ -22,5 +22,6 @@ import os
 
 if __name__ == '__main__': 
 
-    Main_controller.start() 
+    # Main_controller.start() 
+    Main_controller.tourn_stream(Main_controller) 
 

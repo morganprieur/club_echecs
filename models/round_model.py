@@ -2,10 +2,11 @@
 
 
 # # TinyDB 
-from tinydb import TinyDB 
-db = TinyDB('db.json') 
-round_table = db.table('round_table') 
-from tinydb.operations import add 
+# from tinydb import TinyDB 
+# db = TinyDB('db.json') 
+# round_table = db.table('round_table') 
+# from tinydb.operations import add 
+import json 
 
 
 # liste des matches 
@@ -51,27 +52,27 @@ class Round_model():
         print(f'type(serialized_round["round_name"]) RM50 : {type(serialized_round["round_name"])}') 
 
 
-        # round_table.truncate() 
-        # Register the serialized matches into the DB: 
-        # round_table.insert_multiple(serialized_rounds) 
+        # # round_table.truncate() 
+        # # Register the serialized matches into the DB: 
+        # # round_table.insert_multiple(serialized_rounds) 
 
-        # round_table.insert(serialized_round) 
+        # # round_table.insert(serialized_round) 
         
-        # db.update(delete('key1'), User.name == 'John') 
-        # db.upsert(Document({'name': 'John', 'logged-in': True}, doc_id=12)) 
-        # round_table.update(add(1), round_table.end_datetime == 'John') 
-        # db.get(User.name == 'John') 
-        print(len(round_table)) 
+        # # db.update(delete('key1'), User.name == 'John') 
+        # # db.upsert(Document({'name': 'John', 'logged-in': True}, doc_id=12)) 
+        # # round_table.update(add(1), round_table.end_datetime == 'John') 
+        # # db.get(User.name == 'John') 
+        # print(len(round_table)) 
+        # # r_table = round_table.all() 
         # r_table = round_table.all() 
-        r_table = round_table.all() 
-        # db.get(round_table.round_name=='round 2') 
-        for i in r_table: 
-            for key, value in i.items(): 
-                if value=='round 2': 
-                    # print(key, value) 
-                    print(f'i : {i}') 
-        # print(f'r_table : {r_table}') 
-        # round_table.update(round_table({'end_datetime': '2022-12-15 18:28'}, doc_id=1)) 
+        # # db.get(round_table.round_name=='round 2') 
+        # for i in r_table: 
+        #     for key, value in i.items(): 
+        #         if value=='round 2': 
+        #             # print(key, value) 
+        #             print(f'i : {i}') 
+        # # print(f'r_table : {r_table}') 
+        # # round_table.update(round_table({'end_datetime': '2022-12-15 18:28'}, doc_id=1)) 
 
         return serialized_round 
 

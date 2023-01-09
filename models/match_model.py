@@ -12,30 +12,28 @@ class Match_model():
     def __init__(self, match): 
         self.match = match 
 
-    def __str__(self):  # , roundDicts        
-        return f'Matches : \n{self.match}\n' 
+    def __str__(self):  # , roundDicts 
+        return f'Match : \n{self.match}\n' 
 
 
-    def serialize_match(matches): 
-
-        print(f'type(matches[0]) MM109 : {type(matches[0])}') 
+    def serialize_matches(matches): 
+        print(f'type(matches[0]) MM21 : {type(matches[0])}') 
+        print(f'matches[0] MM22 : {matches[0]}') 
 
         serialized_matches = [] 
 
         for m_obj in matches: 
             serialized_match = {
-                'match': m_obj.match 
+                'match': m_obj 
+                # m_obj: matches[matches.index(m_obj)+1] 
             } 
             serialized_matches.append(serialized_match) 
             print(f'serialized_match TM32 : {serialized_match}')         
-            print(f'type(serialized_match["match"]) MM30 : {type(serialized_match["match"])}') 
-
-
-        # match_table.truncate() 
-        # # Register the serialized matches into the DB: 
-        # match_table.insert_multiple(serialized_matches) 
+            print(f'type(serialized_match["match"]) MM33 : {type(serialized_match["match"])}') 
 
         return serialized_matches 
+
+    
 
 
 """ 

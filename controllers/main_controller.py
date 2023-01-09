@@ -2,6 +2,7 @@
 
 
 
+from views.report_view import Report_view 
 from models.tournament_model import Tournament_model 
 from models.round_model import Round_model 
 from models.match_model import Match_model 
@@ -9,10 +10,98 @@ from models.player_model import Player_model
 
 
 class Main_controller(): 
+
+    # variable = Tournament_model.tournaments 
+
+    # def __init__(self, variable): 
+    #     self.variable = variable 
     
+
+    def tourn_stream(self): 
+
+        print('tourn_stream main controller') 
+
+        
+        # print(f'dir(self) : {dir(self)}') 
+        # print(f'self.variable : {self.variable}') 
+
+        # print(f'report_tournament : {Report_view.report_tournament}') 
+
+        # report_tournament =  [ 
+        #     { 
+        #         'name': 'tournoi 1', 
+        #         'site': 'lieu 1', 
+        #         't_date': '15/12/2022', 
+        #         'duration': 'blitz', 
+        #         'description': 'Observations du directeur du tournoi.' 
+        #     }, 
+        #     { 
+        #         'name': 'tournoi 2', 
+        #         'site': 'lieu 2', 
+        #         't_date': '05/01/2023', 
+        #         'duration': 'bullet', 
+        #         'description': 'Observations.' 
+        #     }, 
+        #     { 
+        #         'name': 'tournoi 3', 
+        #         'site': 'lieu 1', 
+        #         't_date': '06/01/2023', 
+        #         'duration': 'coup rapide', 
+        #         'description': 'Observations du directeur.' 
+        #     } 
+        # ] 
+
+        # instancier le tournoi : 
+        Tournament_model.instantiate_tournament(Tournament_model, Report_view.report_tournament) 
+        # tournoi = Tournament_model(name, site, t_date, duration, description) 
+        serialized_tournaments = Tournament_model.serialize_tournament(Tournament_model, Tournament_model.tournaments) 
+
+        Main_controller.display_tournaments(serialized_tournaments) 
+        
+        # Report_view.display_tournament(Main_controller.variable) 
+        
+
+        """ 
+        RAPPORTS
+        Nous aimerions pouvoir afficher les rapports suivants dans le programme :
+
+            • Liste de tous les joueurs:
+                ◦ par ordre alphabétique ;
+                ◦ par classement.
+            • Liste de tous les joueurs d'un tournoi :
+                ◦ par ordre alphabétique ;
+                ◦ par classement.
+            • Liste de tous les tournois.
+            • Liste de tous les tours d'un tournoi.
+            • Liste de tous les matchs d'un tournoi.
+
+        Nous aimerions les exporter ultérieurement, mais ce n'est pas nécessaire pour l'instant.
+        """ 
+
+        # # Afficher un tournoi 
+        # print(f'tournoi : {Tournament_model.tournament}') 
+        # Afficher tous les tournois 
+        # print('Tournois : ') 
+        # for i in Tournament_model.tournaments: 
+        #     print(f'{Tournament_model.tournament}') 
+    
+
+    def display_tournaments(serialized_tournaments): 
+            # print(f'dir(Tournament_model) : {dir(Tournament_model)}') 
+            print(f'serialized_tournaments MC91 : {serialized_tournaments}') 
+            # print(f'self.variable : {self.variable}') 
+            # print('Variables : ') 
+            # for i in self.variable: 
+            #     print(f'variable : {i}') 
+
     def start(): 
 
         print('start main controller') 
+
+
+
+
+
 
         playerDict = { 
             'lastname': 'nom 1',  
@@ -117,11 +206,9 @@ class Main_controller():
         #     print("file : ", p.rank) 
         # print("player2.lastname : ", players[2].firstname) 
 
-        # Player_model.instantiate_player(Player_model, players) 
-        # ser_players = Player_model.to_dict(Player_model, exclude=None) 
         # ser_players = Player_model.to_dict(players, exclude=None) 
-        ser_players = Player_model.serialize_multi_players(Player_model, players) 
-        print(f'ser_players MC124 : {ser_players}') 
+        serial_players = Player_model.serialize_multi_players(Player_model, players) 
+        print(f'ser_players MC124 : {serial_players}') 
         # Player_model.register_players(Player_model.serialized_players)
         Player_model.register_players(Player_model, Player_model.serialized_players) 
         
@@ -130,7 +217,8 @@ class Main_controller():
         player1 = [] 
         player2 = [] 
         players = [] 
-        match = tuple 
+        # match = tuple 
+        match = () 
         print(f'type(match) MC148 : {type(match)}') 
         with open("utils/matches.csv", "r") as m_file: 
             for m_line in m_file: 
@@ -139,17 +227,21 @@ class Main_controller():
 
                 player1, player2 = m_line.strip().split(";") 
                 match = (player1, player2) 
-                print(f'player1 MC151 : {player1}') 
-                print(f'player2 MC152 : {player2}') 
-                print(f'match MC153 : {match}') 
-                print(f'type(match) MC153 : {type(match)}') 
+                # print(f'player1 MC141 : {player1}') 
+                # print(f'player2 MC142 : {player2}') 
+                # print(f'match MC143 : {match}') 
+                # print(f'type(match) MC144 : {type(match)}') 
+                # matches.append(match) 
                 matches.append(Match_model(match)) 
 
-        print(f'matches MC149 : {matches}') 
+        # print(f'dir(match) 
+        # MC155 : {dir(match)}') 
+        # print(f'matches MC150 : {matches}') 
+        # print(f'type(matches[0]) MC151 : {type(matches[0])}') 
 
         # Tournament_model.instantiate_tournament(Tournament_model, tournaments, roundDicts) 
         # Tournament_model.serialize_tournament(Tournament_model) 
-        serialized_matches = Match_model.serialize_match(match)  # serialize dans un for pour 1 seul objet ### 
+        serialized_matches = Match_model.serialize_matches(matches)  # serialize dans un for pour 1 seul objet ### 
 
 
         # rounds = [] 
@@ -166,8 +258,8 @@ class Main_controller():
 
         # Tournament_model.instantiate_tournament(Tournament_model, tournaments, roundDicts) 
         # Tournament_model.serialize_tournament(Tournament_model) 
-        print(f'serialized_matches MC164 : {serialized_matches}') 
-        print(f'type(serialized_matches) MC165 : {type(serialized_matches)}') 
+        # print(f'serialized_matches MC164 : {serialized_matches}') 
+        # print(f'type(serialized_matches) MC165 : {type(serialized_matches)}') 
         serialized_round = Round_model.serialize_round(round, serialized_matches) 
 
 
@@ -180,9 +272,9 @@ class Main_controller():
 
                 # rounds or round ? ### 
                 name, site, t_date, nb_rounds, players, duration, description = t_line.strip().split(";")  # rounds, 
-                print(f'rounds MC178 : {rounds}') 
+                # print(f'rounds MC178 : {rounds}') 
                 rounds.append(serialized_round) 
-                print(f'rounds MC180 : {rounds}') 
+                # print(f'rounds MC180 : {rounds}') 
                 # tournaments.append(Tournament_model(name, site, t_date, nb_rounds, rounds, players, duration, description)) 
                 tournament = Tournament_model(name, site, t_date, nb_rounds, rounds, players, duration, description) 
         print(f'tournament MC131 : {tournament}') 
