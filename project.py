@@ -1,10 +1,9 @@
 
 
 
-
-
-
 from controllers.main_controller import Main_controller 
+from views.report_view import Report_view 
+from views.input_view import Input_view 
 import os
 
 # # TinyDB 
@@ -22,6 +21,9 @@ import os
 
 if __name__ == '__main__': 
 
-    # Main_controller.start() 
+    # Input_view.print_input(Input_view)  # ok 
     Main_controller.tourn_stream(Main_controller) 
+    
+    Report_view.display_today_s_tournament(Report_view) 
 
+    # Main_controller.start() 

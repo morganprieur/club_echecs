@@ -1,7 +1,11 @@
 
+from controllers.main_controller import Main_controller 
+
+
 
 class Report_view(): 
 
+    """ 
     report_tournament = [ 
         { 
             'name': 'tournoi 1', 
@@ -25,10 +29,12 @@ class Report_view():
             'description': 'Observations du directeur.' 
         } 
     ] 
+    """ 
+    today_s_tournament = Main_controller.tournament 
 
-    def __init__(self, report_tournament): 
-        self.report_tournament = report_tournament 
-
+    def __init__(self, today_s_tournament):  # , report_tournament 
+        self.today_s_tournament = today_s_tournament 
+    
     # def get_tournament_data(self): 
     #     report_tournament =  [ 
     #         { 
@@ -55,9 +61,22 @@ class Report_view():
     #     ] 
     #     return report_tournament 
 
-    # def display_tournament(self): 
+    def display_today_s_tournament(self): 
+        # print(f'dir(self) : {dir(self)}') 
+        print('----') 
+        # print(all_tournaments) 
+        print(f'self.today_s_tournament RV67 : {self.today_s_tournament}') 
+        print('----') 
+    
+    
+    
+
+
+    # def display_all_tournaments(self, all_tournaments): 
     #     print(f'dir(self) : {dir(self)}') 
-
-
+    #     print('----') 
+    #     # print(all_tournaments) 
+    #     print(self.report_tournaments) 
+    #     print('----') 
 
 

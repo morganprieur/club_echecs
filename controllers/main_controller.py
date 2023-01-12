@@ -2,7 +2,7 @@
 
 
 
-from views.report_view import Report_view 
+from views.input_view import Input_view 
 from models.tournament_model import Tournament_model 
 from models.round_model import Round_model 
 from models.match_model import Match_model 
@@ -11,52 +11,41 @@ from models.player_model import Player_model
 
 class Main_controller(): 
 
-    # variable = Tournament_model.tournaments 
+    tournament = Tournament_model.instantiate_tournament(Tournament_model, Input_view.new_tournament) 
 
-    # def __init__(self, variable): 
-    #     self.variable = variable 
-    
+    def __init__(self, tournament, serialized_tournament): 
+        self.tournament = tournament 
+        self.serialized_tournaments = [] 
+        self.serialized_tournament = serialized_tournament 
 
     def tourn_stream(self): 
 
         print('tourn_stream main controller') 
+
+        print(f'Main_controller.tournament MC25 : {self.tournament}') 
+
+        # Tournament_model.print_t(Tournament_model) 
 
         
         # print(f'dir(self) : {dir(self)}') 
         # print(f'self.variable : {self.variable}') 
 
         # print(f'report_tournament : {Report_view.report_tournament}') 
-
-        # report_tournament =  [ 
-        #     { 
-        #         'name': 'tournoi 1', 
-        #         'site': 'lieu 1', 
-        #         't_date': '15/12/2022', 
-        #         'duration': 'blitz', 
-        #         'description': 'Observations du directeur du tournoi.' 
-        #     }, 
-        #     { 
-        #         'name': 'tournoi 2', 
-        #         'site': 'lieu 2', 
-        #         't_date': '05/01/2023', 
-        #         'duration': 'bullet', 
-        #         'description': 'Observations.' 
-        #     }, 
-        #     { 
-        #         'name': 'tournoi 3', 
-        #         'site': 'lieu 1', 
-        #         't_date': '06/01/2023', 
-        #         'duration': 'coup rapide', 
-        #         'description': 'Observations du directeur.' 
-        #     } 
-        # ] 
-
+        
+        # get tournament data : 
+        # Input_view.get_input_tournament(Input_view) 
+        Input_view.get_new_tourns(Input_view) 
+        # Input_view.get_fct(Input_view) 
         # instancier le tournoi : 
-        Tournament_model.instantiate_tournament(Tournament_model, Report_view.report_tournament) 
+        Tournament_model.instantiate_tournament(Tournament_model, Input_view.new_tournament) 
         # tournoi = Tournament_model(name, site, t_date, duration, description) 
-        serialized_tournaments = Tournament_model.serialize_tournament(Tournament_model, Tournament_model.tournaments) 
+        self.serialized_tournament = Tournament_model.serialize_tournament(Tournament_model) 
+        self.serialized_tournaments = Tournament_model.serialize_tournaments(Tournament_model) 
+        Tournament_model.register_tournaments(Tournament_model) 
 
-        Main_controller.display_tournaments(serialized_tournaments) 
+        # Tournament_model.get_registered_tournaments(Tournament_model) 
+
+        # Main_controller.display_tournaments(self.serialized_tournaments) 
         
         # Report_view.display_tournament(Main_controller.variable) 
         
