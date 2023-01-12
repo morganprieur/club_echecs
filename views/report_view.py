@@ -71,7 +71,10 @@ class Report_view():
 
     def display_all_tournaments(self): 
         print(f'====') 
-        print(f'self.all_tournaments RV73 : {self.all_tournaments}')  
+        print(f'self.all_tournaments RV74 : ')  
+        for t in self.all_tournaments: 
+            print(t)  
+        # print(f'self.all_tournaments RV73 : {self.all_tournaments}')  
         print(f'====') 
     
     

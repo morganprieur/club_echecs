@@ -44,7 +44,7 @@ class Main_controller():
         #### pouruqoi cette méthode n'est pas appelée quand décommentée : ??? #### 
         # self.serialized_tournament = Tournament_model.serialize_one_tournament(Tournament_model) 
         self.serialized_tournaments = Tournament_model.serialize_tournaments(Tournament_model) 
-        Tournament_model.register_tournaments(Tournament_model) 
+        # Tournament_model.register_tournaments(Tournament_model) 
 
         # Tournament_model.get_registered_tournaments(Tournament_model) 
 
