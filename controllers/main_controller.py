@@ -12,6 +12,7 @@ from models.player_model import Player_model
 class Main_controller(): 
 
     tournament = Tournament_model.instantiate_tournament(Tournament_model, Input_view.new_tournament) 
+    tournaments = Tournament_model.serialize_tournaments(Tournament_model) 
 
     def __init__(self, tournament, serialized_tournament): 
         self.tournament = tournament 
@@ -22,7 +23,8 @@ class Main_controller():
 
         print('tourn_stream main controller') 
 
-        print(f'Main_controller.tournament MC25 : {self.tournament}') 
+        print(f'Main_controller.tournament MC26 : {self.tournament}') 
+        print(f'Main_controller.tournaments MC27 : {self.tournaments}') 
 
         # Tournament_model.print_t(Tournament_model) 
 
@@ -39,7 +41,8 @@ class Main_controller():
         # instancier le tournoi : 
         Tournament_model.instantiate_tournament(Tournament_model, Input_view.new_tournament) 
         # tournoi = Tournament_model(name, site, t_date, duration, description) 
-        self.serialized_tournament = Tournament_model.serialize_tournament(Tournament_model) 
+        #### pouruqoi cette méthode n'est pas appelée quand décommentée : ??? #### 
+        # self.serialized_tournament = Tournament_model.serialize_one_tournament(Tournament_model) 
         self.serialized_tournaments = Tournament_model.serialize_tournaments(Tournament_model) 
         Tournament_model.register_tournaments(Tournament_model) 
 

@@ -139,8 +139,8 @@ class Tournament_model():
         } 
 
     # def serialize_tournament(self): 
-    def serialize_tournament(self):  # , tournament  # avec (self) ###  , players):  # players = serialized_players 
-
+    def serialize_one_tournament(self):  # , tournament  # avec (self) ###  , players):  # players = serialized_players 
+        print('serialize_one_tournament() TM143') 
         print(f'type(tournament) TM109 : {type(self.tournament)}') 
 
         # serialized_tournaments = [] 
@@ -148,7 +148,7 @@ class Tournament_model():
         # for t_obj in tournaments: 
             # print(f't_obj TM136 : {t_obj}') 
             # print(f'type(t_obj) TM136 : {type(t_obj)}') 
-        self.serialized_tournament = { 
+        self.one_serialized_tournament = { 
             'name': self.tournament.name, 
             'site': self.tournament.site, 
             't_date': self.tournament.t_date, 
@@ -162,35 +162,37 @@ class Tournament_model():
 
         # serialized_tournaments.append(serialized_tournament) 
         # print(f'serialized_tournaments TM150 : {serialized_tournaments}') 
-        print(f'serialized_tournament TM157 : {self.serialized_tournament}') 
+        print(f'serialized_tournament TM157 : {self.one_serialized_tournament}') 
 
         # tournament_table.truncate() 
         # # Register the serialized tournaments into the DB: 
         # # tournament_table.insert_multiple(serialized_tournaments) 
         # tournament_table.insert(serialized_tournament) 
 
-        return self.serialized_tournament 
+        return self.one_serialized_tournament 
     
    
     def serialize_tournaments(self): 
-        # print(f'dir(self) TM177 : {dir(self)}') 
+        print(f'dir(self) TM176 : {dir(self)}') 
+        # print(f'self.serialized_tournament TM177 : {self.serialized_tournament}') 
+        Tournament_model.serialize_one_tournament(Tournament_model) 
         # ouvrir fichier en lecture : 
         self.serialized_tournaments = [] 
-        # check si il est vide : 
-        if Tournament_model.check_if_json_empty(Tournament_model): 
-            with open("tables/t_table.json",'r') as file: 
+        with open("tables/t_table.json",'r') as file: 
+            # check si il est vide : 
+            if Tournament_model.check_if_json_empty(Tournament_model): 
                 # si il est vide -> ajouter seulement le nouveau tournoi dans self.serialized_tournaments 
-                self.serialized_tournaments.append(self.serialized_tournament) 
+                self.serialized_tournaments.append(self.one_serialized_tournament) 
+                # self.serialized_tournaments.append('truc') 
                 # l'enregistrer : 
                 Tournament_model.register_tournaments(Tournament_model) 
-        else: 
-            with open("tables/t_table.json",'r') as file: 
+            else: 
                 # sinon -> récupérer les données du fichier, 
                 self.registered = json.load(file) 
-                # print(f'type(self.registered) TM203 : {type(self.registered)}') 
-                # print(f'self.registered TM204 : {self.registered}') 
+                print(f'type(self.registered) TM191 : {type(self.registered)}') 
+                print(f'self.registered TM192 : {self.registered}') 
                 #   append le dernier tournoi à la liste, 
-                self.registered.append(self.serialized_tournament) 
+                self.registered.append(self.one_serialized_tournament) 
                 for t in self.registered: 
                     self.serialized_tournaments.append(t) 
                 # boucler pour les sérialiser tous avec serialize_tournament(), 
@@ -221,7 +223,7 @@ class Tournament_model():
             # # print(f'type(self.registered) TM203 : {type(self.registered)}') 
             # # print(f'self.registered TM204 : {self.registered}') 
             # #   append le dernier tournoi à la liste, 
-            # self.registered.append('truc') 
+            self.registered.append(self.one_serialized_tournament) 
             
         # if self.serialized_tournament: 
         #     self.new_tournaments.append(self.serialized_tournament) 

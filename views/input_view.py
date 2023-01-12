@@ -7,11 +7,11 @@ session = PromptSession()
 class Input_view(): 
 
     new_tournament = { 
-        'name': 'Nom 006', 
-        'site': 'Lieu 006', 
+        'name': 'Nom 008', 
+        'site': 'Lieu 008', 
         't_date': '2023/01/12', 
-        'duration': 'blitz', 
-        'description': 'Description 006' 
+        'duration': 'coup rapide', 
+        'description': 'Description 008' 
     } 
 
     def __init__(self, new_tournament):
