@@ -7,11 +7,11 @@ session = PromptSession()
 class Input_view(): 
 
     new_tournament = { 
-        'name': 'Nom 004', 
-        'site': 'Lieu 004', 
+        'name': 'Nom 008', 
+        'site': 'Lieu 008', 
         't_date': '2023/01/13', 
-        'duration': 'coup rapide', 
-        'description': 'Description 004' 
+        'duration': 'bullet', 
+        'description': 'Description 008' 
     } 
 
     def __init__(self, new_tournament):
@@ -19,7 +19,7 @@ class Input_view():
     
     print("start input view") 
 
-    def get_new_tourns(self): 
+    def print_new_tourns(self): 
         # print(f'dir(self) : {dir(self)}') 
         # self.new_tournaments = [] 
         # self.new_tournaments.append(self.new_tournament)  

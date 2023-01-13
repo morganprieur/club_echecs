@@ -24,7 +24,7 @@ if __name__ == '__main__':
     # Input_view.print_input(Input_view)  # ok 
     Main_controller.tourn_stream(Main_controller) 
     
-    Report_view.display_today_s_tournament(Report_view) 
-    Report_view.display_all_tournaments(Report_view) 
+    # Report_view.display_today_s_tournament(Report_view) 
+    # Report_view.display_all_tournaments(Report_view) 
 
     # Main_controller.start() 

@@ -1,5 +1,5 @@
 
-from controllers.main_controller import Main_controller 
+# from controllers.main_controller import Main_controller 
 
 
 
@@ -30,11 +30,11 @@ class Report_view():
         } 
     ] 
     """ 
-    today_s_tournament = Main_controller.tournament 
-    all_tournaments = Main_controller.registered_tournaments 
+    # today_s_tournament = Main_controller.tournament 
+    # all_tournaments = Main_controller.registered_tournaments 
 
-    def __init__(self, today_s_tournament):  # , report_tournament 
-        self.today_s_tournament = today_s_tournament 
+    # def __init__(self, today_s_tournament):  # , report_tournament 
+    #     self.today_s_tournament = today_s_tournament 
     
     # def get_tournament_data(self): 
     #     report_tournament =  [ 
@@ -62,30 +62,40 @@ class Report_view():
     #     ] 
     #     return report_tournament 
 
-    def display_today_s_tournament(self): 
+
+    def display_today_s_tournament(self, today_s_tournament): 
         # print(f'dir(self) : {dir(self)}') 
         print('----') 
-        # print(all_tournaments) 
-        print(f'self.today_s_tournament RV67 : {self.today_s_tournament}') 
+        print(f'display_today_s_tournament RV69 : {today_s_tournament}') 
         print('----') 
 
-    def display_all_tournaments(self): 
-        print(f'====') 
-        print(f'self.all_tournaments RV74 : ')  
-        for t in self.all_tournaments: 
+    def display_all_tournaments(self, all_tournaments): 
+        print('====') 
+        print('display_all_tournaments RV74 : ')  
+        for t in all_tournaments: 
             print(t)  
-        # print(f'self.all_tournaments RV73 : {self.all_tournaments}')  
-        print(f'====') 
-    
-    
-    
+        # print(f'all_tournaments RV73 : {all_tournaments}')  
+        print('====') 
 
+    #### ======================== VVV MAUVAIS CODE VVV ====================== #### 
+
+    # def display_today_s_tournament(self, tournament): 
+    #     # print(f'dir(self) : {dir(self)}') 
+    #     print('----') 
+    #     print(f'tournament RV67 : {tournament}') 
+    #     print('----') 
 
     # def display_all_tournaments(self, all_tournaments): 
-    #     print(f'dir(self) : {dir(self)}') 
-    #     print('----') 
-    #     # print(all_tournaments) 
-    #     print(self.report_tournaments) 
-    #     print('----') 
+    #     print('====') 
+    #     print('all_tournaments RV74 : ')  
+    #     for t in all_tournaments: 
+    #         print(t)  
+    #     # print(f'all_tournaments RV73 : {all_tournaments}')  
+    #     print('====') 
+    
+    
+    
+
+
 
 
