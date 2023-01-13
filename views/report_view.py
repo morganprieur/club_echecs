@@ -31,7 +31,7 @@ class Report_view():
     ] 
     """ 
     today_s_tournament = Main_controller.tournament 
-    all_tournaments = Main_controller.tournaments 
+    all_tournaments = Main_controller.registered_tournaments 
 
     def __init__(self, today_s_tournament):  # , report_tournament 
         self.today_s_tournament = today_s_tournament 

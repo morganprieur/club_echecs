@@ -13,11 +13,13 @@ class Main_controller():
 
     tournament = Tournament_model.instantiate_tournament(Tournament_model, Input_view.new_tournament) 
     tournaments = Tournament_model.serialize_tournaments(Tournament_model) 
+    registered_tournaments = Tournament_model.get_registered_tournaments(Tournament_model) 
 
-    def __init__(self, tournament, serialized_tournament): 
+    def __init__(self, tournament, serialized_tournament, registered_tournaments): 
         self.tournament = tournament 
         self.serialized_tournaments = [] 
         self.serialized_tournament = serialized_tournament 
+        self.registered_tournaments = registered_tournaments 
 
     def tourn_stream(self): 
 
