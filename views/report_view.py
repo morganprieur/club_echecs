@@ -62,16 +62,21 @@ class Report_view():
     #     ] 
     #     return report_tournament 
 
+    def __init__(self) -> None:
+        pass 
+    
 
-    def display_today_s_tournament(self, today_s_tournament): 
+    # def display_today_s_tournament(self, today_s_tournament): 
+    def display_today_s_tournament(self, tournament): 
         # print(f'dir(self) : {dir(self)}') 
         print('----') 
-        print(f'display_today_s_tournament RV69 : {today_s_tournament}') 
+        print(f'today\'s tournament RV73 : {tournament}') 
         print('----') 
+
 
     def display_all_tournaments(self, all_tournaments): 
         print('====') 
-        print('display_all_tournaments RV74 : ')  
+        print('all tournaments RV79 : ')  
         for t in all_tournaments: 
             print(t)  
         # print(f'all_tournaments RV73 : {all_tournaments}')  

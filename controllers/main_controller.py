@@ -1,10 +1,15 @@
 
-from models.tournament_model import Tournament_model 
-from models.round_model import Round_model 
-from models.match_model import Match_model 
-from models.player_model import Player_model 
+# from models.tournament_model import Tournament_model 
+# from models.round_model import Round_model 
+# from models.match_model import Match_model 
+# from models.player_model import Player_model 
+# from views.input_view import Input_view 
+# from views.report_view import Report_view 
+
 from views.input_view import Input_view 
 from views.report_view import Report_view 
+
+from models.tournament_model import Tournament_model 
 
 """ chatGPT exemple : 
 # model.py
@@ -25,22 +30,23 @@ class MyController:
 
 class Main_controller(): 
 
-    new_tournament = Input_view.new_tournament 
-    # tournament = Tournament_model('name', 'site', 't_date', 'duration', 'description') 
-    # tournament = Tournament_model(new_tournament) 
-    tournament = Tournament_model.instantiate_tournament(Tournament_model, new_tournament) 
-    old_tournaments = Tournament_model.get_old_registered_tournaments(Tournament_model) 
-    
-    # tournaments = Tournament_model.serialize_tournaments(Tournament_model) 
+    # new_tournament = Input_view.new_tournament 
+    # tournament = Tournament_model.instantiate_tournament(Tournament_model, new_tournament) 
     # registered_tournaments = Tournament_model.get_registered_tournaments(Tournament_model) 
+        
+    # def __init__(self, new_tournament, tournament):  #, serialized_tournament, registered_tournaments): 
+    #     self.tournament = tournament 
+    #     self.new_tournament = new_tournament 
+    def __init__(self, in_view: Input_view, report_view: Report_view): 
+        self.in_view = in_view 
+        self.report_view = report_view 
+        self.tournament = None 
     
-    def __init__(self, new_tournament, tournament):  #, serialized_tournament, registered_tournaments): 
-        self.tournament = tournament 
-        self.new_tournament = new_tournament 
-        # self.serialized_tournaments = [] 
-        # self.serialized_tournament = serialized_tournament 
-        # self.registered_tournaments = registered_tournaments 
-    
+    def enter_new_tournament(self): 
+        tournament_data = self.in_view.input_tournament() 
+        self.tournament = Tournament_model(**tournament_data) 
+        self.tournament.serialize() 
+        
 
     def tourn_stream(self): 
 
@@ -49,15 +55,19 @@ class Main_controller():
         print(f'self.new_tournament MC50 : {self.new_tournament}') 
         print(f'type(self.tournament) MC51 : {type(self.tournament)}') 
         print(f'self.tournament MC52 : {self.tournament}') 
-        print(f'self.old_tournaments MC53 : {self.old_tournaments}') 
+        print(f'self.old_tournaments MC53 : {self.registered_tournaments}') 
         print(f'self.new_tournaments MC54 : {self.new_tournaments}') 
 
 
     Tournament_model.serialize_tournaments(Tournament_model) 
-    Report_view.display_today_s_tournament(Report_view, new_tournament) 
-    Report_view.display_all_tournaments(Report_view, old_tournaments) 
-    new_tournaments = Tournament_model.get_new_registered_tournaments(Tournament_model) 
-    Report_view.display_all_tournaments(Report_view, new_tournaments) 
+    Report_view.display_today_s_tournament(new_tournament) 
+    Report_view.display_all_tournaments(registered_tournaments) 
+    new_tournaments = Tournament_model.get_registered_tournaments(Tournament_model) 
+    self.tournament.display_all_tournaments(new_tournaments) 
+
+
+
+
 
     #### ======================== VVV MAUVAIS CODE VVV ====================== #### 
     #     print(f'Main_controller.tournament MC26 : {self.tournament}') 

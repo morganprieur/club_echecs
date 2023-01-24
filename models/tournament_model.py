@@ -15,7 +15,7 @@ class Tournament_model():
 
     # players = list 
 
-    def __init__(self, name, site, t_date, duration, description):  # rounds, #  name, site, t_date, nb_rounds, players, duration, description  
+    def __init__(self, name:str, site:str, t_date:str, duration:str, description:str):  # rounds, #  name, site, t_date, nb_rounds, players, duration, description  
         self.name = name 
         self.site = site 
         self.t_date = t_date 
@@ -67,31 +67,31 @@ class Tournament_model():
     #     'description':'description'
     # } 
 
-    def instantiate_tournament(self, new_tournament): 
-        # print(f'tourn TM58 : {tourn}') 
-        # self.tournaments = [] 
-        # for i in range(len(tourn)): 
-        for t_obj in new_tournament: 
-            self.tournament = Tournament_model( 
-                name=new_tournament['name'], 
-                site=new_tournament['site'], 
-                t_date=new_tournament['t_date'], 
-                duration=new_tournament['duration'], 
-                description=new_tournament['description'] 
-                # name=tourn[i]['name'], 
-                # site=tourn[i]['site'], 
-                # t_date=tourn[i]['t_date'], 
-                # duration=tourn[i]['duration'], 
-                # description=tourn[i]['description'] 
-            ) 
-            # self.tournaments.append(self.tournament) 
-        print(f'type(self.tournament) TM87 : {type(self.tournament)}') 
-        print(f'self.tournament TM88 : {self.tournament}') 
-        return self.tournament 
+    # def instantiate_tournament(self, new_tournament): 
+    #     # print(f'tourn TM58 : {tourn}') 
+    #     # self.tournaments = [] 
+    #     # for i in range(len(tourn)): 
+    #     for t_obj in new_tournament: 
+    #         self.tournament = Tournament_model( 
+    #             name=new_tournament['name'], 
+    #             site=new_tournament['site'], 
+    #             t_date=new_tournament['t_date'], 
+    #             duration=new_tournament['duration'], 
+    #             description=new_tournament['description'] 
+    #             # name=tourn[i]['name'], 
+    #             # site=tourn[i]['site'], 
+    #             # t_date=tourn[i]['t_date'], 
+    #             # duration=tourn[i]['duration'], 
+    #             # description=tourn[i]['description'] 
+    #         ) 
+    #         # self.tournaments.append(self.tournament) 
+    #     print(f'type(self.tournament) TM87 : {type(self.tournament)}') 
+    #     print(f'self.tournament TM88 : {self.tournament}') 
+    #     return self.tournament 
     
-    def print_t(self): 
-        print(f'dir(self) TM79 : {dir(self)}') 
-        print(f'test TM78 : {self.tournament}') 
+    # def print_t(self): 
+    #     print(f'dir(self) TM79 : {dir(self)}') 
+    #     print(f'test TM78 : {self.tournament}') 
 
     # def instantiate_tournament(self, tournaments, roundDicts): 
     #     print(f'type(tournaments) TM63 : {type(tournaments)}') 
@@ -148,64 +148,7 @@ class Tournament_model():
             and isinstance(getattr(self, key), (str, int, float))
         } 
 
-    # def serialize_tournament(self): 
-    def serialize_one_tournament(self):  # , tournament  # avec (self) ###  , players):  # players = serialized_players 
-        print('serialize_one_tournament() TM143') 
-        # print(f'type(tournament) TM109 : {type(self.tournament)}') 
 
-        # serialized_tournaments = [] 
-
-        # for t_obj in tournaments: 
-            # print(f't_obj TM136 : {t_obj}') 
-            # print(f'type(t_obj) TM136 : {type(t_obj)}') 
-        self.one_serialized_tournament = { 
-            'name': self.tournament.name, 
-            'site': self.tournament.site, 
-            't_date': self.tournament.t_date, 
-            # 'nb_rounds': self.tournament.nb_rounds, 
-            # 'rounds': self.tournament.rounds, 
-            # 'players': self.tournament.players,
-            'duration': self.tournament.duration, 
-            'description': self.tournament.description 
-        } 
-        # print(f'serialized_tournament["name"] TM148 : {serialized_tournament["name"]}') 
-
-        # serialized_tournaments.append(serialized_tournament) 
-        # print(f'serialized_tournaments TM150 : {serialized_tournaments}') 
-        # print(f'serialized_tournament TM157 : {self.one_serialized_tournament}') 
-
-        # tournament_table.truncate() 
-        # # Register the serialized tournaments into the DB: 
-        # # tournament_table.insert_multiple(serialized_tournaments) 
-        # tournament_table.insert(serialized_tournament) 
-
-        return self.one_serialized_tournament 
-    
-   
-    def serialize_tournaments(self): 
-        # print(f'dir(self) TM176 : {dir(self)}') 
-        # print(f'self.serialized_tournament TM177 : {self.serialized_tournament}') 
-        self.serialize_one_tournament(self) 
-        # ouvrir fichier en lecture : 
-        self.serialized_tournaments = [] 
-        if Tournament_model.check_if_json_empty(self): 
-            # si il est vide -> ajouter seulement le nouveau tournoi dans self.serialized_tournaments 
-            self.serialized_tournaments.append(self.one_serialized_tournament) 
-            # self.serialized_tournaments.append('truc') 
-            # l'enregistrer : 
-            # Tournament_model.register_tournaments(Tournament_model) 
-        else: 
-            # self.registered = json.load(file) 
-            self.get_old_registered_tournaments(self) 
-            print(f'self.old_registered TM190 : {self.old_registered}') # 
-            self.add_new_tournament(self) 
-            # print(f'self.serialized_tournaments TM192 : {self.serialized_tournaments}') ## 
-        self.register_tournaments(Tournament_model) 
-        self.get_new_registered_tournaments(self) 
-        # print(f'self.serialized_tournaments TM194 : {self.serialized_tournaments}') ## 
-        return self.serialized_tournaments 
-
-    
     def check_if_json_empty(self): 
         with open("tables/t_table.json",'rb') as f: 
             if len(f.read()) == 0: 
@@ -217,42 +160,123 @@ class Tournament_model():
 
 
     # Si le fichier JSON n'est pas vide : 
-    def get_old_registered_tournaments(self): 
+    @staticmethod 
+    def get_tournaments(): 
         with open('tables/t_table.json', 'r') as file: 
-            self.old_registered = json.load(file) 
+            tournaments = json.load(file) 
         # print(f'type(self.registered) TM192 : {type(self.registered)}') 
-        print(f'self.old_registered TM213 : {self.old_registered}') 
-        return self.old_registered 
+        print(f'tournaments TM167 : {tournaments}') 
+        return tournaments 
     
 
-    def get_new_registered_tournaments(self): 
-        with open('tables/t_table.json', 'r') as file: 
-            self.new_registered = json.load(file) 
-        # print(f'type(self.registered) TM192 : {type(self.registered)}') 
-        print(f'self.new_registered TM213 : {self.new_registered}') 
-        return self.new_registered 
+    def serialize(self): 
+        tournaments = Tournament_model.get_tournaments() 
+        tournaments.append(self.to_dict()) 
+        with open("tables/t_table.json", "w") as file: 
+            json.dump(tournaments, file) 
+
+
+if __name__ == "__main__": 
+    new_tournament = {
+        "name": "Nom 001", 
+        "site": "Lieu 001", 
+        "t_date": "2023/01/24", 
+        "duration": "blitz", 
+        "description": "description 001", 
+    } 
+    one_tournament = Tournament_model(**new_tournament) 
+    one_tournament.serialize() 
+
+
+    # # def serialize_tournament(self): 
+    # def serialize_one_tournament(self):  # , tournament  # avec (self) ###  , players):  # players = serialized_players 
+    #     print('serialize_one_tournament() TM143') 
+    #     # print(f'type(tournament) TM109 : {type(self.tournament)}') 
+
+    #     # serialized_tournaments = [] 
+
+    #     # for t_obj in tournaments: 
+    #         # print(f't_obj TM136 : {t_obj}') 
+    #         # print(f'type(t_obj) TM136 : {type(t_obj)}') 
+    #     self.one_serialized_tournament = { 
+    #         'name': self.tournament.name, 
+    #         'site': self.tournament.site, 
+    #         't_date': self.tournament.t_date, 
+    #         # 'nb_rounds': self.tournament.nb_rounds, 
+    #         # 'rounds': self.tournament.rounds, 
+    #         # 'players': self.tournament.players,
+    #         'duration': self.tournament.duration, 
+    #         'description': self.tournament.description 
+    #     } 
+    #     # print(f'serialized_tournament["name"] TM148 : {serialized_tournament["name"]}') 
+
+    #     # serialized_tournaments.append(serialized_tournament) 
+    #     # print(f'serialized_tournaments TM150 : {serialized_tournaments}') 
+    #     # print(f'serialized_tournament TM157 : {self.one_serialized_tournament}') 
+
+    #     # tournament_table.truncate() 
+    #     # # Register the serialized tournaments into the DB: 
+    #     # # tournament_table.insert_multiple(serialized_tournaments) 
+    #     # tournament_table.insert(serialized_tournament) 
+
+    #     return self.one_serialized_tournament 
+    
+    # TODO: à adapter pour quand le json n'est pas vide ? ### 
+    # def serialize_tournaments(self): 
+    #     # print(f'dir(self) TM176 : {dir(self)}') 
+    #     # print(f'self.serialized_tournament TM177 : {self.serialized_tournament}') 
+    #     self.serialize_one_tournament(self) 
+    #     # ouvrir fichier en lecture : 
+    #     self.serialized_tournaments = [] 
+    #     if Tournament_model.check_if_json_empty(self): 
+    #         # si il est vide -> ajouter seulement le nouveau tournoi dans self.serialized_tournaments 
+    #         self.serialized_tournaments.append(self.one_serialized_tournament) 
+    #         # self.serialized_tournaments.append('truc') 
+    #         # l'enregistrer : 
+    #         # Tournament_model.register_tournaments(Tournament_model) 
+    #     else: 
+    #         # self.registered = json.load(file) 
+    #         self.get_registered_tournaments(self) 
+    #         print(f'self.old_registered TM190 : {self.old_registered}') # 
+    #         self.add_new_tournament(self) 
+    #         # print(f'self.serialized_tournaments TM192 : {self.serialized_tournaments}') ## 
+    #     self.register_tournaments(Tournament_model) 
+    #     self.get_registered_tournaments(self) 
+    #     # print(f'self.serialized_tournaments TM194 : {self.serialized_tournaments}') ## 
+    #     return self.serialized_tournaments 
+
+
+
+    
+
+    # def get_new_registered_tournaments(self): 
+    #     with open('tables/t_table.json', 'r') as file: 
+    #         self.new_registered = json.load(file) 
+    #     # print(f'type(self.registered) TM192 : {type(self.registered)}') 
+    #     print(f'self.new_registered TM213 : {self.new_registered}') 
+    #     return self.new_registered 
     
 
 
-    def add_new_tournament(self): 
-        #   append le dernier tournoi à la liste, 
-        print(f'self.one_serialized_tournament TM219 : {self.one_serialized_tournament}') 
-        print(f'self.old_registered TM220 : \n{self.old_registered}') # 
-        # self.registered.append("trouc") 
-        self.old_registered.append(self.one_serialized_tournament) 
-        print(f'self.old_registered TM222 : \n{self.old_registered}') ## 
-        for t in self.old_registered: 
-            self.serialized_tournaments.append(t) 
-        # print(f'self.serialized_tournaments TM225 : {self.serialized_tournaments}') ## 
-        return self.serialized_tournaments 
+    # def add_new_tournament(self): 
+    #     #   append le dernier tournoi à la liste, 
+    #     print(f'self.one_serialized_tournament TM219 : {self.one_serialized_tournament}') 
+    #     print(f'self.old_registered TM220 : \n{self.old_registered}') # 
+    #     # self.registered.append("trouc") 
+    #     self.old_registered.append(self.one_serialized_tournament) 
+    #     print(f'self.old_registered TM222 : \n{self.old_registered}') ## 
+    #     for t in self.old_registered: 
+    #         self.serialized_tournaments.append(t) 
+    #     # print(f'self.serialized_tournaments TM225 : {self.serialized_tournaments}') ## 
+    #     return self.serialized_tournaments 
 
 
-    def register_tournaments(self): 
-        # print(f'self.serialized_tournaments TM229 : {self.serialized_tournaments}') ## 
-        # ouvrir le fichier en écriture totale : 
-        with open('tables/t_table.json', 'w') as file: 
-            json.dump(self.serialized_tournaments, file) 
-            return self.serialized_tournaments 
+    # def register_tournaments(self): 
+    #     # print(f'self.serialized_tournaments TM229 : {self.serialized_tournaments}') ## 
+    #     # ouvrir le fichier en écriture totale : 
+    #     with open('tables/t_table.json', 'w') as file: 
+    #         json.dump(self.serialized_tournaments, file) 
+    #         return self.serialized_tournaments 
 
 
  

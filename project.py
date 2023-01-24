@@ -4,7 +4,7 @@
 from controllers.main_controller import Main_controller 
 from views.report_view import Report_view 
 from views.input_view import Input_view 
-import os
+# import os 
 
 # # TinyDB 
 # from tinydb import TinyDB 
