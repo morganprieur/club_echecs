@@ -46,24 +46,38 @@ class Main_controller():
         tournament_data = self.in_view.input_tournament() 
         self.tournament = Tournament_model(**tournament_data) 
         self.tournament.serialize() 
-        
+    
 
-    def tourn_stream(self): 
+    def start(self): 
+        print("start main controller") 
+        print('Ennter new tournament') 
+        self.enter_new_tournament() 
 
-        print('tourn_stream main controller') 
-        print(f'type(self.new_tournament) MC49 : {type(self.new_tournament)}') 
-        print(f'self.new_tournament MC50 : {self.new_tournament}') 
-        print(f'type(self.tournament) MC51 : {type(self.tournament)}') 
-        print(f'self.tournament MC52 : {self.tournament}') 
-        print(f'self.old_tournaments MC53 : {self.registered_tournaments}') 
-        print(f'self.new_tournaments MC54 : {self.new_tournaments}') 
+        print('Report for tournament') 
+        print('Todays tournament') 
+        self.report_view.display_today_s_tournament(self.tournament) 
+        print('all tournaments') 
+        tournaments = Tournament_model.get_tournaments() 
+        self.report_view.display_all_tournaments(tournaments) 
+    
 
 
-    Tournament_model.serialize_tournaments(Tournament_model) 
-    Report_view.display_today_s_tournament(new_tournament) 
-    Report_view.display_all_tournaments(registered_tournaments) 
-    new_tournaments = Tournament_model.get_registered_tournaments(Tournament_model) 
-    self.tournament.display_all_tournaments(new_tournaments) 
+    # def tourn_stream(self): 
+
+    #     print('tourn_stream main controller') 
+    #     print(f'type(self.new_tournament) MC49 : {type(self.new_tournament)}') 
+    #     print(f'self.new_tournament MC50 : {self.new_tournament}') 
+    #     print(f'type(self.tournament) MC51 : {type(self.tournament)}') 
+    #     print(f'self.tournament MC52 : {self.tournament}') 
+    #     print(f'self.old_tournaments MC53 : {self.registered_tournaments}') 
+    #     print(f'self.new_tournaments MC54 : {self.new_tournaments}') 
+
+
+    # Tournament_model.serialize_tournaments(Tournament_model) 
+    # Report_view.display_today_s_tournament(new_tournament) 
+    # Report_view.display_all_tournaments(registered_tournaments) 
+    # new_tournaments = Tournament_model.get_registered_tournaments(Tournament_model) 
+    # self.tournament.display_all_tournaments(new_tournaments) 
 
 
 

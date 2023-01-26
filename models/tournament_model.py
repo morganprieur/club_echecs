@@ -165,7 +165,7 @@ class Tournament_model():
         with open('tables/t_table.json', 'r') as file: 
             tournaments = json.load(file) 
         # print(f'type(self.registered) TM192 : {type(self.registered)}') 
-        print(f'tournaments TM167 : {tournaments}') 
+        # print(f'tournaments TM167 : {tournaments}') 
         return tournaments 
     
 
@@ -178,14 +178,15 @@ class Tournament_model():
 
 if __name__ == "__main__": 
     new_tournament = {
-        "name": "Nom 001", 
-        "site": "Lieu 001", 
-        "t_date": "2023/01/24", 
-        "duration": "blitz", 
-        "description": "description 001", 
+        "name": "Nom 010", 
+        "site": "Lieu 010", 
+        "t_date": "2023/01/26", 
+        "duration": "coup rapide", 
+        "description": "description 010", 
     } 
     one_tournament = Tournament_model(**new_tournament) 
     one_tournament.serialize() 
+    # print(f'get tournaments : {Tournament_model.get_tournaments()}') 
 
 
     # # def serialize_tournament(self): 
