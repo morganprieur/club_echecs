@@ -132,18 +132,6 @@ class Tournament_model():
 
     #     return self.tournament_x 
     
-    ### Voir pour sérialiser : 
-    def to_dict(self, exclude=None): 
-        exclude = exclude or []
-        return {
-            key: getattr(self, key)
-            for key in dir(self)
-            if not key.startswith("_")
-            and key not in exclude
-            and not callable(getattr(self, key))
-            and isinstance(getattr(self, key), (str, int, float))
-        } 
-
 
     @staticmethod 
     def check_if_json_empty(self): 
