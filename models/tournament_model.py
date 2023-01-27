@@ -5,10 +5,6 @@ import re
 # d = re.compile('[\d]+') 
 start = re.compile('[\[]+') 
 end = re.compile('[\]]+') 
-# # TinyDB 
-# from tinydb import TinyDB 
-# db = TinyDB('db.json') 
-# tournament_table = db.table('tournament') 
 
 
 class Tournament_model(): 
@@ -149,7 +145,9 @@ class Tournament_model():
         } 
 
 
+    @staticmethod 
     def check_if_json_empty(self): 
+        # with open("tables/t_table.json",'rb') as f: 
         with open("tables/t_table.json",'rb') as f: 
             if len(f.read()) == 0: 
                 print("The file is empty.") 
@@ -165,28 +163,47 @@ class Tournament_model():
         with open('tables/t_table.json', 'r') as file: 
             tournaments = json.load(file) 
         # print(f'type(self.registered) TM192 : {type(self.registered)}') 
-        # print(f'tournaments TM167 : {tournaments}') 
+        print(f'tournaments TM166 : {tournaments}') 
+        print(f'type(tournaments) TM167 : {type(tournaments)}') 
         return tournaments 
     
 
     def serialize(self): 
-        tournaments = Tournament_model.get_tournaments() 
-        tournaments.append(self.to_dict()) 
+        print(f'one_tournament TM172 : {one_tournament}') 
+        print(f'type(one_tournament) TP193 : {type(one_tournament)}') 
+        if not Tournament_model.check_if_json_empty(self): 
+            tournaments = Tournament_model.get_tournaments() 
+        else: 
+            tournaments = [] 
+        one_serialized_tournament = { 
+            'name': one_tournament.name, 
+            'site': one_tournament.site, 
+            't_date': one_tournament.t_date, 
+            # 'nb_rounds': self.tournament.nb_rounds, 
+            # 'rounds': self.tournament.rounds, 
+            # 'players': self.tournament.players,
+            'duration': one_tournament.duration, 
+            'description': one_tournament.description 
+        } 
+        # tournaments.append(self.to_dict()) 
+        tournaments.append(one_serialized_tournament) 
         with open("tables/t_table.json", "w") as file: 
             json.dump(tournaments, file) 
 
 
 if __name__ == "__main__": 
     new_tournament = {
-        "name": "Nom 010", 
-        "site": "Lieu 010", 
-        "t_date": "2023/01/26", 
-        "duration": "coup rapide", 
-        "description": "description 010", 
+        "name": "Nom 050", 
+        "site": "Lieu 50", 
+        "t_date": "2023/01/27", 
+        "duration": "bullet", 
+        "description": "description 050", 
     } 
     one_tournament = Tournament_model(**new_tournament) 
+    print(f'new_tournament TP192 : {new_tournament}') 
+    print(f'type(new_tournament) TP193 : {type(new_tournament)}') 
     one_tournament.serialize() 
-    # print(f'get tournaments : {Tournament_model.get_tournaments()}') 
+    # print(f'get tournaments TM189 : {Tournament_model.get_tournaments()}') 
 
 
     # # def serialize_tournament(self): 

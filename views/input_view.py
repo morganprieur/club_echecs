@@ -9,47 +9,19 @@ class Input_view():
     def __init__(self) -> None:
         pass 
 
-    # def __init__(self, new_tournament):
-    #     self.new_tournament = new_tournament 
-    
     # print("start input view") 
-
-    # new_tournament = { 
-    #     'name': 'Nom 008', 
-    #     'site': 'Lieu 008', 
-    #     't_date': '2023/01/13', 
-    #     'duration': 'bullet', 
-    #     'description': 'Description 008' 
-    # } 
-
-
-    # def print_new_tourns(self): 
-    #     # print(f'dir(self) : {dir(self)}') 
-    #     # self.new_tournaments = [] 
-    #     # self.new_tournaments.append(self.new_tournament)  
-    #     print(f'self.new_tournament IV26 : {self.new_tournament}') 
     
-    # def get_fct(self): 
-    #     print(f'dir(self.get_new_tourns(self)) : {dir(self.get_new_tourns(self))}') 
-        
-
-    # def get_input_tournament(self): 
     def input_tournament(self): 
-        # self.new_tournaments = [] 
         new_tournament = {} 
         new_tournament['name'] = session.prompt('\nNom du tournoi : ') 
         new_tournament['site'] = session.prompt('\nLieu : ') 
         new_tournament['t_date'] = session.prompt('\nDate (YYYY/MM/DD) : ') 
         new_tournament['duration'] = session.prompt('\nDurée : ') 
         new_tournament['description'] = session.prompt('\nDescription : ') 
-        # self.new_tournaments.append(self.new_tournament)  
         return new_tournament 
     
 
-    # def print_input(self): 
-    #     self.get_input_tournament(self) 
-    #     print(f'self.new_tournament : {self.new_tournament}') 
-
+    
 
 
 
