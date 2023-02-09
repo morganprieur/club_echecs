@@ -66,40 +66,24 @@ class Report_view():
         pass 
     
 
+    def display_last_tournament(self, last_tournament): 
+        # print('---- last tournament RV70 ----') 
+        print(last_tournament) 
+
+
     # def display_today_s_tournament(self, today_s_tournament): 
     def display_today_s_tournament(self, tournament): 
-        # print(f'dir(self) : {dir(self)}') 
-        print('----') 
-        print(f'today\'s tournament RV73 : {tournament}') 
+        # print('---- today\'s tournament RV76 ----') 
+        print(tournament) 
         print('----') 
 
 
     def display_all_tournaments(self, all_tournaments): 
-        print('====') 
-        print('all tournaments RV79 : ')  
+        # print('==== all tournaments RV82 ====') 
         for t in all_tournaments: 
-            print(t)  
-        # print(f'all_tournaments RV73 : {all_tournaments}')  
+            print(t)   
         print('====') 
 
-    #### ======================== VVV MAUVAIS CODE VVV ====================== #### 
-
-    # def display_today_s_tournament(self, tournament): 
-    #     # print(f'dir(self) : {dir(self)}') 
-    #     print('----') 
-    #     print(f'tournament RV67 : {tournament}') 
-    #     print('----') 
-
-    # def display_all_tournaments(self, all_tournaments): 
-    #     print('====') 
-    #     print('all_tournaments RV74 : ')  
-    #     for t in all_tournaments: 
-    #         print(t)  
-    #     # print(f'all_tournaments RV73 : {all_tournaments}')  
-    #     print('====') 
-    
-    
-    
 
 
 

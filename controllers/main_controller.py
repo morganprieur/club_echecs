@@ -11,10 +11,12 @@ class Main_controller():
         self.in_view = in_view 
         self.report_view = report_view 
         self.tournament = None 
+        self.last_tournament = None 
     
     def enter_new_tournament(self): 
         tournament_data = self.in_view.input_tournament() 
         self.tournament = Tournament_model(**tournament_data) 
+        print(f'self.tournament MC19 : {self.tournament}') 
         self.tournament.serialize() 
     
 
@@ -27,7 +29,10 @@ class Main_controller():
         print('\nTodays tournament : ') 
         self.report_view.display_today_s_tournament(self.tournament) 
         print('\nall tournaments : ') 
-        tournaments = Tournament_model.get_tournaments() 
+        # tournaments = Tournament_model.get_tournaments() 
+        tournaments = Tournament_model.get_registered('t_table.json') 
+        last_tournament = tournaments.pop() 
+        print(f'last tournament MC34 : {last_tournament}') 
         self.report_view.display_all_tournaments(tournaments) 
     
 
