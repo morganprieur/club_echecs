@@ -44,103 +44,102 @@ session = PromptSession()
 
 class Dashboard_view(): 
 
-    """ 
-    liste_menu_principal = [ 
-        "\nMenu principal : ", 
-        "1 : Saisir", 
-        "2 : Afficher" 
+    welcome = ' * * * * * * * * * * * * * * * * \
+        \nBonjour et bienvenue ! \
+        \nCe programme va vous permettre de créer, gérer et afficher vos tournois d\'échecs. \
+        \nSi vous rencontrez des erreurs, le fichier README.md contient les informations de feedback. \
+        \nDans le menu, vous pouvez à tout moment utiliser les Commandes de sortie : \
+        \n * pour revenir au menu précédent, \n 0 pour revenir au menu principal' 
+
+    main_menu = [ 
+        '1 = saisir', 
+        '2 = afficher' 
+    ] 
+    register_menu = [ 
+        '1 = un joueur', 
+        '2 = un tournoi' 
+    ] 
+    display_menu = [ 
+        # A faire + tard : 
+        # '1 = Tous les joueurs par ordre alphabétique', 
+        # '2 = Tous les joueurs par classement', 
+        # '3 = Les joueurs du tournoi par ordre alphabétique', 
+        # '4 = Les joueurs du tournoi par classement', 
+        # '5 = les résultats du tournoi', 
+        # '6 = les tours', 
+        # '7 = les matches', 
+        '8 = tous les tournois', 
+
+        # pas demandés : 
+        # '9 = le dernier tournoi', 
+        # '9 = le tournoi du jour', 
+
+        '0 = Retour au menu précédent', 
+        '* = Menu principal'
     ] 
 
-    liste_menu_saisir = [
-        "Saisir", 
-        "1 : un ou des joueurs", 
-        "2 : un ou des matches", 
-        "3 : un ou des tours", 
-        "4 : un ou (?) des tournois", 
-        "* : retour au menu précédent", 
-        "0 : retour au menu principal" 
-    ] 
-
-    liste_menu_afficher = [ 
-        "Afficher", 
-        "1 : tous les joueurs par ordre alphabétique", 
-        "2 : tous les joueurs par classement", 
-        "3 : les joueurs du tournoi par ordre alphabétique", 
-        "4 : les joueurs du tournoi par classement", 
-        "5 : les résultats du tournoi", 
-        "6 : les tours", 
-        "7 : les matches", 
-        "* : retour au menu précédent", 
-        "0 retour au menu principal" 
-    ] 
-    """
-
-    @staticmethod 
-    def welcome_view(): 
-
-        welcome = ' * * * * * * * * * * * * * * * * \nBonjour et bienvenue ! \
-            \nCe programme va vous permettre de créer, gérer et afficher vos tournois d\'échecs. \
-            \nSi vous rencontrez des erreurs, le fichier README.md contient les informations de feedback. \
-            \nDans le menu, vous pouvez à tout moment utiliser les Commandes de sortie : \
-            \n * pour revenir au menu précédent, \n 0 pour revenir au menu principal' 
-
-        menu_principal = [ 
-            '1 = saisir', 
-            '2 = afficher' 
-        ] 
-        menu_saisie = [ 
-            '1 = un joueur', 
-            '2 = un tournoi' 
-        ] 
-        menu_affichage = [ 
-            # A faire + tard : 
-            # '1 = Tous les joueurs par ordre alphabétique', 
-            # '2 = Tous les joueurs par classement', 
-            # '3 = Les joueurs du tournoi par ordre alphabétique', 
-            # '4 = Les joueurs du tournoi par classement', 
-            # '5 = les résultats du tournoi', 
-            # '6 = les tours', 
-            # '7 = les matches', 
-
-            '8 = le tournoi du jour', 
-            '9 = tous les tournois', 
-
-            '0 = retour au menu précédent' 
-        ] 
-
-        print(welcome) 
-
-        print(menu_principal[0]) 
-        print(menu_principal[1]) 
+    def __init__(self, 
+        welcome: list, 
+        main_menu: list, 
+        register_menu: list, 
+        display_menu: list 
+    ): 
+        self.welcome = welcome 
+        self.main_menu = main_menu 
+        self.register_menu = register_menu 
+        self.display_menu = display_menu 
 
 
+
+    # @staticmethod 
+    def display_welcome(self): 
+
+        print(self.welcome) 
+
+        print(self.main_menu[0]) 
+        print(self.main_menu[1]) 
+
+
+    # @staticmethod 
+    def display_first_menu(self): 
         # Prompt to ask the action to do 
-        ask_for_menu_action = session.prompt('\nChoisir une action : ') 
+        self.ask_for_menu_action = session.prompt('\nChoisir une action : ') 
         # return ask_for_menu_action 
 
-        if ask_for_menu_action == '1': 
+        if self.ask_for_menu_action == '1': 
             # print('ok') 
-            for i in range(len(menu_saisie)): 
-                print(menu_saisie[i]) 
-        elif ask_for_menu_action == '2': 
+            for i in range(len(self.register_menu)): 
+                print(register_menu[i]) 
+        elif self.ask_for_menu_action == '2': 
             # print('not ok') 
-            for i in range(len(menu_affichage)): 
-                print(menu_affichage[i]) 
-        elif ask_for_menu_action == '0': 
-            print(menu_principal[0]) 
-            print(menu_principal[1]) 
-        elif ask_for_menu_action == '*': 
-            Dashboard_view.welcome_view() 
+            # Dashboard_view.report(self) 
+            # for i in range(len(display_menu)): 
+            #     print(display_menu[i]) 
+            return self.ask_for_menu_action 
+        elif self.ask_for_menu_action == '0': 
+            print(self.main_menu[0]) 
+            print(self.main_menu[1]) 
+        elif self.ask_for_menu_action == '*': 
+            Dashboard_view.display_welcome() 
         else: 
             print('Cette réponse n\'est pas définie, veuillez choisir une autre action') 
-            Dashboard_view.welcome_view() 
+            Dashboard_view.display_welcome() 
 
         # print(messages['menus'][0][int(ask_for_menu_action)]) 
         # print(messages['menus'][0][int(ask_for_menu_action)][1]) 
         # print(messages['menus'][0][int(ask_for_menu_action)][2]) 
 
+    # @staticmethod 
+    def report(self): 
+        for i in range(len(self.display_menu)): 
+            print(self.display_menu[i]) 
+        self.ask_for_report = session.prompt('\nChoisir un rapport  ou revenir à un menu précédent: ') 
+        return self.ask_for_report 
+
+
+
 if __name__ == "__main__": 
-    Dashboard_view.welcome_view() 
+    Dashboard_view.display_welcome()  # manque 'self'  
 
     # new_tournament = {
     #     "name": "Nom 060", 

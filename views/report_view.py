@@ -67,21 +67,24 @@ class Report_view():
     
 
     def display_last_tournament(self, last_tournament): 
-        # print('---- last tournament RV70 ----') 
+        print('---- last tournament RV70 ----') 
         print(last_tournament) 
 
 
     # def display_today_s_tournament(self, today_s_tournament): 
     def display_today_s_tournament(self, tournament): 
-        # print('---- today\'s tournament RV76 ----') 
+        print('---- today\'s tournament RV76 ----') 
         print(tournament) 
         print('----') 
 
 
     def display_all_tournaments(self, all_tournaments): 
-        # print('==== all tournaments RV82 ====') 
+        print('==== all tournaments RV82 ====') 
         for t in all_tournaments: 
-            print(t)   
+            print(f'tournoi {all_tournaments.index(t)}') 
+            for k,v in t.items(): 
+                print(v) 
+            print('\n')  
         print('====') 
 
 

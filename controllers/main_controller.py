@@ -1,4 +1,5 @@
 
+from views.dashboard_view import Dashboard_view 
 from views.input_view import Input_view 
 from views.report_view import Report_view 
 
@@ -7,32 +8,52 @@ from models.tournament_model import Tournament_model
 
 class Main_controller(): 
 
-    def __init__(self, in_view: Input_view, report_view: Report_view): 
+    def __init__( 
+        self, 
+        board: Dashboard_view, 
+        in_view: Input_view, 
+        report_view: Report_view 
+    ): 
+        self.board = board 
         self.in_view = in_view 
         self.report_view = report_view 
         self.tournament = None 
         self.last_tournament = None 
+
+        # self.main_menu = self.board.main_menu 
     
     def enter_new_tournament(self): 
+        print('\nEnter new tournament') 
         tournament_data = self.in_view.input_tournament() 
         self.tournament = Tournament_model(**tournament_data) 
         print(f'self.tournament MC19 : {self.tournament}') 
         self.tournament.serialize() 
-    
+
 
     def start(self): 
-        print("start main controller") 
-        print('\nEnter new tournament') 
-        self.enter_new_tournament() 
+        print("\nStart main controller") 
+        self.board.display_welcome() 
+        self.board.display_first_menu() 
+        if self.board.ask_for_menu_action == '1': 
+            pass 
+        elif self.board.ask_for_menu_action == '2': 
+            self.board.report() 
+            print('control menu 2 : ', self.board.ask_for_report)    
+            if self.board.ask_for_report == '8': 
+                self.report_tournament() 
 
+
+    def report_tournament(self): 
         print('\nReports for tournament') 
-        print('\nTodays tournament : ') 
-        self.report_view.display_today_s_tournament(self.tournament) 
-        print('\nall tournaments : ') 
-        # tournaments = Tournament_model.get_tournaments() 
+        # if self.board.ask_for_report == 8: 
+        # # à enlever (pas demandé) : 
+        # self.report_view.display_today_s_tournament(self.tournament) 
+        # # print('\nLast tournament : ') 
         tournaments = Tournament_model.get_registered('t_table.json') 
-        last_tournament = tournaments.pop() 
-        print(f'last tournament MC34 : {last_tournament}') 
+        # # à enlever (pas demandé) : 
+        # last_tournament = tournaments.pop() 
+        # print(last_tournament) 
+        # # print('\nAll tournaments : ') 
         self.report_view.display_all_tournaments(tournaments) 
     
 
