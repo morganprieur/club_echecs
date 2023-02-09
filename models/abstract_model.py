@@ -12,9 +12,8 @@ class AbstractModel(ABC):
         # with open('tables/t_table.json', 'r') as file: 
         with open(f'tables/{table}', 'r') as file: 
             registered = json.load(file) 
-        # print(f'type(self.registered) TM192 : {type(self.registered)}') 
-        print(f'registered AC16 : {registered}') 
-        print(f'type(registered) AC17 : {type(registered)}') 
+        # print(f'registered AC16 : {registered}') 
+        # print(f'type(registered) AC17 : {type(registered)}') 
         return registered 
     
 

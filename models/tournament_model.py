@@ -47,7 +47,7 @@ class Tournament_model():
         # return f'{begin_phrase}\n {round_name} {round_matches}players : {playersList}heure début : {start_datetime}heure fin : {end_datetime}{middle_phrase}{end_phrase}' 
         return f'{self.name}, {self.site}, {self.t_date}, {self.duration}, {self.description}' 
         
-    print('start tounament model') 
+    # print('start tournament model') 
 
     # 'rounds': { 
     #     1: roundDicts[0][1], 
@@ -162,9 +162,8 @@ class Tournament_model():
         # with open('tables/t_table.json', 'r') as file: 
         with open(f'tables/{table}', 'r') as file: 
             registered = json.load(file) 
-        # print(f'type(self.registered) TM192 : {type(self.registered)}') 
-        print(f'registered AC16 : {registered}') 
-        print(f'type(registered) AC17 : {type(registered)}') 
+        # print(f'registered AC16 : {registered}') 
+        # print(f'type(registered) AC17 : {type(registered)}') 
         return registered 
 
 

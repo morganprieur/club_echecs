@@ -31,7 +31,7 @@ class Main_controller():
 
 
     def start(self): 
-        print("\nStart main controller") 
+        # print("\nStart main controller") 
         self.board.display_welcome() 
         self.board.display_first_menu() 
         if self.board.ask_for_menu_action == '1': 
