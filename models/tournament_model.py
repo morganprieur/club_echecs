@@ -11,41 +11,20 @@ class Tournament_model():
 
     # players = list 
 
-    def __init__(self, name:str, site:str, t_date:str, duration:str, description:str):  # rounds, #  name, site, t_date, nb_rounds, players, duration, description  
+    def __init__(self, name:str, site:str, t_date:str, players:list, duration:str, description:str):  # rounds, #  name, site, t_date, nb_rounds, duration, description  
         self.name = name 
         self.site = site 
         self.t_date = t_date 
         # self.nb_rounds = nb_rounds 
         # self.rounds = rounds 
         # self.rounds = None 
-        # self.players = players 
+        self.players = players 
         self.duration = duration 
         self.description = description 
 
     def __str__(self):  # , roundDicts        
-        # begin_phrase = f'\nNom du tournoi : {self.name} \nlieu : {self.site} \ndate(s) : {self.t_date} \n{self.nb_rounds} tours \nliste des tours : \n' # (instances de tours à mettre ici ###)  
-        # # roundsList = '' 
-        # round_name = '' 
-        # round_matches = '' 
-        # start_datetime = '' 
-        # end_datetime = '' 
-        # middle_phrase = f'\njoueurs de ce tournoi : (instances de joueurs à mettre ici ###) \n' 
-        # playersList = [] 
-        # end_phrase = f'temps de jeu : {self.duration}. \nDescription : {self.description}' 
-        # for r in self.rounds: 
-        #     # print(f'i TM34 : {i}') 
-        #     round_name += f'{r}\n' 
-        #     # round_name += f'{r["round_name"]}\n' 
-        #     # round_matches += f'{r["round_matches"]}\n' 
-        #     # start_datetime += f'{r["start_datetime"]}\n' 
-        #     # end_datetime += f'{r["end_datetime"]}\n' 
-        # # print(f'len(self.players) TM49 : {len(self.players)}') 
-        # print(f'len(players) TM49 : {len(self.players)}') 
-        # if self.players:  # TypeError: 'Tournament_model' object is not iterable ### 
-        #     for p in self.players: 
-        #         playersList.append(p) 
         # return f'{begin_phrase}\n {round_name} {round_matches}players : {playersList}heure début : {start_datetime}heure fin : {end_datetime}{middle_phrase}{end_phrase}' 
-        return f'{self.name}, {self.site}, {self.t_date}, {self.duration}, {self.description}' 
+        return f'{self.name}, {self.site}, {self.t_date}, {self.duration}, {self.description}, players : {self.players}' 
         
     # print('start tournament model') 
 
@@ -157,7 +136,6 @@ class Tournament_model():
     
 
     @staticmethod 
-    # def get_registered(self, table): 
     def get_registered(table): 
         # with open('tables/t_table.json', 'r') as file: 
         with open(f'tables/{table}', 'r') as file: 
@@ -168,8 +146,8 @@ class Tournament_model():
 
 
     def serialize(self): 
-        print(f'one_tournament TM172 : {self}') 
-        print(f'type(one_tournament) TP193 : {type(self)}') 
+        # print(f'one_tournament TM172 : {self}') 
+        # print(f'type(one_tournament) TP193 : {type(self)}') 
         if not Tournament_model.check_if_json_empty(): 
             # tournaments = Tournament_model.get_tournaments() 
             tournaments = Tournament_model.get_registered('t_table.json') 
@@ -181,7 +159,7 @@ class Tournament_model():
             't_date': self.t_date, 
             # 'nb_rounds': self.tournament.nb_rounds, 
             # 'rounds': self.tournament.rounds, 
-            # 'players': self.tournament.players,
+            'players': self.players,
             'duration': self.duration, 
             'description': self.description 
         } 
