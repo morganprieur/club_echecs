@@ -1,4 +1,5 @@
 
+from .abstract_model import AbstractModel 
 
 import json 
 import re 
@@ -7,7 +8,7 @@ start = re.compile('[\[]+')
 end = re.compile('[\]]+') 
 
 
-class Tournament_model(): 
+class Tournament_model(AbstractModel): 
 
     # players = list 
 

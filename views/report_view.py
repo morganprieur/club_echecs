@@ -82,7 +82,7 @@ class Report_view():
         print('\n==== Tous les tournois ====') 
         print('') 
         for t in all_tournaments: 
-            print(f'tournoi {all_tournaments.index(t)} : ') 
+            print(f'tournoi {all_tournaments.index(t)+1} : ') 
             for k,v in t.items(): 
                 print(v) 
             print('')  
