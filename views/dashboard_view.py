@@ -5,55 +5,60 @@ session = PromptSession()
 
 
 
-# Affichage Bienvenue + menu + touches de sortie : 
-# 0 : menu principal 
-# * : menu précédent 
-
-# Afficher le menu 
-#   1 : saisies 
-#   2 : affichages
-# 
-
-# Menu saisir : 
-#   1 : un ou des joueurs 
-#   2 : un ou des matches 
-#   3 : un ou des tours 
-#   4 : un ou (?) des tournois 
-#   0 : retour au menu précédent
-
-
-# Menu afficher : 
-#   1 : tous les joueurs par ordre alphabétique 
-#   2 : tous les joueurs par classement 
-
-#   3 : les joueurs du tournoi par ordre alphabétique 
-#   4 : les joueurs du tournoi par classement 
-
-#   5 : les résultats du tournoi 
-#   6 : les tours 
-#   7 : les matches
-
-#   0 : retour au menu précédent
-
-
-# # A chaque niveau : 
-# # Retour au niveau supérieur 
-# # Retour au menu principal 
-
-
-
 class Dashboard_view(): 
 
+    welcome = '\n* * * * * * * * * * * * * * * * * \
+        \n\nBonjour et bienvenue ! \
+        \n\nCe programme va vous permettre de créer, gérer et afficher vos tournois d\'échecs. \
+        \nSi vous rencontrez des erreurs, le fichier README.md contient les informations pour envoyer des feedbacks. \
+        \n\nDans le menu, vous pouvez à tout moment utiliser les Commandes de sortie : \
+        \n* pour revenir au menu précédent, \n0 pour revenir au menu principal' 
+
+    main_menu = [ 
+        'Menu principal : ', 
+        '1 : saisir', 
+        '2 : afficher' 
+    ] 
+
+    register_menu = [ 
+        'Menu "saisir" : ', 
+        '1 : un joueur', 
+        '2 : un tournoi' 
+    ] 
+
+    display_menu = [ 
+        'Menu "Afficher" : ', 
+        # A faire + tard : 
+        # '1 : tous les joueurs par ordre chrono', 
+        '1 : Tous les joueurs par ordre alphabétique', 
+        # '2 : Tous les joueurs par classement', 
+        # '3 : Les joueurs du tournoi par ordre alphabétique', 
+        # '4 : Les joueurs du tournoi par classement', 
+        # '5 : les résultats du tournoi', 
+        # '6 : les tours', 
+        # '7 : les matches', 
+        '8 : tous les tournois', 
+
+        # pas demandés : 
+        # '9 : le dernier tournoi', 
+        # '9 : le tournoi du jour', 
+        '', 
+        'Commandes de secours : ', 
+        '0 : Retour au menu précédent', 
+        '* : Menu principal' 
+    ] 
+
     def __init__(self, 
-        welcome: list, 
-        main_menu: list, 
-        register_menu: list, 
-        display_menu: list 
+        # welcome: list, 
+        # main_menu: list, 
+        # register_menu: list, 
+        # display_menu: list 
     ): 
-        self.welcome = welcome 
-        self.main_menu = main_menu 
-        self.register_menu = register_menu 
-        self.display_menu = display_menu 
+        # self.welcome = welcome 
+        # self.main_menu = main_menu 
+        # self.register_menu = register_menu 
+        # self.display_menu = display_menu 
+        pass 
 
 
 
@@ -71,25 +76,6 @@ class Dashboard_view():
         self.ask_for_menu_action = session.prompt('\nChoisir une action : ') 
         print('') 
         return self.ask_for_menu_action 
-
-        # if self.ask_for_menu_action == '1': 
-        #     # print('ok') 
-        #     for i in range(len(self.register_menu)): 
-        #         print(register_menu[i]) 
-        # elif self.ask_for_menu_action == '2': 
-        #     # print('not ok') 
-        #     # Dashboard_view.report(self) 
-        #     # for i in range(len(display_menu)): 
-        #     #     print(display_menu[i]) 
-            
-        # elif self.ask_for_menu_action == '0': 
-        #     print(self.main_menu[0]) 
-        #     print(self.main_menu[1]) 
-        # elif self.ask_for_menu_action == '*': 
-        #     Dashboard_view.display_welcome() 
-        # else: 
-            # print('Cette réponse n\'est pas définie, veuillez choisir une autre action') 
-            # Dashboard_view.display_welcome() 
 
 
     # @staticmethod 

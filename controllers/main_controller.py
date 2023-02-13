@@ -3,6 +3,7 @@ from views.dashboard_view import Dashboard_view
 from views.input_view import Input_view 
 from views.report_view import Report_view 
 
+from models.player_model import Player_model 
 from models.tournament_model import Tournament_model 
 
 
@@ -39,8 +40,17 @@ class Main_controller():
         elif self.board.ask_for_menu_action == '2': 
             self.board.report() 
             print('control menu 2 : ', self.board.ask_for_report)    
+            if self.board.ask_for_report == '1': 
+                self.report_players() 
             if self.board.ask_for_report == '8': 
                 self.report_tournament() 
+
+
+    def report_players(self): 
+        print('\nReports for players') 
+        players = Player_model.get_registered('p_table') 
+        # self.report_view.display_alphabetical_players(players) 
+        self.report_view.sort_objects_by_field(players, 'firstname') 
 
 
     def report_tournament(self): 

@@ -1,5 +1,7 @@
 
 from .abstract_model import AbstractModel 
+# for tests : 
+# from abstract_model import AbstractModel 
 
 import json 
 import re 
@@ -26,125 +28,7 @@ class Tournament_model(AbstractModel):
     def __str__(self):  # , roundDicts        
         # return f'{begin_phrase}\n {round_name} {round_matches}players : {playersList}heure début : {start_datetime}heure fin : {end_datetime}{middle_phrase}{end_phrase}' 
         return f'{self.name}, {self.site}, {self.t_date}, {self.duration}, {self.description}, players : {self.players}' 
-        
-    # print('start tournament model') 
-
-    # 'rounds': { 
-    #     1: roundDicts[0][1], 
-    #     2: roundDicts[0][2],  
-    # }, ### comment intégrer l'objet Round ici ? 
-
-
-    # tourn = { 
-    #     'name':'name1', 
-    #     'site':'site1', 
-    #     't_date':'t_date1', 
-    #     'duration':'duration', 
-    #     'description':'description'
-    # } 
-
-    # def instantiate_tournament(self, new_tournament): 
-    #     # print(f'tourn TM58 : {tourn}') 
-    #     # self.tournaments = [] 
-    #     # for i in range(len(tourn)): 
-    #     for t_obj in new_tournament: 
-    #         self.tournament = Tournament_model( 
-    #             name=new_tournament['name'], 
-    #             site=new_tournament['site'], 
-    #             t_date=new_tournament['t_date'], 
-    #             duration=new_tournament['duration'], 
-    #             description=new_tournament['description'] 
-    #             # name=tourn[i]['name'], 
-    #             # site=tourn[i]['site'], 
-    #             # t_date=tourn[i]['t_date'], 
-    #             # duration=tourn[i]['duration'], 
-    #             # description=tourn[i]['description'] 
-    #         ) 
-    #         # self.tournaments.append(self.tournament) 
-    #     print(f'type(self.tournament) TM87 : {type(self.tournament)}') 
-    #     print(f'self.tournament TM88 : {self.tournament}') 
-    #     return self.tournament 
     
-    # def print_t(self): 
-    #     print(f'dir(self) TM79 : {dir(self)}') 
-    #     print(f'test TM78 : {self.tournament}') 
-
-    # def instantiate_tournament(self, tournaments, roundDicts): 
-    #     print(f'type(tournaments) TM63 : {type(tournaments)}') 
-    #     print(f'tournaments TM64 : {tournaments}')  # tournament == déjà un objet 
-    #     # for t in tournaments: 
-    #     #     self.tournament_x = Tournament_model( 
-    #     #         lastname=p, 
-    #     #         firstname=p, 
-    #     #         age=p, 
-    #     #         genre=p, 
-    #     #         rank=p 
-    #     #     ) 
-
-    #     # for p in players: 
-    #     #     self.player_x = Player_model( 
-    #     #         lastname=p, 
-
-    #     for t in tournaments: 
-    #         print(f't TM63 : {t}') 
-    #         # print(f'type(tournaments[t]) TM61 : {type(tournaments[t])}') 
-    #         self.tournament_x = Tournament_model( 
-    #             name=t,  
-    #             site=t,  
-    #             t_date=t,  
-    #             nb_rounds=t, 
-    #             # rounds = tournaments['rounds'], 
-    #             rounds= # [ 
-    #                 roundDicts, 
-    #                 # {      # key=1/2...: value='round_name'... 
-    #                 # 'round_name' = roundDicts[0]["1"]['round_name'],  ### TypeError: tuple indices must be integers or slices, not str 
-    #                 # 'round_matches' = roundDicts[0]["1"]['round_matches'], 
-    #                 # 'start_datetime' = roundDicts[0]["1"]['start_datetime'], 
-    #                 # 'end_datetime' = roundDicts[0]["1"]['end_datetime'] 
-    #                 # }, 
-    #             # ], 
-    #             players=t, 
-    #             duration=t, 
-    #             description=t 
-    #         ) 
-    #         print(f'tournament_x.name TM95 : {self.tournament_x.name}') 
-    #         print(f'type(self.tournament_x.name) TM96 : {type(self.tournament_x.name)}') 
-
-    #     return self.tournament_x 
-    
-
-    @staticmethod 
-    def check_if_json_empty(): 
-        # with open("tables/t_table.json",'rb') as f: 
-        with open("tables/t_table.json",'rb') as f: 
-            if len(f.read()) == 0: 
-                print("The file is empty.") 
-                return True 
-            else: 
-                print("The file is not empty.") 
-                return False 
-
-
-    # # Si le fichier JSON n'est pas vide : 
-    # @staticmethod 
-    # def get_tournaments(): 
-    #     with open('tables/t_table.json', 'r') as file: 
-    #         tournaments = json.load(file) 
-    #     # print(f'type(self.registered) TM192 : {type(self.registered)}') 
-    #     print(f'tournaments TM166 : {tournaments}') 
-    #     print(f'type(tournaments) TM167 : {type(tournaments)}') 
-    #     return tournaments 
-    
-
-    @staticmethod 
-    def get_registered(table): 
-        # with open('tables/t_table.json', 'r') as file: 
-        with open(f'tables/{table}', 'r') as file: 
-            registered = json.load(file) 
-        # print(f'registered AC16 : {registered}') 
-        # print(f'type(registered) AC17 : {type(registered)}') 
-        return registered 
-
 
     def serialize(self): 
         # print(f'one_tournament TM172 : {self}') 
@@ -168,6 +52,40 @@ class Tournament_model(AbstractModel):
         tournaments.append(one_serialized_tournament) 
         with open("tables/t_table.json", "w") as file: 
             json.dump(tournaments, file) 
+
+
+    
+    @staticmethod 
+    def check_if_json_empty(table): 
+        with open(f"tables/{table}.json",'rb') as f: 
+            if len(f.read()) == 0: 
+                print("The file is empty.") 
+                return True 
+            else: 
+                print("The file is not empty.") 
+                return False 
+
+
+    # # Si le fichier JSON n'est pas vide : 
+    # @staticmethod 
+    # def get_tournaments(): 
+    #     with open('tables/t_table.json', 'r') as file: 
+    #         tournaments = json.load(file) 
+    #     # print(f'type(self.registered) TM192 : {type(self.registered)}') 
+    #     print(f'tournaments TM166 : {tournaments}') 
+    #     print(f'type(tournaments) TM167 : {type(tournaments)}') 
+    #     return tournaments 
+    
+
+    @staticmethod 
+    def get_registered(table): 
+        # with open('tables/t_table.json', 'r') as file: 
+        with open(f'tables/{table}.json', 'r') as file: 
+            registered = json.load(file) 
+        # print(f'registered AC16 : {registered}') 
+        # print(f'type(registered) AC17 : {type(registered)}') 
+        return registered 
+
 
 
 if __name__ == "__main__": 

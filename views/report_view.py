@@ -65,6 +65,7 @@ class Report_view():
     def __init__(self) -> None:
         pass 
     
+    ###==== Tournaments ====### 
 
     def display_last_tournament(self, last_tournament): 
         print('\n---- last tournament ----') 
@@ -87,7 +88,57 @@ class Report_view():
                 print(v) 
             print('')  
         print('====\n') 
+    
+    ###==== Players ====### 
+    # sort players in alphabetical order : 
+    @staticmethod 
+    def sort_objects_by_field(objects, field):   # , serialized_players  
+        # print(f'Match_controller dir MC67 : {dir(Match_controller)}') 
+        # print(f'self.players MC64 : {self.players}') 
+        sort_on = field 
+        decorated = [(dict_[sort_on], dict_) for dict_ in objects] 
+        decorated.sort() 
+        sorted_table = [dict_ for (key, dict_) in decorated] 
+        # print(f'result MC53 : {result}') 
+        print(f'sorted_table RV103 : {sorted_table}') 
 
+        # return self.p_table_classt 
+    
+
+    """ Liste de tous les joueurs ordre alphabétique """ 
+    def display_alphabetical_players(self, all_players): 
+        # print('\n==== Tous les joueurs par ordre alphabétique ====') 
+        print('') 
+        print('\n==== Tous les joueurs par ordre chronologique ====') 
+        print('') 
+        # alphabetical_players = [] 
+        for p in all_players: 
+            # alphabetical_players.append(p) 
+            print(f'Joueur {all_players.index(p)} : ') 
+            # print(alphabetical_players) 
+            for k,v in p.items(): 
+                print(v) 
+            print('')  
+        print('====\n') 
+
+
+
+###==== Rapports ====### 
+""" 
+Nous aimerions pouvoir afficher les rapports suivants dans le programme :
+
+    • Liste de tous les acteurs :
+        ◦ par ordre alphabétique ;
+        ◦ par classement.
+    • Liste de tous les joueurs d'un tournoi :
+        ◦ par ordre alphabétique ;
+        ◦ par classement.
+    • Liste de tous les tournois.
+    • Liste de tous les tours d'un tournoi.
+    • Liste de tous les matchs d'un tournoi.
+
+Nous aimerions les exporter ultérieurement, mais ce n'est pas nécessaire pour l'instant.
+""" 
 
 
 
