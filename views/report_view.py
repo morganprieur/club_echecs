@@ -100,10 +100,14 @@ class Report_view():
         decorated.sort() 
         sorted_table = [dict_ for (key, dict_) in decorated] 
         # print(f'result MC53 : {result}') 
-        print(f'sorted_table RV103 : {sorted_table}') 
+        # print(f'sorted_table RV103 : {sorted_table}') 
+        # for k,v in sorted_table.item(): 
+        for p in sorted_table: 
+            player = [] 
+            for k,v in p.items(): 
+                player.append(v) 
+            print(f'{player[1]} {player[0]}') 
 
-        # return self.p_table_classt 
-    
 
     """ Liste de tous les joueurs ordre alphabétique """ 
     def display_alphabetical_players(self, all_players): 

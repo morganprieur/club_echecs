@@ -27,7 +27,7 @@ class Main_controller():
         print('\nEnter new tournament') 
         tournament_data = self.in_view.input_tournament() 
         self.tournament = Tournament_model(**tournament_data) 
-        print(f'self.tournament MC19 : {self.tournament}') 
+        print(f'self.tournament MC30 : {self.tournament}') 
         self.tournament.serialize() 
 
 
@@ -39,7 +39,7 @@ class Main_controller():
             pass 
         elif self.board.ask_for_menu_action == '2': 
             self.board.report() 
-            print('control menu 2 : ', self.board.ask_for_report)    
+            # print('control menu 2 : ', self.board.ask_for_report)    
             if self.board.ask_for_report == '1': 
                 self.report_players() 
             if self.board.ask_for_report == '8': 
@@ -47,27 +47,16 @@ class Main_controller():
 
 
     def report_players(self): 
-        print('\nReports for players') 
+        print('\nJoueurs par ordre alphabétique : ') 
         players = Player_model.get_registered('p_table') 
-        # self.report_view.display_alphabetical_players(players) 
         self.report_view.sort_objects_by_field(players, 'firstname') 
 
 
     def report_tournament(self): 
-        print('\nReports for tournament') 
-        # if self.board.ask_for_report == 8: 
-        # # à enlever (pas demandé) : 
-        # self.report_view.display_today_s_tournament(self.tournament) 
-        # # print('\nLast tournament : ') 
+        print('\nTous les tournois : ') 
         tournaments = Tournament_model.get_registered('t_table.json') 
-        # # à enlever (pas demandé) : 
-        # last_tournament = tournaments.pop() 
-        # print(last_tournament) 
-        # # print('\nAll tournaments : ') 
         self.report_view.display_all_tournaments(tournaments) 
     
-
-
 
 
     """ 

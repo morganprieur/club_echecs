@@ -4,7 +4,6 @@ from prompt_toolkit import PromptSession
 session = PromptSession() 
 
 
-
 class Dashboard_view(): 
 
     welcome = '\n* * * * * * * * * * * * * * * * * \
@@ -48,27 +47,15 @@ class Dashboard_view():
         '* : Menu principal' 
     ] 
 
-    def __init__(self, 
-        # welcome: list, 
-        # main_menu: list, 
-        # register_menu: list, 
-        # display_menu: list 
-    ): 
-        # self.welcome = welcome 
-        # self.main_menu = main_menu 
-        # self.register_menu = register_menu 
-        # self.display_menu = display_menu 
+
+    def __init__(self): 
         pass 
 
 
-
-    # @staticmethod 
     def display_welcome(self): 
-
         print(self.welcome) 
 
 
-    # @staticmethod 
     def display_first_menu(self): 
         print('') 
         for m in self.main_menu: 
@@ -78,7 +65,6 @@ class Dashboard_view():
         return self.ask_for_menu_action 
 
 
-    # @staticmethod 
     def report(self): 
         for i in range(len(self.display_menu)): 
             print(self.display_menu[i]) 
@@ -87,22 +73,9 @@ class Dashboard_view():
         return self.ask_for_report 
 
 
-
 if __name__ == "__main__": 
     Dashboard_view.display_welcome()  # manque 'self'  
 
-    # new_tournament = {
-    #     "name": "Nom 060", 
-    #     "site": "Lieu 60", 
-    #     "t_date": "2023/02/05", 
-    #     "duration": "coup rapide", 
-    #     "description": "description 060", 
-    # } 
-    # one_tournament = Tournament_model(**new_tournament) 
-    # # print(f'new_tournament TP192 : {new_tournament}') 
-    # # print(f'type(new_tournament) TP193 : {type(new_tournament)}') 
-    # one_tournament.serialize() 
-    # print(f'get tournaments TM193 : {Tournament_model.get_tournaments()}') 
 
 
 

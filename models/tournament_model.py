@@ -14,7 +14,7 @@ class Tournament_model(AbstractModel):
 
     # players = list 
 
-    def __init__(self, name:str, site:str, t_date:str, players:list, duration:str, description:str):  # rounds, #  name, site, t_date, nb_rounds, duration, description  
+    def __init__(self, name:str, site:str, t_date:str, duration:str, description:str):  # rounds, #  name, site, t_date, nb_rounds, players:list, duration, description  
         self.name = name 
         self.site = site 
         self.t_date = t_date 
@@ -27,9 +27,21 @@ class Tournament_model(AbstractModel):
 
     def __str__(self):  # , roundDicts        
         # return f'{begin_phrase}\n {round_name} {round_matches}players : {playersList}heure début : {start_datetime}heure fin : {end_datetime}{middle_phrase}{end_phrase}' 
-        return f'{self.name}, {self.site}, {self.t_date}, {self.duration}, {self.description}, players : {self.players}' 
+        return f'{self.name}, {self.site}, {self.t_date}, {self.duration}, {self.description}'  # , players : {self.players} 
     
 
+    def to_dict(self): 
+        return { 
+            'name': self.name, 
+            'site': self.site, 
+            't_date': self.t_date, 
+            # 'players': self.players, 
+            'duration': self.duration, 
+            'description': self.description 
+        }
+
+
+    # A mettre dans Abstract_model : 
     def serialize(self): 
         # print(f'one_tournament TM172 : {self}') 
         # print(f'type(one_tournament) TP193 : {type(self)}') 
@@ -44,7 +56,7 @@ class Tournament_model(AbstractModel):
             't_date': self.t_date, 
             # 'nb_rounds': self.tournament.nb_rounds, 
             # 'rounds': self.tournament.rounds, 
-            'players': self.players,
+            # 'players': self.players, 
             'duration': self.duration, 
             'description': self.description 
         } 
@@ -53,38 +65,27 @@ class Tournament_model(AbstractModel):
         with open("tables/t_table.json", "w") as file: 
             json.dump(tournaments, file) 
 
-
     
-    @staticmethod 
-    def check_if_json_empty(table): 
-        with open(f"tables/{table}.json",'rb') as f: 
-            if len(f.read()) == 0: 
-                print("The file is empty.") 
-                return True 
-            else: 
-                print("The file is not empty.") 
-                return False 
+    # @staticmethod 
+    # def check_if_json_empty(table): 
+    #     with open(f"tables/{table}.json",'rb') as f: 
+    #         if len(f.read()) == 0: 
+    #             print("The file is empty.") 
+    #             return True 
+    #         else: 
+    #             print("The file is not empty.") 
+    #             return False 
 
 
     # # Si le fichier JSON n'est pas vide : 
     # @staticmethod 
-    # def get_tournaments(): 
-    #     with open('tables/t_table.json', 'r') as file: 
-    #         tournaments = json.load(file) 
-    #     # print(f'type(self.registered) TM192 : {type(self.registered)}') 
-    #     print(f'tournaments TM166 : {tournaments}') 
-    #     print(f'type(tournaments) TM167 : {type(tournaments)}') 
-    #     return tournaments 
-    
-
-    @staticmethod 
-    def get_registered(table): 
-        # with open('tables/t_table.json', 'r') as file: 
-        with open(f'tables/{table}.json', 'r') as file: 
-            registered = json.load(file) 
-        # print(f'registered AC16 : {registered}') 
-        # print(f'type(registered) AC17 : {type(registered)}') 
-        return registered 
+    # def get_registered(table): 
+    #     # with open('tables/t_table.json', 'r') as file: 
+    #     with open(f'tables/{table}.json', 'r') as file: 
+    #         registered = json.load(file) 
+    #     # print(f'registered AC16 : {registered}') 
+    #     # print(f'type(registered) AC17 : {type(registered)}') 
+    #     return registered 
 
 
 
@@ -97,8 +98,8 @@ if __name__ == "__main__":
         "description": "description 050", 
     } 
     one_tournament = Tournament_model(**new_tournament) 
-    print(f'new_tournament TP192 : {new_tournament}') 
-    print(f'type(new_tournament) TP193 : {type(new_tournament)}') 
+    # print(f'new_tournament TP192 : {new_tournament}') 
+    # print(f'type(new_tournament) TP193 : {type(new_tournament)}') 
     one_tournament.serialize() 
     # print(f'get tournaments TM189 : {Tournament_model.get_tournaments()}') 
     # print(f'get registered TM189 : {Tournament_model.get_registered()}') 

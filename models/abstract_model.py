@@ -32,7 +32,7 @@ class AbstractModel(ABC):
     # Si le fichier JSON n'est pas vide : 
     # @staticmethod 
     def get_registered(self): 
-        print(f'self AM35 : {self}') 
+        # print(f'self AM35 : {self}') 
         # with open(f'tables/{self.table}.json', 'r') as file:  # ==> self.table inconnu 
         with open(f'tables/{self}.json', 'r') as file: 
             registered = json.load(file) 
@@ -60,20 +60,14 @@ class AbstractModel(ABC):
     #     pass 
 
     def serialize(self): 
+        """
+            Abstract method for serialize the objects from the models. 
+        """
         # print(f'one_tournament TM172 : {self}') 
-        # print(f'type(one_tournament) TP193 : {type(self)}') 
-        # if not Player_model.check_if_json_empty('p_table'): 
         if not self.check_if_json_empty(): 
-            # tournaments = Tournament_model.get_tournaments() 
-            # players = Player_model.get_registered('p_table') 
             objects = self.get_registered() 
         else: 
             objects = [] 
-        # one_serialized_player = { 
-        #     'lastname': self.lastname, 
-        #     'firstname': self.firstname 
-        # } 
-        # tournaments.append(self.to_dict()) 
         objects.append(self.to_dict()) 
         with open(f"tables/{self.table}.json", "w") as file: 
             json.dump(objects, file) 
@@ -81,7 +75,8 @@ class AbstractModel(ABC):
 
     @abstractmethod 
     def to_dict(self): 
-        """ ...pour construire le dict pour chacun des modèles 
+        """
+            A common method for building each model. 
         """ 
         pass 
         # ... 
