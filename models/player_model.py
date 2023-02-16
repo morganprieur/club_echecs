@@ -41,11 +41,8 @@ class Player_model(AbstractModel):
 
 
     def serialize(self): 
-        # print(f'one_tournament TM172 : {self}') 
-        # print(f'type(one_tournament) TP193 : {type(self)}') 
-        if not Player_model.check_if_json_empty(): 
-            # tournaments = Tournament_model.get_tournaments() 
-            players = Player_model.get_registered('p_table.json') 
+        if not Player_model.check_if_json_empty(self, 'p_table'): 
+            players = Player_model.get_registered('p_table') 
         else: 
             players = [] 
         one_serialized_player = { 

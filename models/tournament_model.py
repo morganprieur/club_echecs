@@ -42,10 +42,7 @@ class Tournament_model(AbstractModel):
 
     
     def serialize(self): 
-        # print(f'one_tournament TM172 : {self}') 
-        # print(f'type(one_tournament) TP193 : {type(self)}') 
         if not Tournament_model.check_if_json_empty(self, 't_table'): 
-            # tournaments = Tournament_model.get_tournaments() 
             tournaments = Tournament_model.get_registered('t_table') 
         else: 
             tournaments = [] 
@@ -59,7 +56,6 @@ class Tournament_model(AbstractModel):
             'duration': self.duration, 
             'description': self.description 
         } 
-        # tournaments.append(self.to_dict()) 
         tournaments.append(one_serialized_tournament) 
         with open("tables/t_table.json", "w") as file: 
             json.dump(tournaments, file) 

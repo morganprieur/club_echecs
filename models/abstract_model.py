@@ -24,8 +24,8 @@ class AbstractModel(ABC):
     # Si le fichier JSON n'est pas vide : 
     # @staticmethod 
     def get_registered(self): 
-        # print(f'self AM35 : {self}')  # if project.py ==> 'p_table' elif player_model.py ==> object player 
-        # with open(f'tables/{self.table}.json', 'r') as file:  # ==> self.table inconnu 
+        ### print(f'self AM35 : {self}')  # if project.py ==> 'p_table' elif player_model.py ==> object player 
+        ### with open(f'tables/{self.table}.json', 'r') as file:  # ==> self.table inconnu 
         with open(f'tables/{self}.json', 'r') as file: 
             registered = json.load(file) 
         # print(f'registered AC16 : {registered}') 
