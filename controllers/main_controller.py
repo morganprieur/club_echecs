@@ -35,11 +35,13 @@ class Main_controller():
             if self.board.ask_for_register == '1': 
                 # saisir un joueur : 
                 self.enter_new_player() 
-            elif self.board.ask_for_register == '2': 
+            if self.board.ask_for_register == '2': 
                 # saisir un joueur : 
                 self.enter_new_tournament() 
+            if self.board.ask_for_register == '*': 
+                self.board.display_first_menu() 
 
-        elif self.board.ask_for_menu_action == '2': 
+        if self.board.ask_for_menu_action == '2': 
             # menu "afficher" : 
             self.board.report() 
 
@@ -50,6 +52,11 @@ class Main_controller():
             if self.board.ask_for_report == '8': 
                 # afficher les tournois : 
                 self.report_tournament() 
+            if self.board.ask_for_report == '*': 
+                self.board.display_first_menu() 
+        
+        if self.board.ask_for_menu_action == '*': 
+            self.board.display_first_menu() 
 
 
     def enter_new_tournament(self): 
