@@ -19,31 +19,58 @@ class Main_controller():
         self.in_view = in_view 
         self.report_view = report_view 
         self.tournament = None 
-        self.last_tournament = None 
-
-        # self.main_menu = self.board.main_menu 
-    
-    def enter_new_tournament(self): 
-        print('\nEnter new tournament') 
-        tournament_data = self.in_view.input_tournament() 
-        self.tournament = Tournament_model(**tournament_data) 
-        print(f'self.tournament MC30 : {self.tournament}') 
-        self.tournament.serialize() 
+        # self.last_tournament = None 
+        self.player = None 
 
 
     def start(self): 
         # print("\nStart main controller") 
         self.board.display_welcome() 
         self.board.display_first_menu() 
+
         if self.board.ask_for_menu_action == '1': 
-            pass 
+            # menu "saisir" :
+            self.board.register() 
+
+            if self.board.ask_for_register == '1': 
+                # saisir un joueur : 
+                self.enter_new_player() 
+            elif self.board.ask_for_register == '2': 
+                # saisir un joueur : 
+                self.enter_new_tournament() 
+
         elif self.board.ask_for_menu_action == '2': 
+            # menu "afficher" : 
             self.board.report() 
+
             # print('control menu 2 : ', self.board.ask_for_report)    
             if self.board.ask_for_report == '1': 
+                # afficher les joueurs : 
                 self.report_players() 
             if self.board.ask_for_report == '8': 
+                # afficher les tournois : 
                 self.report_tournament() 
+
+
+    def enter_new_tournament(self): 
+        print('\nEnter new tournament') 
+        tournament_data = self.in_view.input_tournament() 
+        self.tournament = Tournament_model(**tournament_data) 
+        print(f'self.tournament MC59 : {self.tournament}') 
+        self.tournament.serialize() 
+    
+    def report_tournament(self): 
+        print('\nTous les tournois : ') 
+        tournaments = Tournament_model.get_registered('t_table.json') 
+        self.report_view.display_all_tournaments(tournaments) 
+
+
+    def enter_new_player(self): 
+        print('\nEnter new player') 
+        player_data = self.in_view.input_player() 
+        self.player = Player_model(**player_data) 
+        print(f'self.player MC65 : {self.player}') 
+        self.player.serialize() 
 
 
     def report_players(self): 
@@ -52,10 +79,7 @@ class Main_controller():
         self.report_view.sort_objects_by_field(players, 'firstname') 
 
 
-    def report_tournament(self): 
-        print('\nTous les tournois : ') 
-        tournaments = Tournament_model.get_registered('t_table.json') 
-        self.report_view.display_all_tournaments(tournaments) 
+    
     
 
 

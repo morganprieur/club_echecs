@@ -22,7 +22,11 @@ class Dashboard_view():
     register_menu = [ 
         'Menu "saisir" : ', 
         '1 : un joueur', 
-        '2 : un tournoi' 
+        '2 : un tournoi', 
+        '', 
+        'Commandes de secours : ', 
+        '0 : Retour au menu précédent', 
+        '* : Menu principal' 
     ] 
 
     display_menu = [ 
@@ -63,9 +67,18 @@ class Dashboard_view():
         self.ask_for_menu_action = session.prompt('\nChoisir une action : ') 
         print('') 
         return self.ask_for_menu_action 
+    
+    def register(self): 
+        print('* * * * * * * * * * * * * * * * * * * * *') 
+        for i in range(len(self.register_menu)): 
+            print(self.register_menu[i]) 
+        self.ask_for_register = session.prompt('\nChoisir quoi enregistrer : ') 
+        print('') 
+        return self.ask_for_register 
 
 
     def report(self): 
+        print('* * * * * * * * * * * * * * * * * * * * *') 
         for i in range(len(self.display_menu)): 
             print(self.display_menu[i]) 
         self.ask_for_report = session.prompt('\nChoisir un rapport ou revenir à un menu précédent: ') 

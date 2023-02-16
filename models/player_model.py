@@ -1,7 +1,7 @@
 
 # from .abstract_model import AbstractModel  
 # for tests : 
-from abstract_model import AbstractModel 
+from models.abstract_model import AbstractModel 
 
 import json 
 
@@ -40,32 +40,23 @@ class Player_model(AbstractModel):
         } 
 
 
-    # def serialize(self): 
-    #     # print(f'one_tournament TM172 : {self}') 
-    #     # print(f'type(one_tournament) TP193 : {type(self)}') 
-    #     # if not Player_model.check_if_json_empty('p_table'): 
-    #     if not self.check_if_json_empty(): 
-    #         # tournaments = Tournament_model.get_tournaments() 
-    #         # players = Player_model.get_registered('p_table') 
-    #         players = self.get_registered() 
-    #     else: 
-    #         players = [] 
-    #     one_serialized_player = { 
-    #         'lastname': self.lastname, 
-    #         'firstname': self.firstname 
-    #     } 
-    #     # tournaments.append(self.to_dict()) 
-    #     players.append(one_serialized_player) 
-    #     with open("tables/p_table.json", "w") as file: 
-    #         json.dump(players, file) 
+    def serialize(self): 
+        # print(f'one_tournament TM172 : {self}') 
+        # print(f'type(one_tournament) TP193 : {type(self)}') 
+        if not Player_model.check_if_json_empty(): 
+            # tournaments = Tournament_model.get_tournaments() 
+            players = Player_model.get_registered('p_table.json') 
+        else: 
+            players = [] 
+        one_serialized_player = { 
+            'lastname': self.lastname, 
+            'firstname': self.firstname, 
+            'rank': self.rank 
+        } 
+        players.append(one_serialized_player) 
+        with open("tables/p_table.json", "w") as file: 
+            json.dump(players, file) 
 
-    
-    # def check_if_json_empty(table): 
-
-    # # Si le fichier JSON n'est pas vide : 
-    # def get_tournaments(): 
-
-    # def get_registered(table): 
 
 
 if __name__ == "__main__": 

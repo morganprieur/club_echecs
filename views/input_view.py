@@ -21,7 +21,14 @@ class Input_view():
         return new_tournament 
     
 
-    
+    def input_player(self): 
+        new_player = {} 
+        new_player['lastname'] = session.prompt('\nlastname :')  
+        new_player['firstname'] = session.prompt('\nfirstname :') 
+        new_player['rank'] = session.prompt('\nrank :') 
+        return new_player 
+
+
 
 
 

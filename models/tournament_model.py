@@ -21,7 +21,7 @@ class Tournament_model(AbstractModel):
         # self.nb_rounds = nb_rounds 
         # self.rounds = rounds 
         # self.rounds = None 
-        self.players = players 
+        # self.players = players 
         self.duration = duration 
         self.description = description 
 
@@ -40,14 +40,13 @@ class Tournament_model(AbstractModel):
             'description': self.description 
         }
 
-
-    # A mettre dans Abstract_model : 
+    
     def serialize(self): 
         # print(f'one_tournament TM172 : {self}') 
         # print(f'type(one_tournament) TP193 : {type(self)}') 
-        if not Tournament_model.check_if_json_empty(): 
+        if not Tournament_model.check_if_json_empty(self, 't_table'): 
             # tournaments = Tournament_model.get_tournaments() 
-            tournaments = Tournament_model.get_registered('t_table.json') 
+            tournaments = Tournament_model.get_registered('t_table') 
         else: 
             tournaments = [] 
         one_serialized_tournament = { 
@@ -64,29 +63,7 @@ class Tournament_model(AbstractModel):
         tournaments.append(one_serialized_tournament) 
         with open("tables/t_table.json", "w") as file: 
             json.dump(tournaments, file) 
-
     
-    # @staticmethod 
-    # def check_if_json_empty(table): 
-    #     with open(f"tables/{table}.json",'rb') as f: 
-    #         if len(f.read()) == 0: 
-    #             print("The file is empty.") 
-    #             return True 
-    #         else: 
-    #             print("The file is not empty.") 
-    #             return False 
-
-
-    # # Si le fichier JSON n'est pas vide : 
-    # @staticmethod 
-    # def get_registered(table): 
-    #     # with open('tables/t_table.json', 'r') as file: 
-    #     with open(f'tables/{table}.json', 'r') as file: 
-    #         registered = json.load(file) 
-    #     # print(f'registered AC16 : {registered}') 
-    #     # print(f'type(registered) AC17 : {type(registered)}') 
-    #     return registered 
-
 
 
 if __name__ == "__main__": 
