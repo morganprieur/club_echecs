@@ -15,6 +15,9 @@ if __name__ == "__main__":
         in_view=new_input_view, 
         report_view=new_reporter 
     ) 
-    new_controller.start() 
+    restart = True
+    while restart: 
+        restart = new_controller.start()
+    # new_controller.start() 
 
 

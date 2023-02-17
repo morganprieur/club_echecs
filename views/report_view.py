@@ -1,6 +1,6 @@
 
 # from controllers.main_controller import Main_controller 
-
+from operator import attrgetter 
 
 
 class Report_view(): 
@@ -64,6 +64,7 @@ class Report_view():
 
     def __init__(self) -> None:
         pass 
+    # on pourrait tout mettre en statique 
     
     ###==== Tournaments ====### 
 
@@ -84,46 +85,37 @@ class Report_view():
         print('') 
         for t in all_tournaments: 
             print(f'tournoi {all_tournaments.index(t)+1} : ') 
-            for k,v in t.items(): 
-                print(v) 
+            print(f'Nom : {t.name}, lieu : {t.site}, date : {t.t_date}, durée : {t.duration}, description : {t.description}') 
             print('')  
         print('====\n') 
     
     ###==== Players ====### 
-    # sort players in alphabetical order : 
+    # sort players in alphabetical order :  # dicts, pas objects 
+    # @staticmethod 
+    # def sort_objects_by_field(objects, field): 
+    #     sort_on = field 
+    #     decorated = [(dict_[sort_on], dict_) for dict_ in objects] 
+    #     decorated.sort() 
+    #     sorted_table = [dict_ for (key, dict_) in decorated] 
+    #     for p in sorted_table: 
+    #         player = [] 
+    #         for k,v in p.items(): 
+    #             player.append(v) 
+    #         print(f'{player[1]} {player[0]}, classement : {player[2]}') 
+    
+    
     @staticmethod 
-    def sort_objects_by_field(objects, field):   # , serialized_players  
-        # print(f'Match_controller dir MC67 : {dir(Match_controller)}') 
-        # print(f'self.players MC64 : {self.players}') 
-        sort_on = field 
-        decorated = [(dict_[sort_on], dict_) for dict_ in objects] 
-        decorated.sort() 
-        sorted_table = [dict_ for (key, dict_) in decorated] 
-        # print(f'result MC53 : {result}') 
-        # print(f'sorted_table RV103 : {sorted_table}') 
-        # for k,v in sorted_table.item(): 
-        for p in sorted_table: 
-            player = [] 
-            for k,v in p.items(): 
-                player.append(v) 
-            print(f'{player[1]} {player[0]}') 
+    def sort_objects_by_field(objects, field): 
+        print()
+        print(type(objects[0])) 
+        print(f'field RV111 : {field}') 
+        for o in objects: 
+            print(list(o.__dict__.keys()))
+        objects.sort(key=attrgetter(field)) 
+        # print(f'obj RV119 : {objects}') 
+        for obj in objects: 
+            print(f'{obj.firstname}    {obj.lastname},    classement : {obj.rank}') 
 
-
-    """ Liste de tous les joueurs ordre alphabétique """ 
-    def display_alphabetical_players(self, all_players): 
-        # print('\n==== Tous les joueurs par ordre alphabétique ====') 
-        print('') 
-        print('\n==== Tous les joueurs par ordre chronologique ====') 
-        print('') 
-        # alphabetical_players = [] 
-        for p in all_players: 
-            # alphabetical_players.append(p) 
-            print(f'Joueur {all_players.index(p)} : ') 
-            # print(alphabetical_players) 
-            for k,v in p.items(): 
-                print(v) 
-            print('')  
-        print('====\n') 
 
 
 

@@ -39,7 +39,8 @@ class Main_controller():
                 # saisir un joueur : 
                 self.enter_new_tournament() 
             if self.board.ask_for_register == '*': 
-                self.board.display_first_menu() 
+                return True 
+                # self.board.display_first_menu() 
 
         if self.board.ask_for_menu_action == '2': 
             # menu "afficher" : 
@@ -48,15 +49,54 @@ class Main_controller():
             # print('control menu 2 : ', self.board.ask_for_report)    
             if self.board.ask_for_report == '1': 
                 # afficher les joueurs : 
-                self.report_players() 
+                self.report_players('alphabétique') 
+            if self.board.ask_for_report == '2': 
+                # afficher les joueurs : 
+                self.report_players('classement') 
             if self.board.ask_for_report == '8': 
                 # afficher les tournois : 
                 self.report_tournament() 
             if self.board.ask_for_report == '*': 
-                self.board.display_first_menu() 
+                return True 
+                # self.board.display_first_menu() 
+
         
         if self.board.ask_for_menu_action == '*': 
-            self.board.display_first_menu() 
+            return True 
+            # self.board.display_first_menu() 
+
+        return False 
+            # if self.board.ask_for_menu_action == '1': 
+            #     # menu "saisir" :
+            #     self.board.register() 
+
+            #     if self.board.ask_for_register == '1': 
+            #         # saisir un joueur : 
+            #         self.enter_new_player() 
+            #     if self.board.ask_for_register == '2': 
+            #         # saisir un joueur : 
+            #         self.enter_new_tournament() 
+            #     if self.board.ask_for_register == '*': 
+            #         self.board.display_first_menu() 
+
+            # if self.board.ask_for_menu_action == '2': 
+            #     # menu "afficher" : 
+            #     self.board.report() 
+
+            #     # print('control menu 2 : ', self.board.ask_for_report)    
+            #     if self.board.ask_for_report == '1': 
+            #         # afficher les joueurs : 
+            #         self.report_players('alphabétique') 
+            #     if self.board.ask_for_report == '2': 
+            #         # afficher les joueurs : 
+            #         self.report_players('classement') 
+            #     if self.board.ask_for_report == '8': 
+            #         # afficher les tournois : 
+            #         self.report_tournament() 
+            #     if self.board.ask_for_report == '*': 
+            #         self.board.display_first_menu() 
+
+        # print(f'ask_for_menu_action : {self.board.ask_for_menu_action}') 
 
 
     def enter_new_tournament(self): 
@@ -68,8 +108,12 @@ class Main_controller():
     
     def report_tournament(self): 
         print('\nTous les tournois : ') 
-        tournaments = Tournament_model.get_registered('t_table.json') 
-        self.report_view.display_all_tournaments(tournaments) 
+        tournaments = Tournament_model.get_registered_all('t_table') 
+        tournaments_obj = [] 
+        for tournament in tournaments: 
+            self.tournament = Tournament_model(**tournament) 
+            tournaments_obj.append(self.tournament) 
+        self.report_view.display_all_tournaments(tournaments_obj) 
 
 
     def enter_new_player(self): 
@@ -80,10 +124,19 @@ class Main_controller():
         self.player.serialize() 
 
 
-    def report_players(self): 
-        print('\nJoueurs par ordre alphabétique : ') 
-        players = Player_model.get_registered('p_table') 
-        self.report_view.sort_objects_by_field(players, 'firstname') 
+    def report_players(self, sort): 
+        players = Player_model.get_registered_all('p_table') 
+        players_obj = [] 
+        for player in players: 
+            self.player = Player_model(**player) 
+            players_obj.append(self.player) 
+        
+        if sort == 'alphabétique': 
+            print('\nJoueurs par ordre alphabétique : ') 
+            self.report_view.sort_objects_by_field(players_obj, 'firstname') 
+        if sort == 'classement': 
+            print('\nJoueurs par classement : ') 
+            self.report_view.sort_objects_by_field(players_obj, 'rank') 
 
 
     

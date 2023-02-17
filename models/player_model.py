@@ -38,21 +38,7 @@ class Player_model(AbstractModel):
             'firstname': self.firstname, 
             'rank': self.rank 
         } 
-
-
-    def serialize(self): 
-        if not Player_model.check_if_json_empty(self, 'p_table'): 
-            players = Player_model.get_registered('p_table') 
-        else: 
-            players = [] 
-        one_serialized_player = { 
-            'lastname': self.lastname, 
-            'firstname': self.firstname, 
-            'rank': self.rank 
-        } 
-        players.append(one_serialized_player) 
-        with open("tables/p_table.json", "w") as file: 
-            json.dump(players, file) 
+    
 
 
 

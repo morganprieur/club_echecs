@@ -15,6 +15,7 @@ class Tournament_model(AbstractModel):
     # players = list 
 
     def __init__(self, name:str, site:str, t_date:str, duration:str, description:str):  # rounds, #  name, site, t_date, nb_rounds, players:list, duration, description  
+        super().__init__('t_table') 
         self.name = name 
         self.site = site 
         self.t_date = t_date 
@@ -40,26 +41,6 @@ class Tournament_model(AbstractModel):
             'description': self.description 
         }
 
-    
-    def serialize(self): 
-        if not Tournament_model.check_if_json_empty(self, 't_table'): 
-            tournaments = Tournament_model.get_registered('t_table') 
-        else: 
-            tournaments = [] 
-        one_serialized_tournament = { 
-            'name': self.name, 
-            'site': self.site, 
-            't_date': self.t_date, 
-            # 'nb_rounds': self.tournament.nb_rounds, 
-            # 'rounds': self.tournament.rounds, 
-            # 'players': self.players, 
-            'duration': self.duration, 
-            'description': self.description 
-        } 
-        tournaments.append(one_serialized_tournament) 
-        with open("tables/t_table.json", "w") as file: 
-            json.dump(tournaments, file) 
-    
 
 
 if __name__ == "__main__": 

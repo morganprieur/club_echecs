@@ -34,7 +34,7 @@ class Dashboard_view():
         # A faire + tard : 
         # '1 : tous les joueurs par ordre chrono', 
         '1 : Tous les joueurs par ordre alphabétique', 
-        # '2 : Tous les joueurs par classement', 
+        '2 : Tous les joueurs par classement', 
         # '3 : Les joueurs du tournoi par ordre alphabétique', 
         # '4 : Les joueurs du tournoi par classement', 
         # '5 : les résultats du tournoi', 
