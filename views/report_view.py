@@ -90,29 +90,11 @@ class Report_view():
         print('====\n') 
     
     ###==== Players ====### 
-    # sort players in alphabetical order :  # dicts, pas objects 
-    # @staticmethod 
-    # def sort_objects_by_field(objects, field): 
-    #     sort_on = field 
-    #     decorated = [(dict_[sort_on], dict_) for dict_ in objects] 
-    #     decorated.sort() 
-    #     sorted_table = [dict_ for (key, dict_) in decorated] 
-    #     for p in sorted_table: 
-    #         player = [] 
-    #         for k,v in p.items(): 
-    #             player.append(v) 
-    #         print(f'{player[1]} {player[0]}, classement : {player[2]}') 
-    
     
     @staticmethod 
     def sort_objects_by_field(objects, field): 
-        print()
-        print(type(objects[0])) 
-        print(f'field RV111 : {field}') 
-        for o in objects: 
-            print(list(o.__dict__.keys()))
+        print() 
         objects.sort(key=attrgetter(field)) 
-        # print(f'obj RV119 : {objects}') 
         for obj in objects: 
             print(f'{obj.firstname}    {obj.lastname},    classement : {obj.rank}') 
 
