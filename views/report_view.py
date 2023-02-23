@@ -85,7 +85,7 @@ class Report_view():
         print('') 
         for t in all_tournaments: 
             print(f'tournoi {all_tournaments.index(t)+1} : ') 
-            print(f'Nom : {t.name}, lieu : {t.site}, date : {t.t_date}, durée : {t.duration}, description : {t.description}') 
+            print(f'ID : {t.id}, nom : {t.name}, lieu : {t.site}, date : {t.t_date}, durée : {t.duration}, rounds : {t.rounds}, description : {t.description}') 
             print('')  
         print('====\n') 
     

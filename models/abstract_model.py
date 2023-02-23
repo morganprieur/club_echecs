@@ -11,7 +11,7 @@ class AbstractModel(ABC):
 
 
     def check_if_json_empty(self): 
-        print(f'self in AM13 : {self}') 
+        print(f'self.table in AM14 : {self.table}') 
         with open(f"tables/{self.table}.json",'rb') as f: 
             if len(f.read()) == 0: 
                 print("The file is empty.") 
@@ -23,7 +23,7 @@ class AbstractModel(ABC):
 
     # Si le fichier JSON n'est pas vide : 
     def get_registered(self): 
-        print(f'self AM35 : {self}') 
+        print(f'self AM26 : {self}') 
         with open(f'tables/{self.table}.json', 'r') as file: 
             registered = json.load(file) 
         return registered 
@@ -38,7 +38,7 @@ class AbstractModel(ABC):
 
     def serialize(self): 
         """ Abstract method for serialize the objects from the models. """ 
-        print(f'self.table AM48 :{self}') 
+        # print(f'self.table AM41 :{self}') 
         # print(f'self.table AM48 :{self.table}') 
         if not self.check_if_json_empty(): 
             objects = self.get_registered() 

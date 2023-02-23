@@ -5,6 +5,7 @@ from views.report_view import Report_view
 
 from models.player_model import Player_model 
 from models.tournament_model import Tournament_model 
+from models.round_model import Round_model 
 
 
 class Main_controller(): 
@@ -21,6 +22,7 @@ class Main_controller():
         self.tournament = None 
         # self.last_tournament = None 
         self.player = None 
+        self.round = None 
 
 
     def start(self): 
@@ -139,6 +141,12 @@ class Main_controller():
             self.report_view.sort_objects_by_field(players_obj, 'rank') 
 
 
+    def enter_new_round(self): 
+        print('\nEnter new round') 
+        round_data = self.in_view.input_round() 
+        self.round = Round_model(**round_data) 
+        print(f'self.round MC146 : {self.round}') 
+        self.round.serialize() 
     
     
 

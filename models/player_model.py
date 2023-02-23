@@ -40,11 +40,7 @@ class Player_model(AbstractModel):
         } 
     
 
-
-
 if __name__ == "__main__": 
-    # import site 
-    # site.addsitedir('abstract_model') 
     new_player = {
         'lastname': 'Nom 130', 
         'firstname': 'Prénom 130', 
