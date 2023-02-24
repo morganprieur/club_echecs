@@ -9,6 +9,7 @@ import json
 class Round_model(AbstractModel): 
 
     def __init__(self, id:int, round_name:str, tournament_id:int):  # , matches:list, start_datetime:str, end_datetime:str  ### datetimes automatiques ### round_matches 
+        super().__init__('t_table') 
         self.id = id 
         self.round_name = round_name 
         # self.matches = matches 
@@ -28,7 +29,7 @@ class Round_model(AbstractModel):
         return { 
             'id': self.id, 
             'round_name': self.round_name, 
-            'tournament_id': self.tournament_id 
+            # 'tournament_id': self.tournament_id 
         } 
 
     
@@ -38,43 +39,31 @@ class Round_model(AbstractModel):
         print(f'self RM38 :{self}') 
         # print(f'self.table RM37 :{self.table}') 
 
-
-        if not self.check_if_json_empty('t_table'): 
-            objects = self.get_registered('t_table') 
+        # if not self.check_if_json_empty('t_table'): 
+        if not self.check_if_json_empty(): 
+            # objects = self.get_registered('t_table') 
+            objects = self.get_registered() 
             with open(f'tables/t_table.json', 'r') as file: 
                 # print(len(objects)) 
-                t_obj = objects[6] 
+                t_id = self.tournament_id-1 
+                t_obj = objects[t_id] 
+                print(f't_id RM50 : {t_id}') 
                 # for k,v in t_obj.items(): 
                     # print(v) 
                 t_obj['rounds'] = [] 
                 t_obj['rounds'].append(self.to_dict()) 
-                print(f't_obj["rounds"] RM51 : {t_obj["rounds"]}') 
+                # print(f't_obj["rounds"] RM51 : {t_obj["rounds"]}') 
 
         else: 
             # objects = [] 
             print('Erreur : la table t_table ne peut pas être vide.') 
         # objects.append(self.to_dict()) 
-        print(f't_obj RM57 : {t_obj}') 
-        # objects.append(t_obj) 
-        print(f'objects[6] RM59 : {objects[6]}') 
+        # print(f't_obj RM57 : {t_obj}') 
+        # print(f'objects[6] RM59 : {objects[6]}') 
         with open(f"tables/t_table.json", "w") as file: 
             json.dump(objects, file) 
 
-""" Select one line in json : 
-https://stackoverflow.com/questions/31483655/how-to-select-specific-json-element-in-python 
-python_obj = json.loads(json_document)
 
-for url in python_obj["products"][0]["urls"]:
-    if url["key"] == "MOBILE":
-        value = url["value"]
-        break
-else:
-    # Some default action
-    print "No url found"
-    value = "http://www.url.com"
-
-print "Value:", value
-"""
 
 if __name__ == "__main__": 
     new_round = { 

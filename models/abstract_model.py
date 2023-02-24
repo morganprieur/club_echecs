@@ -11,39 +11,39 @@ class AbstractModel(ABC):
 
     
     # Test with the object in argument
-    @staticmethod 
-    def check_if_json_empty(table): 
-        print(f'table in AM14 : {table}') 
-        with open(f"tables/{table}.json",'rb') as f: 
-            if len(f.read()) == 0: 
-                print("The file is empty.") 
-                return True 
-            else: 
-                print("The file is not empty.") 
-                return False 
-    # def check_if_json_empty(self): 
-    #     print(f'self.table in AM14 : {self.table}') 
-    #     with open(f"tables/{self.table}.json",'rb') as f: 
+    # @staticmethod 
+    # def check_if_json_empty(table): 
+    #     print(f'table in AM14 : {table}') 
+    #     with open(f"tables/{table}.json",'rb') as f: 
     #         if len(f.read()) == 0: 
     #             print("The file is empty.") 
     #             return True 
     #         else: 
     #             print("The file is not empty.") 
     #             return False 
+    def check_if_json_empty(self): 
+        print(f'self.table in AM14 : {self.table}') 
+        with open(f"tables/{self.table}.json",'rb') as f: 
+            if len(f.read()) == 0: 
+                print("The file is empty.") 
+                return True 
+            else: 
+                print("The file is not empty.") 
+                return False 
     
 
     # Si le fichier JSON n'est pas vide : 
-    @staticmethod 
-    def get_registered(table): 
-        # print(f'self AM26 : {self}') 
-        with open(f'tables/{table}.json', 'r') as file: 
-            registered = json.load(file) 
-        return registered 
-    # def get_registered(self): 
-    #     print(f'self AM26 : {self}') 
-    #     with open(f'tables/{self.table}.json', 'r') as file: 
+    # @staticmethod 
+    # def get_registered(table): 
+    #     # print(f'self AM26 : {self}') 
+    #     with open(f'tables/{table}.json', 'r') as file: 
     #         registered = json.load(file) 
     #     return registered 
+    def get_registered(self): 
+        print(f'self AM26 : {self}') 
+        with open(f'tables/{self.table}.json', 'r') as file: 
+            registered = json.load(file) 
+        return registered 
     
 
     @staticmethod 
