@@ -59,17 +59,18 @@ class Report_view():
 """ 
 Nous aimerions pouvoir afficher les rapports suivants dans le programme :
 
-    • Liste de tous les acteurs :
-        ◦ par ordre alphabétique ;
-        ◦ par classement.
+    • Liste de tous les acteurs : V 
+        ◦ par ordre alphabétique ; V 
+        ◦ par classement. V 
     • Liste de tous les joueurs d'un tournoi :
         ◦ par ordre alphabétique ;
         ◦ par classement.
-    • Liste de tous les tournois.
-    • Liste de tous les tours d'un tournoi.
+    • Liste de tous les tournois. V 
+    • Liste de tous les tours d'un tournoi. --> WIP 
     • Liste de tous les matchs d'un tournoi.
 
-Nous aimerions les exporter ultérieurement, mais ce n'est pas nécessaire pour l'instant.
+Nous aimerions les exporter ultérieurement, mais ce n'est pas nécessaire 
+pour l'instant.
 """ 
 
 

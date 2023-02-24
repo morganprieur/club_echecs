@@ -91,7 +91,7 @@ class Main_controller():
                 keys.append(k) 
             # print(f'keys MC93 : {keys}') 
             if "rounds" not in keys:  
-                print(f'tournament MC90 : {tournament}') 
+                # print(f'tournament MC90 : {tournament}') 
                 self.tournament = Tournament_model(**tournament, rounds=[{'aucun':'round'}]) 
             else: 
                 # print(f'tournament MC95 : {self.tournament}') 
