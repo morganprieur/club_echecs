@@ -34,19 +34,30 @@ class Round_model(AbstractModel):
     
     def serialize(self): 
         """ Rewrite method for serialize the round objects into the tournament table. """ 
-        # pass 
-        self.table = 't_table' 
-        # print(f'self.table RM36 :{self}') 
+        # pass  
+        print(f'self RM38 :{self}') 
         # print(f'self.table RM37 :{self.table}') 
 
-        if not self.check_if_json_empty(): 
-            objects = self.get_registered() 
+
+        if not self.check_if_json_empty('t_table'): 
+            objects = self.get_registered('t_table') 
+            with open(f'tables/t_table.json', 'r') as file: 
+                # print(len(objects)) 
+                t_obj = objects[6] 
+                # for k,v in t_obj.items(): 
+                    # print(v) 
+                t_obj['rounds'] = [] 
+                t_obj['rounds'].append(self.to_dict()) 
+                print(f't_obj["rounds"] RM51 : {t_obj["rounds"]}') 
 
         else: 
             # objects = [] 
             print('Erreur : la table t_table ne peut pas être vide.') 
-        objects.append(self.to_dict()) 
-        with open(f"tables/{self.table}.json", "w") as file: 
+        # objects.append(self.to_dict()) 
+        print(f't_obj RM57 : {t_obj}') 
+        objects.append(t_obj) 
+        print(f'objects[6] RM59 : {objects[6]}') 
+        with open(f"tables/t_table.json", "w") as file: 
             json.dump(objects, file) 
 
 """ Select one line in json : 
@@ -72,7 +83,7 @@ if __name__ == "__main__":
         'tournament_id': 7 
     } 
     one_round = Round_model(**new_round) 
-    print(f'new_round RM39 : {new_round}') 
+    print(f'new_round RM85 : {new_round}') 
     one_round.serialize() 
 
 
