@@ -46,18 +46,19 @@ class Round_model(AbstractModel):
             with open(f'tables/t_table.json', 'r') as file: 
                 # print(len(objects)) 
                 t_id = self.tournament_id-1 
-                t_obj = objects[t_id] 
-                print(f't_id RM50 : {t_id}') 
-                # for k,v in t_obj.items(): 
-                    # print(v) 
-                t_obj['rounds'] = [] 
-                t_obj['rounds'].append(self.to_dict()) 
-                # print(f't_obj["rounds"] RM51 : {t_obj["rounds"]}') 
 
+                # if not objects[t_id]: 
+                if t_id > len(objects): 
+                    return False 
+                else: 
+                    t_obj = objects[t_id] 
+                    # print(f't_id RM50 : {t_id}') 
+                    t_obj['rounds'] = [] 
+                    t_obj['rounds'].append(self.to_dict()) 
+                    # print(f't_obj["rounds"] RM51 : {t_obj["rounds"]}') 
         else: 
             # objects = [] 
             print('Erreur : la table t_table ne peut pas être vide.') 
-        # objects.append(self.to_dict()) 
         # print(f't_obj RM57 : {t_obj}') 
         # print(f'objects[6] RM59 : {objects[6]}') 
         with open(f"tables/t_table.json", "w") as file: 

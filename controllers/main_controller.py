@@ -119,7 +119,11 @@ class Main_controller():
         round_data = self.in_view.input_round() 
         self.round = Round_model(**round_data) 
         print(f'self.round MC148 : {self.round}') 
-        self.round.serialize() 
+        # self.round.serialize() 
+        if self.round.serialize() == False: 
+            print('Le tournoi référencé dans "round" n\'existe pas, vous devez d\'abord le créer.') 
+            self.start() 
+
     
     
 
