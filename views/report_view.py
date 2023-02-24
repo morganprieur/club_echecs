@@ -5,67 +5,10 @@ from operator import attrgetter
 
 class Report_view(): 
 
-    """ 
-    report_tournament = [ 
-        { 
-            'name': 'tournoi 1', 
-            'site': 'lieu 1', 
-            't_date': '15/12/2022', 
-            'duration': 'blitz', 
-            'description': 'Observations du directeur du tournoi.' 
-        }, 
-        { 
-            'name': 'tournoi 2', 
-            'site': 'lieu 2', 
-            't_date': '05/01/2023', 
-            'duration': 'bullet', 
-            'description': 'Observations.' 
-        }, 
-        { 
-            'name': 'tournoi 3', 
-            'site': 'lieu 1', 
-            't_date': '06/01/2023', 
-            'duration': 'coup rapide', 
-            'description': 'Observations du directeur.' 
-        } 
-    ] 
-    """ 
-    # today_s_tournament = Main_controller.tournament 
-    # all_tournaments = Main_controller.registered_tournaments 
-
-    # def __init__(self, today_s_tournament):  # , report_tournament 
-    #     self.today_s_tournament = today_s_tournament 
-    
-    # def get_tournament_data(self): 
-    #     report_tournament =  [ 
-    #         { 
-    #             'name': 'tournoi 1', 
-    #             'site': 'lieu 1', 
-    #             't_date': '15/12/2022', 
-    #             'duration': 'blitz', 
-    #             'description': 'Observations du directeur du tournoi.' 
-    #         }, 
-    #         { 
-    #             'name': 'tournoi 2', 
-    #             'site': 'lieu 2', 
-    #             't_date': '05/01/2023', 
-    #             'duration': 'bullet', 
-    #             'description': 'Observations.' 
-    #         }, 
-    #         { 
-    #             'name': 'tournoi 3', 
-    #             'site': 'lieu 1', 
-    #             't_date': '06/01/2023', 
-    #             'duration': 'coup rapide', 
-    #             'description': 'Observations du directeur.' 
-    #         } 
-    #     ] 
-    #     return report_tournament 
-
     def __init__(self) -> None:
         pass 
-    # on pourrait tout mettre en statique 
     
+
     ###==== Tournaments ====### 
 
     def display_last_tournament(self, last_tournament): 
@@ -73,26 +16,29 @@ class Report_view():
         print(last_tournament) 
 
 
-    # Pas demandé 
+    """ Pas demandé 
     # def display_today_s_tournament(self, tournament): 
     #     print('\n---- today\'s tournament ----') 
     #     print(tournament) 
     #     print('----') 
-
+    """ 
 
     def display_all_tournaments(self, all_tournaments): 
         print('\n==== Tous les tournois ====') 
-        print('') 
+    
         for t in all_tournaments: 
-            print(f'tournoi {all_tournaments.index(t)+1} : ') 
-            print(f'ID : \t{t.id}, \nnom : \t{t.name}, \nlieu : \t{t.site}, \ndate : \t{t.t_date}, \ndurée : {t.duration}, \nrounds : \t')  ## {t.rounds}') 
+            print(f'\ntournoi {all_tournaments.index(t)+1} : ') 
+            print(f'ID : \t{t.id}') 
+            print(f'nom : \t{t.name}') 
+            print(f'lieu : \t{t.site}') 
+            print(f'date : \t{t.t_date}') 
+            print(f'durée : {t.duration}') 
+            print(f'rounds : \t') 
             
             for r in t.rounds: 
-                # print(r) 
-
                 for p,v in r.items(): 
-                    # if p is not 'table': 
                     print(f'\t{p} : \t{v}') 
+
             print(f'description : \t{t.description}') 
             print('')  
         print('====\n') 
