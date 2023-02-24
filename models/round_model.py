@@ -35,45 +35,28 @@ class Round_model(AbstractModel):
     
     def serialize(self): 
         """ Rewrite method for serialize the round objects into the tournament table. """ 
-        # pass  
-        print(f'self RM38 :{self}') 
-        # print(f'self.table RM37 :{self.table}') 
-
-        # if not self.check_if_json_empty('t_table'): 
         if not self.check_if_json_empty(): 
             # objects = self.get_registered('t_table') 
             objects = self.get_registered() 
-            print(f'type(objects[0]) RM46 : {type(objects[0])}') 
+            # print(f'type(objects[0]) RM46 : {type(objects[0])}') 
             with open(f'tables/t_table.json', 'r') as file: 
-                # print(len(objects)) 
                 t_id = self.tournament_id-1 
-
                 if t_id > len(objects): 
                     return False 
                 else: 
                     t_obj = objects[t_id] 
-                    # print(f't_id RM50 : {t_id}') 
 
-                    # if hasattr(a, 'property'):  ## 'dict' object has no attribute 'has_key' ??? 
-                    #     a.property 
-                    # if not t_obj.has_key('rounds'): 
                     keys = [] 
                     for k,v in t_obj.items(): 
-                        # print(k) 
                         keys.append(k) 
-                    print(f'keys RM64 : {keys}') 
+                    # print(f'keys RM64 : {keys}') 
+                    
                     if "rounds" not in keys: 
-                    # if keyToFind in dictExample:
-                    # if 'rounds' in t_obj:  ## ==> n'existe pas 
-                        print(f't_obj["rounds"]) n\'existe pas RM57') 
+                        # print(f't_obj["rounds"]) n\'existe pas RM57') 
                         t_obj['rounds'] = [] 
                     t_obj['rounds'].append(self.to_dict()) 
-                    # print(f't_obj["rounds"] RM51 : {t_obj["rounds"]}') 
         else: 
-            # objects = [] 
             print('Erreur : la table t_table ne peut pas être vide.') 
-        # print(f't_obj RM57 : {t_obj}') 
-        # print(f'objects[6] RM59 : {objects[6]}') 
         with open(f"tables/t_table.json", "w") as file: 
             json.dump(objects, file) 
 
@@ -93,11 +76,14 @@ if __name__ == "__main__":
 
 
 """ 
-liste des matches 
-un champ de nom. Actuellement, nous appelons nos tours "Round 1", "Round 2", etc. 
+Round = liste des matches 
+un champ de nom. 
+    --> Actuellement, nous appelons nos tours "Round 1", "Round 2", etc. 
 un champ Date et heure de début 
 un champ Date et heure de fin, 
---> automatiquement remplis lorsque l'utilisateur crée un tour et le marque comme terminé. 
-Les instances de round doivent être stockées dans une liste sur l'instance de tournoi à laquelle elles appartiennent.
+    --> automatiquement remplis lorsque l'utilisateur crée un tour 
+        et le marque comme terminé. 
+Les instances de round doivent être stockées dans une liste sur 
+l'instance de tournoi à laquelle elles appartiennent.
 """ 
 

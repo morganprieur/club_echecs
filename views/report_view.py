@@ -40,8 +40,8 @@ class Report_view():
                     print(f'\t{p} : \t{v}') 
 
             print(f'description : \t{t.description}') 
-            print('')  
-        print('====\n') 
+        print('\n====\n') 
+
     
     ###==== Players ====### 
     
