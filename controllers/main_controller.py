@@ -32,7 +32,7 @@ class Main_controller():
 
         if self.board.ask_for_menu_action == '1': 
             # menu "saisir" :
-            self.board.register() 
+            self.board.display_register() 
 
             if self.board.ask_for_register == '1': 
                 # saisir un joueur : 
@@ -40,13 +40,17 @@ class Main_controller():
             if self.board.ask_for_register == '2': 
                 # saisir un joueur : 
                 self.enter_new_tournament() 
+            if self.board.ask_for_register == '3': 
+                # saisir un joueur : 
+                self.enter_new_round() 
+
             if self.board.ask_for_register == '*': 
                 return True 
                 # self.board.display_first_menu() 
 
         if self.board.ask_for_menu_action == '2': 
             # menu "afficher" : 
-            self.board.report() 
+            self.board.display_report() 
 
             # print('control menu 2 : ', self.board.ask_for_report)    
             if self.board.ask_for_report == '1': 
@@ -68,37 +72,6 @@ class Main_controller():
             # self.board.display_first_menu() 
 
         return False 
-            # if self.board.ask_for_menu_action == '1': 
-            #     # menu "saisir" :
-            #     self.board.register() 
-
-            #     if self.board.ask_for_register == '1': 
-            #         # saisir un joueur : 
-            #         self.enter_new_player() 
-            #     if self.board.ask_for_register == '2': 
-            #         # saisir un joueur : 
-            #         self.enter_new_tournament() 
-            #     if self.board.ask_for_register == '*': 
-            #         self.board.display_first_menu() 
-
-            # if self.board.ask_for_menu_action == '2': 
-            #     # menu "afficher" : 
-            #     self.board.report() 
-
-            #     # print('control menu 2 : ', self.board.ask_for_report)    
-            #     if self.board.ask_for_report == '1': 
-            #         # afficher les joueurs : 
-            #         self.report_players('alphabétique') 
-            #     if self.board.ask_for_report == '2': 
-            #         # afficher les joueurs : 
-            #         self.report_players('classement') 
-            #     if self.board.ask_for_report == '8': 
-            #         # afficher les tournois : 
-            #         self.report_tournament() 
-            #     if self.board.ask_for_report == '*': 
-            #         self.board.display_first_menu() 
-
-        # print(f'ask_for_menu_action : {self.board.ask_for_menu_action}') 
 
 
     def enter_new_tournament(self): 
@@ -145,7 +118,7 @@ class Main_controller():
         print('\nEnter new round') 
         round_data = self.in_view.input_round() 
         self.round = Round_model(**round_data) 
-        print(f'self.round MC146 : {self.round}') 
+        print(f'self.round MC148 : {self.round}') 
         self.round.serialize() 
     
     

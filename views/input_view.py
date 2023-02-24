@@ -34,7 +34,7 @@ class Input_view():
     def input_round(self): 
         new_round = {} 
         new_round['id'] = int(session.prompt('\nID du round : ')) 
-        new_round['name'] = session.prompt('\nNom du round : ') 
+        new_round['round_name'] = session.prompt('\nNom du round : ') 
         new_round['tournament_id'] = int(session.prompt('\nID du tournoi : ')) 
         return new_round 
 

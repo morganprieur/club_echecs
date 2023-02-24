@@ -1,7 +1,7 @@
 
-# from .abstract_model import AbstractModel 
+from .abstract_model import AbstractModel 
 # for tests : 
-from abstract_model import AbstractModel 
+# from abstract_model import AbstractModel 
 
 import json 
 
@@ -55,7 +55,7 @@ class Round_model(AbstractModel):
             print('Erreur : la table t_table ne peut pas être vide.') 
         # objects.append(self.to_dict()) 
         print(f't_obj RM57 : {t_obj}') 
-        objects.append(t_obj) 
+        # objects.append(t_obj) 
         print(f'objects[6] RM59 : {objects[6]}') 
         with open(f"tables/t_table.json", "w") as file: 
             json.dump(objects, file) 

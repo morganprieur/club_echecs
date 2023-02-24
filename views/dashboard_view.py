@@ -23,6 +23,7 @@ class Dashboard_view():
         'Menu "saisir" : ', 
         '1 : un joueur', 
         '2 : un tournoi', 
+        '3 : un round', 
         '', 
         'Commande de secours : ', 
         # '0 Menu précédent', 
@@ -68,7 +69,7 @@ class Dashboard_view():
         print('') 
         return self.ask_for_menu_action 
     
-    def register(self): 
+    def display_register(self): 
         print('\n* * * * * * * * * * * * * * * * *') 
         for i in range(len(self.register_menu)): 
             print(self.register_menu[i]) 
@@ -77,7 +78,7 @@ class Dashboard_view():
         return self.ask_for_register 
 
 
-    def report(self): 
+    def display_report(self): 
         print('\n* * * * * * * * * * * * * * * * *') 
         for i in range(len(self.display_menu)): 
             print(self.display_menu[i]) 
