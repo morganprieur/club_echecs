@@ -43,17 +43,30 @@ class Round_model(AbstractModel):
         if not self.check_if_json_empty(): 
             # objects = self.get_registered('t_table') 
             objects = self.get_registered() 
+            print(f'type(objects[0]) RM46 : {type(objects[0])}') 
             with open(f'tables/t_table.json', 'r') as file: 
                 # print(len(objects)) 
                 t_id = self.tournament_id-1 
 
-                # if not objects[t_id]: 
                 if t_id > len(objects): 
                     return False 
                 else: 
                     t_obj = objects[t_id] 
                     # print(f't_id RM50 : {t_id}') 
-                    t_obj['rounds'] = [] 
+
+                    # if hasattr(a, 'property'):  ## 'dict' object has no attribute 'has_key' ??? 
+                    #     a.property 
+                    # if not t_obj.has_key('rounds'): 
+                    keys = [] 
+                    for k,v in t_obj.items(): 
+                        # print(k) 
+                        keys.append(k) 
+                    print(f'keys RM64 : {keys}') 
+                    if "rounds" not in keys: 
+                    # if keyToFind in dictExample:
+                    # if 'rounds' in t_obj:  ## ==> n'existe pas 
+                        print(f't_obj["rounds"]) n\'existe pas RM57') 
+                        t_obj['rounds'] = [] 
                     t_obj['rounds'].append(self.to_dict()) 
                     # print(f't_obj["rounds"] RM51 : {t_obj["rounds"]}') 
         else: 

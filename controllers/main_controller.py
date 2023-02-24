@@ -25,9 +25,11 @@ class Main_controller():
         self.round = None 
 
 
-    def start(self): 
+    def start(self, tourn): 
         # print("\nStart main controller") 
-        self.board.display_welcome() 
+
+        if tourn == True: 
+            self.board.display_welcome() 
         self.board.display_first_menu() 
 
         if self.board.ask_for_menu_action == '1': 
@@ -64,12 +66,10 @@ class Main_controller():
                 self.report_tournament() 
             if self.board.ask_for_report == '*': 
                 return True 
-                # self.board.display_first_menu() 
 
         
         if self.board.ask_for_menu_action == '*': 
             return True 
-            # self.board.display_first_menu() 
 
         return False 
 
@@ -86,8 +86,18 @@ class Main_controller():
         tournaments = Tournament_model.get_registered_all('t_table') 
         tournaments_obj = [] 
         for tournament in tournaments: 
-            self.tournament = Tournament_model(**tournament) 
+            keys = [] 
+            for k,v in tournament.items(): 
+                keys.append(k) 
+            # print(f'keys MC93 : {keys}') 
+            if "rounds" not in keys:  
+                print(f'tournament MC90 : {tournament}') 
+                self.tournament = Tournament_model(**tournament, rounds=[{'aucun':'round'}]) 
+            else: 
+                # print(f'tournament MC95 : {self.tournament}') 
+                self.tournament = Tournament_model(**tournament) 
             tournaments_obj.append(self.tournament) 
+
         self.report_view.display_all_tournaments(tournaments_obj) 
 
 
@@ -118,11 +128,11 @@ class Main_controller():
         print('\nEnter new round') 
         round_data = self.in_view.input_round() 
         self.round = Round_model(**round_data) 
-        print(f'self.round MC148 : {self.round}') 
+        print(f'self.round MC121 : {self.round}') 
         # self.round.serialize() 
         if self.round.serialize() == False: 
-            print('Le tournoi référencé dans "round" n\'existe pas, vous devez d\'abord le créer.') 
-            self.start() 
+            print('\n*** Le tournoi référencé dans "round" n\'existe pas, vous devez d\'abord le créer. ***') 
+            self.start(False) 
 
     
     

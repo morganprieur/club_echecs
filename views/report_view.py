@@ -73,11 +73,11 @@ class Report_view():
         print(last_tournament) 
 
 
-    # def display_today_s_tournament(self, today_s_tournament): 
-    def display_today_s_tournament(self, tournament): 
-        print('\n---- today\'s tournament ----') 
-        print(tournament) 
-        print('----') 
+    # Pas demandé 
+    # def display_today_s_tournament(self, tournament): 
+    #     print('\n---- today\'s tournament ----') 
+    #     print(tournament) 
+    #     print('----') 
 
 
     def display_all_tournaments(self, all_tournaments): 
@@ -85,7 +85,15 @@ class Report_view():
         print('') 
         for t in all_tournaments: 
             print(f'tournoi {all_tournaments.index(t)+1} : ') 
-            print(f'ID : {t.id}, nom : {t.name}, lieu : {t.site}, date : {t.t_date}, durée : {t.duration}, rounds : {t.rounds}, description : {t.description}') 
+            print(f'ID : \t{t.id}, \nnom : \t{t.name}, \nlieu : \t{t.site}, \ndate : \t{t.t_date}, \ndurée : {t.duration}, \nrounds : \t')  ## {t.rounds}') 
+            
+            for r in t.rounds: 
+                # print(r) 
+
+                for p,v in r.items(): 
+                    # if p is not 'table': 
+                    print(f'\t{p} : \t{v}') 
+            print(f'description : \t{t.description}') 
             print('')  
         print('====\n') 
     
