@@ -7,6 +7,9 @@ from models.player_model import Player_model
 from models.tournament_model import Tournament_model 
 from models.round_model import Round_model 
 
+from prompt_toolkit import PromptSession 
+session = PromptSession() 
+
 
 class Main_controller(): 
 
@@ -70,6 +73,9 @@ class Main_controller():
         
         if self.board.ask_for_menu_action == '*': 
             return True 
+        
+        if self.board.ask_for_menu_action == '0': 
+            pass 
 
         return False 
 
@@ -100,6 +106,9 @@ class Main_controller():
 
         self.report_view.display_all_tournaments(tournaments_obj) 
 
+        continuer = session.prompt('Appuyer sur Entrée pour continuer ') 
+        self.start(False) 
+
 
     def enter_new_player(self): 
         print('\nEnter new player') 
@@ -122,6 +131,9 @@ class Main_controller():
         if sort == 'classement': 
             print('\nJoueurs par classement : ') 
             self.report_view.sort_objects_by_field(players_obj, 'rank') 
+
+        continuer = session.prompt('Appuyer sur Entrée pour continuer ') 
+        self.start(False) 
 
 
     def enter_new_round(self): 

@@ -11,12 +11,14 @@ class Dashboard_view():
         \n\nCe programme va vous permettre de créer, gérer et afficher vos tournois d\'échecs. \
         \nSi vous rencontrez des erreurs, le fichier README.md contient les informations pour envoyer des feedbacks. \
         \n\nDans le menu, vous pouvez à tout moment utiliser la Commande de secours : \
-        \n  * pour revenir au menu principal '  # 0 Menu précédent,  
+        \n  * pour revenir au menu principal \n  0 pour sortir'  # 0 Menu précédent,  
 
     main_menu = [ 
         'Menu principal : ', 
         '1 : saisir', 
-        '2 : afficher' 
+        '2 : afficher', 
+        '', 
+        '0 : sortir'
     ] 
 
     register_menu = [ 
