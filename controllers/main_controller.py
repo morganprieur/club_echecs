@@ -36,46 +36,75 @@ class Main_controller():
         self.board.display_first_menu() 
 
         if self.board.ask_for_menu_action == '1': 
+            self.board.ask_for_menu_action = None 
             # menu "saisir" :
             self.board.display_register() 
 
             if self.board.ask_for_register == '1': 
+                self.board.ask_for_register = None 
                 # saisir un joueur : 
                 self.enter_new_player() 
+
             if self.board.ask_for_register == '2': 
+                self.board.ask_for_register = None 
                 # saisir un joueur : 
                 self.enter_new_tournament() 
+
             if self.board.ask_for_register == '3': 
+                self.board.ask_for_register = None 
                 # saisir un joueur : 
                 self.enter_new_round() 
 
             if self.board.ask_for_register == '*': 
+                self.board.ask_for_register = None 
                 return True 
-                # self.board.display_first_menu() 
+            
+            if self.board.ask_for_register == '0': 
+                self.board.ask_for_register = None 
+                # print(self.board.ask_for_menu_action) 
+                print('Fermeture de l\'application. Bonne fin de journée !') 
 
         if self.board.ask_for_menu_action == '2': 
+            self.board.ask_for_menu_action = None 
             # menu "afficher" : 
             self.board.display_report() 
 
             # print('control menu 2 : ', self.board.ask_for_report)    
             if self.board.ask_for_report == '1': 
+                self.board.ask_for_report = None 
                 # afficher les joueurs : 
                 self.report_players('alphabétique') 
+
             if self.board.ask_for_report == '2': 
+                self.board.ask_for_report = None 
                 # afficher les joueurs : 
                 self.report_players('classement') 
+
             if self.board.ask_for_report == '8': 
+                self.board.ask_for_report = None 
                 # afficher les tournois : 
                 self.report_tournament() 
+
             if self.board.ask_for_report == '*': 
+                self.board.ask_for_report = None 
                 return True 
+            
+            if self.board.ask_for_report == '0': 
+                self.board.ask_for_report = None 
+                # print(f'self.board.ask_for_menu_action : {self.board.ask_for_menu_action}') 
+                # print(f'self.board.ask_for_report : {self.board.ask_for_report}') 
+                print('Fermeture de l\'application. Bonne fin de journée !') 
 
         
         if self.board.ask_for_menu_action == '*': 
+            self.board.ask_for_menu_action = None 
             return True 
         
         if self.board.ask_for_menu_action == '0': 
-            pass 
+            self.board.ask_for_menu_action = None 
+            # print(f'self.board.ask_for_menu_action : {self.board.ask_for_menu_action}') 
+            # print(f'self.board.ask_for_report : {self.board.ask_for_report}') 
+            print('menu_action : Fermeture de l\'application. Bonne fin de journée !') 
 
         return False 
 
@@ -103,9 +132,7 @@ class Main_controller():
                 # print(f'tournament MC95 : {self.tournament}') 
                 self.tournament = Tournament_model(**tournament) 
             tournaments_obj.append(self.tournament) 
-
         self.report_view.display_all_tournaments(tournaments_obj) 
-
         continuer = session.prompt('Appuyer sur Entrée pour continuer ') 
         self.start(False) 
 
@@ -114,11 +141,12 @@ class Main_controller():
         print('\nEnter new player') 
         player_data = self.in_view.input_player() 
         self.player = Player_model(**player_data) 
-        print(f'self.player MC65 : {self.player}') 
+        # print(f'self.player MC65 : {self.player}') 
         self.player.serialize() 
 
 
     def report_players(self, sort): 
+
         players = Player_model.get_registered_all('p_table') 
         players_obj = [] 
         for player in players: 

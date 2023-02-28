@@ -10,7 +10,7 @@ class Dashboard_view():
         \nBonjour et bienvenue ! \
         \n\nCe programme va vous permettre de créer, gérer et afficher vos tournois d\'échecs. \
         \nSi vous rencontrez des erreurs, le fichier README.md contient les informations pour envoyer des feedbacks. \
-        \n\nDans le menu, vous pouvez à tout moment utiliser la Commande de secours : \
+        \n\nDans le menu, vous pouvez à tout moment utiliser les Commandes de secours : \
         \n  * pour revenir au menu principal \n  0 pour sortir'  # 0 Menu précédent,  
 
     main_menu = [ 
@@ -18,7 +18,9 @@ class Dashboard_view():
         '1 : saisir', 
         '2 : afficher', 
         '', 
-        '0 : sortir'
+        'Commandes de secours : ', 
+        '* pour revenir au menu principal', 
+        '0 pour sortir' 
     ] 
 
     register_menu = [ 
@@ -27,9 +29,9 @@ class Dashboard_view():
         '2 : un tournoi', 
         '3 : un round', 
         '', 
-        'Commande de secours : ', 
-        # '0 Menu précédent', 
-        '* pour revenir au menu principal' 
+        'Commandes de secours : ', 
+        '* pour revenir au menu principal', 
+        '0 pour sortir' 
     ] 
 
     display_menu = [ 
@@ -49,9 +51,9 @@ class Dashboard_view():
         # '9 : le dernier tournoi', 
         # '9 : le tournoi du jour', 
         '', 
-        'Commande de secours : ', 
-        # '0 Menu précédent', 
-        '* pour revenir au menu principal' 
+        'Commandes de secours : ', 
+        '* pour revenir au menu principal', 
+        '0 pour sortir' 
     ] 
 
 
@@ -85,6 +87,7 @@ class Dashboard_view():
         for i in range(len(self.display_menu)): 
             print(self.display_menu[i]) 
         self.ask_for_report = session.prompt('\nChoisir un rapport : ') 
+        # print(f'DV90 self.ask_for_report : {self.ask_for_report}') 
         print('') 
         return self.ask_for_report 
 
