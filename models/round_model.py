@@ -36,7 +36,6 @@ class Round_model(AbstractModel):
     def serialize(self): 
         """ Rewrite method for serialize the round objects into the tournament table. """ 
         if not self.check_if_json_empty(): 
-            # objects = self.get_registered('t_table') 
             objects = self.get_registered() 
             # print(f'type(objects[0]) RM46 : {type(objects[0])}') 
             with open(f'tables/t_table.json', 'r') as file: 

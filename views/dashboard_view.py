@@ -43,7 +43,7 @@ class Dashboard_view():
         # '3 : Les joueurs du tournoi par ordre alphabétique', 
         # '4 : Les joueurs du tournoi par classement', 
         # '5 : les résultats du tournoi', 
-        # '6 : les tours', 
+        '6 : les tours d\'un tournoi', 
         # '7 : les matches', 
         '8 : tous les tournois', 
 
@@ -93,7 +93,7 @@ class Dashboard_view():
 
 
 if __name__ == "__main__": 
-    Dashboard_view.display_welcome()  # manque 'self'  
+    Dashboard_view.display_welcome() 
 
 
 

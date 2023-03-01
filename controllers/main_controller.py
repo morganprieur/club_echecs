@@ -80,10 +80,19 @@ class Main_controller():
                 # afficher les joueurs : 
                 self.report_players('classement') 
 
+            if self.board.ask_for_report == '6': 
+                self.board.ask_for_report = None 
+                # Choisi run tournoi : 
+                ask_for_tournament_id = session.prompt('De quel tournoi voulez-vous les tours ? ') 
+                # afficher les tours : 
+                # self.board.ask_for_tournament_id 
+                self.report_rounds(ask_for_tournament_id) 
+            
             if self.board.ask_for_report == '8': 
                 self.board.ask_for_report = None 
                 # afficher les tournois : 
-                self.report_tournament() 
+                self.report_tournaments() 
+
 
             if self.board.ask_for_report == '*': 
                 self.board.ask_for_report = None 
@@ -104,7 +113,7 @@ class Main_controller():
             self.board.ask_for_menu_action = None 
             # print(f'self.board.ask_for_menu_action : {self.board.ask_for_menu_action}') 
             # print(f'self.board.ask_for_report : {self.board.ask_for_report}') 
-            print('menu_action : Fermeture de l\'application. Bonne fin de journée !') 
+            print('Fermeture de l\'application. Bonne fin de journée !') 
 
         return False 
 
@@ -116,8 +125,10 @@ class Main_controller():
         print(f'self.tournament MC59 : {self.tournament}') 
         self.tournament.serialize() 
     
-    def report_tournament(self): 
-        print('\nTous les tournois : ') 
+    def report_tournaments(self): 
+        self.board.ask_for_report = None 
+
+        # print('\nTous les tournois : ') 
         tournaments = Tournament_model.get_registered_all('t_table') 
         tournaments_obj = [] 
         for tournament in tournaments: 
@@ -135,6 +146,16 @@ class Main_controller():
         self.report_view.display_all_tournaments(tournaments_obj) 
         continuer = session.prompt('Appuyer sur Entrée pour continuer ') 
         self.start(False) 
+
+
+    def select_one_tournament(self, tournament_id): 
+        # Récupérer tous les tournois dans la liste tournaments (liste de dicts) : 
+        tournaments = Tournament_model.get_registered_all('t_table') 
+        # Sélectionner le tournoi indiqué dans tournament (dict) 
+        tournament = tournaments[tournament_id] 
+        # print(f'tournament MC155 : {tournament}') 
+        return tournament 
+        
 
 
     def enter_new_player(self): 
@@ -174,7 +195,31 @@ class Main_controller():
             print('\n*** Le tournoi référencé dans "round" n\'existe pas, vous devez d\'abord le créer. ***') 
             self.start(False) 
 
-    
+    def report_rounds(self, ask_for_tournament_id): 
+        # print(f'ask_for_tournament_id MC189 : {ask_for_tournament_id}')  # ok 
+        tournament_id = int(ask_for_tournament_id)-1 
+        # tournament object : 
+        tournament = self.select_one_tournament(tournament_id) 
+
+        ### ajouter check keys (à factoriser) ### 
+        
+        # Instantiate the tournament ( --> object) : 
+        self.tournament = Tournament_model(**tournament) 
+        # Extract the rounds from the tournament (list od dicts) : 
+        rounds = self.tournament.rounds 
+        # print(f'round MC215 : {rounds}') 
+        rounds_obj = [] 
+        for round in rounds: 
+            # print(f'round MC218 : {round}') 
+            # Instantiate the rounds : 
+            self.round = Round_model(**round, tournament_id=tournament_id) 
+            # Store them into the list rounds_obj (list of objects) : 
+            rounds_obj.append(self.round) 
+        self.report_view.display_rounds_one_tournament(tournament_id, rounds_obj) 
+
+        continuer = session.prompt('Appuyer sur Entrée pour continuer ') 
+        self.start(False) 
+
     
 
 
@@ -197,151 +242,5 @@ class Main_controller():
 
 
 
-    """ 
-    tournament_obj C95 : 
-    ( 
-        <models.tournament_model.Tournament_model object at 0x00000226BD6CEA10>,  # --> tournament_obj 
-        { 
-            'name': 'Tournoi 1', 
-            'site': 'lieu 1', 
-            't_date': ['01/12/2022'], 
-            'nb_rounds': 4, 
-            'rounds': { 
-                1: { 
-                    'round_name': 'round 1', 
-                    'round_matches': [ 
-                        ([1, 0], [2, 0]), 
-                        ([3, 0], [4, 0]), 
-                        ([5, 0], [6, 0]), 
-                        ([7, 0], [8, 0]) 
-                    ], 
-                    'start_datetime': '02/12/22 - 07:23', 
-                    'end_datetime': '02/12/22 - 09:23' 
-                }, 
-                2: { 
-                    'round_name': 'round 1', 
-                    'round_matches': [ 
-                        ([1, 0], [3, 0]), 
-                        ([5, 0], [7, 0]), 
-                        ([2, 0], [4, 0]), 
-                        ([6, 0], [8, 0]) 
-                    ], 
-                    'start_datetime': '02/12/22 - 11:11', 
-                    'end_datetime': '02/12/22 - 13:11' 
-                }  
-            }, 
-            'players': { 
-                1: 1, 
-                2: 2, 
-                3: 3, 
-                4: 4, 
-                5: 5, 
-                6: 6, 
-                7: 7, 
-                8: 8 
-            }, 
-            'duration': 'blitz', 
-            'description': 'Observations du directeur du tournoi.' 
-        },                                                                         # --> tournamentDict 
-
-        ( 
-            { 
-                1: { 
-                    'round_name': 'round 1', 
-                    'round_matches': [ 
-                        ([1, 0], [2, 0]), 
-                        ([3, 0], [4, 0]), 
-                        ([5, 0], [6, 0]), 
-                        ([7, 0], [8, 0]) 
-                    ], 
-                    'start_datetime': '02/12/22 - 07:23', 
-                    'end_datetime': '02/12/22 - 09:23' 
-                }, 
-                2: { 
-                    'round_name': 'round 1', 
-                    'round_matches': [ 
-                        ([1, 0], [3, 0]), 
-                        ([5, 0], [7, 0]), 
-                        ([2, 0], [4, 0]), 
-                        ([6, 0], [8, 0]) 
-                    ], 
-                    'start_datetime': '02/12/22 - 11:11', 
-                    'end_datetime': '02/12/22 - 13:11' 
-                } 
-            }, 
-        )                                                                           # --> roundDicts 
-    ) 
-
-
-    """
-
-    
-
-    """ 
-        tournamentDict = {
-            'name': 'Tournoi 1', 
-            'site': 'lieu 1', 
-            't_date': ['01/12/2022',], 
-            'nb_rounds': 4, 
-            'rounds': {  ### comment intégrer l'objet Round ici ? 
-                '1': [
-                    (
-                        [1, 0], [2, 0]
-                    ), (
-                        [3, 0], [4, 0]
-                    ), (
-                        [5, 0], [6, 0]
-                    ), (
-                        [7, 0], [8, 0]
-                    ) 
-                ], 
-                '2': [
-                    (
-                        [1, 0], [2, 0]
-                    ), (
-                        [3, 0], [4, 0]
-                    ), (
-                        [5, 0], [6, 0]
-                    ), (
-                        [7, 0], [8, 0]
-                    ) 
-                ], 
-                '3': [
-                    (
-                        [1, 0], [2, 0]
-                    ), (
-                        [3, 0], [4, 0]
-                    ), (
-                        [5, 0], [6, 0]
-                    ), (
-                        [7, 0], [8, 0]
-                    ) 
-                ], 
-                '4': [
-                    (
-                        [1, 0], [2, 0]
-                    ), (
-                        [3, 0], [4, 0]
-                    ), (
-                        [5, 0], [6, 0]
-                    ), (
-                        [7, 0], [8, 0]
-                    ) 
-                ] 
-            }, 
-            'players': {
-                1: 1, 
-                2: 2, 
-                3: 3, 
-                4: 4, 
-                5: 5, 
-                6: 6, 
-                7: 7, 
-                8: 8, 
-            }, 
-            'duration': 'blitz', 
-            'description': 'Observations du directeur du tournoi.' 
-        } 
-    """
 
 

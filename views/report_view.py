@@ -7,21 +7,47 @@ class Report_view():
 
     def __init__(self) -> None:
         pass 
+
+    ###==== Reports ====### 
+    def display_rounds_one_tournament(self, tournament, all_rounds): 
+        """ Display all the rounds in one tournament. 
+
+        Args: 
+            tournament (int): 
+                the id of the tournament the rounds must be displayed from.  
+            all_rounds (list of objects): 
+                Main_container.round instanciated and stored into a list. 
+        """ 
+        t_id = int(tournament)+1 
+        print(f'\n---- Tous les tours du tournoi {t_id} ----') 
+        
+        # main_controller.select_one_tournament(self, tournament_id) 
+        # main_controller.report_rounds(self, ask_for_tournament_id) 
+        
+        # Afficher les rounds : 
+        for r in all_rounds: 
+            print(f'\nID : \t{r.id}') 
+            print(f'Nom : \t{r.round_name}')  
+
+        print('\n====\n') 
     
 
     ###==== Tournaments ====### 
 
+    """ Pas demandés :  
     def display_last_tournament(self, last_tournament): 
-        print('\n---- last tournament ----') 
+        print('\n---- Dernier tournoi ----') 
         print(last_tournament) 
 
 
-    """ Pas demandé 
     # def display_today_s_tournament(self, tournament): 
-    #     print('\n---- today\'s tournament ----') 
+    #     print('\n---- Dernier tournoi ----') 
     #     print(tournament) 
     #     print('----') 
     """ 
+
+
+
 
     def display_all_tournaments(self, all_tournaments): 
         print('\n==== Tous les tournois ====') 
@@ -55,7 +81,7 @@ class Report_view():
 
 
 
-###==== Rapports ====### 
+###==== Consigne ====### 
 """ 
 Nous aimerions pouvoir afficher les rapports suivants dans le programme :
 
