@@ -8,8 +8,9 @@ class Report_view():
     def __init__(self) -> None:
         pass 
 
+    
     ###==== Reports ====### 
-    def display_rounds_one_tournament(self, tournament, all_rounds): 
+    def display_rounds_one_tournament(self, tournament_id, all_rounds): 
         """ Display all the rounds in one tournament. 
 
         Args: 
@@ -18,10 +19,10 @@ class Report_view():
             all_rounds (list of objects): 
                 Main_container.round instanciated and stored into a list. 
         """ 
-        t_id = int(tournament)+1 
+        t_id = int(tournament_id)+1 
         print(f'\n---- Tous les tours du tournoi {t_id} ----') 
         
-        # main_controller.select_one_tournament(self, tournament_id) 
+        # tournament = self.select_one_obj('tournament', tournament_id) 
         # main_controller.report_rounds(self, ask_for_tournament_id) 
         
         # Afficher les rounds : 

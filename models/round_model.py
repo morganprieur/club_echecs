@@ -60,6 +60,15 @@ class Round_model(AbstractModel):
             json.dump(objects, file) 
 
 
+    # def select_one_tournament(self, tournament_id): 
+    #     # Récupérer tous les tournois dans la liste tournaments (liste de dicts) : 
+    #     tournaments = Tournament_model.get_registered_all('t_table') 
+    #     # Sélectionner le tournoi indiqué dans tournament (dict) 
+    #     tournament = tournaments[tournament_id] 
+    #     # print(f'tournament MC155 : {tournament}') 
+    #     return tournament 
+    # tournament = main_controller.select_one_tournament(self, tournament_id) 
+
 
 if __name__ == "__main__": 
     new_round = { 

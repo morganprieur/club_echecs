@@ -148,13 +148,15 @@ class Main_controller():
         self.start(False) 
 
 
-    def select_one_tournament(self, tournament_id): 
-        # Récupérer tous les tournois dans la liste tournaments (liste de dicts) : 
-        tournaments = Tournament_model.get_registered_all('t_table') 
-        # Sélectionner le tournoi indiqué dans tournament (dict) 
-        tournament = tournaments[tournament_id] 
-        # print(f'tournament MC155 : {tournament}') 
-        return tournament 
+    def select_one_obj(self, obj, obj_id): 
+        # Récupérer tous les <obj> dans la liste <objs> (liste de dicts) : 
+        if obj == 'tournament': 
+            objs = Tournament_model.get_registered_all('t_table') 
+        elif obj == 'round': 
+            objs = Round_model.get_registered_all('t_table') 
+        # Sélectionner le <objet> indiqué dans id (dict) 
+        objet = objs[obj_id] 
+        return objet 
         
 
 
@@ -199,7 +201,7 @@ class Main_controller():
         # print(f'ask_for_tournament_id MC189 : {ask_for_tournament_id}')  # ok 
         tournament_id = int(ask_for_tournament_id)-1 
         # tournament object : 
-        tournament = self.select_one_tournament(tournament_id) 
+        tournament = self.select_one_obj('tournament', tournament_id) 
 
         ### ajouter check keys (à factoriser) ### 
         
