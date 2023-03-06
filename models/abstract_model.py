@@ -31,9 +31,15 @@ class AbstractModel(ABC):
     @staticmethod 
     def get_registered_all(table): 
         with open(f'tables/{table}.json', 'r') as file: 
+            # list of dicts : 
             registered = json.load(file) 
         return registered 
     
+    @staticmethod 
+    def select_one_obj(table, obj_id): 
+        objs = AbstractModel.get_registered_all(table) 
+        objet = objs[obj_id] 
+        return objet  
 
     def serialize(self): 
         """ Abstract method for serialize the objects from the models. """ 

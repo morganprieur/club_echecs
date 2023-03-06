@@ -138,10 +138,19 @@ class Main_controller():
             # print(f'keys MC93 : {keys}') 
             if "rounds" not in keys:  
                 # print(f'tournament MC90 : {tournament}') 
-                self.tournament = Tournament_model(**tournament, rounds=[{'aucun':'round'}]) 
+                self.tournament = Tournament_model( 
+                    **tournament, 
+                    # rounds=[{'aucun':'round'}] 
+                    rounds=[] 
+                ) 
             else: 
                 # print(f'tournament MC95 : {self.tournament}') 
+                # rounds = [Round_model(**round_data) for round_data in tournament.rounds]
                 self.tournament = Tournament_model(**tournament) 
+                rounds = []
+                for round_data in tournament.rounds:
+                    rounds.append(Round_model(**round_data))
+                self.tournament.rounds = rounds
             tournaments_obj.append(self.tournament) 
         self.report_view.display_all_tournaments(tournaments_obj) 
         continuer = session.prompt('Appuyer sur Entrée pour continuer ') 
@@ -157,7 +166,6 @@ class Main_controller():
         # Sélectionner le <objet> indiqué dans id (dict) 
         objet = objs[obj_id] 
         return objet 
-        
 
 
     def enter_new_player(self): 
@@ -202,6 +210,7 @@ class Main_controller():
         tournament_id = int(ask_for_tournament_id)-1 
         # tournament object : 
         tournament = self.select_one_obj('tournament', tournament_id) 
+        tournament = Tournament_model(tournament_id)
 
         ### ajouter check keys (à factoriser) ### 
         

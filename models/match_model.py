@@ -34,23 +34,12 @@ class Match_model():
         return serialized_matches 
 
     
-
-
 """ 
-    Chaque tournoi doit contenir au moins les informations suivantes :
-    • Nom
-    • Lieu :
-    • Date
-        ◦ Jusqu'à présent, tous nos tournois sont des événements d'un jour, mais nous pourrions en organiser de plusieurs jours à l'avenir, ce qui devrait donc permettre de varier les dates.
-    • Nombre de tours
-        ◦ Réglez la valeur par défaut sur 4.
-    • Tournées
-        ◦ La liste des instances rondes.
-    • Joueurs
-        ◦ Liste des indices correspondant aux instances du joueur stockées en mémoire.
-    • Contrôle du temps
-        ◦ C'est toujours un bullet, un blitz ou un coup rapide.
-    • Description
-        ◦ Les remarques générales du directeur du tournoi vont ici.
+    Un match unique doit être stocké sous la forme d'un tuple 
+    contenant deux listes, 
+    chacune contenant deux éléments : 
+    une référence à une instance de joueur et un score. 
+    Les matchs multiples doivent être stockés sous forme de liste 
+    sur l'instance du tour.
 """ 
 

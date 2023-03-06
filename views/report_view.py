@@ -63,8 +63,9 @@ class Report_view():
             print(f'rounds : \t') 
             
             for r in t.rounds: 
-                for p,v in r.items(): 
-                    print(f'\t{p} : \t{v}') 
+                # for p,v in r.items(): 
+                #     print(f'\t{p} : \t{v}') 
+                print(f'ID : \t{r.id}') 
 
             print(f'description : \t{t.description}') 
         print('\n====\n') 
@@ -94,7 +95,7 @@ Nous aimerions pouvoir afficher les rapports suivants dans le programme :
         ◦ par classement.
     • Liste de tous les tournois. V 
     • Liste de tous les tours d'un tournoi. --> WIP 
-    • Liste de tous les matchs d'un tournoi.
+    • Liste de tous les matches d'un tournoi.
 
 Nous aimerions les exporter ultérieurement, mais ce n'est pas nécessaire 
 pour l'instant.
