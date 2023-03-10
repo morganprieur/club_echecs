@@ -121,9 +121,21 @@ class Main_controller():
     def enter_new_tournament(self): 
         print('\nEnter new tournament') 
         tournament_data = self.in_view.input_tournament() 
-        self.tournament = Tournament_model(**tournament_data) 
-        print(f'self.tournament MC59 : {self.tournament}') 
+
+        # check key 'rounds' 
+        keys = [] 
+        for t in tournament_data: 
+            print(f't MC128 : {t}') 
+            keys.append(t) 
+        if 'rounds' not in keys: 
+            self.tournament = Tournament_model(**tournament_data, rounds=None) 
+        else: 
+            self.tournament = Tournament_model(**tournament_data) 
+        print(f'self.tournament MC134 : {self.tournament}') 
         self.tournament.serialize() 
+
+        continuer = session.prompt('Appuyer sur Entrée pour continuer ') 
+        self.start(False) 
     
 
     # def check_key(self, key, model, objs, sub_obj): 
@@ -152,6 +164,7 @@ class Main_controller():
         tournaments_obj = [] 
         # self.check_key(tournaments, 'round', Tournament_model, rounds)  ### corriger ou remplacer 
         for tournament in tournaments: 
+            # print(f'tournament MC167 : {tournament}') 
             keys = [] 
             for k,v in tournament.items(): 
                 keys.append(k) 
@@ -169,21 +182,19 @@ class Main_controller():
             # print(f'tournament.rounds MC162 : {self.tournament.rounds}') 
             
             for round_data in self.tournament.rounds: 
-                # print(f'round_data mC170 : {round_data}') 
+                # print(f'round_data mC170 : {tournament}-{round_data}') 
                 keys = [] 
                 for k,v in round_data.items(): 
                     keys.append(k) 
                 if 'tournament_id' not in keys: 
-                    rounds.append(Round_model(**round_data, tournament_id=None)) 
+                    rounds.append(Round_model(**round_data, tournament_id=[])) 
                 else: 
                     rounds.append(Round_model(**round_data)) 
             
             self.tournament.rounds = rounds
             tournaments_obj.append(self.tournament) 
-        # self.check_key('tournaments', 'round', 'Tournament_model') 
-        # print(f'len(tournaments_obj) MC181 : {len(tournaments_obj)}') 
-        # print(f'tournaments_obj MC182 : {tournaments_obj}') 
         self.report_view.display_all_tournaments(tournaments_obj) 
+
         continuer = session.prompt('Appuyer sur Entrée pour continuer ') 
         self.start(False) 
 
