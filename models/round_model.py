@@ -29,7 +29,7 @@ class Round_model(AbstractModel):
         return { 
             'id': self.id, 
             'round_name': self.round_name, 
-            # 'tournament_id': self.tournament_id 
+            'tournament_id': self.tournament_id  # pourquoi commenté ? ### 
         } 
 
     

@@ -125,12 +125,32 @@ class Main_controller():
         print(f'self.tournament MC59 : {self.tournament}') 
         self.tournament.serialize() 
     
+
+    # def check_key(self, key, model, objs, sub_obj): 
+    #     print(f'objs MC130 : {objs}') 
+    #     for o in objs: 
+    #         print(f'o MC132 : {o}') 
+    #         keys = [] 
+    #         # for k,v in o.items(): 
+    #         #     keys.append(k) 
+    #         keys.append(o) 
+    #         if key not in keys: 
+    #             objs['rounds'] = [] 
+    #             self.obj = model(**objs) 
+    #             # self.obj = model(**objs, sub_obj=[]) 
+    #         else: 
+    #             self.obj = model(**objs) 
+
+    #         return self.obj 
+
+
     def report_tournaments(self): 
         self.board.ask_for_report = None 
 
         # print('\nTous les tournois : ') 
         tournaments = Tournament_model.get_registered_all('t_table') 
         tournaments_obj = [] 
+        # self.check_key(tournaments, 'round', Tournament_model, rounds)  ### corriger ou remplacer 
         for tournament in tournaments: 
             keys = [] 
             for k,v in tournament.items(): 
@@ -138,34 +158,42 @@ class Main_controller():
             # print(f'keys MC93 : {keys}') 
             if "rounds" not in keys:  
                 # print(f'tournament MC90 : {tournament}') 
-                self.tournament = Tournament_model( 
-                    **tournament, 
-                    # rounds=[{'aucun':'round'}] 
-                    rounds=[] 
-                ) 
+                self.tournament = Tournament_model(**tournament, rounds=[]) 
             else: 
                 # print(f'tournament MC95 : {self.tournament}') 
                 # rounds = [Round_model(**round_data) for round_data in tournament.rounds]
                 self.tournament = Tournament_model(**tournament) 
-                rounds = []
-                for round_data in tournament.rounds:
-                    rounds.append(Round_model(**round_data))
-                self.tournament.rounds = rounds
+            self.rounds = self.tournament.rounds 
+            # print(f'self.rounds MC167 : {self.rounds}') 
+            rounds = [] 
+            # print(f'tournament.rounds MC162 : {self.tournament.rounds}') 
+            
+            for round_data in self.tournament.rounds: 
+                # print(f'round_data mC170 : {round_data}') 
+                keys = [] 
+                for k,v in round_data.items(): 
+                    keys.append(k) 
+                if 'tournament_id' not in keys: 
+                    rounds.append(Round_model(**round_data, tournament_id=None)) 
+                else: 
+                    rounds.append(Round_model(**round_data)) 
+            
+            self.tournament.rounds = rounds
             tournaments_obj.append(self.tournament) 
+        # self.check_key('tournaments', 'round', 'Tournament_model') 
+        # print(f'len(tournaments_obj) MC181 : {len(tournaments_obj)}') 
+        # print(f'tournaments_obj MC182 : {tournaments_obj}') 
         self.report_view.display_all_tournaments(tournaments_obj) 
         continuer = session.prompt('Appuyer sur Entrée pour continuer ') 
         self.start(False) 
 
 
-    def select_one_obj(self, obj, obj_id): 
+    def select_one_tournament(self, t_id): 
         # Récupérer tous les <obj> dans la liste <objs> (liste de dicts) : 
-        if obj == 'tournament': 
-            objs = Tournament_model.get_registered_all('t_table') 
-        elif obj == 'round': 
-            objs = Round_model.get_registered_all('t_table') 
+        t_objs = Tournament_model.get_registered_all('t_table') 
         # Sélectionner le <objet> indiqué dans id (dict) 
-        objet = objs[obj_id] 
-        return objet 
+        t_obj = t_objs[t_id] 
+        return t_obj 
 
 
     def enter_new_player(self): 
@@ -199,34 +227,53 @@ class Main_controller():
         print('\nEnter new round') 
         round_data = self.in_view.input_round() 
         self.round = Round_model(**round_data) 
-        print(f'self.round MC121 : {self.round}') 
+        print(f'Le round : {self.round} a bien été enregistré (MC233)') 
         # self.round.serialize() 
         if self.round.serialize() == False: 
             print('\n*** Le tournoi référencé dans "round" n\'existe pas, vous devez d\'abord le créer. ***') 
             self.start(False) 
+        continuer = session.prompt('Appuyer sur Entrée pour continuer ') 
+        self.start(False) 
+
 
     def report_rounds(self, ask_for_tournament_id): 
-        # print(f'ask_for_tournament_id MC189 : {ask_for_tournament_id}')  # ok 
+        
         tournament_id = int(ask_for_tournament_id)-1 
         # tournament object : 
-        tournament = self.select_one_obj('tournament', tournament_id) 
-        tournament = Tournament_model(tournament_id)
+        tournament = self.select_one_tournament(tournament_id) 
+        # print(f'tournament MC246 : {tournament}') 
 
-        ### ajouter check keys (à factoriser) ### 
+        data = [] 
+        for t_data in tournament: 
+            print(f't_data MC253 : {t_data}') 
+            data.append(t_data) 
         
         # Instantiate the tournament ( --> object) : 
-        self.tournament = Tournament_model(**tournament) 
+        if 'rounds' not in data: 
+            self.tournament = Tournament_model(**tournament, rounds=[]) 
+        else: 
+            self.tournament = Tournament_model(**tournament) 
+        # print(f'self.tournament MC262 : {self.tournament}') 
+
+        ### ajouter check keys (à factoriser) ### 
+        # self.check_key('round', Tournament_model, tournament, 'rounds') 
+        rounds = [] 
         # Extract the rounds from the tournament (list od dicts) : 
-        rounds = self.tournament.rounds 
-        # print(f'round MC215 : {rounds}') 
-        rounds_obj = [] 
-        for round in rounds: 
-            # print(f'round MC218 : {round}') 
-            # Instantiate the rounds : 
-            self.round = Round_model(**round, tournament_id=tournament_id) 
-            # Store them into the list rounds_obj (list of objects) : 
-            rounds_obj.append(self.round) 
-        self.report_view.display_rounds_one_tournament(tournament_id, rounds_obj) 
+        for round_data in tournament['rounds']: 
+            # print(f'round_data MC267 : {round_data}') 
+            keys = [] 
+            for k,v in round_data.items(): 
+                keys.append(k) 
+            if 'tournament_id' not in keys: 
+                rounds.append(Round_model(**round_data, tournament_id=None)) 
+            else: 
+                rounds.append(Round_model(**round_data)) 
+        
+        # print(f'rounds MC280 : {rounds}') 
+        self.tournament.rounds = rounds 
+        # print(f'self.tournament MC281 : {self.tournament}') 
+        
+        self.report_view.display_rounds_one_tournament(self.tournament) 
 
         continuer = session.prompt('Appuyer sur Entrée pour continuer ') 
         self.start(False) 

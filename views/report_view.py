@@ -10,23 +10,19 @@ class Report_view():
 
     
     ###==== Reports ====### 
-    def display_rounds_one_tournament(self, tournament_id, all_rounds): 
+    def display_rounds_one_tournament(self, tournament): 
         """ Display all the rounds in one tournament. 
 
         Args: 
             tournament (int): 
-                the id of the tournament the rounds must be displayed from.  
-            all_rounds (list of objects): 
-                Main_container.round instanciated and stored into a list. 
+                the tournament object the rounds must be displayed from. 
         """ 
-        t_id = int(tournament_id)+1 
+        t_id = int(tournament.id)+1 
         print(f'\n---- Tous les tours du tournoi {t_id} ----') 
-        
-        # tournament = self.select_one_obj('tournament', tournament_id) 
-        # main_controller.report_rounds(self, ask_for_tournament_id) 
-        
+        # print(f'tournament RV27 : {tournament}') 
+
         # Afficher les rounds : 
-        for r in all_rounds: 
+        for r in tournament.rounds: 
             print(f'\nID : \t{r.id}') 
             print(f'Nom : \t{r.round_name}')  
 
@@ -48,10 +44,9 @@ class Report_view():
     """ 
 
 
-
-
     def display_all_tournaments(self, all_tournaments): 
         print('\n==== Tous les tournois ====') 
+        # print(f'\ntournois RV57 : {all_tournaments} : ') 
     
         for t in all_tournaments: 
             print(f'\ntournoi {all_tournaments.index(t)+1} : ') 
@@ -60,14 +55,15 @@ class Report_view():
             print(f'lieu : \t{t.site}') 
             print(f'date : \t{t.t_date}') 
             print(f'durée : {t.duration}') 
+            print(f'description : \t{t.description}') 
             print(f'rounds : \t') 
             
             for r in t.rounds: 
                 # for p,v in r.items(): 
                 #     print(f'\t{p} : \t{v}') 
-                print(f'ID : \t{r.id}') 
+                print(f'\tID : \t{r.id}') 
+                print(f'\tnom : \t{r.round_name}') 
 
-            print(f'description : \t{t.description}') 
         print('\n====\n') 
 
     
