@@ -130,11 +130,11 @@ class Main_controller():
         if 'rounds' not in keys: 
             self.tournament.rounds = rounds=[] 
         self.tournament = Tournament_model(**tournament_data) 
-        print(f'self.tournament MC134 : {self.tournament}') 
-        print(f'Le round {self.round} a bien été enregistré') 
+        # print(f'self.tournament MC134 : {self.tournament}') 
+        print(f'\nLe round {self.round} a bien été enregistré') 
         self.tournament.serialize() 
 
-        continuer = session.prompt('Appuyer sur Entrée pour continuer ') 
+        continuer = session.prompt('\nAppuyer sur Entrée pour continuer ') 
         self.start(False) 
     
 
@@ -189,12 +189,12 @@ class Main_controller():
         print('\nEnter new round') 
         round_data = self.in_view.input_round() 
         self.round = Round_model(**round_data) 
-        print(f'Le round {self.round} a bien été enregistré') 
+        print(f'\nLe round {self.round} a bien été enregistré') 
         # self.round.serialize() 
         if self.round.serialize() == False: 
             print('\n*** Le tournoi référencé dans "round" n\'existe pas, vous devez d\'abord le créer. ***') 
             self.start(False) 
-        continuer = session.prompt('Appuyer sur Entrée pour continuer ') 
+        continuer = session.prompt('\nAppuyer sur Entrée pour continuer ') 
         self.start(False) 
 
 
