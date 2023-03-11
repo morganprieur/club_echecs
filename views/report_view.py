@@ -9,7 +9,7 @@ class Report_view():
         pass 
 
     
-    ###==== Reports ====### 
+    ###==== Reports rounds ====### 
     def display_rounds_one_tournament(self, tournament): 
         """ Display all the rounds in one tournament. 
 
@@ -17,20 +17,23 @@ class Report_view():
             tournament (int): 
                 the tournament object the rounds must be displayed from. 
         """ 
-        t_id = int(tournament.id)+1 
-        print(f'\n---- Tous les tours du tournoi {t_id} ----') 
+        print(f'\n---- Tous les tours du tournoi {int(tournament.id)} ----') 
         # print(f'tournament RV27 : {tournament}') 
 
-        # Afficher les rounds : 
-        for r in tournament.rounds: 
-            print(f'\nID : \t{r.id}') 
-            print(f'Nom : \t{r.round_name}') 
-            print(f'Nom : \t{r.start_datetime}')
+        # I there isn't any rounds : 
+        if tournament.rounds == []: 
+            print(f'\nLe tournoi {tournament.id} n\'a pas encore de rounds') 
+        else:  
+            # Afficher les rounds : 
+            for r in tournament.rounds: 
+                print(f'\nID : \t{r.id}') 
+                print(f'Nom : \t{r.round_name}') 
+                print(f'Nom : \t{r.start_datetime}')
 
         print('\n====\n') 
     
 
-    ###==== Tournaments ====### 
+    ###==== Reports tournaments ====### 
 
     """ Pas demandés :  
     def display_last_tournament(self, last_tournament): 
@@ -69,7 +72,7 @@ class Report_view():
         print('\n====\n') 
 
     
-    ###==== Players ====### 
+    ###==== Reports players ====### 
     
     @staticmethod 
     def sort_objects_by_field(objects, field): 
