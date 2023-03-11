@@ -39,9 +39,10 @@ class Input_view():
     
     def input_round(self): 
         new_round = {} 
-        new_round['id'] = int(session.prompt('\nID du round : ')) 
-        new_round['round_name'] = session.prompt('\nNom du round : ') 
+        # round.id must be automatically defined (into Main_controller): 
+        # new_round['id'] = int(session.prompt('\nID du round : ')) 
         new_round['tournament_id'] = int(session.prompt('\nID du tournoi : ')) 
+        new_round['round_name'] = session.prompt('\nNom du round : ') 
         new_round['start_datetime'] = str(self.now) 
         return new_round 
 

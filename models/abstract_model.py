@@ -33,6 +33,8 @@ class AbstractModel(ABC):
         with open(f'tables/{table}.json', 'r') as file: 
             # list of dicts : 
             registered = json.load(file) 
+            # for r in registered: 
+            #     print(r) 
         return registered 
     
     @staticmethod 

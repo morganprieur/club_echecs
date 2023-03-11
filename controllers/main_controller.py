@@ -187,13 +187,30 @@ class Main_controller():
 
     def enter_new_round(self): 
         print('\nEnter new round') 
+        # Get the previous round's id, to define the current round's id: 
+        # Get the data for the current round: 
         round_data = self.in_view.input_round() 
+        print(f'\nround_data MC193 : {round_data}') 
+        # Get the tournament where to register the current round: 
+        tournament = self.select_one_tournament(round_data['tournament_id']-1) 
+        print(f'tournament["rounds"] MC196 : {tournament["rounds"]}') 
+        
+        if tournament['rounds'] == []: 
+            round_data['id'] = 1 
+            # print(f'round_data["id"] MC204 : {round_data["id"]}') 
+        else: 
+            round_data['id'] = int(tournament['rounds'].pop()['id'])+1 
+            # print(f'round_data["id"] MC201 : {round_data["id"]}') 
+        # print(f'round_data["id"] MC205 : {round_data["id"]}') 
         self.round = Round_model(**round_data) 
-        print(f'\nLe round {self.round} a bien été enregistré') 
-        # self.round.serialize() 
+        print(f'\nself.round MC201 : {self.round}') 
         if self.round.serialize() == False: 
             print('\n*** Le tournoi référencé dans "round" n\'existe pas, vous devez d\'abord le créer. ***') 
             self.start(False) 
+        else: 
+            print(f'\nLe round {self.round} a bien été enregistré') 
+            self.report_rounds(tournament['id']) 
+    
         continuer = session.prompt('\nAppuyer sur Entrée pour continuer ') 
         self.start(False) 
 
@@ -217,8 +234,8 @@ class Main_controller():
 
         self.report_view.display_rounds_one_tournament(self.tournament) 
 
-        continuer = session.prompt('Appuyer sur Entrée pour continuer ') 
-        self.start(False) 
+        # continuer = session.prompt('Appuyer sur Entrée pour continuer ') 
+        # self.start(False) 
 
     
     # =================== UTILS =================== # 
@@ -238,8 +255,8 @@ class Main_controller():
     def select_one_tournament(self, t_id): 
         # Récupérer tous les <obj> dans la liste <objs> (liste de dicts) : 
         t_objs = Tournament_model.get_registered_all('t_table') 
-        # Sélectionner le <objet> indiqué dans id (dict) 
-        t_obj = t_objs[t_id] 
+        # Sélectionner le <objet> indiqué dans id (dict)  # -1 : pas eu ce problème auparavant 
+        t_obj = t_objs[t_id]  # -1  ### 
         return t_obj 
 
 
