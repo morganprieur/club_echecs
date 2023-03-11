@@ -120,19 +120,31 @@ class Main_controller():
 
     def enter_new_tournament(self): 
         print('\nEnter new tournament') 
+        
+        # Get the data for the current tournament: 
         tournament_data = self.in_view.input_tournament() 
 
+        # Get all the registered tournaments: 
+        tournaments = Tournament_model.get_registered_all('t_table') 
+        last_tournament = tournaments.pop() 
+        # print(f'last_tournament MC128 : {last_tournament}') 
+
+        # Attribute the id to the current tournament: 
+        tournament_data['id'] = int(last_tournament['id'])+1 
+        # print(f'tournament_data MC130 : {tournament_data}') 
+        
         # check key 'rounds' 
-        keys = [] 
-        for t in tournament_data: 
-            # print(f't MC128 : {t}') 
-            keys.append(t) 
-        if 'rounds' not in keys: 
-            self.tournament.rounds = rounds=[] 
+        if 'rounds' not in tournament_data.keys(): 
+            tournament_data['rounds'] = [] 
+
+        # Instantiate the current tournament: 
         self.tournament = Tournament_model(**tournament_data) 
+
         # print(f'self.tournament MC134 : {self.tournament}') 
-        print(f'\nLe round {self.round} a bien été enregistré') 
-        self.tournament.serialize() 
+        if self.tournament.serialize() == False: 
+            print('\nUn problème est survenu, merci d\'envoyer un feedback.') 
+        else: 
+            print(f'\nLe tournoi {self.tournament} a bien été enregistré') 
 
         continuer = session.prompt('\nAppuyer sur Entrée pour continuer ') 
         self.start(False) 
@@ -187,23 +199,24 @@ class Main_controller():
 
     def enter_new_round(self): 
         print('\nEnter new round') 
-        # Get the previous round's id, to define the current round's id: 
+
         # Get the data for the current round: 
         round_data = self.in_view.input_round() 
-        print(f'\nround_data MC193 : {round_data}') 
+        # print(f'\nround_data MC193 : {round_data}') 
+
         # Get the tournament where to register the current round: 
         tournament = self.select_one_tournament(round_data['tournament_id']-1) 
-        print(f'tournament["rounds"] MC196 : {tournament["rounds"]}') 
+        # print(f'tournament["rounds"] MC196 : {tournament["rounds"]}') 
         
+        # Get the tournament's id and attribute the id for the current round: 
         if tournament['rounds'] == []: 
             round_data['id'] = 1 
-            # print(f'round_data["id"] MC204 : {round_data["id"]}') 
         else: 
             round_data['id'] = int(tournament['rounds'].pop()['id'])+1 
-            # print(f'round_data["id"] MC201 : {round_data["id"]}') 
-        # print(f'round_data["id"] MC205 : {round_data["id"]}') 
         self.round = Round_model(**round_data) 
-        print(f'\nself.round MC201 : {self.round}') 
+        # print(f'\nself.round MC201 : {self.round}') 
+
+        # Register the round: 
         if self.round.serialize() == False: 
             print('\n*** Le tournoi référencé dans "round" n\'existe pas, vous devez d\'abord le créer. ***') 
             self.start(False) 
@@ -234,8 +247,8 @@ class Main_controller():
 
         self.report_view.display_rounds_one_tournament(self.tournament) 
 
-        # continuer = session.prompt('Appuyer sur Entrée pour continuer ') 
-        # self.start(False) 
+        continuer = session.prompt('Appuyer sur Entrée pour continuer ') 
+        self.start(False) 
 
     
     # =================== UTILS =================== # 
@@ -264,14 +277,14 @@ class Main_controller():
     RAPPORTS
     Nous aimerions pouvoir afficher les rapports suivants dans le programme :
 
-        • Liste de tous les joueurs:
-            ◦ par ordre alphabétique ;
-            ◦ par classement.
+        •X Liste de tous les joueurs:
+            ◦X par ordre alphabétique ;
+            ◦X par classement.
         • Liste de tous les joueurs d'un tournoi :
             ◦ par ordre alphabétique ;
             ◦ par classement.
-        • Liste de tous les tournois.
-        • Liste de tous les tours d'un tournoi.
+        •X Liste de tous les tournois.
+        •X Liste de tous les tours d'un tournoi.
         • Liste de tous les matchs d'un tournoi.
 
     Nous aimerions les exporter ultérieurement, mais ce n'est pas nécessaire pour l'instant.

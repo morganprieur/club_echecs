@@ -18,7 +18,8 @@ class Input_view():
     def input_tournament(self): 
         # print(f'now IV19 : {self.now}') 
         new_tournament = {} 
-        new_tournament['id'] = int(session.prompt('\nID du tournoi : ')) 
+        # new_tournament['id'] must be defined automatically in MC 
+        # new_tournament['id'] = int(session.prompt('\nID du tournoi : ')) 
         new_tournament['name'] = session.prompt('\nNom du tournoi : ') 
         new_tournament['site'] = session.prompt('\nLieu : ') 
         # new_tournament['t_date'] = session.prompt('\nDate (YYYY/MM/DD) : ') 
