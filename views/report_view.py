@@ -24,7 +24,8 @@ class Report_view():
         # Afficher les rounds : 
         for r in tournament.rounds: 
             print(f'\nID : \t{r.id}') 
-            print(f'Nom : \t{r.round_name}')  
+            print(f'Nom : \t{r.round_name}') 
+            print(f'Nom : \t{r.start_datetime}')
 
         print('\n====\n') 
     
@@ -63,6 +64,7 @@ class Report_view():
                 #     print(f'\t{p} : \t{v}') 
                 print(f'\tID : \t{r.id}') 
                 print(f'\tnom : \t{r.round_name}') 
+                print(f'\tdébut : \t{r.start_datetime}') 
 
         print('\n====\n') 
 
@@ -74,7 +76,7 @@ class Report_view():
         print() 
         objects.sort(key=attrgetter(field)) 
         for obj in objects: 
-            print(f'{obj.firstname}    {obj.lastname},    classement : {obj.rank}') 
+            print(f'{obj.firstname} \t{obj.lastname}, \tclassement : {obj.rank}') 
 
 
 

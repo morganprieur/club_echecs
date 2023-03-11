@@ -138,23 +138,16 @@ class Main_controller():
         self.start(False) 
     
 
-    # def check_key(self, key, model, objs, sub_obj): 
-    #     print(f'objs MC130 : {objs}') 
-    #     for o in objs: 
-    #         print(f'o MC132 : {o}') 
-    #         keys = [] 
-    #         # for k,v in o.items(): 
-    #         #     keys.append(k) 
-    #         keys.append(o) 
-    #         if key not in keys: 
-    #             objs['rounds'] = [] 
-    #             self.obj = model(**objs) 
-    #             # self.obj = model(**objs, sub_obj=[]) 
-    #         else: 
-    #             self.obj = model(**objs) 
+    def check_key(self, key, model, objs): 
+        # print(f'objs MC142 : {objs}')
+        list_objs = []
+        for data in objs: 
+            # print(f'data MC145 : {data}') 
+            if key not in data.keys():  
+                data[key] = []  
+            list_objs.append(model(**data)) 
 
-    #         return self.obj 
-
+        return list_objs 
 
     def report_tournaments(self): 
         self.board.ask_for_report = None 
@@ -162,36 +155,14 @@ class Main_controller():
         # print('\nTous les tournois : ') 
         tournaments = Tournament_model.get_registered_all('t_table') 
         tournaments_obj = [] 
-        # self.check_key(tournaments, 'round', Tournament_model, rounds)  ### corriger ou remplacer 
-        for tournament in tournaments: 
-            # print(f'tournament MC167 : {tournament}') 
-            keys = [] 
-            for k,v in tournament.items(): 
-                keys.append(k) 
-            # print(f'keys MC93 : {keys}') 
-            if "rounds" not in keys:  
-                # print(f'tournament MC90 : {tournament}') 
-                self.tournament = Tournament_model(**tournament, rounds=[]) 
-            else: 
-                # print(f'tournament MC95 : {self.tournament}') 
-                # rounds = [Round_model(**round_data) for round_data in tournament.rounds]
-                self.tournament = Tournament_model(**tournament) 
-            self.rounds = self.tournament.rounds 
-            # print(f'self.rounds MC167 : {self.rounds}') 
-            rounds = [] 
-            # print(f'tournament.rounds MC162 : {self.tournament.rounds}') 
-            
-            for round_data in self.tournament.rounds: 
-                # print(f'round_data mC170 : {tournament}-{round_data}') 
-                keys = [] 
-                for k,v in round_data.items(): 
-                    keys.append(k) 
-                if 'tournament_id' not in keys: 
-                    rounds.append(Round_model(**round_data, tournament_id=[])) 
-                else: 
-                    rounds.append(Round_model(**round_data)) 
-            
-            self.tournament.rounds = rounds
+        
+        list_tournements = self.check_key('rounds', Tournament_model, tournaments) 
+        # rounds = [] 
+        for tournament in list_tournements: 
+            # print(f'tournament MC176 : {tournament}') 
+            # print(f'type(tournament) MC177 : {type(tournament)}') 
+            self.tournament = tournament
+            # print(f'self.tournament MC179 : {self.tournament}') 
             tournaments_obj.append(self.tournament) 
         self.report_view.display_all_tournaments(tournaments_obj) 
 
@@ -270,15 +241,17 @@ class Main_controller():
         # self.check_key('round', Tournament_model, tournament, 'rounds') 
         rounds = [] 
         # Extract the rounds from the tournament (list od dicts) : 
-        for round_data in tournament['rounds']: 
-            # print(f'round_data MC267 : {round_data}') 
+        # for round_data in tournament['rounds']: 
+        for r_data in tournament: 
+            print(f'r_data MC275 : {r_data}') 
             keys = [] 
-            for k,v in round_data.items(): 
+            # for k,v in r_data.items(): 
+            for k in r_data: 
                 keys.append(k) 
             if 'tournament_id' not in keys: 
-                rounds.append(Round_model(**round_data, tournament_id=None)) 
+                rounds.append(Round_model(**r_data, tournament_id=[])) 
             else: 
-                rounds.append(Round_model(**round_data)) 
+                rounds.append(Round_model(**r_data)) 
         
         # print(f'rounds MC280 : {rounds}') 
         self.tournament.rounds = rounds 

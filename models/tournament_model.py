@@ -2,7 +2,7 @@
 from .abstract_model import AbstractModel 
 # for tests : 
 # from abstract_model import AbstractModel 
-
+from .round_model import Round_model 
 import json 
 import re 
 # d = re.compile('[\d]+') 
@@ -14,14 +14,31 @@ class Tournament_model(AbstractModel):
 
     # players = list 
 
+    # def __init__(self, id:int, name:str, site:str, t_date:str, rounds:list, duration:str, description:str):  #  name, site, t_date, nb_rounds, players:list, duration, description  
+    #     super().__init__('t_table') 
+    #     self.id = id 
+    #     self.name = name 
+    #     self.site = site 
+    #     self.t_date = t_date 
+    #     # self.nb_rounds = nb_rounds 
+    #     self.rounds = rounds 
+    #     # self.rounds = None 
+    #     # self.players = players 
+    #     self.duration = duration 
+    #     self.description = description 
+
     def __init__(self, id:int, name:str, site:str, t_date:str, rounds:list, duration:str, description:str):  #  name, site, t_date, nb_rounds, players:list, duration, description  
         super().__init__('t_table') 
         self.id = id 
         self.name = name 
         self.site = site 
         self.t_date = t_date 
-        # self.nb_rounds = nb_rounds 
-        self.rounds = rounds 
+        # self.nb_rounds = nb_rounds
+        if rounds and isinstance(rounds[0], dict): 
+            print(f'rounds TM38 : {rounds}') 
+            self.rounds = [Round_model(**data) for data in rounds] 
+        else:
+            self.rounds = rounds 
         # self.rounds = None 
         # self.players = players 
         self.duration = duration 
