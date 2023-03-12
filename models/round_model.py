@@ -2,27 +2,29 @@
 from .abstract_model import AbstractModel 
 # for tests : 
 # from abstract_model import AbstractModel 
+from .match_model import Match_model 
 
 import json 
 
 
 class Round_model(AbstractModel): 
 
-    def __init__(self, id:int, round_name:str, tournament_id:int, start_datetime:str):  # , matches:list, start_datetime:str, end_datetime:str  ### datetimes automatiques ### round_matches 
+    def __init__(self, id:int, round_name:str, tournament_id:int, start_datetime:str, matches:list):  # , end_datetime:str  ### datetimes automatiques ### round_matches 
         super().__init__('t_table') 
         self.id = id 
         self.round_name = round_name 
-        # self.matches = matches 
         self.start_datetime = start_datetime 
         # self.end_datetime = end_datetime 
         self.tournament_id = tournament_id 
+        if matches and isinstance(matches[0], dict): 
+            print(f'matches RM19 : {matches}') 
+            self.matches = [Match_model(**data) for data in matches] 
+        else: 
+            self.matches = matches 
+        # self.matches = matches 
 
-    def __str__(self):
-        # round_matchesList = f'' 
-        # for m in range(len(self.matches)): 
-        #     round_matchesList += f' {str(self.matches[m])} \n' 
-
-        return f'ID du round : {self.id}, nom : {self.round_name}, tournament_id : {self.tournament_id}'  # \nListe des matches : \n{round_matchesList}début : {self.start_datetime} \nfin : {self.end_datetime}' 
+    def __str__(self): 
+        return f'ID du round : {self.id}, nom : {self.round_name}, tournament_id : {self.tournament_id}, matches : {self.matches}'  # \nListe des matches : \n{round_matchesList}début : {self.start_datetime} \nfin : {self.end_datetime}' 
 
 
     def to_dict(self): 
@@ -41,36 +43,26 @@ class Round_model(AbstractModel):
             # print(f'type(objects[0]) RM46 : {type(objects[0])}') 
             # with open(f'tables/t_table.json', 'r') as file: 
             with open(f'tables/{self.table}.json', 'r') as file: 
-                t_id = self.tournament_id-1 
+                t_id = int(self.tournament_id)-1 
                 if t_id > len(objects): 
                     return False 
                 else: 
-                    t_obj = objects[t_id] 
+                    t_dict = objects[t_id] 
 
-                    keys = [] 
-                    for k,v in t_obj.items(): 
-                        keys.append(k) 
-                    # print(f'keys RM53 : {keys}') 
+                    # keys = [] 
+                    # for k,v in t_obj.items(): 
+                    #     keys.append(k) 
                     
-                    if "rounds" not in keys: 
+                    if "rounds" not in t_dict.keys(): 
                         # print(f't_obj["rounds"]) n\'existe pas RM57') 
-                        t_obj['rounds'] = [] 
+                        t_dict['rounds'] = [] 
                     else: 
-                        t_obj['rounds'].append(self.to_dict()) 
+                        t_dict['rounds'].append(self.to_dict()) 
         else: 
             print('Erreur : la table t_table ne peut pas être vide.') 
         with open(f"tables/{self.table}.json", "w") as file: 
             json.dump(objects, file) 
 
-
-    # def select_one_tournament(self, tournament_id): 
-    #     # Récupérer tous les tournois dans la liste tournaments (liste de dicts) : 
-    #     tournaments = Tournament_model.get_registered_all('t_table') 
-    #     # Sélectionner le tournoi indiqué dans tournament (dict) 
-    #     tournament = tournaments[tournament_id] 
-    #     # print(f'tournament MC155 : {tournament}') 
-    #     return tournament 
-    # tournament = main_controller.select_one_tournament(self, tournament_id) 
 
 
 if __name__ == "__main__": 
@@ -89,13 +81,13 @@ if __name__ == "__main__":
 
 """ 
 Round = liste des matches 
-un champ de nom. 
+V un champ de nom. 
     --> Actuellement, nous appelons nos tours "Round 1", "Round 2", etc. 
-un champ Date et heure de début 
+V un champ Date et heure de début 
 un champ Date et heure de fin, 
-    --> automatiquement remplis lorsque l'utilisateur crée un tour 
+    V--> automatiquement remplis lorsque l'utilisateur crée un tour 
         et le marque comme terminé. 
-Les instances de round doivent être stockées dans une liste sur 
+V Les instances de round doivent être stockées dans une liste sur 
 l'instance de tournoi à laquelle elles appartiennent.
 """ 
 

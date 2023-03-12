@@ -12,21 +12,6 @@ end = re.compile('[\]]+')
 
 class Tournament_model(AbstractModel): 
 
-    # players = list 
-
-    # def __init__(self, id:int, name:str, site:str, t_date:str, rounds:list, duration:str, description:str):  #  name, site, t_date, nb_rounds, players:list, duration, description  
-    #     super().__init__('t_table') 
-    #     self.id = id 
-    #     self.name = name 
-    #     self.site = site 
-    #     self.t_date = t_date 
-    #     # self.nb_rounds = nb_rounds 
-    #     self.rounds = rounds 
-    #     # self.rounds = None 
-    #     # self.players = players 
-    #     self.duration = duration 
-    #     self.description = description 
-
     def __init__(self, id:int, name:str, site:str, t_date:str, rounds:list, duration:str, description:str):  #  name, site, t_date, nb_rounds, players:list, duration, description  
         super().__init__('t_table') 
         self.id = id 
@@ -91,7 +76,9 @@ if __name__ == "__main__":
     • Nom
     • Lieu :
     • Date
-        ◦ Jusqu'à présent, tous nos tournois sont des événements d'un jour, mais nous pourrions en organiser de plusieurs jours à l'avenir, ce qui devrait donc permettre de varier les dates.
+        ◦ Jusqu'à présent, tous nos tournois sont des événements d'un jour, 
+            mais nous pourrions en organiser de plusieurs jours à l'avenir, 
+            ce qui devrait donc permettre de varier les dates.
     • Nombre de tours
         ◦ Réglez la valeur par défaut sur 4.
     • Tournées

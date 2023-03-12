@@ -28,6 +28,7 @@ class Dashboard_view():
         '1 : un joueur', 
         '2 : un tournoi', 
         '3 : un round', 
+        '4 : un match', 
         '', 
         'Commandes de secours : ', 
         '* pour revenir au menu principal', 
@@ -44,7 +45,7 @@ class Dashboard_view():
         # '4 : Les joueurs du tournoi par classement', 
         # '5 : les résultats du tournoi', 
         '6 : les tours d\'un tournoi', 
-        # '7 : les matches', 
+        '7 : les matches', 
         '8 : tous les tournois', 
 
         # pas demandés : 

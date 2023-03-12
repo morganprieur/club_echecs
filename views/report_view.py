@@ -8,30 +8,6 @@ class Report_view():
     def __init__(self) -> None:
         pass 
 
-    
-    ###==== Reports rounds ====### 
-    def display_rounds_one_tournament(self, tournament): 
-        """ Display all the rounds in one tournament. 
-
-        Args: 
-            tournament (int): 
-                the tournament object the rounds must be displayed from. 
-        """ 
-        print(f'\n---- Tous les tours du tournoi {int(tournament.id)} ----') 
-        # print(f'tournament RV27 : {tournament}') 
-
-        # I there isn't any rounds : 
-        if tournament.rounds == []: 
-            print(f'\nLe tournoi {tournament.id} n\'a pas encore de rounds') 
-        else:  
-            # Afficher les rounds : 
-            for r in tournament.rounds: 
-                print(f'\nID : \t{r.id}') 
-                print(f'Nom : \t{r.round_name}') 
-                print(f'Nom : \t{r.start_datetime}')
-
-        print('\n====\n') 
-    
 
     ###==== Reports tournaments ====### 
 
@@ -72,6 +48,61 @@ class Report_view():
         print('\n====\n') 
 
     
+    ###==== Reports rounds ====### 
+    def display_rounds_one_tournament(self, tournament): 
+        """ Display all the rounds from one tournament. 
+
+        Args: 
+            tournament (int): 
+                the tournament object the rounds must be displayed from. 
+        """ 
+        print(f'\n---- Tous les tours du tournoi {int(tournament.id)} ----') 
+        # print(f'tournament RV27 : {tournament}') 
+
+        # If there isn't any rounds : 
+        if tournament.rounds == []: 
+            print(f'\nLe tournoi {tournament.id} n\'a pas encore de rounds') 
+        else:  
+            # Afficher les rounds : 
+            for r in tournament.rounds: 
+                print(f'\nID : \t{r.id}') 
+                print(f'Nom : \t{r.round_name}') 
+                print(f'Date et heure de début : \t{r.start_datetime}')
+
+        print('\n====\n') 
+    
+
+    ###==== Reports tournaments ====### 
+
+    def display_matches_one_tournament(self, tournament): 
+        """ Display all the matches from one tournament. 
+
+        Args: 
+            tournament (int): 
+                the ID of the tournament the matches will be getting from. 
+        """ 
+        print(f'\n---- Tous les matches du tournoi {int(tournament.id)} ----') 
+        print(f'tournament RV87 : {tournament}') 
+        # print(f'tournament RV88 : {round}') 
+
+        # If there isn't any rounds into the tournament : 
+        if tournament.rounds == []: 
+            print(f'\nLe tournoi {tournament.id} n\'a pas encore de rounds') 
+        # else: 
+        #     # If there isn't any matches into the round : 
+        #     if round.matches = []: 
+        #         print(f'\nLe tournoi {tournament.id} n\'a pas encore de matches') 
+        #     else: 
+        #         for m in round.matches: 
+        #             print(f'\ du match : \t{m.id}') 
+        #             print(f'\n\t([{m.match_id_joueur_1}, {m.match_score_joueur_1}], [{m.match_id_joueur_2}, {m.match_score_joueur_12}])') 
+        #             print(f'\nID : \t{m.round_id}') 
+
+        # print('\n====\n') 
+        ### tous les matches de tous les rounds du tournoi 
+
+
+
     ###==== Reports players ====### 
     
     @staticmethod 

@@ -6,6 +6,7 @@ from views.report_view import Report_view
 from models.player_model import Player_model 
 from models.tournament_model import Tournament_model 
 from models.round_model import Round_model 
+from models.match_model import Match_model 
 
 from prompt_toolkit import PromptSession 
 session = PromptSession() 
@@ -54,6 +55,11 @@ class Main_controller():
                 self.board.ask_for_register = None 
                 # saisir un joueur : 
                 self.enter_new_round() 
+            
+            if self.board.ask_for_register == '4': 
+                self.board.ask_for_register = None 
+                # saisir un joueur : 
+                self.enter_new_match() 
 
             if self.board.ask_for_register == '*': 
                 self.board.ask_for_register = None 
@@ -82,11 +88,19 @@ class Main_controller():
 
             if self.board.ask_for_report == '6': 
                 self.board.ask_for_report = None 
-                # Choisi run tournoi : 
+                # Choisir un tournoi : 
                 ask_for_tournament_id = session.prompt('De quel tournoi voulez-vous les tours ? ') 
                 # afficher les tours : 
                 # self.board.ask_for_tournament_id 
                 self.report_rounds(ask_for_tournament_id) 
+
+            if self.board.ask_for_report == '7': 
+                self.board.ask_for_report = None 
+                # Choisir un tournoi : 
+                ask_for_tournament_id = session.prompt('De quel tournoi voulez-vous les tours ? ') 
+                # afficher les tours : 
+                # self.board.ask_for_tournament_id 
+                self.report_matches(ask_for_tournament_id) 
             
             if self.board.ask_for_report == '8': 
                 self.board.ask_for_report = None 
@@ -157,12 +171,18 @@ class Main_controller():
         tournaments = Tournament_model.get_registered_all('t_table') 
         tournaments_obj = [] 
         
-        list_tournements = self.check_key('rounds', Tournament_model, tournaments) 
-        for tournament in list_tournements: 
+        # list_tournements = self.check_key('rounds', Tournament_model, tournaments) 
+
+        for tournament in tournaments: 
+            if 'rounds' not in tournaments.keys(): 
+                tournament['rounds'] = [] 
+            for round in tournament['rounds']: 
+                if 'matches' not in tournament['rounds'].keys(): 
+                    tournament['rounds']['matches'] = [] 
+            self.tournament = Tournament_model(**tournament) 
             # print(f'tournament MC176 : {tournament}') 
             # print(f'type(tournament) MC177 : {type(tournament)}') 
-            self.tournament = tournament
-            # print(f'self.tournament MC179 : {self.tournament}') 
+            print(f'self.tournament MC183 : {self.tournament}') 
             tournaments_obj.append(self.tournament) 
         self.report_view.display_all_tournaments(tournaments_obj) 
 
@@ -208,11 +228,14 @@ class Main_controller():
         tournament = self.select_one_tournament(round_data['tournament_id']-1) 
         # print(f'tournament["rounds"] MC196 : {tournament["rounds"]}') 
         
-        # Get the tournament's id and attribute the id for the current round: 
+        # Get the round's id and attribute the id to the current round: 
         if tournament['rounds'] == []: 
             round_data['id'] = 1 
         else: 
             round_data['id'] = int(tournament['rounds'].pop()['id'])+1 
+        
+        if 'matches' not in round_data.keys(): 
+            round_data['matches'] = [] 
         self.round = Round_model(**round_data) 
         # print(f'\nself.round MC201 : {self.round}') 
 
@@ -235,20 +258,126 @@ class Main_controller():
         tournament = self.select_one_tournament(tournament_id) 
 
         if 'rounds' not in tournament.keys(): 
-            tournament.rounds=[] 
+            tournament.rounds = [] 
+        print(f'tournament MC262 : {tournament}')  # matches ok 
+        print(f'tournament["rounds"] MC263 : {tournament["rounds"]}')  # matches ok 
+
+        for round in tournament['rounds']: 
+            print(f'round MC266 : {round}') 
+            if 'matches' not in round.keys(): 
+                round['matches'] = [] 
+
+            print(f'round["matches"] MC270 : {round["matches"]}') 
+
+            matches = round['matches'] 
+            for match in matches: 
+                print(f'match MC274 : {match}')  # ok 
+                print(f'matches[0] MC275 : {matches[0]}')  # matches[0] ok  
+                # https://stackoverflow.com/questions/15721363/preserve-python-tuples-with-json 
+                self.match = Match_model(**match)  # TypeError: models.match_model.Match_model() argument after ** must be a mapping, not list ### 
+                print(f'self.match MC277 : {self.match}') 
+                # matches.append(self.match) 
+            self.round = Round_model(**round) 
+            print(f'self.round MC280 : {self.round}') 
+            # rounds.append(self.round) 
+
         # Instantiate the tournament ( --> object) : 
         self.tournament = Tournament_model(**tournament) 
-        # print(f'type(self.tournament) MC215 : {type(self.tournament)}') 
-        
+        # print(f'type(self.tournament) MC273 : {type(self.tournament)}') 
+        print(f'self.tournament MC286 : {self.tournament}') 
+        # print(f'self.tournament.rounds.matches MC276 : {self.tournament.rounds.matches}') 
+
         # Extract the rounds from the tournament (list of objects) : 
         # print(f'self.tournament.rounds MC229 : {self.tournament.rounds}') 
         rounds = self.tournament.rounds 
         # print(f'rounds MC232 : {rounds}') 
+        matches = self.round.matches 
 
         self.report_view.display_rounds_one_tournament(self.tournament) 
 
         continuer = session.prompt('Appuyer sur Entrée pour continuer ') 
         self.start(False) 
+
+
+    def enter_new_match(self): 
+        print('\nEnter new match') 
+
+        # Get the data for the current match: 
+        match_data = self.in_view.input_match() 
+        print(f'\nmatch_data MC284 : {match_data}')  # ok 
+
+        # Get the (last) tournament where to register the current round: 
+        tournaments = Tournament_model.get_registered_all('t_table') 
+        # current_tournament = len(tournaments)-1 
+        current_tournament = tournaments.pop() 
+        print(f'current_tournament MC290 : {current_tournament}')  # ok 
+        print(f'type(current_tournament) MC291 : {type(current_tournament)}')  # dict 
+        
+        # Get the last round, where to register the match 
+        if not (current_tournament['rounds']): 
+            # print(f'current_tournament["rounds"] MC295 : {current_tournament["rounds"]}') 
+            # current_round = {} 
+            # current_round['matches'] = [] 
+            print(f'Il faut d\'abord enregistrer un round.') 
+        else: 
+            print('MC300') 
+            current_round = current_tournament['rounds'].pop() 
+            if 'matches' not in current_round.keys(): 
+                current_round['matches'] = [] 
+            # self.round = Round_model(**current_round) 
+            print(f'current_round MC300 : {current_round}') 
+            print(f'type(current_round) MC301 : {type(current_round)}') 
+        
+        # Get the match's id and attribute the id to the current match: 
+        # if current_round['matches'] == []: 
+        #     match_data['id'] = 1 
+        # else: 
+            # round_data['id'] = int(tournament['rounds'].pop()['id'])+1 
+            # print(f"current_round['matches'].pop() MC333 : {current_round['matches'].pop()}")
+            # match_data['id'] = int(current_round['matches'].pop()['id'])+1 
+        self.match = Match_model(**match_data) 
+        print(f'\nself.match MC336 : {self.match}') 
+        print(f'\type(self.match) MC337 : {type(self.match)}') 
+
+        # Instantiate the round : 
+        self.round = Round_model(**current_round) 
+        print(f'\self.round MC341 : {self.round}') 
+        # Instantiate the tournament : 
+        self.tournament = Tournament_model(**current_tournament) 
+        print(f'\self.tournament MC344 : {self.tournament}') 
+
+        # Register the match: 
+        if self.match.serialize() == False: 
+            print('\n*** Le round référencé dans "match" n\'existe pas, vous devez d\'abord le créer. ***') 
+            self.start(False) 
+        else: 
+            print(f'\nLe match {self.match} a bien été enregistré') 
+            # self.report_matches(current_tournament.id) 
+        # ==== 
+        continuer = session.prompt('Appuyer sur Entrée  pour continuer ') 
+        self.start(False) 
+
+
+    def report_matches(self, ask_for_tournament_id): 
+        tournament_id = int(ask_for_tournament_id)-1 
+        # tournament object : 
+        tournament = self.select_one_tournament(tournament_id) 
+
+        if 'rounds' not in tournament.keys(): 
+            tournament.rounds = [] 
+        self.tournament = Tournament_model(**tournament) 
+        print(f'self.tournament MC290 : {self.tournament}') 
+
+        rounds = self.tournament.rounds 
+        print(f'rounds MC293 : {rounds}') 
+
+        self.report_view.display_matches_one_tournament(self.tournament) 
+
+        continuer = session.prompt('Appuyer sur Entrée  pour continuer ') 
+        self.start(False) 
+
+
+
 
     
     # =================== UTILS =================== # 
