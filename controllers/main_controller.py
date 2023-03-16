@@ -271,16 +271,18 @@ class Main_controller():
 
             matches = round['matches'] 
             for match in matches: 
+                # change match list in a tuple: 
                 match_tuple = tuple(match) 
-                print(f'match_tuple MC274 : {match_tuple}')  # ok 
-                print(f'type(match_tuple) MC275 : {type(match_tuple)}')  # ok 
-                print(f'matches[0] MC276 : {matches[0]}')  # matches[0] ok  
-                # https://stackoverflow.com/questions/15721363/preserve-python-tuples-with-json 
-                self.match = Match_model(**match_tuple)  # TypeError: models.match_model.Match_model() argument after ** must be a mapping, not list ### 
-                print(f'self.match MC280 : {self.match}') 
+                print(f'match_tuple MC276 : {match_tuple}')  # (['1', 0.5], ['2', 0.5]) 
+                # print(dir(match_tuple)) 
+                # print(f'type(match_tuple) MC276 : {type(match_tuple)}')  # ok 
+                print(f'matches[0] MC279 : {matches[0]}')  # matches[0] : list of lists 
+                # TypeError: Match_model.__init__() takes 2 positional arguments but 3 were given
+                self.match = Match_model(match_tuple) 
+                print(f'self.match MC282 : {self.match}') 
                 # matches.append(self.match) 
             self.round = Round_model(**round) 
-            print(f'self.round MC283 : {self.round}') 
+            print(f'self.round MC285 : {self.round}') 
             # rounds.append(self.round) 
 
         # Instantiate the tournament ( --> object) : 

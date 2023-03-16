@@ -8,24 +8,23 @@ import json
 
 class Match_model(AbstractModel): 
 
-    def __init__(self, match_id_joueur_1:int, match_score_joueur_1:float, match_id_joueur_2:int, match_score_joueur_2:float, round_id:int): 
+    def __init__(self, match:tuple): 
         super().__init__('t_table') 
-        # self.id = id 
-        self.match_id_joueur_1 = match_id_joueur_1 
-        self.match_score_joueur_1 = match_score_joueur_1 
-        self.match_id_joueur_2 = match_id_joueur_2 
-        self.match_score_joueur_2 = match_score_joueur_2 
-        # self.match = match 
-        self.round_id = round_id 
-
+        # self.match_id_joueur_1 = match_id_joueur_1 
+        # self.match_score_joueur_1 = match_score_joueur_1 
+        # self.match_id_joueur_2 = match_id_joueur_2 
+        # self.match_score_joueur_2 = match_score_joueur_2 
+        self.match = match  
+        # self.match = tuple([], [])  
+        
     def __str__(self): 
-        match = tuple([self.match_id_joueur_1, self.match_score_joueur_1], [self.match_id_joueur_2, self.match_score_joueur_2]) 
-        print(f'type(match) MM23 : {type(match)}') 
-        return f'{match}' 
+        print(f'type(self.match) MM23 : {type(self.match)}') 
+        return f'{self.match}' 
 
 
     def to_dict(self): 
-        return tuple([self.match_id_joueur_1, self.match_score_joueur_1], [self.match_id_joueur_2, self.match_score_joueur_2]) 
+        return self.match 
+        # return tuple([self.match_id_joueur_1, self.match_score_joueur_1], [self.match_id_joueur_2, self.match_score_joueur_2]) 
     
 
     def serialize(self): 
