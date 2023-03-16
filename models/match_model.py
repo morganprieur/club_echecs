@@ -19,13 +19,13 @@ class Match_model(AbstractModel):
         self.round_id = round_id 
 
     def __str__(self): 
-        match = ([self.match_id_joueur_1, self.match_score_joueur_1], [self.match_id_joueur_2, self.match_score_joueur_2]) 
+        match = tuple([self.match_id_joueur_1, self.match_score_joueur_1], [self.match_id_joueur_2, self.match_score_joueur_2]) 
         print(f'type(match) MM23 : {type(match)}') 
         return f'{match}' 
 
 
     def to_dict(self): 
-        return ( [self.match_id_joueur_1, self.match_score_joueur_1], [self.match_id_joueur_2, self.match_score_joueur_2] ) 
+        return tuple([self.match_id_joueur_1, self.match_score_joueur_1], [self.match_id_joueur_2, self.match_score_joueur_2]) 
     
 
     def serialize(self): 

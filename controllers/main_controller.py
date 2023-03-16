@@ -97,8 +97,8 @@ class Main_controller():
             if self.board.ask_for_report == '7': 
                 self.board.ask_for_report = None 
                 # Choisir un tournoi : 
-                ask_for_tournament_id = session.prompt('De quel tournoi voulez-vous les tours ? ') 
-                # afficher les tours : 
+                ask_for_tournament_id = session.prompt('De quel tournoi voulez-vous les matches ? ') 
+                # afficher les matches : 
                 # self.board.ask_for_tournament_id 
                 self.report_matches(ask_for_tournament_id) 
             
@@ -271,14 +271,16 @@ class Main_controller():
 
             matches = round['matches'] 
             for match in matches: 
-                print(f'match MC274 : {match}')  # ok 
-                print(f'matches[0] MC275 : {matches[0]}')  # matches[0] ok  
+                match_tuple = tuple(match) 
+                print(f'match_tuple MC274 : {match_tuple}')  # ok 
+                print(f'type(match_tuple) MC275 : {type(match_tuple)}')  # ok 
+                print(f'matches[0] MC276 : {matches[0]}')  # matches[0] ok  
                 # https://stackoverflow.com/questions/15721363/preserve-python-tuples-with-json 
-                self.match = Match_model(**match)  # TypeError: models.match_model.Match_model() argument after ** must be a mapping, not list ### 
-                print(f'self.match MC277 : {self.match}') 
+                self.match = Match_model(**match_tuple)  # TypeError: models.match_model.Match_model() argument after ** must be a mapping, not list ### 
+                print(f'self.match MC280 : {self.match}') 
                 # matches.append(self.match) 
             self.round = Round_model(**round) 
-            print(f'self.round MC280 : {self.round}') 
+            print(f'self.round MC283 : {self.round}') 
             # rounds.append(self.round) 
 
         # Instantiate the tournament ( --> object) : 

@@ -82,23 +82,24 @@ class Report_view():
                 the ID of the tournament the matches will be getting from. 
         """ 
         print(f'\n---- Tous les matches du tournoi {int(tournament.id)} ----') 
-        print(f'tournament RV87 : {tournament}') 
+        print(f'tournament RV85 : {tournament}') 
         # print(f'tournament RV88 : {round}') 
 
-        # If there isn't any rounds into the tournament : 
-        if tournament.rounds == []: 
-            print(f'\nLe tournoi {tournament.id} n\'a pas encore de rounds') 
-        # else: 
-        #     # If there isn't any matches into the round : 
-        #     if round.matches = []: 
-        #         print(f'\nLe tournoi {tournament.id} n\'a pas encore de matches') 
-        #     else: 
-        #         for m in round.matches: 
-        #             print(f'\ du match : \t{m.id}') 
-        #             print(f'\n\t([{m.match_id_joueur_1}, {m.match_score_joueur_1}], [{m.match_id_joueur_2}, {m.match_score_joueur_12}])') 
-        #             print(f'\nID : \t{m.round_id}') 
+        rounds = tournament.rounds 
 
-        # print('\n====\n') 
+        # If there isn't any rounds into the tournament : 
+        if rounds[0].matches == []: 
+            print(f'\nLe tournoi {tournament.id} n\'a pas encore de rounds') 
+        else: 
+            # round : list of tuples 
+            for round in rounds: 
+                # match : tuple 
+                for match in round.matches: 
+                    # print(f'\n\t([{match.match_id_joueur_1}, {match.match_score_joueur_1}], [{match.match_id_joueur_2}, {match.match_score_joueur_12}])') 
+                    print(f'\n\t([{match[0][0]}, {match[0][1]}], [{match[1][0]}, {match[1][1]}])') 
+                    # print(f'\nround : \t{match.round_id}') 
+
+        print('\n====\n') 
         ### tous les matches de tous les rounds du tournoi 
 
 
