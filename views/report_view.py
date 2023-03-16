@@ -95,12 +95,10 @@ class Report_view():
             for round in rounds: 
                 # match : tuple 
                 for match in round.matches: 
-                    # print(f'\n\t([{match.match_id_joueur_1}, {match.match_score_joueur_1}], [{match.match_id_joueur_2}, {match.match_score_joueur_12}])') 
-                    print(f'\n\t([{match[0][0]}, {match[0][1]}], [{match[1][0]}, {match[1][1]}])') 
-                    # print(f'\nround : \t{match.round_id}') 
-
+                    print(f'\n\t[{match[0][0]}, {match[0][1]}], [{match[1][0]}, {match[1][1]}]') 
+                    # TODO Afficher le round  
+                    
         print('\n====\n') 
-        ### tous les matches de tous les rounds du tournoi 
 
 
 
