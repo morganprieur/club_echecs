@@ -68,7 +68,6 @@ class Report_view():
         else:  
             # Afficher les rounds : 
             for r in tournament.rounds: 
-                # print(f'r.matches RV71 : {r.matches}') 
 
                 print(f'\nID : \t{r.id}') 
                 print(f'Nom : \t{r.round_name}') 
@@ -78,7 +77,7 @@ class Report_view():
                     print(f'\nLe round {r.id} n\'a pas encore de matches') 
                 else: 
                     for match in r.matches: 
-                        print(f'\tmatch : {match}') 
+                        print(f'\tmatch : ({match})') 
 
 
         print('\n====\n') 
@@ -107,8 +106,10 @@ class Report_view():
             for round in rounds: 
                 # match : tuple 
                 for match in round.matches: 
-                    print(f'\n\t[{match[0][0]}, {match[0][1]}], [{match[1][0]}, {match[1][1]}]') 
+                    match_tuple = tuple(match) 
+                    # print(f'\n\t[{match[0][0]}, {match[0][1]}], [{match[1][0]}, {match[1][1]}]') 
                     # TODO Afficher le round  
+                    print(match_tuple) 
                     
         print('\n====\n') 
 
