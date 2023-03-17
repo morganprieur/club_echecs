@@ -20,7 +20,7 @@ class Tournament_model(AbstractModel):
         self.t_date = t_date 
         # self.nb_rounds = nb_rounds
         if rounds and isinstance(rounds[0], dict): 
-            print(f'rounds TM38 : {rounds}') 
+            print(f'rounds TM23 : {rounds}') 
             self.rounds = [Round_model(**data) for data in rounds] 
         else:
             self.rounds = rounds 

@@ -37,13 +37,16 @@ class Report_view():
             print(f'durée : {t.duration}') 
             print(f'description : \t{t.description}') 
             print(f'rounds : \t') 
-            
-            for r in t.rounds: 
-                # for p,v in r.items(): 
-                #     print(f'\t{p} : \t{v}') 
-                print(f'\tID : \t{r.id}') 
-                print(f'\tnom : \t{r.round_name}') 
-                print(f'\tdébut : \t{r.start_datetime}') 
+
+            if t.rounds == []: 
+                print(f'\tLe tournoi {t.id} n\'a pas encore de rounds enregistrés.') 
+            else: 
+                for r in t.rounds: 
+                    # for p,v in r.items(): 
+                    #     print(f'\t{p} : \t{v}') 
+                    print(f'\tID : \t{r.id}') 
+                    print(f'\tnom : \t{r.round_name}') 
+                    print(f'\tdébut : \t{r.start_datetime}') 
 
         print('\n====\n') 
 
@@ -65,9 +68,18 @@ class Report_view():
         else:  
             # Afficher les rounds : 
             for r in tournament.rounds: 
+                # print(f'r.matches RV71 : {r.matches}') 
+
                 print(f'\nID : \t{r.id}') 
                 print(f'Nom : \t{r.round_name}') 
-                print(f'Date et heure de début : \t{r.start_datetime}')
+                print(f'Date et heure de début : \t{r.start_datetime}') 
+
+                if (r.matches == []) or (r.matches == None): 
+                    print(f'\nLe round {r.id} n\'a pas encore de matches') 
+                else: 
+                    for match in r.matches: 
+                        print(f'\tmatch : {match}') 
+
 
         print('\n====\n') 
     

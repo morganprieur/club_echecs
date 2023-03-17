@@ -8,17 +8,23 @@ import json
 
 class Match_model(AbstractModel): 
 
-    def __init__(self, match:tuple): 
+    def __init__(self, round_id:int, id_joueur_1:int, score_joueur_1:float, id_joueur_2:int, score_joueur_2:float):  # , player_1:list, player_2:list , match:tuple 
         super().__init__('t_table') 
-        # self.match_id_joueur_1 = match_id_joueur_1 
-        # self.match_score_joueur_1 = match_score_joueur_1 
-        # self.match_id_joueur_2 = match_id_joueur_2 
-        # self.match_score_joueur_2 = match_score_joueur_2 
-        self.match = match  
-        # self.match = tuple([], [])  
+        self.round_id = round_id 
+        self.id_joueur_1 = id_joueur_1 
+        self.score_joueur_1 = score_joueur_1 
+        self.id_joueur_2 = id_joueur_2 
+        self.score_joueur_2 = score_joueur_2 
+
+        player_1 = [self.id_joueur_1, self.score_joueur_1] 
+        player_2 = [self.id_joueur_2, self.score_joueur_2] 
+
+        self.match = (player_1, player_2)  
+        # self.match = tuple([], []) 
+        print(f'self.match MM21 : {self.match}')  # ok 
         
     def __str__(self): 
-        print(f'type(self.match) MM23 : {type(self.match)}') 
+        print(f'type(self.match) MM22 : {type(self.match)}')  # tuple ok 
         return f'{self.match}' 
 
 
@@ -38,6 +44,8 @@ class Match_model(AbstractModel):
             print(f'current_tournament MM44 : {current_tournament}') 
             # Get the rounds from the current_tournament 
             rounds = current_tournament['rounds'] 
+            print(f'type(round_id) MM42 : {type(self.round_id)}')  
+            print(f'type(round_id) MM42 : {int(self.round_id)}')  
             r_id = int(self.round_id)-1 
             if r_id > len(rounds): 
                 return False 
@@ -49,7 +57,8 @@ class Match_model(AbstractModel):
                 if 'matches' not in current_round.keys(): 
                     current_round['matches'] = [] 
                 else: 
-                    current_round['matches'].append(self.to_dict()) 
+                    current_round['matches'].append(self.match) 
+                
                 print(f'current_round MM59 : {current_round}') 
                 print(f'current_tournament MM60 : {current_tournament}') 
         else: 

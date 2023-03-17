@@ -174,16 +174,17 @@ class Main_controller():
         # list_tournements = self.check_key('rounds', Tournament_model, tournaments) 
 
         for tournament in tournaments: 
-            if 'rounds' not in tournaments.keys(): 
-                tournament['rounds'] = [] 
-            for round in tournament['rounds']: 
-                if 'matches' not in tournament['rounds'].keys(): 
-                    tournament['rounds']['matches'] = [] 
-            self.tournament = Tournament_model(**tournament) 
-            # print(f'tournament MC176 : {tournament}') 
-            # print(f'type(tournament) MC177 : {type(tournament)}') 
-            print(f'self.tournament MC183 : {self.tournament}') 
-            tournaments_obj.append(self.tournament) 
+            for t in tournament.keys(): 
+                if 'rounds' not in t: 
+                    tournament['rounds'] = [] 
+                for round in tournament['rounds']: 
+                    if 'matches' not in tournament['rounds'].keys(): 
+                        tournament['rounds']['matches'] = [] 
+                self.tournament = Tournament_model(**tournament) 
+                # print(f'tournament MC176 : {tournament}') 
+                # print(f'type(tournament) MC177 : {type(tournament)}') 
+                print(f'self.tournament MC183 : {self.tournament}') 
+                tournaments_obj.append(self.tournament) 
         self.report_view.display_all_tournaments(tournaments_obj) 
 
         continuer = session.prompt('Appuyer sur Entrée pour continuer ') 
@@ -259,42 +260,36 @@ class Main_controller():
 
         if 'rounds' not in tournament.keys(): 
             tournament.rounds = [] 
-        print(f'tournament MC262 : {tournament}')  # matches ok 
-        print(f'tournament["rounds"] MC263 : {tournament["rounds"]}')  # matches ok 
+        # print(f'tournament MC262 : {tournament}')  # matches ok 
+        # print(f'tournament["rounds"] MC263 : {tournament["rounds"]}')  # matches ok 
 
         for round in tournament['rounds']: 
-            print(f'round MC266 : {round}') 
+            # print(f'round MC266 : {round}') 
             if 'matches' not in round.keys(): 
                 round['matches'] = [] 
 
-            print(f'round["matches"] MC270 : {round["matches"]}') 
+            # print(f'round["matches"] MC270 : {round["matches"]}') 
 
             matches = round['matches'] 
             for match in matches: 
                 # change match list in a tuple: 
                 match_tuple = tuple(match) 
-                print(f'match_tuple MC276 : {match_tuple}')  # (['1', 0.5], ['2', 0.5]) 
-                # print(dir(match_tuple)) 
-                # print(f'type(match_tuple) MC276 : {type(match_tuple)}')  # ok 
-                print(f'matches[0] MC279 : {matches[0]}')  # matches[0] : list of lists 
+                # print(f'match_tuple MC276 : {match_tuple}')  # (['1', 0.5], ['2', 0.5]) 
+                # print(f'matches[0] MC279 : {matches[0]}')  # matches[0] : list of lists 
                 # TypeError: Match_model.__init__() takes 2 positional arguments but 3 were given
                 self.match = Match_model(match_tuple) 
-                print(f'self.match MC282 : {self.match}') 
+                # print(f'self.match MC282 : {self.match}') 
                 # matches.append(self.match) 
             self.round = Round_model(**round) 
-            print(f'self.round MC285 : {self.round}') 
+            # print(f'self.round MC285 : {self.round}') 
             # rounds.append(self.round) 
 
         # Instantiate the tournament ( --> object) : 
         self.tournament = Tournament_model(**tournament) 
-        # print(f'type(self.tournament) MC273 : {type(self.tournament)}') 
-        print(f'self.tournament MC286 : {self.tournament}') 
-        # print(f'self.tournament.rounds.matches MC276 : {self.tournament.rounds.matches}') 
-
+        # print(f'self.tournament MC286 : {self.tournament}') 
+        
         # Extract the rounds from the tournament (list of objects) : 
-        # print(f'self.tournament.rounds MC229 : {self.tournament.rounds}') 
         rounds = self.tournament.rounds 
-        # print(f'rounds MC232 : {rounds}') 
         matches = self.round.matches 
 
         self.report_view.display_rounds_one_tournament(self.tournament) 
@@ -308,55 +303,65 @@ class Main_controller():
 
         # Get the data for the current match: 
         match_data = self.in_view.input_match() 
-        print(f'\nmatch_data MC284 : {match_data}')  # ok 
+        print(f'\nmatch_data MC306 : {match_data}') 
+        round_id = match_data['round_id'] 
+        # new_match = (match_data['player_1'], match_data['player_2']) 
+        
+        # print(f'\nround_id MC310 : {round_id}') 
+        # print(f'\nround_id-1 MC311 : {round_id-1}') 
+        # print(f'\nrounds[round_id-1] MC312 : rounds[{round_id-1}]') 
 
         # Get the (last) tournament where to register the current round: 
         tournaments = Tournament_model.get_registered_all('t_table') 
         # current_tournament = len(tournaments)-1 
         current_tournament = tournaments.pop() 
-        print(f'current_tournament MC290 : {current_tournament}')  # ok 
-        print(f'type(current_tournament) MC291 : {type(current_tournament)}')  # dict 
+        print(f'current_tournament MC316 : {current_tournament}') 
+        print(f'type(current_tournament) MC317 : {type(current_tournament)}')  # dict 
         
-        # Get the last round, where to register the match 
-        if not (current_tournament['rounds']): 
-            # print(f'current_tournament["rounds"] MC295 : {current_tournament["rounds"]}') 
-            # current_round = {} 
-            # current_round['matches'] = [] 
-            print(f'Il faut d\'abord enregistrer un round.') 
+        rounds = current_tournament['rounds'] 
+        # print(f'\nrounds[0] MC322 : {rounds[0]}') 
+
+        # Check if the given round exists 
+        print(f'rounds MC325 : {rounds}') 
+        print(f'len(rounds) MC326 : {len(rounds)}') 
+        # print(f'type(round_id) PC323 : {type(round_id)}') 
+        if not rounds or (rounds==[]):  # or (rounds[round_id]-1==None): 
+            print(f'Il faut d\'abord enregistrer le round.') 
+        # elif not int(rounds[match_data['round_id']-1]):  # >len(rounds): 
+        elif not rounds[round_id-1]:  # >len(rounds): 
+            print(f"Le round {match_data['round_id']} n\'est pas encore créé.") 
+        # Get the given round, where to register the match 
         else: 
-            print('MC300') 
-            current_round = current_tournament['rounds'].pop() 
+            print(f"rounds['round_id']-1 MC334 : {rounds[match_data['round_id']-1]}") 
+            current_round = rounds[match_data['round_id']-1] 
+            # current_round = current_tournament['rounds'].pop() 
             if 'matches' not in current_round.keys(): 
                 current_round['matches'] = [] 
             # self.round = Round_model(**current_round) 
-            print(f'current_round MC300 : {current_round}') 
-            print(f'type(current_round) MC301 : {type(current_round)}') 
+            print(f'current_round MC340 : {current_round}') 
+            print(f'type(current_round) MC331 : {type(current_round)}') 
         
-        # Get the match's id and attribute the id to the current match: 
-        # if current_round['matches'] == []: 
-        #     match_data['id'] = 1 
-        # else: 
-            # round_data['id'] = int(tournament['rounds'].pop()['id'])+1 
-            # print(f"current_round['matches'].pop() MC333 : {current_round['matches'].pop()}")
-            # match_data['id'] = int(current_round['matches'].pop()['id'])+1 
-        self.match = Match_model(**match_data) 
-        print(f'\nself.match MC336 : {self.match}') 
-        print(f'\type(self.match) MC337 : {type(self.match)}') 
+            # Get the match's id and attribute the id to the current match: 
+            print(f'\nnew_match MC345 : {match_data}') 
+            self.match = Match_model(**match_data) 
+            print(f'\nself.match MC347 : {self.match}') 
+            print(f'\ntype(self.match) MC348 : {type(self.match)}') 
 
-        # Instantiate the round : 
-        self.round = Round_model(**current_round) 
-        print(f'\self.round MC341 : {self.round}') 
-        # Instantiate the tournament : 
-        self.tournament = Tournament_model(**current_tournament) 
-        print(f'\self.tournament MC344 : {self.tournament}') 
+            # Instantiate the round : 
+            current_round = rounds[round_id-1] 
+            self.round = Round_model(**current_round) 
+            print(f'\self.round MC353 : {self.round}') 
+            # Instantiate the tournament : 
+            self.tournament = Tournament_model(**current_tournament) 
+            print(f'\self.tournament MC356 : {self.tournament}') 
 
-        # Register the match: 
-        if self.match.serialize() == False: 
-            print('\n*** Le round référencé dans "match" n\'existe pas, vous devez d\'abord le créer. ***') 
-            self.start(False) 
-        else: 
-            print(f'\nLe match {self.match} a bien été enregistré') 
-            # self.report_matches(current_tournament.id) 
+            # Register the match: 
+            if self.match.serialize() == False: 
+                print(f"\n*** Le round désigné (id {round_id}) n\'existe pas, il faut d\'abord le créer. ***") 
+                self.start(False) 
+            else: 
+                print(f'\nLe match {self.match} a bien été enregistré') 
+                # self.report_matches(current_tournament.id) 
         # ==== 
         continuer = session.prompt('Appuyer sur Entrée  pour continuer ') 
         self.start(False) 

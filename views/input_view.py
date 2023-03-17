@@ -47,14 +47,16 @@ class Input_view():
     def input_match(self): 
         new_match = {} 
         # match.id must be automatically defined (into Main_controller): 
-        new_match['round_id'] = session.prompt('\nID du round : ') 
-        new_match['match_id_joueur_1'] = session.prompt('\nID du joueur n°1 : ') 
-        new_match['match_score_joueur_1'] = float(session.prompt('\nScore du joueur n°1 : ')) 
-        new_match['match_id_joueur_2'] = session.prompt('\nID du joueur n°2 : ') 
-        new_match['match_score_joueur_2'] = float(session.prompt('\nScore du joueur n°2 : ')) 
+        new_match['round_id'] = int(session.prompt('\nID du round : ')) 
+        new_match['id_joueur_1'] = session.prompt('\nID du joueur n°1 : ') 
+        new_match['score_joueur_1'] = float(session.prompt('\nScore du joueur n°1 : ')) 
+        new_match['id_joueur_2'] = session.prompt('\nID du joueur n°2 : ') 
+        new_match['score_joueur_2'] = float(session.prompt('\nScore du joueur n°2 : ')) 
         
-        new_match['match'] = tuple(new_match['match_id_joueur_1', new_match['match_score_joueur_1']], ['match_id_joueur_2', new_match['match_score_joueur_2']]) 
-        print(f'match RV57 : {new_match}') 
+        # new_match['player_1'] = [new_match['id_joueur_1'], new_match['score_joueur_1']] 
+        # new_match['player_2'] = [new_match['id_joueur_2'], new_match['score_joueur_2']] 
+        # new_match['match'] = tuple() 
+        print(f'match IV59 : {new_match}') 
         return new_match 
 
 
