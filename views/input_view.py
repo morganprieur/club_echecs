@@ -48,9 +48,9 @@ class Input_view():
         new_match = {} 
         # match.id must be automatically defined (into Main_controller): 
         new_match['round_id'] = int(session.prompt('\nID du round : ')) 
-        new_match['id_joueur_1'] = session.prompt('\nID du joueur n°1 : ') 
+        new_match['id_joueur_1'] = int(session.prompt('\nID du joueur n°1 : ')) 
         new_match['score_joueur_1'] = float(session.prompt('\nScore du joueur n°1 : ')) 
-        new_match['id_joueur_2'] = session.prompt('\nID du joueur n°2 : ') 
+        new_match['id_joueur_2'] = int(session.prompt('\nID du joueur n°2 : ')) 
         new_match['score_joueur_2'] = float(session.prompt('\nScore du joueur n°2 : ')) 
         
         # new_match['player_1'] = [new_match['id_joueur_1'], new_match['score_joueur_1']] 

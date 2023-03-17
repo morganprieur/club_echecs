@@ -28,25 +28,20 @@ class Report_view():
         print('\n==== Tous les tournois ====') 
         # print(f'\ntournois RV57 : {all_tournaments} : ') 
     
-        for t in all_tournaments: 
-            print(f'\ntournoi {all_tournaments.index(t)+1} : ') 
-            print(f'ID : \t{t.id}') 
-            print(f'nom : \t{t.name}') 
-            print(f'lieu : \t{t.site}') 
-            print(f'date : \t{t.t_date}') 
-            print(f'durée : {t.duration}') 
-            print(f'description : \t{t.description}') 
+        for tournament in all_tournaments: 
+            print(f'\ntournoi {all_tournaments.index(tournament)+1} : ') 
+            print(f'ID : \t{tournament.id}') 
+            print(f'nom : \t{tournament.name}') 
+            print(f'lieu : \t{tournament.site}') 
+            print(f'date : \t{tournament.t_date}') 
+            print(f'durée : {tournament.duration}') 
+            print(f'description : \t{tournament.description}') 
             print(f'rounds : \t') 
 
-            if t.rounds == []: 
-                print(f'\tLe tournoi {t.id} n\'a pas encore de rounds enregistrés.') 
-            else: 
-                for r in t.rounds: 
-                    # for p,v in r.items(): 
-                    #     print(f'\t{p} : \t{v}') 
-                    print(f'\tID : \t{r.id}') 
-                    print(f'\tnom : \t{r.round_name}') 
-                    print(f'\tdébut : \t{r.start_datetime}') 
+            rounds = tournament.rounds 
+            for round in rounds: 
+                self.display_round(round) 
+            # self.display_rounds_one_tournament(t) 
 
         print('\n====\n') 
 
@@ -62,22 +57,24 @@ class Report_view():
         print(f'\n---- Tous les tours du tournoi {int(tournament.id)} ----') 
         # print(f'tournament RV27 : {tournament}') 
 
+        rounds = tournament.rounds 
+
         # If there isn't any rounds : 
-        if tournament.rounds == []: 
+        if rounds == []: 
             print(f'\nLe tournoi {tournament.id} n\'a pas encore de rounds') 
         else:  
             # Afficher les rounds : 
-            for r in tournament.rounds: 
+            for round in rounds: 
+                self.display_round(round) 
+                # print(f'\nID : \t{r.id}') 
+                # print(f'Nom : \t{r.round_name}') 
+                # print(f'Date et heure de début : \t{r.start_datetime}') 
 
-                print(f'\nID : \t{r.id}') 
-                print(f'Nom : \t{r.round_name}') 
-                print(f'Date et heure de début : \t{r.start_datetime}') 
-
-                if (r.matches == []) or (r.matches == None): 
-                    print(f'\nLe round {r.id} n\'a pas encore de matches') 
-                else: 
-                    for match in r.matches: 
-                        print(f'\tmatch : ({match})') 
+                # if (round.matches == []) or (round.matches == None): 
+                #     print(f'\nLe round {round.id} n\'a pas encore de matches') 
+                # else: 
+                #     for match in round.matches: 
+                #         self.display_match(match) 
 
 
         print('\n====\n') 
@@ -93,26 +90,46 @@ class Report_view():
                 the ID of the tournament the matches will be getting from. 
         """ 
         print(f'\n---- Tous les matches du tournoi {int(tournament.id)} ----') 
-        print(f'tournament RV85 : {tournament}') 
+        # print(f'tournament RV85 : {tournament}') 
         # print(f'tournament RV88 : {round}') 
 
         rounds = tournament.rounds 
-
-        # If there isn't any rounds into the tournament : 
-        if rounds[0].matches == []: 
+### 
+        # If there isn't any rounds : 
+        if tournament.rounds == []: 
             print(f'\nLe tournoi {tournament.id} n\'a pas encore de rounds') 
-        else: 
-            # round : list of tuples 
-            for round in rounds: 
-                # match : tuple 
-                for match in round.matches: 
-                    match_tuple = tuple(match) 
+        else:  
+            # Afficher les rounds : 
+            for r in tournament.rounds: 
+
+                print(f'\nID : \t{r.id}') 
+                print(f'Nom : \t{r.round_name}') 
+                print(f'Date et heure de début : \t{r.start_datetime}') 
+### 
+                print(f'matches : ') 
+                for match in r.matches: 
+                    self.display_match(match) 
                     # print(f'\n\t[{match[0][0]}, {match[0][1]}], [{match[1][0]}, {match[1][1]}]') 
                     # TODO Afficher le round  
-                    print(match_tuple) 
+                    
                     
         print('\n====\n') 
 
+
+    ###==== Display ====### 
+    def display_match(self, match): 
+        match_tuple = tuple(match) 
+        print(match_tuple) 
+
+    def display_round(self, round): 
+        print(f'\nID : \t{round.id}') 
+        print(f'Nom : \t{round.round_name}') 
+        print(f'Date et heure de début : \t{round.start_datetime}') 
+        print(f'matches : ') 
+
+        matches = round.matches 
+        for match in matches: 
+            self.display_match(match) 
 
 
     ###==== Reports players ====### 

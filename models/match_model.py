@@ -19,8 +19,7 @@ class Match_model(AbstractModel):
         player_1 = [self.id_joueur_1, self.score_joueur_1] 
         player_2 = [self.id_joueur_2, self.score_joueur_2] 
 
-        self.match = (player_1, player_2)  
-        # self.match = tuple([], []) 
+        self.match = (player_1, player_2) 
         print(f'self.match MM21 : {self.match}')  # ok 
         
     def __str__(self): 
@@ -29,8 +28,7 @@ class Match_model(AbstractModel):
 
 
     def to_dict(self): 
-        return self.match 
-        # return tuple([self.match_id_joueur_1, self.match_score_joueur_1], [self.match_id_joueur_2, self.match_score_joueur_2]) 
+        return {"match": self.match}
     
 
     def serialize(self): 
@@ -59,8 +57,8 @@ class Match_model(AbstractModel):
                 else: 
                     current_round['matches'].append(self.match) 
                 
-                print(f'current_round MM59 : {current_round}') 
-                print(f'current_tournament MM60 : {current_tournament}') 
+                # print(f'current_round MM59 : {current_round}') 
+                # print(f'current_tournament MM60 : {current_tournament}') 
         else: 
             print('Erreur : la table t_table ne peut pas être vide.') 
         with open(f'tables/{self.table}.json', 'w') as file: 
