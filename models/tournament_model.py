@@ -3,7 +3,7 @@ from .abstract_model import AbstractModel
 # for tests : 
 # from abstract_model import AbstractModel 
 from .round_model import Round_model 
-import json 
+# import json 
 import re 
 # d = re.compile('[\d]+') 
 start = re.compile('[\[]+') 
@@ -12,7 +12,9 @@ end = re.compile('[\]]+')
 
 class Tournament_model(AbstractModel): 
 
-    def __init__(self, id:int, name:str, site:str, t_date:str, rounds:list, duration:str, description:str):  #  name, site, t_date, nb_rounds, players:list, duration, description  
+    def __init__( 
+        self, id: int, name: str, site: str, t_date: str, rounds: list, duration: str, description: str 
+    ):  # players: list 
         super().__init__('t_table') 
         self.id = id 
         self.name = name 
@@ -30,10 +32,13 @@ class Tournament_model(AbstractModel):
         self.description = description 
 
     def __str__(self):  # , roundDicts        
-        # return f'{begin_phrase}\n {round_name} {round_matches}players : {playersList}heure début : {start_datetime}heure fin : {end_datetime}{middle_phrase}{end_phrase}' 
-        return f'{self.id}, {self.name}, {self.site}, {self.t_date}, rounds : {self.rounds}, {self.duration}, {self.description}' 
-    
+        # return f'{begin_phrase}\n {round_name} {round_matches}players : 
+        # # {playersList}heure début : {start_datetime}heure fin : {end_datetime}{middle_phrase}{end_phrase}' 
+        tournament_string_start = (f'{self.id}, {self.name}, {self.site}, {self.t_date}, rounds : ') 
+        tournament_string_end = (f'{self.rounds}, {self.duration}, {self.description}') 
+        return tournament_string_start + tournament_string_end 
 
+    """ comment """ 
     def to_dict(self): 
         return { 
             'id': self.id, 
@@ -45,8 +50,8 @@ class Tournament_model(AbstractModel):
             'description': self.description 
         }
 
-    
 
+""" 
 if __name__ == "__main__": 
     
     new_tournament = { 
@@ -69,7 +74,7 @@ if __name__ == "__main__":
     one_tournament.serialize() 
     # print(f'get tournaments TM189 : {Tournament_model.get_tournaments()}') 
     # print(f'get registered TM189 : {Tournament_model.get_registered()}') 
-
+""" 
 
 """ 
     Chaque tournoi doit contenir au moins les informations suivantes :
@@ -90,4 +95,3 @@ if __name__ == "__main__":
     • Description
         ◦ Les remarques générales du directeur du tournoi vont ici.
 """ 
-

@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>flake8 violations: controllers\main_controller.py</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+<script>
+function bindHandler(link) {
+   var code = link.getAttribute('data-code');
+   var key = location.pathname + '#' + code;
+
+   var ul = link.parentNode.querySelector('.details');
+   if (sessionStorage[key] != 'open') {
+      ul.style.display = 'none';
+   }
+   link.addEventListener('click', function (event) {
+      if (!ul.style.display || ul.style.display == 'none') {
+         ul.style.display = 'block';
+         sessionStorage[key] = 'open';
+      } else {
+         ul.style.display = 'none';
+         sessionStorage[key] = 'closed';
+      }
+   });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+   var links = document.querySelectorAll('#index > li > a');
+   for (var i = 0; i < links.length; i++) {
+      bindHandler(links[i]);
+   }
+});
+</script>
+   </head>
+   <body>
+      <div id="masthead" class="sev-1"></div>
+      <div id="page">
+         <p id="srclink">
+            <a title="View full annotated source"
+               href="controllers.main_controller.source.html">
+               <img src="file.svg" alt="&#x2261;">
+            </a></p>
+         <h1>
+            <a href="index.html">
+               <img src="back.svg" alt="&#x2B05;">
+               controllers\main_controller.py
+            </a>
+         </h1>
+
+         <ul id="index">
+         
+         <li>
+            <a data-code="F841">
+               <span class="count sev-1">
+                  9
+               </span>
+               <strong>F841:</strong> local variable 'continuer' is assigned to but never used
+               
+                  (and 2 similar)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>Local variable 'continuer' is assigned to but never used:</p>
+               
+               <a href="controllers.main_controller.source.html#l163">
+                  <tt><i>163</i>         <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span> </tt>
+               </a>
+            </li><li>
+               
+               <p>Local variable 'continuer' is assigned to but never used:</p>
+               
+               <a href="controllers.main_controller.source.html#l187">
+                  <tt><i>187</i>         <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span> </tt>
+               </a>
+            </li><li>
+               
+               <p>Local variable 'continuer' is assigned to but never used:</p>
+               
+               <a href="controllers.main_controller.source.html#l214">
+                  <tt><i>214</i>         <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span> </tt>
+               </a>
+            </li><li>
+               
+               <p>Local variable 'continuer' is assigned to but never used:</p>
+               
+               <a href="controllers.main_controller.source.html#l248">
+                  <tt><i>248</i>         <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span> </tt>
+               </a>
+            </li><li>
+               
+               <p>Local variable 'rounds' is assigned to but never used:</p>
+               
+               <a href="controllers.main_controller.source.html#l316">
+                  <tt><i>316</i>         <span class="n">matches</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">round</span><span class="o">.</span><span class="n">matches</span> </tt>
+               </a>
+            </li><li>
+               
+               <p>Local variable 'matches' is assigned to but never used:</p>
+               
+               <a href="controllers.main_controller.source.html#l317">
+                  <tt><i>317</i> &nbsp;</tt>
+               </a>
+            </li><li>
+               
+               <p>Local variable 'continuer' is assigned to but never used:</p>
+               
+               <a href="controllers.main_controller.source.html#l321">
+                  <tt><i>321</i>         <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span> </tt>
+               </a>
+            </li><li>
+               
+               <p>Local variable 'continuer' is assigned to but never used:</p>
+               
+               <a href="controllers.main_controller.source.html#l390">
+                  <tt><i>390</i>         <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span> </tt>
+               </a>
+            </li><li>
+               
+               <p>Local variable 'continuer' is assigned to but never used:</p>
+               
+               <a href="controllers.main_controller.source.html#l409">
+                  <tt><i>409</i>         <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span> </tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="F541">
+               <span class="count sev-1">
+                  1
+               </span>
+               <strong>F541:</strong> f-string is missing placeholders
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="controllers.main_controller.source.html#l353">
+                  <tt><i>353</i>         <span class="c1"># elif not int(rounds[match_data[&#39;round_id&#39;]-1]):  # &gt;len(rounds): </span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="W293">
+               <span class="count sev-2">
+                  23
+               </span>
+               <strong>W293:</strong> blank line contains whitespace
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="controllers.main_controller.source.html#l58">
+                  <tt><i>58</i>             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="o">.</span><span class="n">ask_for_register</span> <span class="o">==</span> <span class="s1">&#39;4&#39;</span><span class="p">:</span> </tt>
+               </a>
+            </li><li>
+               
+               <a href="controllers.main_controller.source.html#l67">
+                  <tt><i>67</i>             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="o">.</span><span class="n">ask_for_register</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">:</span> </tt>
+               </a>
+            </li><li>
+               
+               <a href="controllers.main_controller.source.html#l104">
+                  <tt><i>104</i>             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="o">.</span><span class="n">ask_for_report</span> <span class="o">==</span> <span class="s1">&#39;8&#39;</span><span class="p">:</span> </tt>
+               </a>
+            </li><li>
+               
+               <a href="controllers.main_controller.source.html#l114">
+                  <tt><i>114</i>             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="o">.</span><span class="n">ask_for_report</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">:</span> </tt>
+               </a>
+            </li><li>
+               
+               <a href="controllers.main_controller.source.html#l121">
+                  <tt><i>121</i>         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="o">.</span><span class="n">ask_for_menu_action</span> <span class="o">==</span> <span class="s1">&#39;*&#39;</span><span class="p">:</span> </tt>
+               </a>
+            </li><li>
+               
+               <a href="controllers.main_controller.source.html#l125">
+                  <tt><i>125</i>         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="o">.</span><span class="n">ask_for_menu_action</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">:</span> </tt>
+               </a>
+            </li><li>
+               
+               <a href="controllers.main_controller.source.html#l137">
+                  <tt><i>137</i>         <span class="c1"># Get the data for the current tournament: </span></tt>
+               </a>
+            </li><li>
+               
+               <a href="controllers.main_controller.source.html#l149">
+                  <tt><i>149</i>         <span class="c1"># check key &#39;rounds&#39; </span></tt>
+               </a>
+            </li><li>
+               
+               <a href="controllers.main_controller.source.html#l165">
+                  <tt><i>165</i> &nbsp;</tt>
+               </a>
+            </li><li>
+               
+               <a href="controllers.main_controller.source.html#l206">
+                  <tt><i>206</i>         <span class="k">if</span> <span class="n">sort</span> <span class="o">==</span> <span class="s1">&#39;alphabétique&#39;</span><span class="p">:</span> </tt>
+               </a>
+            </li><li>
+               
+               <a href="controllers.main_controller.source.html#l228">
+                  <tt><i>228</i>         <span class="c1"># Get the round&#39;s id and attribute the id to the current round: </span></tt>
+               </a>
+            </li><li>
+               
+               <a href="controllers.main_controller.source.html#l234">
+                  <tt><i>234</i>         <span class="k">if</span> <span class="s1">&#39;matches&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">round_data</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span> </tt>
+               </a>
+            </li><li>
+               
+               <a href="controllers.main_controller.source.html#l247">
+                  <tt><i>247</i>         <span class="n">continuer</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">prompt</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Appuyer sur Entrée pour continuer &#39;</span><span class="p">)</span> </tt>
+               </a>
+            </li><li>
+               
+               <a href="controllers.main_controller.source.html#l272">
+                  <tt><i>272</i>                 <span class="bp">self</span><span class="o">.</span><span class="n">match</span> <span class="o">=</span> <span class="n">Match_model</span><span class="p">(</span><span class="o">**</span><span class="n">match_dict</span><span class="p">)</span> </tt>
+               </a>
+            </li><li>
+               
+               <a href="controllers.main_controller.source.html#l278">
+                  <tt><i>278</i>         <span class="n">tournament_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ask_for_tournament_id</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span> </tt>
+               </a>
+            </li><li>
+               
+               <a href="controllers.main_controller.source.html#l307">
+                  <tt><i>307</i>         <span class="c1">#         self.match = Match_model(**match_dict) </span></tt>
+               </a>
+            </li><li>
+               
+               <a href="controllers.main_controller.source.html#l310">
+                  <tt><i>310</i>         <span class="c1"># Instantiate the tournament : </span></tt>
+               </a>
+            </li><li>
+               
+               <a href="controllers.main_controller.source.html#l314">
+                  <tt><i>314</i>         <span class="c1"># Extract the rounds from the tournament (list of objects) : </span></tt>
+               </a>
+            </li><li>
+               
+               <a href="controllers.main_controller.source.html#l333">
+                  <tt><i>333</i>         <span class="c1"># print(f&#39;\nround_id MC310 : {round_id}&#39;) </span></tt>
+               </a>
+            </li><li>
+               
+               <a href="controllers.main_controller.source.html#l344">
+                  <tt><i>344</i>         <span class="n">rounds</span> <span class="o">=</span> <span class="n">current_tournament</span><span class="p">[</span><span class="s1">&#39;rounds&#39;</span><span class="p">]</span> </tt>
+               </a>
+            </li><li>
+               
+               <a href="controllers.main_controller.source.html#l367">
+                  <tt><i>367</i>             <span class="c1"># Get the match&#39;s id and attribute the id to the current match: </span></tt>
+               </a>
+            </li><li>
+               
+               <a href="controllers.main_controller.source.html#l415">
+                  <tt><i>415</i>     <span class="c1"># =================== UTILS =================== # </span></tt>
+               </a>
+            </li><li>
+               
+               <a href="controllers.main_controller.source.html#l417">
+                  <tt><i>417</i>     <span class="k">def</span> <span class="nf">check_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">objs</span><span class="p">):</span> </tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E303">
+               <span class="count sev-2">
+                  15
+               </span>
+               <strong>E303:</strong> too many blank lines (2)
+               
+                  (and 1 similar)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>Too many blank lines (2):</p>
+               
+               <a href="controllers.main_controller.source.html#l32">
+                  <tt><i>32</i>         <span class="c1"># print(&quot;\nStart main controller&quot;) </span></tt>
+               </a>
+            </li><li>
+               
+               <p>Too many blank lines (2):</p>
+               
+               <a href="controllers.main_controller.source.html#l111">
+                  <tt><i>111</i>                 <span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="o">.</span><span class="n">ask_for_report</span> <span class="o">=</span> <span class="kc">None</span> </tt>
+               </a>
+            </li><li>
+               
+               <p>Too many blank lines (2):</p>
+               
+               <a href="controllers.main_controller.source.html#l122">
+                  <tt><i>122</i>             <span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="o">.</span><span class="n">ask_for_menu_action</span> <span class="o">=</span> <span class="kc">None</span> </tt>
+               </a>
+            </li><li>
+               
+               <p>Too many blank lines (2):</p>
+               
+               <a href="controllers.main_controller.source.html#l135">
+                  <tt><i>135</i>         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Enter new tournament&#39;</span><span class="p">)</span> </tt>
+               </a>
+            </li><li>
+               
+               <p>Too many blank lines (2):</p>
+               
+               <a href="controllers.main_controller.source.html#l167">
+                  <tt><i>167</i>         <span class="bp">self</span><span class="o">.</span><span class="n">board</span><span class="o">.</span><span class="n">ask_for_report</span> <span class="o">=</span> <span class="kc">None</span> </tt>
+               </a>
+            </li><li>
+               
+               <p>Too many blank lines (2):</p>
+               
+               <a href="controllers.main_controller.source.html#l191">
+                  <tt><i>191</i>         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Enter new player&#39;</span><span class="p">)</span> </tt>
+               </a>
+            </li><li>
+               
+               <p>Too many blank lines (2):</p>
+               
+               <a href="controllers.main_controller.source.html#l199">
+                  <tt><i>199</i> &nbsp;</tt>
+               </a>
+            </li><li>
+               
+               <p>Too many blank lines (2):</p>
+               
+               <a href="controllers.main_controller.source.html#l218">
+                  <tt><i>218</i>         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Enter new round&#39;</span><span class="p">)</span> </tt>
+               </a>
+            </li><li>
+               
+               <p>Too many blank lines (2):</p>
+               
+               <a href="controllers.main_controller.source.html#l252">
+                  <tt><i>252</i>         <span class="c1"># for round in tournament[&#39;rounds&#39;]: </span></tt>
+               </a>
+            </li><li>
+               
+               <p>Too many blank lines (2):</p>
+               
+               <a href="controllers.main_controller.source.html#l277">
+                  <tt><i>277</i>         </tt>
+               </a>
+            </li><li>
+               
+               <p>Too many blank lines (2):</p>
+               
+               <a href="controllers.main_controller.source.html#l325">
+                  <tt><i>325</i>         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Enter new match&#39;</span><span class="p">)</span> </tt>
+               </a>
+            </li><li>
+               
+               <p>Too many blank lines (2):</p>
+               
+               <a href="controllers.main_controller.source.html#l394">
+                  <tt><i>394</i>         <span class="n">tournament_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ask_for_tournament_id</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span> </tt>
+               </a>
+            </li><li>
+               
+               <p>Too many blank lines (5):</p>
+               
+               <a href="controllers.main_controller.source.html#l416">
+                  <tt><i>416</i>     </tt>
+               </a>
+            </li><li>
+               
+               <p>Too many blank lines (2):</p>
+               
+               <a href="controllers.main_controller.source.html#l430">
+                  <tt><i>430</i>         <span class="c1"># Récupérer tous les &lt;obj&gt; dans la liste &lt;objs&gt; (liste de dicts) : </span></tt>
+               </a>
+            </li><li>
+               
+               <p>Too many blank lines (2):</p>
+               
+               <a href="controllers.main_controller.source.html#l438">
+                  <tt><i>438</i> <span class="sd">    RAPPORTS</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E226">
+               <span class="count sev-2">
+                  8
+               </span>
+               <strong>E226:</strong> missing whitespace around arithmetic operator
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="controllers.main_controller.source.html#l147">
+                  <tt><i>147</i>         <span class="c1"># print(f&#39;tournament_data MC130 : {tournament_data}&#39;) </span></tt>
+               </a>
+            </li><li>
+               
+               <a href="controllers.main_controller.source.html#l226">
+                  <tt><i>226</i>         <span class="c1"># print(f&#39;tournament[&quot;rounds&quot;] MC196 : {tournament[&quot;rounds&quot;]}&#39;) </span></tt>
+               </a>
+            </li><li>
+               
+               <a href="controllers.main_controller.source.html#l233">
+                  <tt><i>233</i>         </tt>
+               </a>
+            </li><li>
+               
+               <a href="controllers.main_controller.source.html#l279">
+                  <tt><i>279</i>         <span class="c1"># tournament object : </span></tt>
+               </a>
+            </li><li>
+               
+               <a href="controllers.main_controller.source.html#l355">
+                  <tt><i>355</i>             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Le round </span><span class="si">{</span><span class="n">match_data</span><span class="p">[</span><span class="s1">&#39;round_id&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> n</span><span class="se">\&#39;</span><span class="s2">est pas encore créé.&quot;</span><span class="p">)</span> </tt>
+               </a>
+            </li><li>
+               
+               <a href="controllers.main_controller.source.html#l360">
+                  <tt><i>360</i>             <span class="c1"># current_round = current_tournament[&#39;rounds&#39;].pop() </span></tt>
+               </a>
+            </li><li>
+               
+               <a href="controllers.main_controller.source.html#l375">
+                  <tt><i>375</i>             <span class="bp">self</span><span class="o">.</span><span class="n">round</span> <span class="o">=</span> <span class="n">Round_model</span><span class="p">(</span><span class="o">**</span><span class="n">current_round</span><span class="p">)</span> </tt>
+               </a>
+            </li><li>
+               
+               <a href="controllers.main_controller.source.html#l395">
+                  <tt><i>395</i>         <span class="c1"># tournament object : </span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E117">
+               <span class="count sev-2">
+                  2
+               </span>
+               <strong>E117:</strong> over-indented (comment)
+               
+                  (and 1 similar)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>Over-indented (comment):</p>
+               
+               <a href="controllers.main_controller.source.html#l254">
+                  <tt><i>254</i>             <span class="k">if</span> <span class="s1">&#39;matches&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">round</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span> </tt>
+               </a>
+            </li><li>
+               
+               <p>Over-indented:</p>
+               
+               <a href="controllers.main_controller.source.html#l255">
+                  <tt><i>255</i>                 <span class="nb">round</span><span class="p">[</span><span class="s1">&#39;matches&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span> </tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E225">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>E225:</strong> missing whitespace around operator
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="controllers.main_controller.source.html#l352">
+                  <tt><i>352</i>             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Il faut d</span><span class="se">\&#39;</span><span class="s1">abord enregistrer le round.&#39;</span><span class="p">)</span> </tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         <li>
+            <a data-code="E301">
+               <span class="count sev-2">
+                  1
+               </span>
+               <strong>E301:</strong> expected 1 blank line, found 0
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <a href="controllers.main_controller.source.html#l418">
+                  <tt><i>418</i>         <span class="c1"># print(f&#39;objs MC142 : {objs}&#39;)</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         </ul>
+      </div>
+   </body>
+</html>

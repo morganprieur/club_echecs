@@ -6,11 +6,11 @@ from views.input_view import Input_view
 from datetime import datetime 
 
 
-
+""" comment """ 
 if __name__ == "__main__": 
-    now = datetime.now()  ### 
+    now = datetime.now()  # comment 
     new_board = Dashboard_view() 
-    new_input_view = Input_view(now)  ### 
+    new_input_view = Input_view(now)  # comment 
     new_reporter = Report_view() 
     new_controller = Main_controller( 
         board=new_board, 
@@ -20,6 +20,3 @@ if __name__ == "__main__":
     restart = True
     while restart: 
         restart = new_controller.start(True)
-    # new_controller.start() 
-
-

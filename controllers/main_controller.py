@@ -28,7 +28,7 @@ class Main_controller():
         self.player = None 
         self.round = None 
 
-
+    """ comment """ 
     def start(self, tourn): 
         # print("\nStart main controller") 
 
@@ -55,7 +55,7 @@ class Main_controller():
                 self.board.ask_for_register = None 
                 # saisir un joueur : 
                 self.enter_new_round() 
-            
+
             if self.board.ask_for_register == '4': 
                 self.board.ask_for_register = None 
                 # saisir un joueur : 
@@ -64,7 +64,7 @@ class Main_controller():
             if self.board.ask_for_register == '*': 
                 self.board.ask_for_register = None 
                 return True 
-            
+
             if self.board.ask_for_register == '0': 
                 self.board.ask_for_register = None 
                 # print(self.board.ask_for_menu_action) 
@@ -101,28 +101,28 @@ class Main_controller():
                 # afficher les matches : 
                 # self.board.ask_for_tournament_id 
                 self.report_matches(ask_for_tournament_id) 
-            
+
             if self.board.ask_for_report == '8': 
                 self.board.ask_for_report = None 
                 # afficher les tournois : 
                 self.report_tournaments() 
 
-
+            """ comment """ 
             if self.board.ask_for_report == '*': 
                 self.board.ask_for_report = None 
                 return True 
-            
+
             if self.board.ask_for_report == '0': 
                 self.board.ask_for_report = None 
                 # print(f'self.board.ask_for_menu_action : {self.board.ask_for_menu_action}') 
                 # print(f'self.board.ask_for_report : {self.board.ask_for_report}') 
                 print('Fermeture de l\'application. Bonne fin de journée !') 
 
-        
+        """ comment """ 
         if self.board.ask_for_menu_action == '*': 
             self.board.ask_for_menu_action = None 
             return True 
-        
+
         if self.board.ask_for_menu_action == '0': 
             self.board.ask_for_menu_action = None 
             # print(f'self.board.ask_for_menu_action : {self.board.ask_for_menu_action}') 
@@ -131,10 +131,10 @@ class Main_controller():
 
         return False 
 
-
+    """ comment """ 
     def enter_new_tournament(self): 
         print('\nEnter new tournament') 
-        
+
         # Get the data for the current tournament: 
         tournament_data = self.in_view.input_tournament() 
 
@@ -144,9 +144,9 @@ class Main_controller():
         # print(f'last_tournament MC128 : {last_tournament}') 
 
         # Attribute the id to the current tournament: 
-        tournament_data['id'] = int(last_tournament['id'])+1 
+        tournament_data['id'] = int(last_tournament['id']) + 1 
         # print(f'tournament_data MC130 : {tournament_data}') 
-        
+
         # check key 'rounds' 
         if 'rounds' not in tournament_data.keys(): 
             tournament_data['rounds'] = [] 
@@ -160,10 +160,11 @@ class Main_controller():
         else: 
             print(f'\nLe tournoi {self.tournament} a bien été enregistré') 
 
-        continuer = session.prompt('\nAppuyer sur Entrée pour continuer ') 
+        # continuer = 
+        session.prompt('\nAppuyer sur Entrée pour continuer ') 
         self.start(False) 
-    
 
+    """ comment """ 
     def report_tournaments(self): 
         self.board.ask_for_report = None 
 
@@ -184,10 +185,11 @@ class Main_controller():
             tournaments_obj.append(self.tournament) 
         self.report_view.display_all_tournaments(tournaments_obj) 
 
-        continuer = session.prompt('Appuyer sur Entrée pour continuer ') 
+        # continuer = 
+        session.prompt('Appuyer sur Entrée pour continuer ') 
         self.start(False) 
 
-
+    """ comment """ 
     def enter_new_player(self): 
         print('\nEnter new player') 
         player_data = self.in_view.input_player() 
@@ -195,7 +197,7 @@ class Main_controller():
         # print(f'self.player MC65 : {self.player}') 
         self.player.serialize() 
 
-
+    """ comment """ 
     def report_players(self, sort): 
 
         players = Player_model.get_registered_all('p_table') 
@@ -203,7 +205,7 @@ class Main_controller():
         for player in players: 
             self.player = Player_model(**player) 
             players_obj.append(self.player) 
-        
+
         if sort == 'alphabétique': 
             print('\nJoueurs par ordre alphabétique : ') 
             self.report_view.sort_objects_by_field(players_obj, 'firstname') 
@@ -211,10 +213,11 @@ class Main_controller():
             print('\nJoueurs par classement : ') 
             self.report_view.sort_objects_by_field(players_obj, 'rank') 
 
-        continuer = session.prompt('Appuyer sur Entrée pour continuer ') 
+        # continuer = 
+        session.prompt('Appuyer sur Entrée pour continuer ') 
         self.start(False) 
 
-
+    """ comment """ 
     def enter_new_round(self): 
         print('\nEnter new round') 
 
@@ -223,15 +226,15 @@ class Main_controller():
         # print(f'\nround_data MC193 : {round_data}') 
 
         # Get the tournament where to register the current round: 
-        tournament = self.select_one_tournament(round_data['tournament_id']-1) 
+        tournament = self.select_one_tournament(round_data['tournament_id'] - 1) 
         # print(f'tournament["rounds"] MC196 : {tournament["rounds"]}') 
-        
+
         # Get the round's id and attribute the id to the current round: 
         if tournament['rounds'] == []: 
             round_data['id'] = 1 
         else: 
-            round_data['id'] = int(tournament['rounds'].pop()['id'])+1 
-        
+            round_data['id'] = int(tournament['rounds'].pop()['id']) + 1 
+
         if 'matches' not in round_data.keys(): 
             round_data['matches'] = [] 
         self.round = Round_model(**round_data) 
@@ -244,39 +247,40 @@ class Main_controller():
         else: 
             print(f'\nLe round {self.round} a bien été enregistré') 
             self.report_rounds(tournament['id']) 
-    
-        continuer = session.prompt('\nAppuyer sur Entrée pour continuer ') 
+
+        # continuer = 
+        session.prompt('\nAppuyer sur Entrée pour continuer ') 
         self.start(False) 
 
-
+    """ comment """ 
     def report_one_round(self, round): 
         # for round in tournament['rounds']: 
-            # print(f'round MC266 : {round}') 
-            if 'matches' not in round.keys(): 
-                round['matches'] = [] 
+        # print(f'round MC266 : {round}') 
+        if 'matches' not in round.keys(): 
+            round['matches'] = [] 
 
-            # print(f'round["matches"] MC270 : {round["matches"]}') 
+        # print(f'round["matches"] MC270 : {round["matches"]}') 
 
-            matches = round['matches'] 
-            for match in matches: 
-                # change match list in a tuple: 
-                match_tuple = tuple(match) 
+        matches = round['matches'] 
+        for match in matches: 
+            # change match list in a tuple: 
+            match_tuple = tuple(match) 
 
-                # Get the attributes from the data 
-                match_dict = {} 
-                match_dict['round_id'] = round['id'] 
-                match_dict['id_joueur_1'] = match_tuple[0][0] 
-                match_dict['score_joueur_1'] = match_tuple[0][1] 
-                match_dict['id_joueur_2'] = match_tuple[1][0] 
-                match_dict['score_joueur_2'] = match_tuple[1][1] 
-                
-                self.match = Match_model(**match_dict) 
-            self.round = Round_model(**round) 
+            # Get the attributes from the data 
+            match_dict = {} 
+            match_dict['round_id'] = round['id'] 
+            match_dict['id_joueur_1'] = match_tuple[0][0] 
+            match_dict['score_joueur_1'] = match_tuple[0][1] 
+            match_dict['id_joueur_2'] = match_tuple[1][0] 
+            match_dict['score_joueur_2'] = match_tuple[1][1] 
 
+            self.match = Match_model(**match_dict) 
+        self.round = Round_model(**round) 
 
+    """ comment """ 
     def report_rounds(self, ask_for_tournament_id): 
-        
-        tournament_id = int(ask_for_tournament_id)-1 
+
+        tournament_id = int(ask_for_tournament_id) - 1 
         # tournament object : 
         tournament = self.select_one_tournament(tournament_id) 
 
@@ -304,24 +308,25 @@ class Main_controller():
         #         match_dict['score_joueur_1'] = match_tuple[0][1] 
         #         match_dict['id_joueur_2'] = match_tuple[1][0] 
         #         match_dict['score_joueur_2'] = match_tuple[1][1] 
-                
+
         #         self.match = Match_model(**match_dict) 
         #     self.round = Round_model(**round) 
-            
+
         # Instantiate the tournament : 
         self.tournament = Tournament_model(**tournament) 
         # print(f'self.tournament MC286 : {self.tournament}') 
-        
+
         # Extract the rounds from the tournament (list of objects) : 
-        rounds = self.tournament.rounds 
-        matches = self.round.matches 
+        # rounds = self.tournament.rounds 
+        # matches = self.round.matches 
 
         self.report_view.display_rounds_one_tournament(self.tournament) 
 
-        continuer = session.prompt('Appuyer sur Entrée pour continuer ') 
+        # continuer = 
+        session.prompt('Appuyer sur Entrée pour continuer ') 
         self.start(False) 
 
-
+    """ comment """ 
     def enter_new_match(self): 
         print('\nEnter new match') 
 
@@ -330,7 +335,7 @@ class Main_controller():
         print(f'\nmatch_data MC306 : {match_data}') 
         round_id = match_data['round_id'] 
         # new_match = (match_data['player_1'], match_data['player_2']) 
-        
+
         # print(f'\nround_id MC310 : {round_id}') 
         # print(f'\nround_id-1 MC311 : {round_id-1}') 
         # print(f'\nrounds[round_id-1] MC312 : rounds[{round_id-1}]') 
@@ -341,7 +346,7 @@ class Main_controller():
         current_tournament = tournaments.pop() 
         print(f'current_tournament MC316 : {current_tournament}') 
         print(f'type(current_tournament) MC317 : {type(current_tournament)}')  # dict 
-        
+
         rounds = current_tournament['rounds'] 
         # print(f'\nrounds[0] MC322 : {rounds[0]}') 
 
@@ -349,22 +354,22 @@ class Main_controller():
         print(f'rounds MC325 : {rounds}') 
         print(f'len(rounds) MC326 : {len(rounds)}') 
         # print(f'type(round_id) PC323 : {type(round_id)}') 
-        if not rounds or (rounds==[]):  # or (rounds[round_id]-1==None): 
-            print(f'Il faut d\'abord enregistrer le round.') 
+        if not rounds or (rounds == []):  # or (rounds[round_id]-1==None): 
+            print('Il faut d\'abord enregistrer le round.') 
         # elif not int(rounds[match_data['round_id']-1]):  # >len(rounds): 
-        elif not rounds[round_id-1]:  # >len(rounds): 
+        elif not rounds[round_id - 1]:  # >len(rounds): 
             print(f"Le round {match_data['round_id']} n\'est pas encore créé.") 
         # Get the given round, where to register the match 
         else: 
             # print(f"rounds['round_id']-1 MC334 : {rounds[match_data['round_id']-1]}") 
-            current_round = rounds[match_data['round_id']-1] 
+            current_round = rounds[match_data['round_id'] - 1] 
             # current_round = current_tournament['rounds'].pop() 
             if 'matches' not in current_round.keys(): 
                 current_round['matches'] = [] 
             # self.round = Round_model(**current_round) 
             # print(f'current_round MC340 : {current_round}') 
             # print(f'type(current_round) MC331 : {type(current_round)}') 
-        
+
             # Get the match's id and attribute the id to the current match: 
             # print(f'\nnew_match MC345 : {match_data}') 
             self.match = Match_model(**match_data) 
@@ -372,7 +377,7 @@ class Main_controller():
             # print(f'\ntype(self.match) MC348 : {type(self.match)}') 
 
             # Instantiate the round : 
-            current_round = rounds[round_id-1] 
+            current_round = rounds[round_id - 1] 
             self.round = Round_model(**current_round) 
             # print(f'\self.round MC353 : {self.round}') 
             # Instantiate the tournament : 
@@ -387,12 +392,13 @@ class Main_controller():
                 print(f'\nLe match {self.match} a bien été enregistré') 
                 # self.report_matches(current_tournament.id) 
         # ==== 
-        continuer = session.prompt('Appuyer sur Entrée  pour continuer ') 
+        # continuer = 
+        session.prompt('Appuyer sur Entrée  pour continuer ') 
         self.start(False) 
 
-
+    """ comment """ 
     def report_matches(self, ask_for_tournament_id): 
-        tournament_id = int(ask_for_tournament_id)-1 
+        tournament_id = int(ask_for_tournament_id) - 1 
         # tournament object : 
         tournament = self.select_one_tournament(tournament_id) 
 
@@ -406,15 +412,13 @@ class Main_controller():
 
         self.report_view.display_matches_one_tournament(self.tournament) 
 
-        continuer = session.prompt('Appuyer sur Entrée  pour continuer ') 
+        # continuer = 
+        session.prompt('Appuyer sur Entrée  pour continuer ') 
         self.start(False) 
 
+    """ =================== UTILS =================== """ 
 
-
-
-    
-    # =================== UTILS =================== # 
-    
+    """ comment """ 
     def check_key(self, key, model, objs): 
         # print(f'objs MC142 : {objs}')
         list_objs = []
@@ -426,14 +430,13 @@ class Main_controller():
 
         return list_objs 
 
-
+    """ comment """ 
     def select_one_tournament(self, t_id): 
         # Récupérer tous les <obj> dans la liste <objs> (liste de dicts) : 
         t_objs = Tournament_model.get_registered_all('t_table') 
         # Sélectionner le <objet> indiqué dans id (dict)  # -1 : pas eu ce problème auparavant 
         t_obj = t_objs[t_id]  # -1  ### 
         return t_obj 
-
 
     """ 
     RAPPORTS
@@ -451,8 +454,3 @@ class Main_controller():
 
     Nous aimerions les exporter ultérieurement, mais ce n'est pas nécessaire pour l'instant.
     """ 
-
-
-
-
-

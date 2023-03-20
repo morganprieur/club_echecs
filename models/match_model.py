@@ -1,14 +1,13 @@
 
 from .abstract_model import AbstractModel 
-
-
 import json 
-
 
 
 class Match_model(AbstractModel): 
 
-    def __init__(self, round_id:int, id_joueur_1:int, score_joueur_1:float, id_joueur_2:int, score_joueur_2:float):  # , player_1:list, player_2:list , match:tuple 
+    def __init__( 
+        self, round_id: int, id_joueur_1: int, score_joueur_1: float, id_joueur_2: int, score_joueur_2: float 
+    ): 
         super().__init__('t_table') 
         self.round_id = round_id 
         self.id_joueur_1 = id_joueur_1 
@@ -21,16 +20,16 @@ class Match_model(AbstractModel):
 
         self.match = (player_1, player_2) 
         print(f'self.match MM21 : {self.match}')  # ok 
-        
+
     def __str__(self): 
         print(f'type(self.match) MM22 : {type(self.match)}')  # tuple ok 
         return f'{self.match}' 
 
-
+    """ comment """ 
     def to_dict(self): 
         return {"match": self.match}
-    
 
+    """ comment """ 
     def serialize(self): 
         """ Rewrite method for serialize the match objects into the round table""" 
         if not self.check_if_json_empty(): 
@@ -44,7 +43,7 @@ class Match_model(AbstractModel):
             rounds = current_tournament['rounds'] 
             print(f'type(round_id) MM42 : {type(self.round_id)}')  
             print(f'type(round_id) MM42 : {int(self.round_id)}')  
-            r_id = int(self.round_id)-1 
+            r_id = int(self.round_id) - 1 
             if r_id > len(rounds): 
                 return False 
             else: 
@@ -65,7 +64,6 @@ class Match_model(AbstractModel):
             json.dump(tournaments, file) 
 
 
-
 """ 
     Un match unique doit être stocké sous la forme d'un tuple 
     contenant deux listes, 
@@ -74,4 +72,3 @@ class Match_model(AbstractModel):
     Les matchs multiples doivent être stockés sous forme de liste 
     sur l'instance du tour.
 """ 
-

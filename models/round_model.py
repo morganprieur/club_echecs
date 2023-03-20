@@ -9,7 +9,8 @@ import json
 
 class Round_model(AbstractModel): 
 
-    def __init__(self, id:int, round_name:str, tournament_id:int, start_datetime:str, matches:list):  # , end_datetime:str  ### datetimes automatiques ### round_matches 
+    def __init__(self, id: int, round_name: str, tournament_id: int, start_datetime: str, matches: list): 
+        # , end_datetime:str 
         super().__init__('t_table') 
         self.id = id 
         self.round_name = round_name 
@@ -18,16 +19,18 @@ class Round_model(AbstractModel):
         self.tournament_id = tournament_id 
         # if matches and isinstance(matches[0], dict): 
         if matches and isinstance(matches[0], tuple): 
-            print(f'matches RM19 : {matches}') 
+            # print(f'matches RM19 : {matches}') 
             self.matches = [Match_model(*data) for data in matches] 
         else: 
             self.matches = matches 
         # self.matches = matches 
 
     def __str__(self): 
-        return f'ID du round : {self.id}, nom : {self.round_name}, tournament_id : {self.tournament_id}, matches : {self.matches}'  # \nListe des matches : \n{round_matchesList}début : {self.start_datetime} \nfin : {self.end_datetime}' 
+        round_string_start = (f'ID du round : {self.id}, nom : {self.round_name}, tournament_id : ') 
+        round_string_end = (f'{self.tournament_id}, matches : {self.matches}') 
+        return round_string_start + round_string_end 
 
-
+    """ comment """ 
     def to_dict(self): 
         return { 
             'id': self.id, 
@@ -36,7 +39,7 @@ class Round_model(AbstractModel):
             'start_datetime': self.start_datetime 
         } 
 
-    
+    """ comment """ 
     def serialize(self): 
         """ Rewrite method for serialize the round objects into the tournament table. """ 
         if not self.check_if_json_empty(): 
@@ -44,7 +47,7 @@ class Round_model(AbstractModel):
             # print(f'type(objects[0]) RM46 : {type(objects[0])}') 
             # with open(f'tables/t_table.json', 'r') as file: 
             with open(f'tables/{self.table}.json', 'r') as file: 
-                t_id = int(self.tournament_id)-1 
+                t_id = int(self.tournament_id) - 1 
                 if t_id > len(objects): 
                     return False 
                 else: 
@@ -53,7 +56,7 @@ class Round_model(AbstractModel):
                     # keys = [] 
                     # for k,v in t_obj.items(): 
                     #     keys.append(k) 
-                    
+
                     if "rounds" not in t_dict.keys(): 
                         # print(f't_obj["rounds"]) n\'existe pas RM57') 
                         t_dict['rounds'] = [] 
@@ -65,7 +68,7 @@ class Round_model(AbstractModel):
             json.dump(objects, file) 
 
 
-
+""" 
 if __name__ == "__main__": 
     new_round = { 
         'id': 1, 
@@ -76,9 +79,7 @@ if __name__ == "__main__":
     one_round = Round_model(**new_round) 
     print(f'new_round RM85 : {new_round}') 
     one_round.serialize() 
-
-
-
+""" 
 
 """ 
 Round = liste des matches 
@@ -91,4 +92,3 @@ un champ Date et heure de fin,
 V Les instances de round doivent être stockées dans une liste sur 
 l'instance de tournoi à laquelle elles appartiennent.
 """ 
-

@@ -1,9 +1,8 @@
 
+from datetime import datetime 
 from prompt_toolkit import PromptSession 
 # to use prompt as an instance 
 session = PromptSession() 
-from datetime import datetime 
-
 
 
 class Input_view(): 
@@ -26,7 +25,7 @@ class Input_view():
         new_tournament['description'] = session.prompt('\nDescription : ') 
         return new_tournament 
     
-
+    """ comment """ 
     def input_player(self): 
         new_player = {} 
         new_player['lastname'] = session.prompt('\nlastname : ')  
@@ -34,7 +33,7 @@ class Input_view():
         new_player['rank'] = int(session.prompt('\nrank : ')) 
         return new_player 
 
-    
+    """ comment """ 
     def input_round(self): 
         new_round = {} 
         # round.id must be automatically defined (into Main_controller): 
@@ -43,7 +42,7 @@ class Input_view():
         new_round['start_datetime'] = str(self.now) 
         return new_round 
 
-
+    """ comment """ 
     def input_match(self): 
         new_match = {} 
         # match.id must be automatically defined (into Main_controller): 
