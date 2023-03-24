@@ -25,6 +25,10 @@ WIP Rounds
     --> datetime début et fin automatiques 
     V début ok 
     --> date + heure de fin : voir sur [add_missing_properties] **ajouter un flag pour "round terminé ou non"** 
+        --> voir consigne 
+            - Ajouter une prop "nb_de_rounds" à round_match 
+            - Décrémenter "nb_de_rounds" à chaque nouveau round 
+            ->quand c'est le dernier round : ajouter datetime de fin 
     V--> ID automatique 
     --> mc.report_rounds() : manque matches 
 

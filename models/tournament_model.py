@@ -13,14 +13,14 @@ end = re.compile('[\]]+')
 class Tournament_model(AbstractModel): 
 
     def __init__( 
-        self, id: int, name: str, site: str, t_date: str, rounds: list, duration: str, description: str 
+        self, id: int, name: str, site: str, t_date: str,nb_rounds: int, rounds: list, duration: str, description: str 
     ):  # players: list 
         super().__init__('t_table') 
         self.id = id 
         self.name = name 
         self.site = site 
         self.t_date = t_date 
-        # self.nb_rounds = nb_rounds
+        self.nb_rounds = nb_rounds 
         if rounds and isinstance(rounds[0], dict): 
             print(f'rounds TM23 : {rounds}') 
             self.rounds = [Round_model(**data) for data in rounds] 
@@ -35,7 +35,7 @@ class Tournament_model(AbstractModel):
         # return f'{begin_phrase}\n {round_name} {round_matches}players : 
         # # {playersList}heure début : {start_datetime}heure fin : {end_datetime}{middle_phrase}{end_phrase}' 
         tournament_string_start = (f'{self.id}, {self.name}, {self.site}, {self.t_date}, rounds : ') 
-        tournament_string_end = (f'{self.rounds}, {self.duration}, {self.description}') 
+        tournament_string_end = (f'nb de rounds : {self.nb_rounds}, rounds : {self.rounds}, {self.duration}, {self.description}') 
         return tournament_string_start + tournament_string_end 
 
     """ comment """ 
@@ -45,53 +45,40 @@ class Tournament_model(AbstractModel):
             'name': self.name, 
             'site': self.site, 
             't_date': self.t_date, 
+            'nb_rounds': self.nb_rounds, 
             'rounds': self.rounds, 
             'duration': self.duration, 
             'description': self.description 
-        }
+        } 
 
 
 """ 
-if __name__ == "__main__": 
+========== 
 
-    new_tournament = { 
-        "id": 7, 
-        "name": "Nom 220", 
-        "site": "Lieu 220", 
-        "t_date": "2023/02/22", 
-        "rounds": [ 
-            [(1,0), (2,0)], 
-            [(3,0), (4,0)], 
-            [(5,0), (6,0)], 
-            [(7,0), (8,0)],  
-        ], 
-        "duration": "bullet", 
-        "description": "description 220", 
-    } 
-    one_tournament = Tournament_model(**new_tournament) 
-    # print(f'new_tournament TP192 : {new_tournament}') 
-    # print(f'type(new_tournament) TP193 : {type(new_tournament)}') 
-    one_tournament.serialize() 
-    # print(f'get tournaments TM189 : {Tournament_model.get_tournaments()}') 
-    # print(f'get registered TM189 : {Tournament_model.get_registered()}') 
-""" 
+## TOURNOIS
+Le programme utilise les fichiers de données JSON pour la persistance des informations sur
+les tournois. Les fichiers de données sont généralement situés dans le dossier
+data/tournaments.  
 
-""" 
-    Chaque tournoi doit contenir au moins les informations suivantes :
-    • Nom
-    • Lieu :
-    • Date
-        ◦ Jusqu'à présent, tous nos tournois sont des événements d'un jour, 
-            mais nous pourrions en organiser de plusieurs jours à l'avenir, 
-            ce qui devrait donc permettre de varier les dates.
-    • Nombre de tours
-        ◦ Réglez la valeur par défaut sur 4.
-    • Tournées
-        ◦ La liste des instances rondes.
-    • Joueurs
-        ◦ Liste des indices correspondant aux instances du joueur stockées en mémoire.
-    • Contrôle du temps
-        ◦ C'est toujours un bullet, un blitz ou un coup rapide.
-    • Description
-        ◦ Les remarques générales du directeur du tournoi vont ici.
+### DÉROULEMENT DE BASE DU TOURNOI
+● Un tournoi a un nombre de tours défini.
+● Chaque tour est une liste de matchs.
+    ○ Chaque match consiste en une paire de joueurs.
+● À la fin du match, les joueurs reçoivent des points selon leurs résultats.
+    ○ Le gagnant reçoit 1 point.
+    ○ Le perdant reçoit 0 point.
+    ○ Chaque joueur reçoit 0,5 point si le match se termine par un match nul.  
+
+### SCHÉMA DES TOURNOIS
+Chaque tournoi doit contenir au moins les informations suivantes :
+● nom ;
+● lieu ;
+● date de début et de fin ;
+● nombre de tours 
+    – réglez la valeur par défaut sur 4 ;
+● numéro correspondant au tour actuel ;
+● une liste des tours ;
+● une liste des joueurs enregistrés ;
+● description pour les remarques générales du directeur du tournoi.  
+
 """ 

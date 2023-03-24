@@ -34,6 +34,7 @@ class Round_model(AbstractModel):
 
     """ comment """ 
     def to_dict(self): 
+        # To avoid Python throws an error for missing a property: 
         if self.end_datetime: 
             end_datetime = self.end_datetime 
         else: 
@@ -52,19 +53,12 @@ class Round_model(AbstractModel):
         """ Rewrite method for serialize the round objects into the tournament table. """ 
         if not self.check_if_json_empty(): 
             objects = self.get_registered() 
-            # print(f'type(objects[0]) RM46 : {type(objects[0])}') 
-            # with open(f'tables/t_table.json', 'r') as file: 
             with open(f'tables/{self.table}.json', 'r') as file: 
                 t_id = int(self.tournament_id) - 1 
                 if t_id > len(objects): 
                     return False 
                 else: 
                     t_dict = objects[t_id] 
-
-                    # keys = [] 
-                    # for k,v in t_obj.items(): 
-                    #     keys.append(k) 
-
                     if "rounds" not in t_dict.keys(): 
                         # print(f't_obj["rounds"]) n\'existe pas RM57') 
                         t_dict['rounds'] = [] 

@@ -20,6 +20,7 @@ class Input_view():
         new_tournament['name'] = session.prompt('\nNom du tournoi : ') 
         new_tournament['site'] = session.prompt('\nLieu : ') 
         new_tournament['t_date'] = str(self.now) 
+        new_tournament['nb_rounds'] = session.prompt('\nNombre de rounds : ')  
         # new_tournament['players'] = session.prompt('\nJoueurs (id, séparés par des virgules) : ') 
         new_tournament['duration'] = session.prompt('\nDurée : ') 
         new_tournament['description'] = session.prompt('\nDescription : ') 

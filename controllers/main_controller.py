@@ -15,14 +15,11 @@ session = PromptSession()
 
 class Main_controller(): 
 
-    now = datetime.now() 
-
     def __init__( 
         self, 
         board: Dashboard_view, 
         in_view: Input_view, 
-        report_view: Report_view, 
-        now 
+        report_view: Report_view 
     ): 
         self.board = board 
         self.in_view = in_view 
@@ -31,7 +28,7 @@ class Main_controller():
         # self.last_tournament = None 
         self.player = None 
         self.round = None 
-        self.now = now 
+        self.now = datetime.now()  
 
     """ comment """ 
     def start(self, tourn): 
@@ -222,7 +219,8 @@ class Main_controller():
         session.prompt('Appuyer sur Entrée pour continuer ') 
         self.start(False) 
 
-    """ Ajouter la fin du round précédent quand on démarre un nouveau round : """ 
+    """ A corriger : c'est automatique, quand tournament.nb_rounds arrive à 0 
+    Ajouter la fin du round précédent quand on démarre un nouveau round 
     def add_ending_round(self): 
         prec_round = {} 
         prec_round['id'] = int(self.round.id)-1 
@@ -233,6 +231,7 @@ class Main_controller():
             self.start(False) 
         else: 
             print(f'\nLe round {self.round} a bien été enregistré') 
+    """ 
 
     """ comment """ 
     def enter_new_round(self): 
@@ -242,24 +241,28 @@ class Main_controller():
         round_data = self.in_view.input_round() 
         # print(f'\nround_data MC193 : {round_data}') 
 
-        # Get the tournament where to register the current round: 
+        # Get the tournament where to register the current round (dictionary): 
         tournament = self.select_one_tournament(round_data['tournament_id'] - 1) 
         # print(f'tournament["rounds"] MC196 : {tournament["rounds"]}') 
 
+        # Instantiate the tournament: 
+        self.tournament = Tournament_model(**tournament) 
+        print(f'self.tournament MC253 : {self.tournament}') 
+
         # Get the round's id and attribute the id to the current round: 
-        if tournament['rounds'] == []: 
+        # if tournament['rounds'] == []: 
+        if self.tournament.rounds == []: 
             round_data['id'] = 1 
         else: 
-            # If the round isn't the first one of the tournament, register the precedent tournament with the end of the precedent round  
-            self.add_ending_round() 
-            round_data['id'] = int(tournament['rounds'].pop()['id']) + 1 
+            # self.add_ending_round() 
+            round_data['id'] = int(self.tournament.rounds.pop()['id']) + 1 
 
         if 'matches' not in round_data.keys(): 
             round_data['matches'] = [] 
         # start_datetime : 
         round_data['start_datetime'] = str(self.now) 
         self.round = Round_model(**round_data) 
-        # print(f'\nself.round MC201 : {self.round}') 
+        print(f'\nself.round MC268 : {self.round}') 
 
         # Register the round: 
         if self.round.serialize() == False: 
@@ -267,7 +270,16 @@ class Main_controller():
             self.start(False) 
         else: 
             print(f'\nLe round {self.round} a bien été enregistré') 
-            self.report_rounds(tournament['id']) 
+            # Update the number of rounds into the tournament : 
+            self.tournament.nb_rounds -= 1 
+            if self.tournament.serialize() == False: 
+                print('\n*** Le tournoi n\'a pas pu être mis à jour. ***') 
+                self.start(False) 
+            else: 
+                print(f'\nLe nombre de rounds du tournoi {self.tournament.id} a bien été mis à jour. Il reste {self.tournament.nb_rounds}  rounds à jouer.') 
+
+            # self.report_rounds(self.tournament.id) 
+            self.report_tournaments(self.tournament.id) 
 
         # continuer = 
         session.prompt('\nAppuyer sur Entrée pour continuer ') 
@@ -460,18 +472,13 @@ class Main_controller():
         return t_obj 
 
     """ 
-    RAPPORTS
-    Nous aimerions pouvoir afficher les rapports suivants dans le programme :
+    ## SAUVEGARDE / CHARGEMENT DES DONNÉES
+    Nous devons pouvoir sauvegarder et charger l'état du programme à tout moment entre deux actions de l'utilisateur. Plus tard, nous aimerions utiliser une base de données, mais pour l'instant nous utilisons des fichiers JSON pour garder les choses simples.
+    Les fichiers JSON doivent être mis à jour à chaque fois qu'une modification est apportée aux données afin d'éviter toute perte. Le programme doit s'assurer que les objets en mémoire sont toujours synchronisés avec les fichiers JSON. Le programme doit également
+    charger toutes ses données à partir des fichiers JSON et **pouvoir restaurer son état entre les exécutions**. 
+    
+    ====  
+    **Si vous avez le choix entre la manipulation de dictionnaires ou d'instances de classe, 
+    choisissez toujours des instances de classe pour assurer la conformité avec le modèle de conception MVC.**  
 
-        •X Liste de tous les joueurs:
-            ◦X par ordre alphabétique ;
-            ◦X par classement.
-        • Liste de tous les joueurs d'un tournoi :
-            ◦ par ordre alphabétique ;
-            ◦ par classement.
-        •X Liste de tous les tournois.
-        •X Liste de tous les tours d'un tournoi.
-        • Liste de tous les matchs d'un tournoi.
-
-    Nous aimerions les exporter ultérieurement, mais ce n'est pas nécessaire pour l'instant.
     """ 

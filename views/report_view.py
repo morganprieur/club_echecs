@@ -42,7 +42,37 @@ class Report_view():
             for round in rounds: 
                 self.display_round(round) 
             # self.display_rounds_one_tournament(t) 
+        print('\n====\n') 
 
+    def display_matches_one_tournament(self, tournament): 
+        """ Display all the matches from one tournament. 
+
+        Args: 
+            tournament (int): 
+                the ID of the tournament the matches will be getting from. 
+        """ 
+        print(f'\n---- Tous les matches du tournoi {int(tournament.id)} ----') 
+        # print(f'tournament RV85 : {tournament}') 
+        # print(f'tournament RV88 : {round}') 
+
+        rounds = tournament.rounds 
+        ### 
+        # If there isn't any rounds : 
+        if rounds == []: 
+            print(f'\nLe tournoi {tournament.id} n\'a pas encore de rounds') 
+        else:  
+            # Afficher les rounds : 
+            for r in tournament.rounds: 
+
+                print(f'\nID : \t{r.id}') 
+                print(f'Nom : \t{r.round_name}') 
+                print(f'Date et heure de début : \t{r.start_datetime}') 
+        ### 
+                print('matches : ') 
+                for match in r.matches: 
+                    self.display_match(match) 
+                    # print(f'\n\t[{match[0][0]}, {match[0][1]}], [{match[1][0]}, {match[1][1]}]') 
+                    # TODO Afficher le round  
         print('\n====\n') 
 
     """ 
@@ -80,40 +110,6 @@ class Report_view():
         print('\n====\n') 
 
     """ 
-    ==== Reports tournaments ==== 
-    """ 
-    def display_matches_one_tournament(self, tournament): 
-        """ Display all the matches from one tournament. 
-
-        Args: 
-            tournament (int): 
-                the ID of the tournament the matches will be getting from. 
-        """ 
-        print(f'\n---- Tous les matches du tournoi {int(tournament.id)} ----') 
-        # print(f'tournament RV85 : {tournament}') 
-        # print(f'tournament RV88 : {round}') 
-
-        rounds = tournament.rounds 
-        ### 
-        # If there isn't any rounds : 
-        if rounds == []: 
-            print(f'\nLe tournoi {tournament.id} n\'a pas encore de rounds') 
-        else:  
-            # Afficher les rounds : 
-            for r in tournament.rounds: 
-
-                print(f'\nID : \t{r.id}') 
-                print(f'Nom : \t{r.round_name}') 
-                print(f'Date et heure de début : \t{r.start_datetime}') 
-        ### 
-                print('matches : ') 
-                for match in r.matches: 
-                    self.display_match(match) 
-                    # print(f'\n\t[{match[0][0]}, {match[0][1]}], [{match[1][0]}, {match[1][1]}]') 
-                    # TODO Afficher le round  
-        print('\n====\n') 
-
-    """ 
     ==== Display ==== 
     """ 
     def display_match(self, match): 
@@ -145,18 +141,14 @@ class Report_view():
 """ 
 ==== Consigne ====  
 
-Nous aimerions pouvoir afficher les rapports suivants dans le programme :
+## RAPPORTS
+Nous aimerions pouvoir afficher les rapports suivants dans le programme :
+● liste de tous les joueurs par ordre alphabétique ;
+● liste de tous les tournois ;
+● nom et dates d’un tournoi donné ;
+● liste des joueurs du tournoi par ordre alphabétique ;
+● liste de tous les tours du tournoi et de tous les matchs du tour.
+Nous aimerions les exporter ultérieurement, mais ce n'est pas nécessaire pour l'instant.
+Les rapports peuvent être en texte brut, à condition qu'ils soient bien formatés et faciles à lire. Vous pouvez même utiliser des modèles HTML !
 
-    • Liste de tous les acteurs : V 
-        ◦ par ordre alphabétique ; V 
-        ◦ par classement. V 
-    • Liste de tous les joueurs d'un tournoi :
-        ◦ par ordre alphabétique ;
-        ◦ par classement.
-    • Liste de tous les tournois. V 
-    • Liste de tous les tours d'un tournoi. --> WIP 
-    • Liste de tous les matches d'un tournoi.
-
-Nous aimerions les exporter ultérieurement, mais ce n'est pas nécessaire 
-pour l'instant.
 """ 
