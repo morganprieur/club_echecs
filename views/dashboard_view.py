@@ -57,15 +57,14 @@ class Dashboard_view():
         '0 pour sortir' 
     ] 
 
-
     def __init__(self): 
         pass 
 
-
+    """ comment """ 
     def display_welcome(self): 
         print(self.welcome) 
 
-
+    """ comment """ 
     def display_first_menu(self): 
         print('\n* * * * * * * * * * * * * * * * *') 
         for m in self.main_menu: 
@@ -73,7 +72,8 @@ class Dashboard_view():
         self.ask_for_menu_action = session.prompt('\nChoisir une action : ') 
         print('') 
         return self.ask_for_menu_action 
-    
+
+    """ comment """ 
     def display_register(self): 
         print('\n* * * * * * * * * * * * * * * * *') 
         for i in range(len(self.register_menu)): 
@@ -82,7 +82,7 @@ class Dashboard_view():
         print('') 
         return self.ask_for_register 
 
-
+    """ comment """ 
     def display_report(self): 
         print('\n* * * * * * * * * * * * * * * * *') 
         for i in range(len(self.display_menu)): 
@@ -92,15 +92,7 @@ class Dashboard_view():
         print('') 
         return self.ask_for_report 
 
-
+""" comment """ 
 if __name__ == "__main__": 
     Dashboard_view.display_welcome() 
-
-
-
-
-
-
-
-
 

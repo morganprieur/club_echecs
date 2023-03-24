@@ -27,7 +27,7 @@ class Report_view():
     def display_all_tournaments(self, all_tournaments): 
         print('\n==== Tous les tournois ====') 
         # print(f'\ntournois RV57 : {all_tournaments} : ') 
-    
+
         for tournament in all_tournaments: 
             print(f'\ntournoi {all_tournaments.index(tournament)+1} : ') 
             print(f'ID : \t{tournament.id}') 

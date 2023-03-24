@@ -55,7 +55,7 @@ class Match_model(AbstractModel):
                     current_round['matches'] = [] 
                 else: 
                     current_round['matches'].append(self.match) 
-                
+
                 # print(f'current_round MM59 : {current_round}') 
                 # print(f'current_tournament MM60 : {current_tournament}') 
         else: 

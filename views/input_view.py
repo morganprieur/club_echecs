@@ -13,7 +13,7 @@ class Input_view():
         self.now = now  
 
     # print("start input view") 
-    
+
     def input_tournament(self): 
         # print(f'now IV19 : {self.now}') 
         new_tournament = {} 
@@ -24,7 +24,7 @@ class Input_view():
         new_tournament['duration'] = session.prompt('\nDurée : ') 
         new_tournament['description'] = session.prompt('\nDescription : ') 
         return new_tournament 
-    
+
     """ comment """ 
     def input_player(self): 
         new_player = {} 
@@ -51,13 +51,10 @@ class Input_view():
         new_match['score_joueur_1'] = float(session.prompt('\nScore du joueur n°1 : ')) 
         new_match['id_joueur_2'] = int(session.prompt('\nID du joueur n°2 : ')) 
         new_match['score_joueur_2'] = float(session.prompt('\nScore du joueur n°2 : ')) 
-        
+
         # new_match['player_1'] = [new_match['id_joueur_1'], new_match['score_joueur_1']] 
         # new_match['player_2'] = [new_match['id_joueur_2'], new_match['score_joueur_2']] 
         # new_match['match'] = tuple() 
         print(f'match IV59 : {new_match}') 
         return new_match 
-
-
-
 

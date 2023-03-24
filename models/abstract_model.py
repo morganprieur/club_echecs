@@ -19,14 +19,14 @@ class AbstractModel(ABC):
             else: 
                 print("The file is not empty.") 
                 return False 
-    
+
 
     def get_registered(self): 
         # print(f'self AM26 : {self}') 
         with open(f'tables/{self.table}.json', 'r') as file: 
             registered = json.load(file) 
         return registered 
-    
+
 
     @staticmethod 
     def get_registered_all(table): 
@@ -54,7 +54,7 @@ class AbstractModel(ABC):
         objects.append(self.to_dict()) 
         with open(f"tables/{self.table}.json", "w") as file: 
             json.dump(objects, file) 
-    
+
 
     @abstractmethod 
     def to_dict(self): 

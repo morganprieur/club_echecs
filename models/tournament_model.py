@@ -53,7 +53,7 @@ class Tournament_model(AbstractModel):
 
 """ 
 if __name__ == "__main__": 
-    
+
     new_tournament = { 
         "id": 7, 
         "name": "Nom 220", 

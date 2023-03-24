@@ -37,13 +37,9 @@ La console n'affiche aucun retour, pour vérifier que ça fonctionne, il faut ou
 
 
 
-## Tests
+## Flake 8 
 
-Lancer les tests avec Unittest : 
-python -m unittest -v <nom_du_fichier_de_test> 
+Lancer un rapport du projet complet : 
+`flake8 --format=html --htmldir=flake-report/` 
 
-Lancer les tests avec Pytest : 
-`pytest` 
-Pytest lance tous les tests qu'il trouve. 
-Si un fichier commençant par "test" ou "test_" ou finissant par "_test" est trouvé, il ne lancera pas les doctests. 
 
