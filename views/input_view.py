@@ -10,7 +10,7 @@ class Input_view():
     now = datetime.now() 
 
     def __init__(self, now): 
-        self.now = now  
+        self.now = now 
 
     # print("start input view") 
 
@@ -39,7 +39,9 @@ class Input_view():
         # round.id must be automatically defined (into Main_controller): 
         new_round['tournament_id'] = int(session.prompt('\nID du tournoi : ')) 
         new_round['round_name'] = session.prompt('\nNom du round : ') 
-        new_round['start_datetime'] = str(self.now) 
+        # new_round['start_datetime'] = str(self.now) 
+        # Date + heure de fin du round quand on démarre un nouveau round : 
+        # new_round['end_datetime'] = str(self.now) 
         return new_round 
 
     """ comment """ 

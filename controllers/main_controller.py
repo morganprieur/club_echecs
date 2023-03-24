@@ -8,17 +8,21 @@ from models.tournament_model import Tournament_model
 from models.round_model import Round_model 
 from models.match_model import Match_model 
 
+from datetime import datetime 
 from prompt_toolkit import PromptSession 
 session = PromptSession() 
 
 
 class Main_controller(): 
 
+    now = datetime.now() 
+
     def __init__( 
         self, 
         board: Dashboard_view, 
         in_view: Input_view, 
-        report_view: Report_view 
+        report_view: Report_view, 
+        now 
     ): 
         self.board = board 
         self.in_view = in_view 
@@ -27,6 +31,7 @@ class Main_controller():
         # self.last_tournament = None 
         self.player = None 
         self.round = None 
+        self.now = now 
 
     """ comment """ 
     def start(self, tourn): 
@@ -217,6 +222,18 @@ class Main_controller():
         session.prompt('Appuyer sur Entrée pour continuer ') 
         self.start(False) 
 
+    """ Ajouter la fin du round précédent quand on démarre un nouveau round : """ 
+    def add_ending_round(self): 
+        prec_round = {} 
+        prec_round['id'] = int(self.round.id)-1 
+        prec_round['end_datetime'] = str(self.now) 
+        # Register the precedent round: 
+        if self.round.serialize() == False: 
+            print('\n*** Le tournoi référencé dans "round" n\'existe pas, vous devez d\'abord le créer. ***') 
+            self.start(False) 
+        else: 
+            print(f'\nLe round {self.round} a bien été enregistré') 
+
     """ comment """ 
     def enter_new_round(self): 
         print('\nEnter new round') 
@@ -233,10 +250,14 @@ class Main_controller():
         if tournament['rounds'] == []: 
             round_data['id'] = 1 
         else: 
+            # If the round isn't the first one of the tournament, register the precedent tournament with the end of the precedent round  
+            self.add_ending_round() 
             round_data['id'] = int(tournament['rounds'].pop()['id']) + 1 
 
         if 'matches' not in round_data.keys(): 
             round_data['matches'] = [] 
+        # start_datetime : 
+        round_data['start_datetime'] = str(self.now) 
         self.round = Round_model(**round_data) 
         # print(f'\nself.round MC201 : {self.round}') 
 

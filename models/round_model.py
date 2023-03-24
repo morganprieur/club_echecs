@@ -9,13 +9,12 @@ import json
 
 class Round_model(AbstractModel): 
 
-    def __init__(self, id: int, round_name: str, tournament_id: int, start_datetime: str, matches: list): 
-        # , end_datetime:str 
+    def __init__(self, id: int, round_name: str, tournament_id: int, start_datetime: str, matches: list, end_datetime:str): 
         super().__init__('t_table') 
         self.id = id 
         self.round_name = round_name 
         self.start_datetime = start_datetime 
-        # self.end_datetime = end_datetime 
+        self.end_datetime = end_datetime 
         self.tournament_id = tournament_id 
         # if matches and isinstance(matches[0], dict): 
         if matches and isinstance(matches[0], tuple): 
@@ -23,21 +22,30 @@ class Round_model(AbstractModel):
             self.matches = [Match_model(*data) for data in matches] 
         else: 
             self.matches = matches 
-        # self.matches = matches 
-
+        
     def __str__(self): 
-        round_string_start = (f'ID du round : {self.id}, nom : {self.round_name}, tournament_id : ') 
-        round_string_end = (f'{self.tournament_id}, matches : {self.matches}') 
+        if self.end_datetime : 
+            end_datetime = self.end_datetime 
+        else: 
+            end_datetime = '' 
+        round_string_start = (f'ID du round : {self.id}, nom : {self.round_name}, début : {self.start_datetime}, tournament_id : ') 
+        round_string_end = (f', fin : {end_datetime}, {self.tournament_id}, matches : {self.matches}') 
         return round_string_start + round_string_end 
 
     """ comment """ 
     def to_dict(self): 
-        return { 
+        if self.end_datetime: 
+            end_datetime = self.end_datetime 
+        else: 
+            end_datetime = '' 
+        round = { 
             'id': self.id, 
             'round_name': self.round_name, 
             'tournament_id': self.tournament_id, 
-            'start_datetime': self.start_datetime 
+            'start_datetime': self.start_datetime, 
+            'end_datetime': end_datetime 
         } 
+        return round 
 
     """ comment """ 
     def serialize(self): 
