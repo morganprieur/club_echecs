@@ -46,7 +46,7 @@ class Input_view():
     
     """ comment """ 
     def input_closing_round(self): 
-        is_round_terminated = session.prompt('\nConfirmer la clôture du round ? ') 
+        is_round_terminated = session.prompt('\nConfirmer la clôture du round ? (y/N)') 
         return is_round_terminated  
 
     """ comment """ 

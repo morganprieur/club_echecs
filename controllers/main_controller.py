@@ -291,7 +291,7 @@ class Main_controller():
         # print(f'\nself.round MC201 : {self.round}') 
 
         # Register the round: 
-        if self.round.serialize() == False: 
+        if self.round.serialize_new_round() == False: 
             print('\n*** Le tournoi référencé dans "round" n\'existe pas, vous devez d\'abord le créer. ***') 
             self.start(False) 
         else: 
@@ -302,32 +302,42 @@ class Main_controller():
         session.prompt('\nAppuyer sur Entrée pour continuer ') 
         self.start(False) 
 
-    """ TODO """ 
+    """ comment """ 
     def close_a_round(self): 
-        print('Close a round') 
+        print('Clôturer un round') 
 
         closing_round = self.in_view.input_closing_round() 
 
-        if not closing_round: 
-            print('*** La clpoture du round a été annulée. ***') 
+        if (closing_round == 'N') or (closing_round == 'n') or (closing_round == ''): 
+            print('*** La clôture du round a été annulée. ***') 
             self.start(False) 
-        else: 
+        elif (closing_round == 'y') or (closing_round == 'Y'): 
             # Get the last round 
             last_tournament = self.select_the_last_tournament() 
             last_round = last_tournament['rounds'].pop() 
-            print(f'last_round MC318 : {last_round}') 
             # Add the end_datetime 
             last_round['end_datetime'] = str(self.now) 
-            print(f'last_round MC321 : {last_round}') 
+            # Add matches 
+            if 'matches' not in last_round.keys(): 
+                last_round['matches'] = [] 
+
             # Instantiate the round 
             self.round = Round_model(**last_round) 
-            print(f'self.round MC324 : {self.round}') 
+
             # Register the round again 
-            if not self.round.serialize(): 
-                print('Il y a eu un problème, essayez de recommencer.') 
+            if self.round.serialize_modified_object() == False: 
+                print('\nIl y a eu un problème, essayez de recommencer.') 
+                session.prompt('\nAppuyer sur Entrée pour continuer ') 
+                self.start(False) 
             else: 
                 # Tell that the round has been closed 
                 print(f'Le round {self.round.round_name} a été clôturé avec succès.') 
+                session.prompt('\nAppuyer sur Entrée pour continuer ') 
+                self.start(False) 
+        else: 
+            print('Les seules options sont "y" ou "Y" pour oui, "n" ou "N" pour non.') 
+            session.prompt('\nAppuyer sur Entrée pour continuer ') 
+            self.start(False) 
 
     """ comment """ 
     def report_one_round(self, round): 
@@ -517,8 +527,8 @@ class Main_controller():
 
     def select_the_last_tournament(self): 
         t_objs = Tournament_model.get_registered_all('tournaments') 
-        t_obj = t_objs.pop() 
-        print(f'last tournament MC467 : {t_obj}') 
+        t_obj = t_objs[-1] 
+        print(f'last tournament MC534 : {t_obj}') 
         return t_obj 
 
     """ 

@@ -43,28 +43,22 @@ class Round_model(AbstractModel):
             'round_name': self.round_name, 
             'tournament_id': self.tournament_id, 
             'start_datetime': self.start_datetime, 
-            'end_datetime': end_datetime 
+            'end_datetime': end_datetime, 
+            'matches': self.matches 
         } 
         return round 
 
     """ comment """ 
-    def serialize(self): 
+    def serialize_new_object(self): 
         """ Rewrite method for serialize the round objects into the tournament file. """ 
         if not self.check_if_json_empty(): 
             objects = self.get_registered() 
-            # print(f'type(objects[0]) RM46 : {type(objects[0])}') 
-            # # with open(f'tables/t_table.json', 'r') as file: 
-            # with open(f'data/tournaments.json', 'r') as file: 
             with open(f'data/{self.table}.json', 'r') as file: 
                 t_id = int(self.tournament_id) - 1 
                 if t_id > len(objects): 
                     return False 
                 else: 
                     t_dict = objects[t_id] 
-
-                    # keys = [] 
-                    # for k,v in t_obj.items(): 
-                    #     keys.append(k) 
 
                     if "rounds" not in t_dict.keys(): 
                         # print(f't_obj["rounds"]) n\'existe pas RM57') 
@@ -76,19 +70,20 @@ class Round_model(AbstractModel):
         with open(f"data/{self.table}.json", "w") as file: 
             json.dump(objects, file) 
 
-
-""" 
-if __name__ == "__main__": 
-    new_round = { 
-        'id': 1, 
-        'round_name': 'round_220', 
-        'start_datetime': "2023-03-10 10:54:20.299443", 
-        'tournament_id': 7 
-    } 
-    one_round = Round_model(**new_round) 
-    print(f'new_round RM85 : {new_round}') 
-    one_round.serialize() 
-""" 
+    def serialize_modified_object(self): 
+        """ Abstract method for serialize the objects from the models. """ 
+        if not self.check_if_json_empty(): 
+            objects = self.get_registered() 
+            # select the last tournament : 
+            t_dict = objects[-1] 
+            t_dict['rounds'].pop() 
+            # print(f't_dict RM90 : {t_dict}') 
+            t_dict['rounds'].append(self.to_dict()) 
+            # print(f't_dict["rounds"] RM83 : {t_dict["rounds"]}') 
+        else: 
+            print('Erreur : le fichier tournaments ne peut pas être vide.') 
+        with open(f"data/{self.table}.json", "w") as file: 
+            json.dump(objects, file) 
 
 """ 
 Round = liste des matches 

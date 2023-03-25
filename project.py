@@ -15,7 +15,8 @@ if __name__ == "__main__":
     new_controller = Main_controller( 
         board=new_board, 
         in_view=new_input_view, 
-        report_view=new_reporter 
+        report_view=new_reporter, 
+        now=now  # Besoin ou pas ? ### 
     ) 
     restart = True
     while restart: 

@@ -30,8 +30,9 @@ class Match_model(AbstractModel):
         return {"match": self.match}
 
     """ comment """ 
-    def serialize(self): 
-        """ Rewrite method for serialize the match objects into the round table""" 
+    def serialize_new_object(self): 
+        """ Rewrite method for serialize the match objects into the tournament file 
+            when adding a new match.""" 
         if not self.check_if_json_empty(): 
             # Get all the data from the tournaments file: 
             tournaments = self.get_registered() 
