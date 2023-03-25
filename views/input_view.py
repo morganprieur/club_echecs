@@ -28,9 +28,9 @@ class Input_view():
     """ comment """ 
     def input_player(self): 
         new_player = {} 
-        new_player['lastname'] = session.prompt('\nlastname : ')  
-        new_player['firstname'] = session.prompt('\nfirstname : ') 
-        new_player['rank'] = int(session.prompt('\nrank : ')) 
+        new_player['lastname'] = session.prompt('\nNom : ')  
+        new_player['firstname'] = session.prompt('\nPrénom : ') 
+        new_player['rank'] = int(session.prompt('\nClassement : ')) 
         return new_player 
 
     """ comment """ 
@@ -43,6 +43,11 @@ class Input_view():
         # Date + heure de fin du round quand on démarre un nouveau round : 
         # new_round['end_datetime'] = str(self.now) 
         return new_round 
+    
+    """ comment """ 
+    def input_closing_round(self): 
+        is_round_terminated = session.prompt('\nConfirmer la clôture du round ? ') 
+        return is_round_terminated  
 
     """ comment """ 
     def input_match(self): 

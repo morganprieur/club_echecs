@@ -51,17 +51,32 @@ class Main_controller():
                 # saisir un joueur : 
                 self.enter_new_player() 
 
-            if self.board.ask_for_register == '2': 
-                self.board.ask_for_register = None 
-                # saisir un joueur : 
-                self.enter_new_tournament() 
+            # if self.board.ask_for_register == '2':   # TODO 
+            #     self.board.ask_for_register = None 
+            #     # saisir un joueur : 
+            #     self.enter_many_new_players() 
 
             if self.board.ask_for_register == '3': 
                 self.board.ask_for_register = None 
                 # saisir un joueur : 
+                self.enter_new_tournament() 
+
+            if self.board.ask_for_register == '4':  # TODO 
+                self.board.ask_for_register = None 
+                # saisir un joueur : 
+                self.close_a_tournament() 
+
+            if self.board.ask_for_register == '5': 
+                self.board.ask_for_register = None 
+                # saisir un joueur : 
                 self.enter_new_round() 
 
-            if self.board.ask_for_register == '4': 
+            if self.board.ask_for_register == '6':  # TODO 
+                self.board.ask_for_register = None 
+                # saisir un joueur : 
+                self.close_a_round() 
+
+            if self.board.ask_for_register == '7': 
                 self.board.ask_for_register = None 
                 # saisir un joueur : 
                 self.enter_new_match() 
@@ -144,7 +159,7 @@ class Main_controller():
         tournament_data = self.in_view.input_tournament() 
 
         # Get all the registered tournaments: 
-        tournaments = Tournament_model.get_registered_all('t_table') 
+        tournaments = Tournament_model.get_registered_all('tournaments') 
         last_tournament = tournaments.pop() 
         # print(f'last_tournament MC128 : {last_tournament}') 
 
@@ -169,11 +184,15 @@ class Main_controller():
         session.prompt('\nAppuyer sur Entrée pour continuer ') 
         self.start(False) 
 
+    """ TODO """ 
+    def close_a_tournament(self): 
+        pass 
+
     """ comment """ 
     def report_tournaments(self): 
         self.board.ask_for_report = None 
 
-        tournaments = Tournament_model.get_registered_all('t_table') 
+        tournaments = Tournament_model.get_registered_all('tournaments') 
         tournaments_obj = [] 
 
         for tournament in tournaments: 
@@ -202,10 +221,14 @@ class Main_controller():
         # print(f'self.player MC65 : {self.player}') 
         self.player.serialize() 
 
+    """ TODO """ 
+    def enter_many_new_players(self): 
+        pass 
+
     """ comment """ 
     def report_players(self, sort): 
 
-        players = Player_model.get_registered_all('p_table') 
+        players = Player_model.get_registered_all('players') 
         players_obj = [] 
         for player in players: 
             self.player = Player_model(**player) 
@@ -222,7 +245,7 @@ class Main_controller():
         session.prompt('Appuyer sur Entrée pour continuer ') 
         self.start(False) 
 
-    """ Ajouter la fin du round précédent quand on démarre un nouveau round : """ 
+    """ Ajouter la fin du round précédent quand on démarre un nouveau round : 
     def add_ending_round(self): 
         prec_round = {} 
         prec_round['id'] = int(self.round.id)-1 
@@ -233,31 +256,37 @@ class Main_controller():
             self.start(False) 
         else: 
             print(f'\nLe round {self.round} a bien été enregistré') 
+    """ 
 
     """ comment """ 
     def enter_new_round(self): 
         print('\nEnter new round') 
 
         # Get the data for the current round: 
-        round_data = self.in_view.input_round() 
-        # print(f'\nround_data MC193 : {round_data}') 
+        data = self.in_view.input_round() 
+        round_data = data[0] 
+        print(f'\nround_data MC245 : {round_data}') 
 
         # Get the tournament where to register the current round: 
-        tournament = self.select_one_tournament(round_data['tournament_id'] - 1) 
-        # print(f'tournament["rounds"] MC196 : {tournament["rounds"]}') 
+        # tournament = self.select_one_tournament(round_data['tournament_id'] - 1) 
+        tournament = self.select_the_last_tournament() 
 
-        # Get the round's id and attribute the id to the current round: 
+        print(f'tournament["rounds"] MC258 : {tournament["rounds"]}') 
+        # Get the last round's id and attribute the id to the current round: 
         if tournament['rounds'] == []: 
             round_data['id'] = 1 
         else: 
             # If the round isn't the first one of the tournament, register the precedent tournament with the end of the precedent round  
-            self.add_ending_round() 
+            # self.add_ending_round() 
             round_data['id'] = int(tournament['rounds'].pop()['id']) + 1 
 
         if 'matches' not in round_data.keys(): 
             round_data['matches'] = [] 
         # start_datetime : 
         round_data['start_datetime'] = str(self.now) 
+
+        # end_datetime : 
+
         self.round = Round_model(**round_data) 
         # print(f'\nself.round MC201 : {self.round}') 
 
@@ -272,6 +301,33 @@ class Main_controller():
         # continuer = 
         session.prompt('\nAppuyer sur Entrée pour continuer ') 
         self.start(False) 
+
+    """ TODO """ 
+    def close_a_round(self): 
+        print('Close a round') 
+
+        closing_round = self.in_view.input_closing_round() 
+
+        if not closing_round: 
+            print('*** La clpoture du round a été annulée. ***') 
+            self.start(False) 
+        else: 
+            # Get the last round 
+            last_tournament = self.select_the_last_tournament() 
+            last_round = last_tournament['rounds'].pop() 
+            print(f'last_round MC318 : {last_round}') 
+            # Add the end_datetime 
+            last_round['end_datetime'] = str(self.now) 
+            print(f'last_round MC321 : {last_round}') 
+            # Instantiate the round 
+            self.round = Round_model(**last_round) 
+            print(f'self.round MC324 : {self.round}') 
+            # Register the round again 
+            if not self.round.serialize(): 
+                print('Il y a eu un problème, essayez de recommencer.') 
+            else: 
+                # Tell that the round has been closed 
+                print(f'Le round {self.round.round_name} a été clôturé avec succès.') 
 
     """ comment """ 
     def report_one_round(self, round): 
@@ -362,7 +418,7 @@ class Main_controller():
         # print(f'\nrounds[round_id-1] MC312 : rounds[{round_id-1}]') 
 
         # Get the (last) tournament where to register the current round: 
-        tournaments = Tournament_model.get_registered_all('t_table') 
+        tournaments = Tournament_model.get_registered_all('tournaments') 
         # current_tournament = len(tournaments)-1 
         current_tournament = tournaments.pop() 
         print(f'current_tournament MC316 : {current_tournament}') 
@@ -454,9 +510,15 @@ class Main_controller():
     """ comment """ 
     def select_one_tournament(self, t_id): 
         # Récupérer tous les <obj> dans la liste <objs> (liste de dicts) : 
-        t_objs = Tournament_model.get_registered_all('t_table') 
+        t_objs = Tournament_model.get_registered_all('tournaments') 
         # Sélectionner le <objet> indiqué dans id (dict)  # -1 : pas eu ce problème auparavant 
         t_obj = t_objs[t_id]  # -1  ### 
+        return t_obj 
+
+    def select_the_last_tournament(self): 
+        t_objs = Tournament_model.get_registered_all('tournaments') 
+        t_obj = t_objs.pop() 
+        print(f'last tournament MC467 : {t_obj}') 
         return t_obj 
 
     """ 

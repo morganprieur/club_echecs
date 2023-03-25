@@ -15,7 +15,7 @@ class Tournament_model(AbstractModel):
     def __init__( 
         self, id: int, name: str, site: str, t_date: str, rounds: list, duration: str, description: str 
     ):  # players: list 
-        super().__init__('t_table') 
+        super().__init__('tournaments') 
         self.id = id 
         self.name = name 
         self.site = site 

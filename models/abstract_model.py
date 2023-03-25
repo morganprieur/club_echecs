@@ -12,7 +12,7 @@ class AbstractModel(ABC):
     
     def check_if_json_empty(self): 
         # print(f'self.table in AM14 : {self.table}') 
-        with open(f"tables/{self.table}.json",'rb') as f: 
+        with open(f"data/{self.table}.json",'rb') as f: 
             if len(f.read()) == 0: 
                 print("The file is empty.") 
                 return True 
@@ -23,14 +23,14 @@ class AbstractModel(ABC):
 
     def get_registered(self): 
         # print(f'self AM26 : {self}') 
-        with open(f'tables/{self.table}.json', 'r') as file: 
+        with open(f'data/{self.table}.json', 'r') as file: 
             registered = json.load(file) 
         return registered 
 
 
     @staticmethod 
     def get_registered_all(table): 
-        with open(f'tables/{table}.json', 'r') as file: 
+        with open(f'data/{table}.json', 'r') as file: 
             # list of dicts : 
             registered = json.load(file) 
             # for r in registered: 
@@ -52,7 +52,7 @@ class AbstractModel(ABC):
         else: 
             objects = [] 
         objects.append(self.to_dict()) 
-        with open(f"tables/{self.table}.json", "w") as file: 
+        with open(f"data/{self.table}.json", "w") as file: 
             json.dump(objects, file) 
 
 

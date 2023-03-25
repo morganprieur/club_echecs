@@ -10,7 +10,7 @@ import json
 class Round_model(AbstractModel): 
 
     def __init__(self, id: int, round_name: str, tournament_id: int, start_datetime: str, matches: list, end_datetime:str): 
-        super().__init__('t_table') 
+        super().__init__('tournaments') 
         self.id = id 
         self.round_name = round_name 
         self.start_datetime = start_datetime 
@@ -49,12 +49,13 @@ class Round_model(AbstractModel):
 
     """ comment """ 
     def serialize(self): 
-        """ Rewrite method for serialize the round objects into the tournament table. """ 
+        """ Rewrite method for serialize the round objects into the tournament file. """ 
         if not self.check_if_json_empty(): 
             objects = self.get_registered() 
             # print(f'type(objects[0]) RM46 : {type(objects[0])}') 
-            # with open(f'tables/t_table.json', 'r') as file: 
-            with open(f'tables/{self.table}.json', 'r') as file: 
+            # # with open(f'tables/t_table.json', 'r') as file: 
+            # with open(f'data/tournaments.json', 'r') as file: 
+            with open(f'data/{self.table}.json', 'r') as file: 
                 t_id = int(self.tournament_id) - 1 
                 if t_id > len(objects): 
                     return False 
@@ -71,8 +72,8 @@ class Round_model(AbstractModel):
                     else: 
                         t_dict['rounds'].append(self.to_dict()) 
         else: 
-            print('Erreur : la table t_table ne peut pas être vide.') 
-        with open(f"tables/{self.table}.json", "w") as file: 
+            print('Erreur : le fichier tournaments ne peut pas être vide.') 
+        with open(f"data/{self.table}.json", "w") as file: 
             json.dump(objects, file) 
 
 

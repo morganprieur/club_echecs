@@ -25,14 +25,17 @@ class Dashboard_view():
 
     register_menu = [ 
         'Menu "saisir" : ', 
-        '1 : un joueur', 
-        '2 : un tournoi', 
-        '3 : un round', 
-        '4 : un match', 
+        '1 : Enregistrer un joueur', 
+        # '2 : Enregistrer plusieurs joueurs', 
+        '3 : Enregistrer un nouveau tournoi', 
+        '4 : Clôturer un tournoi', 
+        '5 : Enregistrer un nouveau round', 
+        '6 : Clôturer un round', 
+        '7 : Enregistrer un match', 
         '', 
         'Commandes de secours : ', 
-        '* pour revenir au menu principal', 
-        '0 pour sortir' 
+        '* Revenir au menu principal', 
+        '0 Sortir' 
     ] 
 
     display_menu = [ 
