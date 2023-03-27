@@ -245,19 +245,6 @@ class Main_controller():
         session.prompt('Appuyer sur Entrée pour continuer ') 
         self.start(False) 
 
-    """ Ajouter la fin du round précédent quand on démarre un nouveau round : 
-    def add_ending_round(self): 
-        prec_round = {} 
-        prec_round['id'] = int(self.round.id)-1 
-        prec_round['end_datetime'] = str(self.now) 
-        # Register the precedent round: 
-        if self.round.serialize() == False: 
-            print('\n*** Le tournoi référencé dans "round" n\'existe pas, vous devez d\'abord le créer. ***') 
-            self.start(False) 
-        else: 
-            print(f'\nLe round {self.round} a bien été enregistré') 
-    """ 
-
     """ comment """ 
     def enter_new_round(self): 
         print('\nEnter new round') 
