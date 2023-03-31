@@ -187,7 +187,7 @@ class Main_controller():
         session.prompt('\nAppuyer sur Entrée pour continuer ') 
         self.start(False) 
 
-    """ TODO """ 
+    """ comment ### à corriger """ 
     def close_tournament(self): 
         # Select the last tournament 
         last_tournament = self.select_the_last_tournament() 
@@ -247,7 +247,7 @@ class Main_controller():
         session.prompt('Appuyer sur Entrée pour continuer ') 
         self.start(False) 
 
-    """ comment """ 
+    """ comment ### à corriger """ 
     def enter_new_player(self): 
         print('\nEnter new player') 
         player_data = self.in_view.input_player() 
@@ -256,22 +256,19 @@ class Main_controller():
         # self.player.serialize() 
         self.player.serialize_new_object() 
 
-        # Select the last tournament 
-        last_tournament = self.select_the_last_tournament() 
-        # list of objects 
-        if 'players' not in last_tournament.keys(): 
-            last_tournament['players'] = [] 
-        last_tournament['players'].append(self.player) 
+        # # Select the last tournament 
+        # last_tournament = self.select_the_last_tournament() 
+        # # list of objects 
+        # if 'players' not in last_tournament.keys(): 
+        #     last_tournament['players'] = [] 
+        # last_tournament['players'].append(self.player) 
 
-        # Bind the player with the last tournament 
-        # last_tournament['players'] = players 
-        self.last_tournament = Tournament_model(**last_tournament) 
-        print(f'\nself.last_tournament MC267 : {self.last_tournament}') 
+        # # Bind the player with the last tournament 
+        # # last_tournament['players'] = players 
+        # self.last_tournament = Tournament_model(**last_tournament) 
+        # print(f'\nself.last_tournament MC267 : {self.last_tournament}') 
 
-        self.last_tournament.serialize_modified_object() 
-
-
-
+        # self.last_tournament.serialize_modified_object() 
 
     """ TODO """ 
     def enter_many_new_players(self): 
@@ -297,7 +294,7 @@ class Main_controller():
         session.prompt('Appuyer sur Entrée pour continuer ') 
         self.start(False) 
 
-    """ comment """ 
+    """ comment ### à corriger """ 
     def enter_new_round(self): 
         print('\nEnter new round') 
 
