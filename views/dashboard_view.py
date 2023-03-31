@@ -50,8 +50,9 @@ class Dashboard_view():
         '6 : les tours d\'un tournoi', 
         '7 : les matches', 
         '8 : tous les tournois', 
-
+        '--------', 
         # pas demandés : 
+        '9 : test define_first_round', 
         # '9 : le dernier tournoi', 
         # '9 : le tournoi du jour', 
         '', 

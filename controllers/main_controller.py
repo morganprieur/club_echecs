@@ -11,6 +11,7 @@ from models.match_model import Match_model
 from datetime import datetime, date 
 from prompt_toolkit import PromptSession 
 session = PromptSession() 
+import random 
 
 
 class Main_controller(): 
@@ -129,6 +130,11 @@ class Main_controller():
                 self.board.ask_for_report = None 
                 # afficher les tournois : 
                 self.report_tournaments() 
+
+            if self.board.ask_for_report == '9': 
+                self.board.ask_for_report = None 
+                # Tester define_first_round : 
+                self.define_first_round() 
 
             """ comment """ 
             if self.board.ask_for_report == '*': 
@@ -260,20 +266,6 @@ class Main_controller():
         self.player.serialize_new_object() 
 
         self.report_players('alphabet') 
-
-        # # Select the last tournament 
-        # last_tournament = self.select_the_last_tournament() 
-        # # list of objects 
-        # if 'players' not in last_tournament.keys(): 
-        #     last_tournament['players'] = [] 
-        # last_tournament['players'].append(self.player) 
-
-        # # Bind the player with the last tournament 
-        # # last_tournament['players'] = players 
-        # self.last_tournament = Tournament_model(**last_tournament) 
-        # print(f'\nself.last_tournament MC267 : {self.last_tournament}') 
-
-        # self.last_tournament.serialize_modified_object() 
 
     """ TODO """ 
     def enter_many_new_players(self): 
@@ -468,7 +460,7 @@ class Main_controller():
     def enter_new_match(self): 
         print('\nEnter new match') 
 
-        ### Appeler la méthode define_first_match() ### 
+        ### Appeler la méthode define_first_round() ### 
         ### Appeler la méthode define_next_matches() ### 
 
         # Get the data for the current match: 
@@ -560,13 +552,49 @@ class Main_controller():
     """ =================== UTILS =================== """ 
 
     """ comment """ 
-    def define_first_match(self): 
+    def define_first_round(self): 
         # Select the players bound with the last tournament 
         last_tournament = self.select_the_last_tournament() 
-        players = [] 
+        # print(f'\nlast_tournament.keys() MC558 : {last_tournament.keys()}') 
+        players = last_tournament['players'] 
+        print(f'\nlast_tournament players MC560 : {players}')  # v 
 
-        # Randomly defin the pears of players 
-        pass 
+        matches = [] 
+        # Randomly define the pears of players for 4 matches 
+        for i in range(int(4)): 
+            self.define_match(players, matches) 
+        
+        print(f'\nMatches MC572 : {matches}') 
+        # print(f'\nMatches MC567 : {matches}') 
+
+
+    def define_match(self, players, matches): 
+        match = [] 
+        for i in range(int(2)): 
+            selected = random.choice(players) 
+            # match_select = self.define_match(players, match) 
+            match.append(selected) 
+            print(f'\nmatch MC576 : {match}') 
+        matches.append(match) 
+        # match_select = self.define_match(players, match) 
+        # print(f'\nmatches MC579 : {matches}') 
+        # matches.append(match_select) 
+        return matches 
+
+
+
+    # def define_match(self, players, match): 
+        
+    #     print(f'\nSelected MC573 : {selected}') 
+    #     # print(f'\ntype(selected) MC564 : {type(selected)}') 
+    #     match.append(selected) 
+    #     players.remove(selected) 
+    #     print(f'\nPlayers MC576 : {players}') 
+    #     return match 
+
+
+        
+         
 
     """ comment """ 
     def check_key(self, key, model, objs): 
@@ -591,7 +619,7 @@ class Main_controller():
     def select_the_last_tournament(self): 
         t_objs = Tournament_model.get_registered_all('tournaments') 
         t_obj = t_objs[-1] 
-        print(f'last tournament MC534 : {t_obj}') 
+        print(f'last tournament MC593 : {t_obj}') 
         return t_obj 
 
     """ 

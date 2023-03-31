@@ -31,7 +31,7 @@ class Tournament_model(AbstractModel):
         self.end_date = end_date 
         if players and isinstance(players[0], dict): 
             print(f'\nplayers TM33 : {players}')  # (list of dicts)
-            self.players = [players(**data) for data in players] 
+            self.players = [Player_model(*data) for data in players] 
         else: 
             self.players = players 
         # self.nb_rounds = nb_rounds 
@@ -62,6 +62,7 @@ class Tournament_model(AbstractModel):
             'description': self.description 
         } 
     
+    """ comment """ 
     def serialize_modified_object(self):
         """ Abstract method for serialize the objects from the models. """ 
         if not self.check_if_json_empty(): 
