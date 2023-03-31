@@ -8,7 +8,7 @@ from models.tournament_model import Tournament_model
 from models.round_model import Round_model 
 from models.match_model import Match_model 
 
-from datetime import datetime 
+from datetime import datetime, date 
 from prompt_toolkit import PromptSession 
 session = PromptSession() 
 
@@ -16,13 +16,15 @@ session = PromptSession()
 class Main_controller(): 
 
     now = datetime.now() 
+    today = date.today() 
 
     def __init__( 
         self, 
         board: Dashboard_view, 
         in_view: Input_view, 
         report_view: Report_view, 
-        now 
+        now, 
+        today 
     ): 
         self.board = board 
         self.in_view = in_view 
@@ -32,6 +34,7 @@ class Main_controller():
         self.player = None 
         self.round = None 
         self.now = now 
+        self.today = today 
 
     """ comment """ 
     def start(self, tourn): 
@@ -64,7 +67,7 @@ class Main_controller():
             if self.board.ask_for_register == '4':  # TODO 
                 self.board.ask_for_register = None 
                 # saisir un joueur : 
-                self.close_a_tournament() 
+                self.close_tournament() 
 
             if self.board.ask_for_register == '5': 
                 self.board.ask_for_register = None 
@@ -74,7 +77,7 @@ class Main_controller():
             if self.board.ask_for_register == '6':  # TODO 
                 self.board.ask_for_register = None 
                 # saisir un joueur : 
-                self.close_a_round() 
+                self.close_round() 
 
             if self.board.ask_for_register == '7': 
                 self.board.ask_for_register = None 
@@ -185,8 +188,39 @@ class Main_controller():
         self.start(False) 
 
     """ TODO """ 
-    def close_a_tournament(self): 
-        pass 
+    def close_tournament(self): 
+        # Select the last tournament 
+        last_tournament = self.select_the_last_tournament() 
+        # Get the value of input_closing_tournament 
+        closing_tournament = self.in_view.input_closing_tournament() 
+        if closing_tournament == 'y': 
+            # Set the end_date 
+            last_tournament['end_date'] = str(self.today) 
+            print(f'last_tournament MC199 : {last_tournament}') 
+        else: 
+            print(f'\nLa clôture du tournoi a été annulée. ') 
+            self.start(False) 
+        # Instantiate it 
+        self.last_tournament = Tournament_model(**last_tournament) 
+        print(f'\nself.last_tournament MC205 : {self.last_tournament}') 
+        print(f'\ntype(last_tournament) MC206 : {type(last_tournament)}') 
+        rounds = self.last_tournament.rounds 
+        # serialize the rounds 
+        # for round in rounds: 
+        #     print(f'\ntype(round) MC210 : {type(round)}') 
+        #     round.to_dict() 
+        #     print(f'\nround MC212 : {round}') 
+        #     print(f'\ntype(round) MC213 : {type(round)}') 
+        # Delete the last tournament 
+        # + Serialize the list 
+        # + Append the modified tournament to the registered list 
+        # + Write the list of dictionaries into the json file 
+        tournaments_dict = self.last_tournament.serialize_modified_object() 
+        print(f'dict of tournaments MC217 : {tournaments_dict}') 
+        # Display the last modified tournament 
+        print(f'the last tournament MC219 : {tournaments_dict[-1]}') 
+        # pass 
+        self.start(False) 
 
     """ comment """ 
     def report_tournaments(self): 
@@ -290,7 +324,7 @@ class Main_controller():
         self.start(False) 
 
     """ comment """ 
-    def close_a_round(self): 
+    def close_round(self): 
         print('Clôturer un round') 
 
         closing_round = self.in_view.input_closing_round() 
@@ -304,10 +338,10 @@ class Main_controller():
             last_round = last_tournament['rounds'].pop() 
             # Add the end_datetime 
             last_round['end_datetime'] = str(self.now) 
-            # Add matches 
+            ### Add matches  --> à retirer et vérifier 
             if 'matches' not in last_round.keys(): 
                 last_round['matches'] = [] 
-
+            ### 
             # Instantiate the round 
             self.round = Round_model(**last_round) 
 

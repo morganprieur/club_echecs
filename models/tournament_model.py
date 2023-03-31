@@ -3,7 +3,7 @@ from .abstract_model import AbstractModel
 # for tests : 
 # from abstract_model import AbstractModel 
 from .round_model import Round_model 
-# import json 
+import json 
 import re 
 # d = re.compile('[\d]+') 
 start = re.compile('[\[]+') 
@@ -13,29 +13,27 @@ end = re.compile('[\]]+')
 class Tournament_model(AbstractModel): 
 
     def __init__( 
-        self, id: int, name: str, site: str, t_date: str, rounds: list, duration: str, description: str 
-    ):  # players: list 
+        self, id: int, name: str, site: str, start_date: str, end_date: str, rounds: list, duration: str, description: str 
+    ):  # players: list,  nb_rounds:int,  
         super().__init__('tournaments') 
         self.id = id 
         self.name = name 
         self.site = site 
-        self.t_date = t_date 
-        # self.nb_rounds = nb_rounds
+        self.start_date = start_date 
+        self.end_date = end_date 
+        # self.nb_rounds = nb_rounds 
         if rounds and isinstance(rounds[0], dict): 
-            print(f'rounds TM23 : {rounds}') 
+            print(f'\nrounds TM26 : {rounds}')  # (list of dicts)
             self.rounds = [Round_model(**data) for data in rounds] 
-        else:
+        else: 
             self.rounds = rounds 
-        # self.rounds = None 
         # self.players = players 
         self.duration = duration 
         self.description = description 
 
     def __str__(self):  # , roundDicts        
-        # return f'{begin_phrase}\n {round_name} {round_matches}players : 
-        # # {playersList}heure début : {start_datetime}heure fin : {end_datetime}{middle_phrase}{end_phrase}' 
-        tournament_string_start = (f'{self.id}, {self.name}, {self.site}, {self.t_date}, rounds : ') 
-        tournament_string_end = (f'{self.rounds}, {self.duration}, {self.description}') 
+        tournament_string_start = (f'{self.id}, {self.name}, {self.site}, {self.start_date}, {self.end_date},') 
+        tournament_string_end = (f' rounds : \n{self.rounds}, {self.duration}, {self.description}') 
         return tournament_string_start + tournament_string_end 
 
     """ comment """ 
@@ -44,37 +42,59 @@ class Tournament_model(AbstractModel):
             'id': self.id, 
             'name': self.name, 
             'site': self.site, 
-            't_date': self.t_date, 
+            'start_date': self.start_date, 
+            'end_date': self.end_date, 
             'rounds': self.rounds, 
             'duration': self.duration, 
             'description': self.description 
-        }
+        } 
+    
+    def serialize_modified_object(self):
+        """ Abstract method for serialize the objects from the models. """ 
+        if not self.check_if_json_empty(): 
+            objects = self.get_registered() 
+            print(f'\nobjects TM56 : {objects}') 
+            print(f'\ndir(self) TM57 : {dir(self)}') 
+            # suppress the last tournament : 
+            objects.pop() 
+            # serialize the rounds 
+            objects.append(self.to_dict()) 
+            print(f'\nobjects TM62 : {objects}') 
+            t = objects[-1] 
+            print(f'\nt TM64 : {t}') 
+            rounds_obj = t['rounds'] 
+            print(f'\nrounds TM66 : {rounds_obj}') 
+            rounds = [] 
+            for round in rounds_obj: 
+                print(f'\nround TM69 : {round}') 
+                print(f'\ntype(round) TM70 : {type(round)}') 
+                # rounds.append(round.to_dict()) 
+                rounds.append(round) 
+            print(f'\nrounds TM73 : {rounds}') 
+            objects[-1]['rounds'] = rounds 
+            print(f'\nobjects TM75 : {objects}') 
+        else: 
+            print('Erreur : le fichier tournaments ne peut pas être vide.') 
+        with open(f"data/{self.table}.json", "w") as file: 
+            json.dump(objects, file) 
 
+    ### 
+    # def serialize_modified_object(self): 
+    #     """ Abstract method for serialize the objects from the models. """ 
+    #     if not self.check_if_json_empty(): 
+    #         objects = self.get_registered() 
+    #         # select the last tournament : 
+    #         t_dict = objects[-1] 
+    #         t_dict['rounds'].pop() 
+    #         # print(f't_dict RM90 : {t_dict}') 
+    #         t_dict['rounds'].append(self.to_dict()) 
+    #         # print(f't_dict["rounds"] RM83 : {t_dict["rounds"]}') 
+    #     else: 
+    #         print('Erreur : le fichier tournaments ne peut pas être vide.') 
+    #     with open(f"data/{self.table}.json", "w") as file: 
+    #         json.dump(objects, file) 
+    ### 
 
-""" 
-if __name__ == "__main__": 
-
-    new_tournament = { 
-        "id": 7, 
-        "name": "Nom 220", 
-        "site": "Lieu 220", 
-        "t_date": "2023/02/22", 
-        "rounds": [ 
-            [(1,0), (2,0)], 
-            [(3,0), (4,0)], 
-            [(5,0), (6,0)], 
-            [(7,0), (8,0)],  
-        ], 
-        "duration": "bullet", 
-        "description": "description 220", 
-    } 
-    one_tournament = Tournament_model(**new_tournament) 
-    # print(f'new_tournament TP192 : {new_tournament}') 
-    # print(f'type(new_tournament) TP193 : {type(new_tournament)}') 
-    one_tournament.serialize() 
-    # print(f'get tournaments TM189 : {Tournament_model.get_tournaments()}') 
-    # print(f'get registered TM189 : {Tournament_model.get_registered()}') 
-""" 
 
 """ 
     Chaque tournoi doit contenir au moins les informations suivantes :
