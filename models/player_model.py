@@ -9,47 +9,40 @@ import json
 # class Player(Persist_entity): 
 class Player_model(AbstractModel): 
 
-    def __init__(self, lastname:str, firstname:str, rank: int):  # , age, genre, rank, global_score 
+    def __init__(self, lastname:str, firstname:str, rank: int, global_score:float):  # , age, genre, rank 
         super().__init__('players') 
         self.lastname = lastname  
         self.firstname = firstname 
         self.rank = rank 
+        self.global_score = global_score 
         # self.age = age 
         # self.genre = genre 
-        # self.rank = rank 
-        # self.global_score = global_score 
         # players.append(self)   # pas bonnes pratiques 
 
-    # def __str__(self): 
-    #     # born = '' 
-    #     # if self.genre == 'M\n' or self.genre == 'M': 
-    #     #     born = 'né'
-    #     # elif self.genre == 'F\n' or self.genre == 'F': 
-    #     #     born = 'née' 
-    #     # elif self.genre == 'A\n' or self.genre == 'A': 
-    #     #     born = 'né.e' 
-    #     # return f'{self.firstname} {self.lastname} {born} on {self.age} range: {self.rank}.'  # , global score: {self.global_score}.' 
-    #     return f'{self.firstname} {self.lastname} classement : {self.rank}.'  # , global score: {self.global_score}.' 
+    def __str__(self): 
+        return f'{self.firstname} {self.lastname} classement : {self.rank}, global score: {self.global_score}.' 
 
 
     def to_dict(self): 
         return { 
             'lastname': self.lastname, 
             'firstname': self.firstname, 
-            'rank': self.rank 
+            'rank': self.rank, 
+            'global_score': self.global_score  
         } 
     
 
-if __name__ == "__main__": 
-    new_player = {
-        'lastname': 'Nom 130', 
-        'firstname': 'Prénom 130', 
-        'rank': 30 
-    } 
-    one_player = Player_model(**new_player) 
-    print(f'new_player PM80 : {new_player}') 
-    # print(f'type(new_player) PM66 : {type(new_player)}') 
-    one_player.serialize_new_object() 
+# if __name__ == "__main__": 
+#     new_player = {
+#         'lastname': 'Nom 130', 
+#         'firstname': 'Prénom 130', 
+#         'rank': 30, 
+#         'global_score': 0 
+#     } 
+#     one_player = Player_model(**new_player) 
+#     print(f'new_player PM80 : {new_player}') 
+#     # print(f'type(new_player) PM66 : {type(new_player)}') 
+#     one_player.serialize_new_object() 
 
     
 

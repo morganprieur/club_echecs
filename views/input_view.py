@@ -36,6 +36,7 @@ class Input_view():
         new_player['lastname'] = session.prompt('\nNom : ')  
         new_player['firstname'] = session.prompt('\nPrénom : ') 
         new_player['rank'] = int(session.prompt('\nClassement : ')) 
+        new_player['global_score'] = float(0) 
         return new_player 
 
     """ comment """ 

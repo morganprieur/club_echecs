@@ -253,7 +253,25 @@ class Main_controller():
         player_data = self.in_view.input_player() 
         self.player = Player_model(**player_data) 
         # print(f'self.player MC65 : {self.player}') 
-        self.player.serialize() 
+        # self.player.serialize() 
+        self.player.serialize_new_object() 
+
+        # Select the last tournament 
+        last_tournament = self.select_the_last_tournament() 
+        # list of objects 
+        if 'players' not in last_tournament.keys(): 
+            last_tournament['players'] = [] 
+        last_tournament['players'].append(self.player) 
+
+        # Bind the player with the last tournament 
+        # last_tournament['players'] = players 
+        self.last_tournament = Tournament_model(**last_tournament) 
+        print(f'\nself.last_tournament MC267 : {self.last_tournament}') 
+
+        self.last_tournament.serialize_modified_object() 
+
+
+
 
     """ TODO """ 
     def enter_many_new_players(self): 
@@ -311,7 +329,7 @@ class Main_controller():
         self.round = Round_model(**round_data) 
         print(f'\nself.round MC268 : {self.round}') 
 
-        # Register the round: 
+        # Register the round:  ### à corriger 
         if self.round.serialize_new_round() == False: 
             print('\n*** Le tournoi référencé dans "round" n\'existe pas, vous devez d\'abord le créer. ***') 
             self.start(False) 
@@ -319,6 +337,7 @@ class Main_controller():
             print(f'\nLe round {self.round} a bien été enregistré') 
             # Update the number of rounds into the tournament : 
             self.tournament.nb_rounds -= 1 
+            ### à corriger 
             if self.tournament.serialize() == False: 
                 print('\n*** Le tournoi n\'a pas pu être mis à jour. ***') 
                 self.start(False) 

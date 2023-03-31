@@ -118,10 +118,10 @@ class Report_view():
         print(match_tuple) 
 
     def display_round(self, round): 
-        print(f'\nID : \t{round.id}') 
-        print(f'Nom : \t{round.round_name}') 
-        print(f'Date et heure de début : \t{round.start_datetime}') 
-        print('matches : ') 
+        print(f'\tID : \t{round.id}') 
+        print(f'\tNom : \t{round.round_name}') 
+        print(f'\tDate et heure de début : \t{round.start_datetime}') 
+        print('\tmatches : ') 
 
         matches = round.matches 
         for match in matches: 
@@ -143,13 +143,20 @@ class Report_view():
 ==== Consigne ====  
 
 ## RAPPORTS
-Nous aimerions pouvoir afficher les rapports suivants dans le programme :
+Nous aimerions pouvoir afficher les rapports suivants dans le programme : 
+
+# joueurs : 
 ● liste de tous les joueurs par ordre alphabétique ;
+● liste des joueurs du tournoi par ordre alphabétique ; 
+
+# tournois : 
 ● liste de tous les tournois ;
-● nom et dates d’un tournoi donné ;
-● liste des joueurs du tournoi par ordre alphabétique ;
+● nom et dates d’un tournoi donné ; 
+
+# rounds et matches : 
 ● liste de tous les tours du tournoi et de tous les matchs du tour.
-Nous aimerions les exporter ultérieurement, mais ce n'est pas nécessaire pour l'instant.
+
 Les rapports peuvent être en texte brut, à condition qu'ils soient bien formatés et faciles à lire. Vous pouvez même utiliser des modèles HTML !
 
+Nous aimerions les exporter ultérieurement, mais ce n'est pas nécessaire pour l'instant.
 """ 

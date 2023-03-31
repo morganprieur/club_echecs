@@ -1,8 +1,8 @@
 
 from .abstract_model import AbstractModel 
-# for tests : 
-# from abstract_model import AbstractModel 
+from .player_model import Player_model 
 from .round_model import Round_model 
+
 import json 
 import re 
 # d = re.compile('[\d]+') 
@@ -13,26 +13,38 @@ end = re.compile('[\]]+')
 class Tournament_model(AbstractModel): 
 
     def __init__( 
-        self, id: int, name: str, site: str, start_date: str, end_date: str, rounds: list, duration: str, description: str 
-    ):  # players: list,  nb_rounds:int,  
+        self, id: int, 
+        name: str, 
+        site: str, 
+        start_date: str, 
+        end_date: str, 
+        players: list, 
+        rounds: list, 
+        duration: str, 
+        description: str 
+    ):  # ,  nb_rounds:int,  
         super().__init__('tournaments') 
         self.id = id 
         self.name = name 
         self.site = site 
         self.start_date = start_date 
         self.end_date = end_date 
+        if players and isinstance(players[0], dict): 
+            print(f'\nplayers TM33 : {players}')  # (list of dicts)
+            self.players = [players(**data) for data in players] 
+        else: 
+            self.players = players 
         # self.nb_rounds = nb_rounds 
         if rounds and isinstance(rounds[0], dict): 
             print(f'\nrounds TM26 : {rounds}')  # (list of dicts)
             self.rounds = [Round_model(**data) for data in rounds] 
         else: 
             self.rounds = rounds 
-        # self.players = players 
         self.duration = duration 
         self.description = description 
 
     def __str__(self):  # , roundDicts        
-        tournament_string_start = (f'{self.id}, {self.name}, {self.site}, {self.start_date}, {self.end_date},') 
+        tournament_string_start = (f'{self.id}, {self.name}, {self.site}, {self.start_date}, {self.end_date}, players : {self.players}') 
         tournament_string_end = (f' rounds : \n{self.rounds}, {self.duration}, {self.description}') 
         return tournament_string_start + tournament_string_end 
 
@@ -44,6 +56,7 @@ class Tournament_model(AbstractModel):
             'site': self.site, 
             'start_date': self.start_date, 
             'end_date': self.end_date, 
+            'players': self.players, 
             'rounds': self.rounds, 
             'duration': self.duration, 
             'description': self.description 
