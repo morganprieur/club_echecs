@@ -251,10 +251,15 @@ class Main_controller():
     def enter_new_player(self): 
         print('\nEnter new player') 
         player_data = self.in_view.input_player() 
+        last_player_id = int(Player_model.get_registered_all('players')[-1]['id']) 
+        # print(f'\nlast_player_id MC255 : {last_player_id}')  
+        player_data['id'] = int(last_player_id)+1 
+        # print(f'\nplayer_data MC257 : {player_data}')   
         self.player = Player_model(**player_data) 
-        # print(f'self.player MC65 : {self.player}') 
-        # self.player.serialize() 
+        # print(f'self.player MC259 : {self.player}') 
         self.player.serialize_new_object() 
+
+        self.report_players('alphabet') 
 
         # # Select the last tournament 
         # last_tournament = self.select_the_last_tournament() 
@@ -283,11 +288,11 @@ class Main_controller():
             self.player = Player_model(**player) 
             players_obj.append(self.player) 
 
-        if sort == 'alphabétique': 
-            print('\nJoueurs par ordre alphabétique : ') 
+        if sort == 'alphabet': 
+            print('\nJoueurs par ordre alphabet : ') 
             self.report_view.sort_objects_by_field(players_obj, 'firstname') 
-        if sort == 'classement': 
-            print('\nJoueurs par classement : ') 
+        if sort == 'rank': 
+            print('\nJoueurs par rank : ') 
             self.report_view.sort_objects_by_field(players_obj, 'rank') 
 
         # continuer = 
@@ -463,6 +468,9 @@ class Main_controller():
     def enter_new_match(self): 
         print('\nEnter new match') 
 
+        ### Appeler la méthode define_first_match() ### 
+        ### Appeler la méthode define_next_matches() ### 
+
         # Get the data for the current match: 
         match_data = self.in_view.input_match() 
         print(f'\nmatch_data MC306 : {match_data}') 
@@ -550,6 +558,15 @@ class Main_controller():
         self.start(False) 
 
     """ =================== UTILS =================== """ 
+
+    """ comment """ 
+    def define_first_match(self): 
+        # Select the players bound with the last tournament 
+        last_tournament = self.select_the_last_tournament() 
+        players = [] 
+
+        # Randomly defin the pears of players 
+        pass 
 
     """ comment """ 
     def check_key(self, key, model, objs): 
