@@ -1,5 +1,5 @@
 
-from datetime import datetime 
+from datetime import date 
 from prompt_toolkit import PromptSession 
 # to use prompt as an instance 
 session = PromptSession() 
@@ -7,10 +7,10 @@ session = PromptSession()
 
 class Input_view(): 
 
-    now = datetime.now() 
+    today = date.today() 
 
-    def __init__(self, now): 
-        self.now = now 
+    def __init__(self, today): 
+        self.today = today 
 
     # print("start input view") 
 
@@ -19,19 +19,23 @@ class Input_view():
         new_tournament = {} 
         new_tournament['name'] = session.prompt('\nNom du tournoi : ') 
         new_tournament['site'] = session.prompt('\nLieu : ') 
-        new_tournament['t_date'] = str(self.now) 
-        new_tournament['nb_rounds'] = session.prompt('\nNombre de rounds : ')  
+        new_tournament['start_date'] = str(self.today) 
+        new_tournament['end_date'] = '' 
         # new_tournament['players'] = session.prompt('\nJoueurs (id, séparés par des virgules) : ') 
         new_tournament['duration'] = session.prompt('\nDurée : ') 
         new_tournament['description'] = session.prompt('\nDescription : ') 
         return new_tournament 
 
+    def input_closing_tournament(self): 
+        is_tournament_done = session.prompt('\nConfirmer la clôture du tournoi ? (y/N) : ') 
+        return is_tournament_done 
+
     """ comment """ 
     def input_player(self): 
         new_player = {} 
-        new_player['lastname'] = session.prompt('\nlastname : ')  
-        new_player['firstname'] = session.prompt('\nfirstname : ') 
-        new_player['rank'] = int(session.prompt('\nrank : ')) 
+        new_player['lastname'] = session.prompt('\nNom : ')  
+        new_player['firstname'] = session.prompt('\nPrénom : ') 
+        new_player['rank'] = int(session.prompt('\nClassement : ')) 
         return new_player 
 
     """ comment """ 
@@ -44,6 +48,11 @@ class Input_view():
         # Date + heure de fin du round quand on démarre un nouveau round : 
         # new_round['end_datetime'] = str(self.now) 
         return new_round 
+    
+    """ comment """ 
+    def input_closing_round(self): 
+        is_round_done = session.prompt('\nConfirmer la clôture du round ? (y/N)') 
+        return is_round_done  
 
     """ comment """ 
     def input_match(self): 

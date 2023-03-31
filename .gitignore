@@ -1,6 +1,6 @@
 
 env/
-tables/
+data/
 utils/input_data_csv/ 
 roadmap.txt
 tuple.py 

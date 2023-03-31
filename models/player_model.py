@@ -10,7 +10,7 @@ import json
 class Player_model(AbstractModel): 
 
     def __init__(self, lastname:str, firstname:str, rank: int):  # , age, genre, rank, global_score 
-        super().__init__('p_table') 
+        super().__init__('players') 
         self.lastname = lastname  
         self.firstname = firstname 
         self.rank = rank 
@@ -49,13 +49,8 @@ if __name__ == "__main__":
     one_player = Player_model(**new_player) 
     print(f'new_player PM80 : {new_player}') 
     # print(f'type(new_player) PM66 : {type(new_player)}') 
-    one_player.serialize() 
+    one_player.serialize_new_object() 
 
-
-    # def register_players(self, serialized_players): 
-    #     with open('p_table.json', 'w') as file:
-    #         json.dump(serialized_players, file) 
-    #         return serialized_players 
     
 
     ### Python forge : écrire dans fichier JSON : 

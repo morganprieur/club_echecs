@@ -33,7 +33,7 @@ class Report_view():
             print(f'ID : \t{tournament.id}') 
             print(f'nom : \t{tournament.name}') 
             print(f'lieu : \t{tournament.site}') 
-            print(f'date : \t{tournament.t_date}') 
+            print(f'date : \t{tournament.start_date}') 
             print(f'durée : {tournament.duration}') 
             print(f'description : \t{tournament.description}') 
             print('rounds : \t') 

@@ -42,8 +42,6 @@ Matches
 --> définir les matches 
 
 
-XX Facto méthode MC.select_one_obj() : voir si rentable ou pas (combien d'args il faut mettre) 
---> marche pas, il faut tjrs select un tournoi, puis un/des joueur/s et un/des round/s, puis des matches  
 
 README 
 
@@ -54,9 +52,7 @@ WIP Accueil
 ========== 
 
 ## TOURNOIS
-Le programme utilise les fichiers de données JSON pour la persistance des informations sur
-les tournois. Les fichiers de données sont généralement situés dans le dossier
-data/tournaments.  
+Le programme utilise les fichiers de données JSON pour la persistance des informations sur les tournois. Les fichiers de données sont généralement situés dans le dossier data/tournaments.  
 
 ### DÉROULEMENT DE BASE DU TOURNOI
 ● Un tournoi a un nombre de tours défini.

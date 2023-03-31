@@ -8,7 +8,7 @@ class Match_model(AbstractModel):
     def __init__( 
         self, round_id: int, id_joueur_1: int, score_joueur_1: float, id_joueur_2: int, score_joueur_2: float 
     ): 
-        super().__init__('t_table') 
+        super().__init__('tournaments') 
         self.round_id = round_id 
         self.id_joueur_1 = id_joueur_1 
         self.score_joueur_1 = score_joueur_1 
@@ -30,10 +30,11 @@ class Match_model(AbstractModel):
         return {"match": self.match}
 
     """ comment """ 
-    def serialize(self): 
-        """ Rewrite method for serialize the match objects into the round table""" 
+    def serialize_new_object(self): 
+        """ Rewrite method for serialize the match objects into the tournament file 
+            when adding a new match.""" 
         if not self.check_if_json_empty(): 
-            # Get all the data from the t_table: 
+            # Get all the data from the tournaments file: 
             tournaments = self.get_registered() 
             # Get the current_tournament 
             # current_tournament = objects.pop() 
@@ -59,8 +60,8 @@ class Match_model(AbstractModel):
                 # print(f'current_round MM59 : {current_round}') 
                 # print(f'current_tournament MM60 : {current_tournament}') 
         else: 
-            print('Erreur : la table t_table ne peut pas être vide.') 
-        with open(f'tables/{self.table}.json', 'w') as file: 
+            print('Erreur : la table tournaments ne peut pas être vide.') 
+        with open(f'data/{self.table}.json', 'w') as file: 
             json.dump(tournaments, file) 
 
 
