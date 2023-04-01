@@ -347,7 +347,7 @@ class Main_controller():
 
     """ comment """ 
     def close_round(self): 
-        print('Clôturer un round') 
+        print('\nClôturer un round') 
 
         closing_round = self.in_view.input_closing_round() 
 
@@ -461,7 +461,9 @@ class Main_controller():
         print('\nEnter new match') 
 
         ### Appeler la méthode define_first_round() ### 
-        ### Appeler la méthode define_next_matches() ### 
+        self.define_first_round() 
+
+        ### Appeler la méthode define_next_rounds() ### 
 
         # Get the data for the current match: 
         match_data = self.in_view.input_match() 
@@ -553,74 +555,92 @@ class Main_controller():
 
     """ comment """ 
     def define_first_round(self): 
-        # Select the players bound with the last tournament 
+        """ Select the players' ids witch will play against each other during the first round. """ 
+        # Select the players from the last tournament 
         last_tournament = self.select_the_last_tournament() 
         # print(f'\nlast_tournament.keys() MC558 : {last_tournament.keys()}') 
         players = last_tournament['players'] 
-        print(f'\nlast_tournament players MC560 : {players}')  # v 
-
+        print(f'\nlast_tournament players MC563 : {players}')  # v 
         matches = [] 
         # Randomly define the pears of players for 4 matches 
         for i in range(int(4)): 
-            self.define_match(players, matches) 
-        
-        print(f'\nMatches MC572 : {matches}') 
-        # print(f'\nMatches MC567 : {matches}') 
+            self.define_matches_first_round(players, matches, last_tournament) 
+        print(f'\nMatches MC568 : {matches}') 
+        # Attribute matches to the first round (not any global_scores, only into the rounds) 
+        # with scores to 0 
+        round = last_tournament['rounds'][0] 
+        print(f'\nround MC572 : {round}') 
+        last_tournament['rounds'][0]['matches'] = matches 
+        print(f'\nlast_tournament MC574 : {last_tournament}') 
+        for m in matches: 
+            print(f'\nm MC576 : {m}') 
+        # Instantiate the last tournament 
+        self.last_tournament = Tournament_model(**last_tournament) 
+        print(f'\nself.last_tournament MC579 : {self.last_tournament}') 
+        # self.calculate_scores(players, matches, round) 
+        # self.close_round() 
+        # self.round.serialize_modified_object() 
 
 
-    def define_match(self, players, matches): 
-        match = [] 
+    def define_matches_first_round(self, players, matches, last_tournament): 
+        """ Select the players' ids for one match. 
+            Args:
+                players (list): the list of the players' ids of the last tournament. 
+                matches (list): the list of the selected players' ids for the round. 
+            Returns:
+                list: the list of the selected players' ids, added the new selected ones. 
+        """ 
+        # score = the score at the start of the round (for the first round : 0) 
+        score = float(0)  
+        # match = the tuple containing 2 lists 'selected_player' 
+        match = ([], []) 
+        # selected = the list of player's id and player's score 
+        selected = [] 
         for i in range(int(2)): 
-            selected = random.choice(players) 
-            # match_select = self.define_match(players, match) 
-            match.append(selected) 
-            print(f'\nmatch MC576 : {match}') 
+            # choice = the randomly chosen player's id 
+            choice = random.choice(players) 
+            selected.append(choice) 
+            players.remove(choice) 
+            print(f'\nplayers MC596 : {players}') 
+            print(f'\nchoice MC597 : {choice}') 
+        match = ([selected[0], score], [selected[1], score]) 
+        print(f'\nmatch MC599 : {match}') 
         matches.append(match) 
-        # match_select = self.define_match(players, match) 
-        # print(f'\nmatches MC579 : {matches}') 
-        # matches.append(match_select) 
         return matches 
+    
+    # at the end of the round 
+    def calculate_scores(self, players, matches, round): 
+        # players_scores = list last_tournament['players']['global_score'] 
+        # matches_scores = list matches[0]['score'] 
+        # players_scores += matches_scores 
+        # "matches": [[[1, 0.5], [3, 0.5]], [[5, 0], [7, 1]], [[9, 0.5], [11, 0.5]], [[4, 1], [8, 0]]] 
+        # Matches MC572 : [[8, 7], [9, 5], [5, 7], [3, 5]] 
+        matches.append
+        round['matches'] = matches  
 
-
-
-    # def define_match(self, players, match): 
-        
-    #     print(f'\nSelected MC573 : {selected}') 
-    #     # print(f'\ntype(selected) MC564 : {type(selected)}') 
-    #     match.append(selected) 
-    #     players.remove(selected) 
-    #     print(f'\nPlayers MC576 : {players}') 
-    #     return match 
-
-
-        
-         
-
-    """ comment """ 
-    def check_key(self, key, model, objs): 
-        # print(f'objs MC142 : {objs}')
-        list_objs = []
-        for data in objs: 
-            # print(f'data MC145 : {data}') 
-            if key not in data.keys():  
-                data[key] = []  
-            list_objs.append(model(**data)) 
-
-        return list_objs 
-
-    """ comment """ 
     def select_one_tournament(self, t_id): 
-        # Récupérer tous les <obj> dans la liste <objs> (liste de dicts) : 
-        t_objs = Tournament_model.get_registered_all('tournaments') 
-        # Sélectionner le <objet> indiqué dans id (dict)  # -1 : pas eu ce problème auparavant 
-        t_obj = t_objs[t_id]  # -1  ### 
-        return t_obj 
+        """ Select one tournament from its id, from the tournament.json file. 
+            Args:
+                t_id (int): the tournament's id 
+            Returns:
+                int: the tournament's id 
+        """
+        # Get all the tournaments from the tournaments data file (list of dicts) : 
+        t_dicts = Tournament_model.get_registered_all('tournaments') 
+        # Get the tournament from its id (dict) 
+        t_dict = t_dicts[t_id] 
+        return t_dict 
 
-    def select_the_last_tournament(self): 
-        t_objs = Tournament_model.get_registered_all('tournaments') 
-        t_obj = t_objs[-1] 
-        print(f'last tournament MC593 : {t_obj}') 
-        return t_obj 
+    def select_the_last_tournament(self,): 
+        """ Select the last tournament from the tournament.json file. 
+            Returns:
+                int: the tournament's id 
+        """ 
+        # Get all the tournaments from the tournaments data file (list of dicts) : 
+        t_dicts = Tournament_model.get_registered_all('tournaments') 
+        # Get the last tournament from t_dicts (dict) 
+        t_dict = t_dicts[-1] 
+        return t_dict 
 
     """ 
     ## SAUVEGARDE / CHARGEMENT DES DONNÉES

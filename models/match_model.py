@@ -6,20 +6,21 @@ import json
 class Match_model(AbstractModel): 
 
     def __init__( 
-        self, round_id: int, id_joueur_1: int, score_joueur_1: float, id_joueur_2: int, score_joueur_2: float 
-    ): 
+        self, match: tuple 
+    ):  # round_id: int, id_joueur_1: int, score_joueur_1: float, id_joueur_2: int, score_joueur_2: float 
         super().__init__('tournaments') 
-        self.round_id = round_id 
-        self.id_joueur_1 = id_joueur_1 
-        self.score_joueur_1 = score_joueur_1 
-        self.id_joueur_2 = id_joueur_2 
-        self.score_joueur_2 = score_joueur_2 
+        self.match = match 
+        # self.round_id = round_id 
+        # self.id_joueur_1 = id_joueur_1 
+        # self.score_joueur_1 = score_joueur_1 
+        # self.id_joueur_2 = id_joueur_2 
+        # self.score_joueur_2 = score_joueur_2 
 
-        player_1 = [self.id_joueur_1, self.score_joueur_1] 
-        player_2 = [self.id_joueur_2, self.score_joueur_2] 
+        # player_1 = [self.id_joueur_1, self.score_joueur_1] 
+        # player_2 = [self.id_joueur_2, self.score_joueur_2] 
 
-        self.match = (player_1, player_2) 
-        print(f'self.match MM21 : {self.match}')  # ok 
+        # self.match = (player_1, player_2) 
+        print(f'self.match MM21 : {self.match}') 
 
     def __str__(self): 
         print(f'type(self.match) MM22 : {type(self.match)}')  # tuple ok 

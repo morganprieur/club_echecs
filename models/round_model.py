@@ -18,7 +18,7 @@ class Round_model(AbstractModel):
         self.tournament_id = tournament_id 
         # if matches and isinstance(matches[0], dict): 
         if matches and isinstance(matches[0], tuple): 
-            # print(f'matches RM19 : {matches}') 
+            print(f'\nmatches RM21 : {matches}') 
             self.matches = [Match_model(*data) for data in matches] 
         else: 
             self.matches = matches 
