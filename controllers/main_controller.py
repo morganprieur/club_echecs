@@ -565,11 +565,13 @@ class Main_controller():
         last_tournament = self.select_the_last_tournament() 
         # print(f'\nlast_tournament.keys() MC558 : {last_tournament.keys()}') 
         players = last_tournament['players'] 
+        # Copy the players list 
+        pl = list(players) 
         # print(f'\nlast_tournament players MC563 : {players}')  # v 
         matches = [] 
         # Randomly define the pears of players for 4 matches 
         for i in range(int(4)): 
-            self.define_matches_first_round(players, matches, last_tournament) 
+            self.define_matches_first_round(pl, matches, last_tournament) 
         # print(f'\nMatches MC568 : {matches}') 
         # Attribute matches to the first round (not any global_scores, only into the rounds) 
         # with scores to 0 
@@ -593,7 +595,7 @@ class Main_controller():
         self.define_matches_next_rounds(last_tournament)
 
 
-    def define_matches_first_round(self, players, matches, last_tournament): 
+    def define_matches_first_round(self, pl, matches, last_tournament): 
         """ Select the players' ids for one match. 
             Args:
                 players (list): the list of the players' ids of the last tournament. 
@@ -609,10 +611,10 @@ class Main_controller():
         selected = [] 
         for i in range(int(2)): 
             # choice = the randomly chosen player's id 
-            choice = random.choice(players) 
+            choice = random.choice(pl) 
             selected.append(choice) 
-            players.remove(choice) 
-            print(f'\nplayers MC596 : {players}') 
+            pl.remove(choice) 
+            print(f'\nplayers MC596 : {pl}') 
             print(f'\nchoice MC597 : {choice}') 
         match = ([selected[0], score], [selected[1], score]) 
         print(f'\nmatch MC599 : {match}') 
