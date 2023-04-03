@@ -25,12 +25,16 @@ class Match_model(AbstractModel):
         # print(f'self.match MM21 : {self.match}') 
 
     def __str__(self): 
-        print(f'type(self.match) MM22 : {type(self.match)}')  # tuple ok 
-        return f'{self.match}' 
+        # match1 = self.player_1.strip("'") 
+        # match2 = self.player_2.strip("'") 
+        # match = (match1, match2) 
+        # print(f'type(self.match) MM22 : {type(self.match)}')  # tuple ok 
+        return f'{(self.player_1, self.player_2)}' 
 
     """ comment """ 
     def to_dict(self): 
-        return {"match": self.match}
+        return {"match": (self.player_1, self.player_2)} 
+        # pass 
 
     """ comment """ 
     def serialize_new_object(self): 
