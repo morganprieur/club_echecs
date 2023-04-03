@@ -84,9 +84,9 @@ class Tournament_model(AbstractModel):
                 print(f'\ntype(round) TM84 : {type(round)}') 
                 round_dict = round.to_dict() 
                 # rounds.append(round.to_dict()) 
+                print(f'\ntype(round_dict) TM88 : {type(round_dict)}') 
                 rounds.append(round_dict) 
-                print(f'\ntype(round) TM88 : {type(round)}') 
-                matches_obj = round.matches 
+                matches_obj = round_dict['matches'] 
                 matches = [] 
                 for match in matches_obj: 
                     match = match.to_dict() 
@@ -95,7 +95,7 @@ class Tournament_model(AbstractModel):
                     print(f'\nmatch TM95 : {match}') 
                     print(f'\ntype(match) TM95 : {type(match)}') 
                 print(f'\nmatches TM96 : {matches}') 
-                round.matches = matches 
+                round_dict['matches'] = matches 
                 # rounds.append(round) 
             print(f'\nrounds TM100 : {rounds}') 
             t_dicts[-1]['rounds'] = rounds 
