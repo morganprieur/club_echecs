@@ -53,6 +53,7 @@ class Dashboard_view():
         '--------', 
         # pas demandés : 
         '9 : test define_first_round', 
+        '10 : test define_next_rounds', 
         # '9 : le dernier tournoi', 
         # '9 : le tournoi du jour', 
         '', 

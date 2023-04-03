@@ -82,15 +82,15 @@ class Tournament_model(AbstractModel):
             for round in rounds_obj: 
                 print(f'\nround TM69 : {round}') 
                 print(f'\ntype(round) TM70 : {type(round)}') 
-                # rounds.append(round.to_dict()) 
-                rounds.append(round) 
+                rounds.append(round.to_dict()) 
+                # rounds.append(round) 
             print(f'\nrounds TM73 : {rounds}') 
             objects[-1]['rounds'] = rounds 
             print(f'\nobjects TM75 : {objects}') 
         else: 
             print('Erreur : le fichier tournaments ne peut pas être vide.') 
         with open(f"data/{self.table}.json", "w") as file: 
-            json.dump(objects, file) 
+            json.dump(objects, file)  # voir howto callback 
 
     ### 
     # def serialize_modified_object(self): 

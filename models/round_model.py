@@ -19,7 +19,11 @@ class Round_model(AbstractModel):
         # if matches and isinstance(matches[0], dict): 
         if matches and isinstance(matches[0], tuple): 
             print(f'\nmatches RM21 : {matches}') 
+            # self.matches = [Match_model(*data) for data in matches] 
             self.matches = [Match_model(*data) for data in matches] 
+            # self.matches = [Match_model([1, 1.5], [2, 2.0]) for data in matches] data = ([1, 1.5], [2, 2.0]) 
+
+
         else: 
             self.matches = matches 
         

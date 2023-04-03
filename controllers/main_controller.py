@@ -136,6 +136,11 @@ class Main_controller():
                 # Tester define_first_round : 
                 self.define_first_round() 
 
+            if self.board.ask_for_report == '10': 
+                self.board.ask_for_report = None 
+                # Tester define_first_round : 
+                self.define_next_rounds() 
+
             """ comment """ 
             if self.board.ask_for_report == '*': 
                 self.board.ask_for_report = None 
@@ -222,9 +227,9 @@ class Main_controller():
         # + Append the modified tournament to the registered list 
         # + Write the list of dictionaries into the json file 
         tournaments_dict = self.last_tournament.serialize_modified_object() 
-        print(f'dict of tournaments MC217 : {tournaments_dict}') 
+        print(f'\ndict of tournaments MC217 : {tournaments_dict}') 
         # Display the last modified tournament 
-        print(f'the last tournament MC219 : {tournaments_dict[-1]}') 
+        # print(f'the last tournament MC219 : {tournaments_dict[-1]}') 
         # pass 
         self.start(False) 
 
@@ -560,18 +565,18 @@ class Main_controller():
         last_tournament = self.select_the_last_tournament() 
         # print(f'\nlast_tournament.keys() MC558 : {last_tournament.keys()}') 
         players = last_tournament['players'] 
-        print(f'\nlast_tournament players MC563 : {players}')  # v 
+        # print(f'\nlast_tournament players MC563 : {players}')  # v 
         matches = [] 
         # Randomly define the pears of players for 4 matches 
         for i in range(int(4)): 
             self.define_matches_first_round(players, matches, last_tournament) 
-        print(f'\nMatches MC568 : {matches}') 
+        # print(f'\nMatches MC568 : {matches}') 
         # Attribute matches to the first round (not any global_scores, only into the rounds) 
         # with scores to 0 
         round = last_tournament['rounds'][0] 
-        print(f'\nround MC572 : {round}') 
+        # print(f'\nround MC572 : {round}') 
         last_tournament['rounds'][0]['matches'] = matches 
-        print(f'\nlast_tournament MC574 : {last_tournament}') 
+        # print(f'\nlast_tournament MC574 : {last_tournament}') 
         for m in matches: 
             print(f'\nm MC576 : {m}') 
         # Instantiate the last tournament 
@@ -579,7 +584,13 @@ class Main_controller():
         print(f'\nself.last_tournament MC579 : {self.last_tournament}') 
         # self.calculate_scores(players, matches, round) 
         # self.close_round() 
-        # self.round.serialize_modified_object() 
+        # self.round = self.last_tournament.rounds[-1] 
+        # round_obj = self.last_tournament.rounds[-1] 
+        self.last_tournament.serialize_modified_object() 
+
+    def define_next_rounds(self): 
+        last_tournament = self.select_the_last_tournament() 
+        self.define_matches_next_rounds(last_tournament)
 
 
     def define_matches_first_round(self, players, matches, last_tournament): 
@@ -608,6 +619,25 @@ class Main_controller():
         matches.append(match) 
         return matches 
     
+    # from operator import attrgetter ### 
+    def define_matches_next_rounds(self, last_tournament): 
+        print(f'\nlast_tournament MC622 : {last_tournament}') 
+        last_round = last_tournament['rounds'][-1] 
+        print(f'\nlast_round MC622 : {last_round}') 
+        players = last_round['matches'] 
+        # element.sort(key=lambda x: x[1]) 
+        sorted_players = players.sort(key=lambda x: x[1]) 
+        print(f'\nsorted_players MC619 : {sorted_players}')
+        for p in players: 
+            print(f'\np MC621 : {p}') 
+        # sorted_players = 
+
+        # print() 
+        # objects.sort(key=attrgetter(field)) 
+        # for obj in objects: 
+        #     print(f'{obj.firstname} \t{obj.lastname}, \tclassement : {obj.rank}') 
+
+    
     # at the end of the round 
     def calculate_scores(self, players, matches, round): 
         # players_scores = list last_tournament['players']['global_score'] 
@@ -631,7 +661,7 @@ class Main_controller():
         t_dict = t_dicts[t_id] 
         return t_dict 
 
-    def select_the_last_tournament(self,): 
+    def select_the_last_tournament(self): 
         """ Select the last tournament from the tournament.json file. 
             Returns:
                 int: the tournament's id 
