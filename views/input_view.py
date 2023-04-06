@@ -30,7 +30,7 @@ class Input_view():
         is_tournament_done = session.prompt('\nConfirmer la clôture du tournoi ? (y/N) : ') 
         return is_tournament_done 
 
-    """ comment """ 
+    """ Players """ 
     def input_player(self): 
         new_player = {} 
         new_player['lastname'] = session.prompt('\nNom : ')  
@@ -39,7 +39,7 @@ class Input_view():
         # new_player['global_score'] = float(0) 
         return new_player 
 
-    """ comment """ 
+    """ Rounds """ 
     def input_round(self): 
         new_round = {} 
         # round.id must be automatically defined (into Main_controller): 
@@ -50,16 +50,16 @@ class Input_view():
         # new_round['end_datetime'] = str(self.now) 
         return new_round 
     
-    """ comment """ 
+    """ Rounds """ 
     def input_closing_round(self): 
         is_round_done = session.prompt('\nConfirmer la clôture du round ? (y/N)') 
         return is_round_done  
 
-    """ comment """ 
+    """ Matches """ 
     def input_match(self): 
         new_match = {} 
         # match.id must be automatically defined (into Main_controller): 
-        new_match['round_id'] = int(session.prompt('\nID du round : ')) 
+        new_match['round_id'] = int(session.prompt('\nID du round : '))  # to define automatically ### 
         new_match['id_joueur_1'] = int(session.prompt('\nID du joueur n°1 : ')) 
         new_match['score_joueur_1'] = float(session.prompt('\nScore du joueur n°1 : ')) 
         new_match['id_joueur_2'] = int(session.prompt('\nID du joueur n°2 : ')) 
@@ -70,4 +70,33 @@ class Input_view():
         # new_match['match'] = tuple() 
         print(f'match IV59 : {new_match}') 
         return new_match 
+
+    """ Matches """ 
+    def input_matches_scores(self): 
+        scores = [] 
+        # new_match = [] 
+        # print(f'\nnew_match IV78 : {new_match}') 
+         
+        number_of_matches_scores = int(
+            session.prompt('\nCombien de matches à enregistrer ? : ') 
+        ) 
+
+        for i in range(number_of_matches_scores): 
+            scores.append(int(session.prompt('\nMatch numéro : '))) 
+            print(f'\nscores IV86 : {scores}') 
+
+            scores.append(float(session.prompt('\nScore du 1er joueur : ')))     
+            print(f'\nscores IV90 : {scores}') 
+            # scores.append(score_joueur_1) 
+            
+            # scores.append(float(session.prompt('\nScore du 2è joueur : '))) 
+            # print(f'\nscores IV94 : {scores}') 
+            # scores.append(scores) 
+            # scores.append(score_joueur_2) 
+            # new_match[0][0][1] = float(session.prompt('\nScore du 1er joueur : '))     
+            # new_match[1][0][1] = float(session.prompt('\nScore du 2è joueur : '))     
+        print(f'\nscores IV99 : {scores}') 
+        return scores 
+
+        
 

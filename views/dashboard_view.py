@@ -31,7 +31,8 @@ class Dashboard_view():
         '4 : Clôturer un tournoi', 
         '5 : Enregistrer un nouveau round', 
         '6 : Clôturer un round', 
-        '7 : Enregistrer un match', 
+        '7 : Enregistrer un match',  # à supprimer (auto) 
+        '8 : Enregistrer des scores', 
         '', 
         'Commandes de secours : ', 
         '* Revenir au menu principal', 

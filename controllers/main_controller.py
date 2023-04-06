@@ -84,6 +84,11 @@ class Main_controller():
                 self.board.ask_for_register = None 
                 # saisir un joueur : 
                 self.enter_new_match() 
+        
+            if self.board.ask_for_register == '8': 
+                self.board.ask_for_register = None 
+                # Tester define_next_round : 
+                self.enter_scores() 
 
             if self.board.ask_for_register == '*': 
                 self.board.ask_for_register = None 
@@ -138,7 +143,7 @@ class Main_controller():
 
             if self.board.ask_for_report == '10': 
                 self.board.ask_for_report = None 
-                # Tester define_first_round : 
+                # Tester define_next_round : 
                 self.define_next_rounds() 
 
             """ comment """ 
@@ -165,7 +170,7 @@ class Main_controller():
 
         return False 
 
-    """ comment """ 
+    """ Tournaments """ 
     def enter_new_tournament(self): 
         print('\nEnter new tournament') 
 
@@ -258,7 +263,7 @@ class Main_controller():
         session.prompt('Appuyer sur Entrée pour continuer ') 
         self.start(False) 
 
-    """ comment ### à corriger """ 
+    """ Players ### à corriger """ 
     def enter_new_player(self): 
         print('\nEnter new player') 
         player_data = self.in_view.input_player() 
@@ -296,7 +301,7 @@ class Main_controller():
         session.prompt('Appuyer sur Entrée pour continuer ') 
         self.start(False) 
 
-    """ comment ### à corriger """ 
+    """ Rounds ### à corriger """ 
     def enter_new_round(self): 
         print('\nEnter new round') 
 
@@ -461,7 +466,7 @@ class Main_controller():
         session.prompt('Appuyer sur Entrée pour continuer ') 
         self.start(False) 
 
-    """ comment """ 
+    """ Matches ### à supprimer """ 
     def enter_new_match(self): 
         print('\nEnter new match') 
 
@@ -535,6 +540,58 @@ class Main_controller():
         # continuer = 
         session.prompt('Appuyer sur Entrée  pour continuer ') 
         self.start(False) 
+
+    def enter_scores(self): 
+        current_matches_scores = self.in_view.input_matches_scores() 
+        print(f'\nscores MC546 : {current_matches_scores}') 
+
+        # Define match's index 
+        for ind in current_matches_scores: 
+            print(f'\nind MC550 : {ind}') 
+            index1 = int((ind%2) - 1) 
+            print(f'\nindex1 MC552 : {index1}') 
+            print(f'\ncurrent_matches_scores[index1] MC553 : {current_matches_scores[index1]}') 
+        match_nb = current_matches_scores[index1]-1 
+        score_player_1 = len(current_matches_scores)%2 
+        score_player_2 = float(1-score_player_1) 
+
+        # Get the last tournament (dict) 
+        last_tournament = self.select_the_last_tournament() 
+        print(f'\nlast_tournament MC558 : {last_tournament}') 
+        # Try to instantiate it (obj) 
+        self.last_tournament = Tournament_model(**last_tournament) 
+        print(f'\ntype(self.last_tournament) MC561 : {type(self.last_tournament)}') # obj ok 
+        # Get the last round (check if it is an obj, else instantiate it) 
+        self.last_round = self.last_tournament.rounds[-1] 
+        print(f'\ntype(self.last_round) MC564 : {type(self.last_round)}') # obj ok 
+        # Get the matches (check if it is an obj, else instantiate it) 
+        matches_dicts = self.last_round.matches 
+        print(f'\nmatches_dicts MC567 : {matches_dicts}') # dict nok 
+        # del matches_dicts[0] 
+        # matches_list = list(matches_dicts)
+        # print(f'\nmatches_list MC562 : {matches_list}') # dict nok 
+        matches = [] 
+        for match_dict in matches_dicts: 
+            print(f'\nmatch_dict MC573 : {match_dict}') 
+            # match = match_dict.values() 
+            match = list(match_dict['match']) 
+            print(f'\nmatch MC576 : {match}') 
+            print(f'\nmatch[0] MC77 : {match[1]}') 
+            print(f'\ntype(match) MC578 : {type(match)}') 
+            tuple_match = tuple(match) 
+            print(f'\ntuple_match MC580 : {tuple_match}\n') 
+            # print(f'\ntype(tuple_match) MC576 : {type(tuple_match)}\n')  # tuple ok 
+            tuple_match[0][1] = current_matches_scores[1] 
+            matches.append(tuple_match) 
+            print(f'\nmatches MC584 : {matches}\n')  # list of tuples of lists ok 
+        self.matches = [] 
+        self.matches.append(Match_model(*matches))  # TypeError: Match_model.__init__() takes 3 positional arguments but 5 were given 
+        print(f'\nmatches MC587 : {matches}') 
+        # Replace the '0,0' by the scores into matches_scores for each match 
+        # Put again the matches into the round 
+        # Put again the rounds into the tournament 
+        # Serialize the tournaments (serialize_modified_object)  
+
 
     """ comment """ 
     def report_matches(self, ask_for_tournament_id): 
