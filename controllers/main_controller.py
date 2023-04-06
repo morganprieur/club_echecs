@@ -548,12 +548,13 @@ class Main_controller():
         # Define match's index 
         for ind in current_matches_scores: 
             print(f'\nind MC550 : {ind}') 
-            index1 = int((ind%2) - 1) 
-            print(f'\nindex1 MC552 : {index1}') 
-            print(f'\ncurrent_matches_scores[index1] MC553 : {current_matches_scores[index1]}') 
-        match_nb = current_matches_scores[index1]-1 
-        score_player_1 = len(current_matches_scores)%2 
-        score_player_2 = float(1-score_player_1) 
+            # index1 = int((ind%2) - 1) 
+            # print(f'\nindex1 MC552 : {index1}') 
+            # print(f'\ncurrent_matches_scores[index1] MC553 : {current_matches_scores[index1]}') 
+        # match_nb = current_matches_scores[index1]-1 
+        new_match = [current_matches_scores[len(current_matches_scores)%2], current_matches_scores[(len(current_matches_scores)%2)+1]] 
+        print(f'\n(len(current_matches_scores)%2)+1 MC556 : {(len(current_matches_scores)%2)+1}') 
+        print(f'\nnew_match MC557 : {new_match}') 
 
         # Get the last tournament (dict) 
         last_tournament = self.select_the_last_tournament() 
@@ -571,22 +572,29 @@ class Main_controller():
         # matches_list = list(matches_dicts)
         # print(f'\nmatches_list MC562 : {matches_list}') # dict nok 
         matches = [] 
-        for match_dict in matches_dicts: 
-            print(f'\nmatch_dict MC573 : {match_dict}') 
-            # match = match_dict.values() 
-            match = list(match_dict['match']) 
-            print(f'\nmatch MC576 : {match}') 
-            print(f'\nmatch[0] MC77 : {match[1]}') 
-            print(f'\ntype(match) MC578 : {type(match)}') 
+        for i in range(len(matches_dicts)): 
+            print(f'\ni MC576 : {i}') 
+            print(f'\nmatches_dicts[i] MC577 : {matches_dicts[i]}') 
+            match = list(matches_dicts[i]['match']) 
+            print(f'\nmatch MC579 : {match}')  # list ok 
+            # print(f'\nmatch[0] MC577 : {match[1]}') 
+            # print(f'\ntype(match) MC578 : {type(match)}') 
             tuple_match = tuple(match) 
-            print(f'\ntuple_match MC580 : {tuple_match}\n') 
+            print(f'\ntuple_match MC583 : {tuple_match}\n') 
             # print(f'\ntype(tuple_match) MC576 : {type(tuple_match)}\n')  # tuple ok 
-            tuple_match[0][1] = current_matches_scores[1] 
+            
+            score_player_1 = current_matches_scores[((len(current_matches_scores)%2)+1)+2*i] 
+            print(f'\nscore_player_1 MC587 : {score_player_1}') 
+            score_player_2 = float(1-score_player_1) 
+            print(f'\nscore_player_2 MC589 : {score_player_2}') 
+
+            tuple_match[0][1] = score_player_1 
+            tuple_match[1][1] = score_player_2 
             matches.append(tuple_match) 
-            print(f'\nmatches MC584 : {matches}\n')  # list of tuples of lists ok 
+            print(f'\nmatches MC594 : {matches}\n')  # list of tuples of lists ok 
         self.matches = [] 
         self.matches.append(Match_model(*matches))  # TypeError: Match_model.__init__() takes 3 positional arguments but 5 were given 
-        print(f'\nmatches MC587 : {matches}') 
+        print(f'\nmatches MC597 : {matches}') 
         # Replace the '0,0' by the scores into matches_scores for each match 
         # Put again the matches into the round 
         # Put again the rounds into the tournament 
