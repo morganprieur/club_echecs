@@ -76,23 +76,32 @@ class Tournament_model(AbstractModel):
             t = t_dicts[-1] 
             # Select the rounds 
             rounds_obj = t['rounds'] 
-            last_round = rounds_obj[-1] 
+            if len(rounds_obj) > 1: 
+                rounds_obj.pop() 
+            unchanged_rounds = rounds_obj 
+            print(f'\nunchanged_rounds TM80 : {unchanged_rounds} \n') 
             rounds = [] 
             # Serialize the rounds 
-            for round in rounds_obj: 
+            for round in unchanged_rounds: 
                 # round_dict = round.to_dict() 
                 # rounds.append(round_dict) 
                 rounds.append(round.to_dict()) 
                 # matches_obj = round_dict['matches'] 
-                matches_obj = round['matches'] 
-                last_match = round[-1] 
+                round_dict = rounds[-1] 
+                print(f'\nround_dict TM89 : {round_dict} \n') 
+                print(f'\ntype(round_dict) TM90 : {type(round_dict)} \n') 
+                # print(f'\ntype(rounds[0]) TM89 : {type(rounds[0])} \n') 
+                matches_obj = round_dict['matches'] 
+                print(f'\nmatches_obj TM93 : {matches_obj} \n') 
+                # matches_obj.pop() 
+                # unchanged_matches = matches_obj 
                 matches = [] 
                 # Serialize the matches 
                 for match in matches_obj: 
-                    match = match.to_dict() 
-                    matches.append(match) 
+                    # match_dict = match.to_dict() 
+                    matches.append(match.to_dict()) 
                 # round_dict['matches'] = matches 
-                round['matches'] = matches 
+                round_dict['matches'] = matches 
             t_dicts[-1]['rounds'] = rounds 
         else: 
             print('Erreur : le fichier tournaments ne peut pas être vide.') 

@@ -563,7 +563,8 @@ class Main_controller():
         """ Select the players' ids witch will play against each other during the first round. """ 
         # Select the players from the last tournament 
         last_tournament = self.select_the_last_tournament() 
-        # print(f'\nlast_tournament.keys() MC558 : {last_tournament.keys()}') 
+        # print(f'\nlast_tournament.keys() MC566 : {last_tournament.keys()}') 
+        print(f'\nlast_tournament MC567 : {last_tournament}') 
         players = last_tournament['players'] 
         # Copy the players list 
         pl = list(players) 
