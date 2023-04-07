@@ -63,8 +63,9 @@ class AbstractModel(ABC):
             objects = self.get_registered() 
         else: 
             objects = [] 
-        objects.pop() 
-        objects.append(self.to_dict()) 
+        # objects.pop() 
+        # objects.append(self.to_dict()) 
+        objects[-1] = self.to_dict()
         with open(f"data/{self.table}.json", "w") as file: 
             json.dump(objects, file) 
 

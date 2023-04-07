@@ -72,31 +72,46 @@ class Input_view():
         return new_match 
 
     """ Matches """ 
-    def input_matches_scores(self): 
+    def input_scores(self, matches): 
+        # print(f'\nmatches IV76 : {matches}') 
         scores = [] 
-        # new_match = [] 
-        # print(f'\nnew_match IV78 : {new_match}') 
-         
-        number_of_matches_scores = int(
-            session.prompt('\nCombien de matches à enregistrer ? : ') 
-        ) 
+        null_matches = [] 
+        winners = [] 
+        input_matches = [] 
+        for i in range(len(matches)): 
+            print(f'\nMatch IV82 : {matches[i]}') 
+            # print(f'\nIV83 : {matches[i][0][0]} ou {matches[i][1][0]}') 
+            null_match = session.prompt(f'\nY a-t-il match nul ? (y/n) ') 
+            if null_match == 'y': 
+                null_matches.append(matches[i].player_1[0]) 
+                continue 
+            else: 
+                winner = session.prompt(f'\nQuel joueur a gagné {matches[i].player_1[0]} ou {matches[i].player_2[0]} ? ')
+                winners.append(matches[i].player_1[0]) 
+        print(f'\nnull_matches IV90 : {null_matches}') 
+        print(f'\nwinners IV91 : {winners}') 
 
-        for i in range(number_of_matches_scores): 
-            scores.append(int(session.prompt('\nMatch numéro : '))) 
-            print(f'\nscores IV86 : {scores}') 
+        return (null_matches, winners) 
+        
 
-            scores.append(float(session.prompt('\nScore du 1er joueur : ')))     
-            print(f'\nscores IV90 : {scores}') 
-            # scores.append(score_joueur_1) 
+            # scores.append(match_result) 
+
+        #     id_pl_1 = int(session.prompt(f'\nID du 1er joueur parmi {players} : '))
+        #     players.remove(int(id_pl_1)-1)  # trouver l'index pour le del 
+        #     score_pl_1 = float(session.prompt('\nScore du 1er joueur : '))
             
-            # scores.append(float(session.prompt('\nScore du 2è joueur : '))) 
-            # print(f'\nscores IV94 : {scores}') 
-            # scores.append(scores) 
-            # scores.append(score_joueur_2) 
-            # new_match[0][0][1] = float(session.prompt('\nScore du 1er joueur : '))     
-            # new_match[1][0][1] = float(session.prompt('\nScore du 2è joueur : '))     
-        print(f'\nscores IV99 : {scores}') 
-        return scores 
+        #     input_match = [] 
+        #     input_match.append(id_pl_1) 
+        #     print(f'\ninput_match IV88 : {input_match}') 
+
+        #     input_match.append(score_pl_1) 
+        #     print(f'\ninput_match IV91 : {input_match}') 
+            
+        #     print(f'\ni IV93 : {i}') 
+        #     scores.append(input_match)  
+        # print(f'\nscores IV95 : {scores}') 
+        
+        # return scores 
 
         
 

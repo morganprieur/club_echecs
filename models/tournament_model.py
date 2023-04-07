@@ -65,49 +65,74 @@ class Tournament_model(AbstractModel):
     """ comment """ 
     def serialize_modified_object(self):
         """ Abstract method for serialize the objects from the models. """ 
+        print(f'\ntype(self) TM68 : {type(self)}')
+        print(f'\ndir(self) TM69 : {dir(self)}') 
+        # [6, 0.5] ok : 
+        print(f'\nself.rounds[0].matches[0].player_1 TM70 : {self.rounds[0].matches[0].player_1}')
         if not self.check_if_json_empty(): 
             # Get the tournaments from the JSON file 
             t_dicts = self.get_registered() 
-            # suppress the last tournament : 
-            t_dicts.pop() 
+            print(f'\nt_dicts TM75 : {t_dicts}') 
+            print(f'\ntype(t_dicts) TM76 : {type(t_dicts)}') 
+            # Replace the last tournament with the modified one : 
+            t_dicts[0:-1] += self.to_dict() 
+            print(f'\nt_dicts TM79 : {t_dicts}') 
+            # t_dicts.pop().append(self.to_dict()) 
+            # t_dicts.pop() 
             # serialize the tournaments with the last modified 
-            t_dicts.append(self.to_dict()) 
+            # t_dicts.append(self.to_dict()) 
             # Get the last modified tournament 
             t = t_dicts[-1] 
+            print(f'\nt TM78 : {t}')  #### 
             # Select the rounds 
-            rounds_obj = t['rounds'] 
-            if len(rounds_obj) > 1: 
-                rounds_obj.pop() 
-            unchanged_rounds = rounds_obj 
-            print(f'\nunchanged_rounds TM80 : {unchanged_rounds} \n') 
+            rounds_dict = t['rounds'] 
+            if len(rounds_dict) > 1: 
+                rounds_dict.pop() 
+            unchanged_rounds = rounds_dict 
+            print(f'\nunchanged_rounds TM92 : {unchanged_rounds} \n') 
             rounds = [] 
-            # Serialize the rounds 
-            for round in unchanged_rounds: 
-                # round_dict = round.to_dict() 
-                # rounds.append(round_dict) 
-                rounds.append(round.to_dict()) 
-                # matches_obj = round_dict['matches'] 
-                round_dict = rounds[-1] 
-                print(f'\nround_dict TM89 : {round_dict} \n') 
-                print(f'\ntype(round_dict) TM90 : {type(round_dict)} \n') 
-                # print(f'\ntype(rounds[0]) TM89 : {type(rounds[0])} \n') 
-                matches_obj = round_dict['matches'] 
-                print(f'\nmatches_obj TM93 : {matches_obj} \n') 
-                # matches_obj.pop() 
-                # unchanged_matches = matches_obj 
-                matches = [] 
-                # Serialize the matches 
-                for match in matches_obj: 
-                    # match_dict = match.to_dict() 
-                    matches.append(match.to_dict()) 
-                # round_dict['matches'] = matches 
-                round_dict['matches'] = matches 
+            # Append the round from self  
+            # for round in unchanged_rounds: 
+            # print(f'\ntype(round) TM94 : {type(rounds[-1])} \n') 
+            # round_dict = round.to_dict() 
+            # rounds.append(round_dict) 
+            # rounds.append(round) 
+            rounds.append(self.rounds[-1].to_dict()) 
+            # rounds.append(round.to_dict()) 
+            # matches_obj = round_dict['matches'] 
+            # round_dict = rounds[-1] 
+            print(f'\nrounds[-1] TM104 : {rounds[-1]} \n') 
+            # print(f'\ntype(round_dict) TM102 : {type(round_dict)} \n') 
+            print(f'\ntype(rounds[0]) TM106 : {type(rounds[0])} \n') 
+            matches_obj = rounds[-1]['matches'] 
+            print(f"\nmatches_obj[-1].player_1 TM108 : {matches_obj[-1].player_1} \n") 
+            print(f'\ntype(matches[-1]) TM109 : {type(rounds[-1])} \n') 
+            matches = [] 
+            for one_match in matches_obj: 
+                matches.append(one_match.to_dict()) 
+            print(f'\nmatches TM112 : {matches} \n') 
+            # matches_obj.pop() 
+            # unchanged_matches = matches_obj 
+            # matches = [] 
+            # Serialize the matches 
+            # for match in matches_obj: 
+            #     print(f'\nmatch TM111 : {match} \n') 
+            #     print(f'\ntype(match) TM112 : {type(match)} \n') 
+            #     # match_dict = match.to_dict() 
+            #     matches.pop().append(match) 
+            #     # matches.append(match.to_dict()) 
+            # round_dict['matches'] = matches 
+            rounds[-1]['matches'] = matches 
+            # rounds[-1]['matches'] = matches_obj 
+            print(f"\nrounds[-1]['matches'] TM125 : {rounds[-1]['matches']} \n") 
+            
             t_dicts[-1]['rounds'] = rounds 
+            print(f'\nrounds TM119 : {rounds} \n') 
         else: 
             print('Erreur : le fichier tournaments ne peut pas être vide.') 
         with open(f"data/{self.table}.json", "w") as file: 
             json.dump(t_dicts, file, indent=4) 
-            # json.dump(objects, file, default=my_callback)  # voir howto callback, dump ne veut pas "my_callback" en defaut 
+    #         json.dump(t_dicts, file, default=self.my_callback)  # voir howto callback, dump ne veut pas "my_callback" en defaut 
         
     # def my_callback(obj): 
     #     # objs = [] 
@@ -116,26 +141,6 @@ class Tournament_model(AbstractModel):
     #     obj.to_dict 
     #     return obj 
 
-    #     my_object = {'foo': 'bar', 'baz': [1, 2, 3]}
-    #     with open('myfile.json', 'w') as f:
-    #         json.dump(my_object, f, default=my_callback) 
 
-
-    ### 
-    # def serialize_modified_object(self): 
-    #     """ Abstract method for serialize the objects from the models. """ 
-    #     if not self.check_if_json_empty(): 
-    #         objects = self.get_registered() 
-    #         # select the last tournament : 
-    #         t_dict = objects[-1] 
-    #         t_dict['rounds'].pop() 
-    #         # print(f't_dict RM90 : {t_dict}') 
-    #         t_dict['rounds'].append(self.to_dict()) 
-    #         # print(f't_dict["rounds"] RM83 : {t_dict["rounds"]}') 
-    #     else: 
-    #         print('Erreur : le fichier tournaments ne peut pas être vide.') 
-    #     with open(f"data/{self.table}.json", "w") as file: 
-    #         json.dump(objects, file) 
-    ### 
 
 
