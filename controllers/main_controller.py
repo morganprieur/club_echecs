@@ -1,14 +1,15 @@
 
+from models.match_model import Match_model 
+from models.player_model import Player_model 
+from models.round_model import Round_model 
+from models.tournament_model import Tournament_model 
+
 from views.dashboard_view import Dashboard_view 
 from views.input_view import Input_view 
 from views.report_view import Report_view 
 
-from models.player_model import Player_model 
-from models.tournament_model import Tournament_model 
-from models.round_model import Round_model 
-from models.match_model import Match_model 
-
 from datetime import datetime, date 
+from operator import attrgetter 
 from prompt_toolkit import PromptSession 
 session = PromptSession() 
 import random 
@@ -79,11 +80,18 @@ class Main_controller():
                 self.board.ask_for_register = None 
                 # saisir un joueur : 
                 self.close_round() 
+                # set end_datetime 
+                # if round.id == 1: 
+                #    define_matches(first=True) 
+                # elif round.id = 4: 
+                #    call close_tournament() 
+                # else: 
+                # define_matches(first=False) 
 
             if self.board.ask_for_register == '7': 
                 self.board.ask_for_register = None 
                 # saisir un joueur : 
-                self.enter_new_match() 
+                self.enter_new_matches() 
         
             if self.board.ask_for_register == '8': 
                 self.board.ask_for_register = None 
@@ -281,7 +289,7 @@ class Main_controller():
     def enter_many_new_players(self): 
         pass 
 
-    """ comment """ 
+    """ ### à corriger """ 
     def report_players(self, sort): 
 
         players = Player_model.get_registered_all('players') 
@@ -292,6 +300,7 @@ class Main_controller():
 
         if sort == 'alphabet': 
             print('\nJoueurs par ordre alphabet : ') 
+            ### à corriger : ### 
             self.report_view.sort_objects_by_field(players_obj, 'firstname') 
         if sort == 'rank': 
             print('\nJoueurs par rank : ') 
@@ -357,6 +366,15 @@ class Main_controller():
 
     """ comment """ 
     def close_round(self): 
+        """ 
+        set end_datetime 
+        if round.id == 1: 
+            define_matches(first=True) 
+        elif round.id = 4: 
+            call close_tournament() 
+        else: 
+            define_matches(first=False) 
+        """ 
         print('\nClôturer un round') 
 
         closing_round = self.in_view.input_closing_round() 
@@ -368,14 +386,19 @@ class Main_controller():
             # Get the last round 
             last_tournament = self.select_the_last_tournament() 
             last_round = last_tournament['rounds'].pop() 
-            # Add the end_datetime 
+            # Set the end_datetime 
             last_round['end_datetime'] = str(self.now) 
-            ### Add matches  --> à retirer et vérifier 
-            if 'matches' not in last_round.keys(): 
-                last_round['matches'] = [] 
-            ### 
+            
             # Instantiate the round 
             self.round = Round_model(**last_round) 
+
+            # Define what to do according to the round's id 
+            if round.id == 1: 
+                self.define_matches(True) 
+            elif round.id == 4: 
+                self.close_tournament() 
+            else: 
+                self.define_matches(False) 
 
             # Register the round again 
             if self.round.serialize_modified_object() == False: 
@@ -467,47 +490,50 @@ class Main_controller():
         self.start(False) 
 
     """ Matches ### à supprimer """ 
-    def enter_new_match(self): 
+    def enter_new_matches(self): 
         print('\nEnter new match') 
-
-        ### Appeler la méthode define_first_round() ### 
-        self.define_first_round() 
-
-        ### Appeler la méthode define_next_rounds() ### 
 
         # Get the data for the current match: 
         match_data = self.in_view.input_match() 
         print(f'\nmatch_data MC306 : {match_data}') 
-        round_id = match_data['round_id'] 
+        new_round_id = match_data['new_round_id'] 
         # new_match = (match_data['player_1'], match_data['player_2']) 
 
-        # print(f'\nround_id MC310 : {round_id}') 
-        # print(f'\nround_id-1 MC311 : {round_id-1}') 
-        # print(f'\nrounds[round_id-1] MC312 : rounds[{round_id-1}]') 
-
-        # Get the (last) tournament where to register the current round: 
+        # Get the last tournament, where to register the current round: 
         tournaments = Tournament_model.get_registered_all('tournaments') 
-        # current_tournament = len(tournaments)-1 
         current_tournament = tournaments.pop() 
-        print(f'current_tournament MC316 : {current_tournament}') 
-        print(f'type(current_tournament) MC317 : {type(current_tournament)}')  # dict 
+        print(f'current_tournament MC485 : {current_tournament}') 
+        print(f'type(current_tournament) MC486 : {type(current_tournament)}')  # dict 
 
-        rounds = current_tournament['rounds'] 
-        # print(f'\nrounds[0] MC322 : {rounds[0]}') 
+        # Instantiate current_tournament 
+        self.current_tournament = Tournament_model(**current_tournament) 
+        print(f'\nself.current_tournament MC490 : {self.current_tournament}') 
+        print(f'\ntype(self.current_tournament) MC491 : {type(self.current_tournament)}')  # dict 
+
+        # rounds = current_tournament['rounds'] 
+        rounds = self.current_tournament.rounds 
+        current_round = rounds.pop() 
+        print(f'\ncurrent_round MC495 : {current_round}') 
+        
+        ### Appeler la méthode define_matches() avec first=True ou first=False selon l'id du dernier round ### 
+        if current_round.id == 1: 
+            self.define_matches(True) 
+        else:  
+            self.define_matches(False) 
 
         # Check if the given round exists 
         print(f'rounds MC325 : {rounds}') 
         print(f'len(rounds) MC326 : {len(rounds)}') 
-        # print(f'type(round_id) PC323 : {type(round_id)}') 
-        if not rounds or (rounds == []):  # or (rounds[round_id]-1==None): 
+        # print(f'type(new_round_id) PC323 : {type(new_round_id)}') 
+        if not rounds or (rounds == []):  # or (rounds[new_round_id]-1==None): 
             print('Il faut d\'abord enregistrer le round.') 
-        # elif not int(rounds[match_data['round_id']-1]):  # >len(rounds): 
-        elif not rounds[round_id - 1]:  # >len(rounds): 
-            print(f"Le round {match_data['round_id']} n\'est pas encore créé.") 
+        # elif not int(rounds[match_data['new_round_id']-1]):  # >len(rounds): 
+        elif not rounds[new_round_id - 1]:  # >len(rounds): 
+            print(f"Le round {match_data['new_round_id']} n\'est pas encore créé.") 
         # Get the given round, where to register the match 
         else: 
-            # print(f"rounds['round_id']-1 MC334 : {rounds[match_data['round_id']-1]}") 
-            current_round = rounds[match_data['round_id'] - 1] 
+            # print(f"rounds['new_round_id']-1 MC334 : {rounds[match_data['new_round_id']-1]}") 
+            current_round = rounds[match_data['new_round_id'] - 1] 
             # current_round = current_tournament['rounds'].pop() 
             if 'matches' not in current_round.keys(): 
                 current_round['matches'] = [] 
@@ -522,7 +548,7 @@ class Main_controller():
             # print(f'\ntype(self.match) MC348 : {type(self.match)}') 
 
             # Instantiate the round : 
-            current_round = rounds[round_id - 1] 
+            current_round = rounds[new_round_id - 1] 
             self.round = Round_model(**current_round) 
             # print(f'\self.round MC353 : {self.round}') 
             # Instantiate the tournament : 
@@ -531,7 +557,7 @@ class Main_controller():
 
             # Register the match: 
             if self.match.serialize() == False: 
-                print(f"\n*** Le round désigné (id {round_id}) n\'existe pas, il faut d\'abord le créer. ***") 
+                print(f"\n*** Le round désigné (id {new_round_id}) n\'existe pas, il faut d\'abord le créer. ***") 
                 self.start(False) 
             else: 
                 print(f'\nLe match {self.match} a bien été enregistré') 
@@ -546,58 +572,47 @@ class Main_controller():
         last_tournament = self.select_the_last_tournament() 
         print(f'\nlast_tournament MC547 : {last_tournament}') 
 
-        # players = last_tournament['players'] 
-        # print(f'\nplayers MC550 : {players}') 
-
-        # input_matches_scores = self.in_view.input_matches_scores(players) 
-        # print(f'\nscores MC553 : {input_matches_scores}')  # list of lists 
-
-        # ok 
-
         # Try to instantiate it (obj) 
         self.last_tournament = Tournament_model(**last_tournament) 
         print(f'\ntype(self.last_tournament) MC559 : {type(self.last_tournament)}') # obj ok 
         
-        # Get the last round (check if it is an obj, else instantiate it) 
+        # Get the last round (object) 
         self.last_round = self.last_tournament.rounds[-1] 
         print(f'\nself.last_tournament.rounds MC563 : {self.last_tournament.rounds}') # obj ok 
         print(f'\ntype(self.last_round) MC564 : {type(self.last_round)}') # obj ok 
 
         # get the matches 
-        self.current_matches_dict = self.last_round.matches 
-        print(f'\nself.current_matches_dict MC568 : {self.current_matches_dict}') 
-        print(f'\ntype(self.current_matches_dict) MC569 : {type(self.current_matches_dict)}') # obj ok 
+        current_matches_dict = self.last_round.matches 
+        print(f'\ncurrent_matches_dict MC568 : {current_matches_dict}') 
+        print(f'\ntype(current_matches_dict) MC569 : {type(current_matches_dict)}') # obj ok 
 
         # Get the matches only, without the "match" key 
         current_matches_list = [] 
-        for curr_match in self.current_matches_dict: 
-            # print(f'\ncm MC574 : {cm}') 
-            for curr_match_valeur in curr_match.values(): 
-                # print(f'\ncurr_match_valeur MC576 : {curr_match_valeur}') 
-                curr_match_tuple = tuple(curr_match_valeur) 
-                print(f'\ncurr_match_tuple MC578 : {curr_match_tuple}') 
+        for curr_match in current_matches_dict: 
+            for curr_match_value in curr_match.values(): 
+                # print(f'\ncurr_match_value MC567 : {curr_match_value}') 
+                curr_match_tuple = tuple(curr_match_value) 
+                print(f'\ncurr_match_tuple MC569 : {curr_match_tuple}') 
                 self.curr_match_tuple = Match_model(*curr_match_tuple) 
                 current_matches_list.append(self.curr_match_tuple) 
-        print(f'\ncurrent_matches_list MC580 : {current_matches_list}')  # [<models.match_model.Match_model object at 0x00000220F74744C0>, <models.match_model.Match_model object at 0x00000220F7437670>, <models.match_model.Match_model object at 0x00000220F74355D0>, <models.match_model.Match_model object at 0x00000220F74358A0>] 
-        print(f'\ntype(current_matches_list) MC581 : {type(current_matches_list)}')  # [([6, 0.0], [2, 0.0]), ([8, 0.0], [1, 0.0]), ([4, 0.0], [5, 0.0]), ([3, 0.0], [7, 0.0])] 
+        print(f'\ncurrent_matches_list MC572 : {current_matches_list}')  # [<models.match_model.Match_model object at 0x00000220F74744C0>, <models.match_model.Match_model object at 0x00000220F7437670>, <models.match_model.Match_model object at 0x00000220F74355D0>, <models.match_model.Match_model object at 0x00000220F74358A0>] 
+        print(f'\ntype(current_matches_list) MC573 : {type(current_matches_list)}')  # [([6, 0.0], [2, 0.0]), ([8, 0.0], [1, 0.0]), ([4, 0.0], [5, 0.0]), ([3, 0.0], [7, 0.0])] 
         
-        # print(f'\ntype(current_matches_list) MC583 : {type(current_matches_list)}') 
-
         # Get the pairs of players 
-        matches_to_ask_scores = current_matches_list 
+        # matches_to_ask_scores = current_matches_list 
         # for match in current_matches_list: 
         #     matches_to_ask_scores.append(match) 
-        print(f'\nmatches_to_ask_scores MC589 : {matches_to_ask_scores}') 
+        print(f'\ncurrent_matches_list MC579 : {current_matches_list}') 
 
         # Call the input_scores with the matches as parameter 
-        input_results = self.in_view.input_scores(matches_to_ask_scores) 
+        input_results = self.in_view.input_scores(current_matches_list) 
         # print(f'\ninput_results MC588 : {input_results}') 
         print('---------------------') 
         # Get the first player from the current_matches who is into the input_matches_scores[0] 
         null_matches = [] 
         won_matches = [] 
         winners = input_results[1] 
-        for current_match in matches_to_ask_scores: 
+        for current_match in current_matches_list: 
             for null_match in input_results[0]: 
                 # print(f'\nnull_match MC594 : {null_match}') 
                 if null_match in current_match.player_1: 
@@ -611,37 +626,27 @@ class Main_controller():
                 if (winner in current_match.player_1): 
                     # print(f'\ncurrent_match MC607 : {current_match}') 
                     current_match.player_1[1] = 1.0 
-                    print(f'\ntype(current_match) MC613 : {type(current_match)}') 
+                    print(f'\ntype(current_match) MC603 : {type(current_match)}') 
                     won_matches.append(current_match) 
                 if (winner in current_match.player_2): 
                     # print(f'\ncurrent_match MC610 : {current_match}') 
                     current_match.player_1[1] = 1.0 
                     won_matches.append(current_match) 
                 
-        print(f'\nnull_matches MC621 : {null_matches[0].player_1}')  # [6, 0.5] 
-        print(f'\nnull_matches MC622 : {null_matches}') 
-        print(f'\nwon_matches MC623 : {won_matches}') 
-        # new_matches = [] 
+        print(f'\nnull_matches MC610 : {null_matches[0].player_1}')  # [6, 0.5] 
+        print(f'\nnull_matches MC611 : {null_matches}') 
+        print(f'\nwon_matches MC612 : {won_matches}') 
+
         new_matches = null_matches[0:] 
-        # new_matches.append(null_matches[0:]) 
         new_matches += won_matches[0:]  # list of objects 
-        # new_matches.append(won_matches[0:]) 
-        print(f'\nnew_matches MC629 : {new_matches}')  # [<models.match_model.Match_model object at 0x0000024ACC243790>, <models.match_model.Match_model object at 0x0000024ACC241720>, <models.match_model.Match_model object at 0x0000024ACC242AD0>, <models.match_model.Match_model object at 0x0000024ACC243E20>] 
-        print(f'\ntype(new_matches) MC630 : {type(new_matches)}') 
-        # Instantiate the list of new matches 
-        # self.new_matches = [] 
-        # for new_match in new_matches: 
-        #     print(f'\ntype(new_match) MC634 : {type(new_match)} \n') 
-        #     self.new_match = Match_model(*new_match) 
-        #     self.new_matches.append(self.new_match) 
-        # print(f'\nself.new_matches MC636 : {self.new_matches}') 
-        # print(f'\ntype(self.new_matches) MC637 : {type(self.new_matches)}') 
+        print(f'\nnew_matches MC616 : {new_matches}')  # [<models.match_model.Match_model object at 0x0000024ACC243790>, <models.match_model.Match_model object at 0x0000024ACC241720>, <models.match_model.Match_model object at 0x0000024ACC242AD0>, <models.match_model.Match_model object at 0x0000024ACC243E20>] 
+        print(f'\ntype(new_matches) MC617 : {type(new_matches)}') 
 
         # Put again the rounds and the matches into the round 
         self.last_tournament.rounds[-1].matches = new_matches 
         print(f'\nself.last_tournament MC641 : {self.last_tournament}') 
-        print(f'\nself.last_tournament.rounds[-1] MC642 : {self.last_tournament.rounds[-1]}') 
-        print(f'\nself.last_tournament.rounds[-1].matches MC643 : {self.last_tournament.rounds[-1].matches[0].player_1}') 
+        print(f'\nself.last_tournament.rounds[-1] MC622 : {self.last_tournament.rounds[-1]}') 
+        print(f'\nself.last_tournament.rounds[-1].matches MC623 : {self.last_tournament.rounds[-1].matches[0].player_1}') 
 
         # Serialize the tournaments (serialize_modified_object)  
         self.last_tournament.serialize_modified_object() 
@@ -668,45 +673,51 @@ class Main_controller():
 
     """ =================== UTILS =================== """ 
 
+    """ sort objects by arg """ 
+    @staticmethod 
+    def sort_objects_by_field(objects, field): 
+        print() 
+        objects.sort(key=attrgetter(field)) 
+        # for obj in objects: 
+        #     print(f'{obj.firstname} \t{obj.lastname}, \tclassement : {obj.rank}') 
+        print(f'objects MC655 : {objects}') 
+        return objects 
+
     """ comment """ 
-    def define_first_round(self): 
+    # def sort_matches_b
+
+    # def define_first_round(self): 
+    def define_matches(self, first): 
         """ Select the players' ids witch will play against each other during the first round. """ 
-        # Select the players from the last tournament 
-        last_tournament = self.select_the_last_tournament() 
-        # print(f'\nlast_tournament.keys() MC566 : {last_tournament.keys()}') 
-        print(f'\nlast_tournament MC567 : {last_tournament}') 
-        players = last_tournament['players'] 
+        # We have already self.current_tournament 
+        print(f'\nself.current_tournament MC672 : {self.current_tournament}') 
+        players = self.current_tournament.players 
         # Copy the players list 
-        pl = list(players) 
-        # print(f'\nlast_tournament players MC563 : {players}')  # v 
+        players_copy = list(players) 
+        # Instantiate the players : 
+        self.players = [] 
+        for p in players_copy: 
+            player = Player_model(**p) 
+            self.players.append(player) 
+        print(f"\nself.players MC681 : {self.players}") 
+        # if first != True: call the sort_objects_by_field() function 
+        print(f"\nfirst MC683 : {first}") 
+        if first != True: 
+            self.sort_objects_by_field(players_copy, 'global_score') 
+        
         matches = [] 
-        # Randomly define the pears of players for 4 matches 
-        for i in range(int(4)): 
-            self.define_matches_first_round(pl, matches, last_tournament) 
-        # print(f'\nMatches MC568 : {matches}') 
-        # Attribute matches to the first round (not any global_scores, only into the rounds) 
-        # with scores to 0 
-        round = last_tournament['rounds'][0] 
-        # print(f'\nround MC572 : {round}') 
-        last_tournament['rounds'][0]['matches'] = matches 
-        # print(f'\nlast_tournament MC574 : {last_tournament}') 
-        for m in matches: 
-            print(f'\nm MC576 : {m}') 
-        # Instantiate the last tournament 
-        self.last_tournament = Tournament_model(**last_tournament) 
-        print(f'\nself.last_tournament MC579 : {self.last_tournament}') 
-        # self.calculate_scores(players, matches, round) 
-        # self.close_round() 
-        # self.round = self.last_tournament.rounds[-1] 
-        # round_obj = self.last_tournament.rounds[-1] 
-        self.last_tournament.serialize_modified_object() 
+        # Randomly define the pairs of players for 4 matches 
+        
+        # self.define_matches_first_round(pl, matches, last_tournament) 
+        self.random_matches(matches, players_copy)  # returns matches 
+        print(f'\nMatches MC692 : {matches}') 
 
-    def define_next_rounds(self): 
-        last_tournament = self.select_the_last_tournament() 
-        self.define_matches_next_rounds(last_tournament)
+        
 
 
-    def define_matches_first_round(self, pl, matches, last_tournament): 
+    # def define_matches_first_round(self, pl, matches, last_tournament): 
+    def random_matches(self, matches, players_copy): 
+    # def define_matches(self, pl, matches, last_tournament): 
         """ Select the players' ids for one match. 
             Args:
                 players (list): the list of the players' ids of the last tournament. 
@@ -714,42 +725,26 @@ class Main_controller():
             Returns:
                 list: the list of the selected players' ids, added the new selected ones. 
         """ 
-        # score = the score at the start of the round (for the first round : 0) 
-        score = float(0)  
-        # match = the tuple containing 2 lists 'selected_player' 
-        match = ([], []) 
-        # selected = the list of player's id and player's score 
-        selected = [] 
-        for i in range(int(2)): 
-            # choice = the randomly chosen player's id 
-            choice = random.choice(pl) 
-            selected.append(choice) 
-            pl.remove(choice) 
-            print(f'\nplayers MC596 : {pl}') 
-            print(f'\nchoice MC597 : {choice}') 
-        match = ([selected[0], score], [selected[1], score]) 
-        print(f'\nmatch MC599 : {match}') 
-        matches.append(match) 
+        for i in range(int(4)): 
+            # score = the score at the start of the round (for the first round : 0) 
+            score = float(0)  
+            # match = the tuple containing 2 lists 'selected_player' 
+            match = ([], []) 
+            # selected = the list of player's id and player's score 
+            selected = [] 
+            for i in range(int(2)): 
+                print(f'\nplayers_copy MC729 : {players_copy}') 
+                # choice = the randomly chosen player's id 
+                choice = random.choice(players_copy) 
+                selected.append(choice) 
+                players_copy.remove(choice) 
+                print(f'\nplayers_copy MC734 : {players_copy}') 
+                print(f'\nchoice MC735 : {choice}') 
+            match = ([selected[0], score], [selected[1], score]) 
+            print(f'\nmatch MC737 : {match}') 
+            matches.append(match) 
+        print(f'\nmatches MC739 : {matches}') 
         return matches 
-    
-    # from operator import attrgetter ### 
-    def define_matches_next_rounds(self, last_tournament): 
-        print(f'\nlast_tournament MC622 : {last_tournament}') 
-        last_round = last_tournament['rounds'][-1] 
-        print(f'\nlast_round MC622 : {last_round}') 
-        players = last_round['matches'] 
-        # element.sort(key=lambda x: x[1]) 
-        sorted_players = players.sort(key=lambda x: x[1]) 
-        print(f'\nsorted_players MC619 : {sorted_players}')
-        for p in players: 
-            print(f'\np MC621 : {p}') 
-        # sorted_players = 
-
-        # print() 
-        # objects.sort(key=attrgetter(field)) 
-        # for obj in objects: 
-        #     print(f'{obj.firstname} \t{obj.lastname}, \tclassement : {obj.rank}') 
-
     
     # at the end of the round 
     def calculate_scores(self, players, matches, round): 

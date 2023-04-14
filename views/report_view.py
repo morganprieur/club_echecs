@@ -1,6 +1,6 @@
 
 # from controllers.main_controller import Main_controller 
-from operator import attrgetter 
+# from operator import attrgetter 
 
 
 class Report_view(): 
@@ -131,12 +131,12 @@ class Report_view():
     ==== Reports players ==== 
     """ 
 
-    @staticmethod 
-    def sort_objects_by_field(objects, field): 
-        print() 
-        objects.sort(key=attrgetter(field)) 
-        for obj in objects: 
-            print(f'{obj.firstname} \t{obj.lastname}, \tclassement : {obj.rank}') 
+    # @staticmethod 
+    # def sort_objects_by_field(objects, field): 
+    #     print() 
+    #     objects.sort(key=attrgetter(field)) 
+    #     for obj in objects: 
+    #         print(f'{obj.firstname} \t{obj.lastname}, \tclassement : {obj.rank}') 
 
 
 """ 
