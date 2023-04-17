@@ -187,6 +187,7 @@ class Main_controller():
 
         # Get all the registered tournaments: 
         tournaments = Tournament_model.get_registered_all('tournaments') 
+        
         last_tournament = tournaments.pop() 
         # print(f'last_tournament MC128 : {last_tournament}') 
 

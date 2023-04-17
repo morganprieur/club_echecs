@@ -31,7 +31,7 @@ class Tournament_model(AbstractModel):
         self.end_date = end_date 
         if players and isinstance(players[0], dict): 
             print(f'\nplayers TM33 : {players}')  # (list of dicts)
-            self.players = [Player_model(*data) for data in players] 
+            self.players = [Player_model(**data) for data in players] 
         else: 
             self.players = players 
         # self.nb_rounds = nb_rounds 
@@ -50,13 +50,15 @@ class Tournament_model(AbstractModel):
 
     """ comment """ 
     def to_dict(self): 
+        player_ids = [player.id for player in self.players]
         return { 
             'id': self.id, 
             'name': self.name, 
             'site': self.site, 
             'start_date': self.start_date, 
             'end_date': self.end_date, 
-            'players': self.players, 
+            # 'players': self.players.id, 
+            'players': player_ids, 
             'rounds': self.rounds, 
             'duration': self.duration, 
             'description': self.description 
@@ -109,7 +111,9 @@ class Tournament_model(AbstractModel):
             print(f'\ntype(matches[-1]) TM109 : {type(rounds[-1])} \n') 
             matches = [] 
             for one_match in matches_obj: 
-                matches.append(one_match.to_dict()) 
+                # matches.append(one_match.to_dict()) 
+                matches.append(one_match.match) 
+
             print(f'\nmatches TM112 : {matches} \n') 
             # matches_obj.pop() 
             # unchanged_matches = matches_obj 

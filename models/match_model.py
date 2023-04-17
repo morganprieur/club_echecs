@@ -5,12 +5,6 @@ import json
 
 class Match_model(AbstractModel): 
 
-    # def __init__( 
-    #     self, player_1: list, player_2: list 
-    # ):  # match: tuple, round_id: int, 
-    # def __init__( 
-    #     self, id_joueur_1: int, score_joueur_1: float, id_joueur_2: int, score_joueur_2: float 
-    # ): 
     def __init__( 
         self, player_1: list, player_2: list 
     ): 
@@ -19,7 +13,7 @@ class Match_model(AbstractModel):
         self.player_2 = player_2 
         # self.match = match 
         # self.round_id = round_id 
-        # self.match = tuple(self.player_1, self.player_2) 
+        self.match = tuple(self.player_1, self.player_2) 
         # self.id_joueur_1 = id_joueur_1 
         # self.score_joueur_1 = score_joueur_1 
         # self.id_joueur_2 = id_joueur_2 
