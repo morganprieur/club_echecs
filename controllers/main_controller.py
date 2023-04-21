@@ -256,7 +256,7 @@ class Main_controller():
 
     #### ============ T O U R N A M E N T S ============ #### 
     
-    """ Create one tournament """ 
+    """ Create one tournament """  # à corriger ### 
     def enter_new_tournament(self): 
         print('\nEnter new tournament') 
 
@@ -290,7 +290,7 @@ class Main_controller():
         session.prompt('\nAppuyer sur Entrée pour continuer ') 
         self.start(False) 
 
-    """ comment ### à corriger """ 
+    """ auto """  # à supprimer ### 
     def close_tournament(self): 
         # Select the last tournament 
         last_tournament = self.select_the_last_tournament() 
@@ -350,9 +350,9 @@ class Main_controller():
         session.prompt('Appuyer sur Entrée pour continuer ') 
         self.start(False) 
 
-    
+    #### ============ R O U N D S ============ #### 
 
-    """ Rounds ### à corriger """ 
+    """ auto (register_scores or register_new_tournament)"""  # à supprimer ### 
     def enter_new_round(self): 
         print('\nEnter new round') 
 
@@ -406,7 +406,7 @@ class Main_controller():
         session.prompt('\nAppuyer sur Entrée pour continuer ') 
         self.start(False) 
 
-    """ comment """ 
+    """ auto (register_scores) """  # à supprimer ### 
     def close_round(self): 
         """ 
         set end_datetime 
@@ -457,7 +457,7 @@ class Main_controller():
             session.prompt('\nAppuyer sur Entrée pour continuer ') 
             self.start(False) 
 
-    """ comment """ 
+    """ comment """  # à corriger ### 
     def report_one_round(self, round): 
         # for round in tournament['rounds']: 
         # print(f'round MC266 : {round}') 
@@ -482,7 +482,7 @@ class Main_controller():
             self.match = Match_model(**match_dict) 
         self.round = Round_model(**round) 
 
-    """ comment """ 
+    """ comment """  # à corriger ### 
     def report_rounds(self, ask_for_tournament_id): 
 
         tournament_id = int(ask_for_tournament_id) - 1 
@@ -531,7 +531,10 @@ class Main_controller():
         session.prompt('Appuyer sur Entrée pour continuer ') 
         self.start(False) 
 
-    """ Matches ### à supprimer """ 
+
+    #### ============ M A T C H E S ============ #### 
+
+    """ auto (register_scores) """  # à supprimer ### 
     def enter_new_matches(self): 
         print('\nEnter new match') 
 
@@ -609,6 +612,7 @@ class Main_controller():
         session.prompt('Appuyer sur Entrée  pour continuer ') 
         self.start(False) 
 
+    """ Register scores """  # à corriger ### 
     def enter_scores(self): 
         # Get the last tournament (dict) 
         last_tournament = self.select_the_last_tournament() 
@@ -693,7 +697,7 @@ class Main_controller():
         # Serialize the tournaments (serialize_modified_object)  
         self.last_tournament.serialize_object(False) 
 
-    """ comment """ 
+    """ comment """  # à supprimer ### 
     def report_matches(self, ask_for_tournament_id): 
         tournament_id = int(ask_for_tournament_id) - 1 
         # tournament object : 
@@ -713,9 +717,10 @@ class Main_controller():
         session.prompt('Appuyer sur Entrée  pour continuer ') 
         self.start(False) 
 
-    """ =================== UTILS =================== """ 
 
-    """ sort objects by arg """ 
+    #### ============ U T I L S ============ #### 
+
+    """ Sort objects by arg """  # ok 
     @staticmethod 
     def sort_objects_by_field(objects, field): 
         print() 
@@ -728,6 +733,7 @@ class Main_controller():
     """ comment """ 
     # def sort_matches_b
 
+    """ comment """  # à corriger ### 
     # def define_first_round(self): 
     def define_matches(self, first): 
         """ Select the players' ids witch will play against each other during the first round. """ 
@@ -754,9 +760,7 @@ class Main_controller():
         self.random_matches(matches, players_copy)  # returns matches 
         print(f'\nMatches MC692 : {matches}') 
 
-        
-
-
+    """ comment """  # à corriger ### 
     # def define_matches_first_round(self, pl, matches, last_tournament): 
     def random_matches(self, matches, players_copy): 
     # def define_matches(self, pl, matches, last_tournament): 
@@ -787,7 +791,8 @@ class Main_controller():
             matches.append(match) 
         print(f'\nmatches MC739 : {matches}') 
         return matches 
-    
+
+    """ comment """  # à corriger ### 
     # at the end of the round 
     def calculate_scores(self, players, matches, round): 
         # players_scores = list last_tournament['players']['global_score'] 
@@ -798,6 +803,7 @@ class Main_controller():
         matches.append
         round['matches'] = matches  
 
+    """ Select one tournament from JSON file """  # ok 
     def select_one_tournament(self, t_id): 
         """ Select one tournament from its id, from the tournament.json file. 
             Args:
@@ -811,6 +817,7 @@ class Main_controller():
         t_dict = t_dicts[t_id] 
         return t_dict 
 
+    """ Select the last tournament from JSON file """  # ok 
     def select_the_last_tournament(self): 
         """ Select the last tournament from the tournament.json file. 
             Returns:
