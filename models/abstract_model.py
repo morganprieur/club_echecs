@@ -21,12 +21,12 @@ class AbstractModel(ABC):
                 return False 
 
 
+    # TODO: merge the 2 following methods: 
     def get_registered(self): 
         # print(f'self AM26 : {self}') 
         with open(f'data/{self.table}.json', 'r') as file: 
             registered = json.load(file) 
         return registered 
-
 
     @staticmethod 
     def get_registered_all(table): 
@@ -41,9 +41,13 @@ class AbstractModel(ABC):
         objet = objs[obj_id] 
         return objet  
 
-    def serialize_new_object(self): 
+    def serialize_object(self, new=True): 
         """ Abstract method for serialize the objects from the models 
-            when adding a new one. """ 
+            when adding a new one. 
+            new (boolean): 
+                if the object must be added -> True, 
+                if it must be replaced -> False. 
+        """ 
         # print(f'self.table AM41 :{self}') 
         # print(f'self.table AM48 :{self.table}') 
         if not self.check_if_json_empty(): 
@@ -54,20 +58,21 @@ class AbstractModel(ABC):
         with open(f"data/{self.table}.json", "w") as file: 
             json.dump(objects, file) 
 
-    """ comment """ 
-    def serialize_modified_object(self): 
-        """ Abstract method for serialize the objects from the models. """ 
-        # print(f'self.table AM41 :{self}') 
-        # print(f'self.table AM48 :{self.table}') 
-        if not self.check_if_json_empty(): 
-            objects = self.get_registered() 
-        else: 
-            objects = [] 
-        # objects.pop() 
-        # objects.append(self.to_dict()) 
-        objects[-1] = self.to_dict()
-        with open(f"data/{self.table}.json", "w") as file: 
-            json.dump(objects, file) 
+    # """ comment """ 
+    # def serialize_modified_object(self): 
+    #     """ Abstract method for serialize the objects from the models. """ 
+    #     # print(f'self.table AM41 :{self}') 
+    #     # print(f'self.table AM48 :{self.table}') 
+    #     if not self.check_if_json_empty(): 
+    #         objects = self.get_registered() 
+    #     else: 
+    #         objects = [] 
+    #     # objects.pop() 
+    #     # objects.append(self.to_dict()) 
+    #     objects[-1] = self.to_dict()
+    #     with open(f"data/{self.table}.json", "w") as file: 
+    #         json.dump(objects, file) 
+
 
 
     @abstractmethod 

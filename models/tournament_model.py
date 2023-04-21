@@ -65,7 +65,7 @@ class Tournament_model(AbstractModel):
         } 
     
     """ comment """ 
-    def serialize_modified_object(self):
+    def serialize_modified_object(self, new):
         """ Abstract method for serialize the objects from the models. """ 
         print(f'\ntype(self) TM68 : {type(self)}')
         print(f'\ndir(self) TM69 : {dir(self)}') 
@@ -84,8 +84,9 @@ class Tournament_model(AbstractModel):
             # serialize the tournaments with the last modified 
             # t_dicts.append(self.to_dict()) 
             # Get the last modified tournament 
-            t = t_dicts[-1] 
-            print(f'\nt TM78 : {t}')  #### 
+            if new == False: 
+                t = t_dicts[-1] 
+                print(f'\nt TM78 : {t}')  #### 
             # Select the rounds 
             rounds_dict = t['rounds'] 
             if len(rounds_dict) > 1: 

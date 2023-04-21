@@ -240,7 +240,7 @@ class Main_controller():
         # + Serialize the list 
         # + Append the modified tournament to the registered list 
         # + Write the list of dictionaries into the json file 
-        tournaments_dict = self.last_tournament.serialize_modified_object() 
+        tournaments_dict = self.last_tournament.serialize_object(False) 
         print(f'\ndict of tournaments MC217 : {tournaments_dict}') 
         # Display the last modified tournament 
         # print(f'the last tournament MC219 : {tournaments_dict[-1]}') 
@@ -282,7 +282,7 @@ class Main_controller():
         # print(f'\nplayer_data MC257 : {player_data}')   
         self.player = Player_model(**player_data) 
         # print(f'self.player MC259 : {self.player}') 
-        self.player.serialize_new_object() 
+        self.player.serialize_object(True) 
 
         self.report_players('alphabet') 
 
@@ -344,7 +344,7 @@ class Main_controller():
         print(f'\nself.round MC268 : {self.round}') 
 
         # Register the round:  ### à corriger 
-        if self.round.serialize_new_round() == False: 
+        if self.round.serialize_object(True) == False: 
             print('\n*** Le tournoi référencé dans "round" n\'existe pas, vous devez d\'abord le créer. ***') 
             self.start(False) 
         else: 
@@ -402,7 +402,7 @@ class Main_controller():
                 self.define_matches(False) 
 
             # Register the round again 
-            if self.round.serialize_modified_object() == False: 
+            if self.round.serialize_object(False) == False: 
                 print('\nIl y a eu un problème, essayez de recommencer.') 
                 session.prompt('\nAppuyer sur Entrée pour continuer ') 
                 self.start(False) 
@@ -650,7 +650,7 @@ class Main_controller():
         print(f'\nself.last_tournament.rounds[-1].matches MC623 : {self.last_tournament.rounds[-1].matches[0].player_1}') 
 
         # Serialize the tournaments (serialize_modified_object)  
-        self.last_tournament.serialize_modified_object() 
+        self.last_tournament.serialize_object(False) 
 
     """ comment """ 
     def report_matches(self, ask_for_tournament_id): 
