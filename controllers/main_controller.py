@@ -46,57 +46,70 @@ class Main_controller():
             self.board.display_welcome() 
         self.board.display_first_menu() 
 
+        #### ======== "R E G I S T E R"  M E N U S ======== #### 
+
         if self.board.ask_for_menu_action == '1': 
             self.board.ask_for_menu_action = None 
             # menu "saisir" :
             self.board.display_register() 
 
+            # Enregistrer un joueur  # à corriger  
             if self.board.ask_for_register == '1': 
                 self.board.ask_for_register = None 
                 # saisir un joueur : 
                 self.enter_new_player() 
 
-            # if self.board.ask_for_register == '2':   # TODO 
+            # # Enregistrer plusieurs joueurs  # TODO 
+            # if self.board.ask_for_register == '2': 
             #     self.board.ask_for_register = None 
             #     # saisir un joueur : 
             #     self.enter_many_new_players() 
 
+            # Enregistrer un nouveau tournoi #TODO 
             if self.board.ask_for_register == '3': 
                 self.board.ask_for_register = None 
                 # saisir un joueur : 
                 self.enter_new_tournament() 
 
-            if self.board.ask_for_register == '4':  # TODO 
-                self.board.ask_for_register = None 
-                # saisir un joueur : 
-                self.close_tournament() 
-
-            if self.board.ask_for_register == '5': 
-                self.board.ask_for_register = None 
-                # saisir un joueur : 
-                self.enter_new_round() 
-
-            if self.board.ask_for_register == '6':  # TODO 
-                self.board.ask_for_register = None 
-                # saisir un joueur : 
-                self.close_round() 
-                # set end_datetime 
-                # if round.id == 1: 
-                #    define_matches(first=True) 
-                # elif round.id = 4: 
-                #    call close_tournament() 
-                # else: 
-                # define_matches(first=False) 
-
-            if self.board.ask_for_register == '7': 
-                self.board.ask_for_register = None 
-                # saisir un joueur : 
-                self.enter_new_matches() 
-        
-            if self.board.ask_for_register == '8': 
+            # Enregistrer les scores  # TODO 
+            if self.board.ask_for_register == '4': 
                 self.board.ask_for_register = None 
                 # Tester define_next_round : 
                 self.enter_scores() 
+
+            # # auto quand on cloture un round et que c'est le 4è round 
+            # if self.board.ask_for_register == '4':  # TODO 
+            #     self.board.ask_for_register = None 
+            #     # saisir un joueur : 
+            #     self.close_tournament() 
+
+            # # auto + génération des matches quand on cloture un round et que c'est PAS le 4è round 
+            # if self.board.ask_for_register == '5': 
+            #     self.board.ask_for_register = None 
+            #     # saisir un joueur : 
+            #     self.enter_new_round() 
+
+            # # auto quand on rentre les scores des matches du 4è round 
+            # if self.board.ask_for_register == '6':  # TODO 
+            #     self.board.ask_for_register = None 
+            #     self.close_round() 
+            #     # set end_datetime 
+            #     # if round.id == 1: 
+            #     #    define_matches(first=True) 
+            #     # elif round.id = 4: 
+            #     #    call close_tournament() 
+            #     # else: 
+            #     # define_matches(first=False) 
+
+            # # auto quand on enregistre les scores des matches 
+            # if self.board.ask_for_register == '7': 
+            #     self.board.ask_for_register = None 
+            #     # saisir un joueur : 
+            #     self.enter_new_matches() 
+
+            
+
+            #### ============ COMMANDES DE SECOURS ============ #### 
 
             if self.board.ask_for_register == '*': 
                 self.board.ask_for_register = None 
@@ -107,21 +120,42 @@ class Main_controller():
                 # print(self.board.ask_for_menu_action) 
                 print('Fermeture de l\'application. Bonne fin de journée !') 
 
+        #### ======== "R E P O R T"  M E N U S ======== #### 
+
         if self.board.ask_for_menu_action == '2': 
             self.board.ask_for_menu_action = None 
             # menu "afficher" : 
             self.board.display_report() 
 
-            # print('control menu 2 : ', self.board.ask_for_report)    
+            # Tous les joueurs par ordre alphabétique 
             if self.board.ask_for_report == '1': 
                 self.board.ask_for_report = None 
                 # afficher les joueurs : 
                 self.report_players('alphabétique') 
 
+            # Tous les joueurs par classement 
             if self.board.ask_for_report == '2': 
                 self.board.ask_for_report = None 
                 # afficher les joueurs : 
                 self.report_players('classement') 
+
+            # Tous les tournois 
+            if self.board.ask_for_report == '3': 
+                self.board.ask_for_report = None 
+                # afficher les tournois : 
+                self.report_tournaments() 
+
+            # Nom et dates d'un tournoi 
+            if self.board.ask_for_report == '4': 
+                self.board.ask_for_report = None 
+                # afficher les tournois : 
+                self.report_name_date_tournament() 
+
+            # Les joueurs du tournoi par ordre alphabétique 
+            if self.board.ask_for_report == '5': 
+                self.board.ask_for_report = None 
+                # afficher les tournois : 
+                self.players_from_tournament_alphabetical_order() 
 
             if self.board.ask_for_report == '6': 
                 self.board.ask_for_report = None 
@@ -131,18 +165,14 @@ class Main_controller():
                 # self.board.ask_for_tournament_id 
                 self.report_rounds(ask_for_tournament_id) 
 
-            if self.board.ask_for_report == '7': 
-                self.board.ask_for_report = None 
-                # Choisir un tournoi : 
-                ask_for_tournament_id = session.prompt('De quel tournoi voulez-vous les matches ? ') 
-                # afficher les matches : 
-                # self.board.ask_for_tournament_id 
-                self.report_matches(ask_for_tournament_id) 
+            # # pas demandé 
+            # if self.board.ask_for_report == '7': 
+            #     self.board.ask_for_report = None 
+            #     # Choisir un tournoi : 
+            #     ask_for_tournament_id = session.prompt('De quel tournoi voulez-vous les matches ? ') 
+            #     self.report_matches(ask_for_tournament_id) 
 
-            if self.board.ask_for_report == '8': 
-                self.board.ask_for_report = None 
-                # afficher les tournois : 
-                self.report_tournaments() 
+            #### ======== T E S T  M E N U S ======== #### 
 
             if self.board.ask_for_report == '9': 
                 self.board.ask_for_report = None 
@@ -154,22 +184,24 @@ class Main_controller():
                 # Tester define_next_round : 
                 self.define_next_rounds() 
 
-            """ comment """ 
+            """ Command to return to the main menu """ 
             if self.board.ask_for_report == '*': 
                 self.board.ask_for_report = None 
                 return True 
 
+            """ Command to quit the application """ 
             if self.board.ask_for_report == '0': 
                 self.board.ask_for_report = None 
-                # print(f'self.board.ask_for_menu_action : {self.board.ask_for_menu_action}') 
-                # print(f'self.board.ask_for_report : {self.board.ask_for_report}') 
                 print('Fermeture de l\'application. Bonne fin de journée !') 
 
-        """ comment """ 
+        #### ============ COMMANDES DE SECOURS ============ #### 
+
+        """ Command to return to the main menu """ 
         if self.board.ask_for_menu_action == '*': 
             self.board.ask_for_menu_action = None 
             return True 
 
+        """ Command to quit the application """ 
         if self.board.ask_for_menu_action == '0': 
             self.board.ask_for_menu_action = None 
             # print(f'self.board.ask_for_menu_action : {self.board.ask_for_menu_action}') 
@@ -178,7 +210,53 @@ class Main_controller():
 
         return False 
 
-    """ Tournaments """ 
+
+    #### ============ P L A Y E R S ============ #### 
+
+    """ Register one player """  # à corriger ### 
+    def enter_new_player(self): 
+        print('\nEnter new player') 
+        player_data = self.in_view.input_player() 
+        last_player_id = int(Player_model.get_registered_all('players')[-1]['id']) 
+        # print(f'\nlast_player_id MC255 : {last_player_id}')  
+        player_data['id'] = int(last_player_id)+1 
+        # print(f'\nplayer_data MC257 : {player_data}')   
+        self.player = Player_model(**player_data) 
+        # print(f'self.player MC259 : {self.player}') 
+        self.player.serialize_object(True) 
+
+        self.report_players('alphabet') 
+
+    """ TODO """ 
+    def enter_many_new_players(self): 
+        pass 
+
+    """ Display all the players """  # à corriger ### 
+    def report_players(self, sort): 
+        players = Player_model.get_registered_all('players') 
+        players_obj = [] 
+        for player in players: 
+            self.player = Player_model(**player) 
+            players_obj.append(self.player) 
+
+        # Choice of the order (alphabetical or by rank): 
+        if sort == 'alphabet': 
+            print('\nJoueurs par ordre alphabet : ') 
+            ### à vérifier : ### 
+            self.sort_objects_by_field(players_obj, 'firstname') 
+            # self.report_view.sort_objects_by_field(players_obj, 'firstname') 
+        if sort == 'rank': 
+            print('\nJoueurs par rank : ') 
+            self.sort_objects_by_field(players_obj, 'rank') 
+            # self.report_view.sort_objects_by_field(players_obj, 'rank') 
+
+        session.prompt('Appuyer sur Entrée pour continuer ') 
+        self.start(False) 
+
+
+    #### ============ T O U R N A M E N T S ============ #### 
+    
+    """ Create one tournament """ 
     def enter_new_tournament(self): 
         print('\nEnter new tournament') 
 
@@ -272,44 +350,7 @@ class Main_controller():
         session.prompt('Appuyer sur Entrée pour continuer ') 
         self.start(False) 
 
-    """ Players ### à corriger """ 
-    def enter_new_player(self): 
-        print('\nEnter new player') 
-        player_data = self.in_view.input_player() 
-        last_player_id = int(Player_model.get_registered_all('players')[-1]['id']) 
-        # print(f'\nlast_player_id MC255 : {last_player_id}')  
-        player_data['id'] = int(last_player_id)+1 
-        # print(f'\nplayer_data MC257 : {player_data}')   
-        self.player = Player_model(**player_data) 
-        # print(f'self.player MC259 : {self.player}') 
-        self.player.serialize_object(True) 
-
-        self.report_players('alphabet') 
-
-    """ TODO """ 
-    def enter_many_new_players(self): 
-        pass 
-
-    """ ### à corriger """ 
-    def report_players(self, sort): 
-
-        players = Player_model.get_registered_all('players') 
-        players_obj = [] 
-        for player in players: 
-            self.player = Player_model(**player) 
-            players_obj.append(self.player) 
-
-        if sort == 'alphabet': 
-            print('\nJoueurs par ordre alphabet : ') 
-            ### à corriger : ### 
-            self.report_view.sort_objects_by_field(players_obj, 'firstname') 
-        if sort == 'rank': 
-            print('\nJoueurs par rank : ') 
-            self.report_view.sort_objects_by_field(players_obj, 'rank') 
-
-        # continuer = 
-        session.prompt('Appuyer sur Entrée pour continuer ') 
-        self.start(False) 
+    
 
     """ Rounds ### à corriger """ 
     def enter_new_round(self): 
@@ -590,12 +631,12 @@ class Main_controller():
         # Get the matches only, without the "match" key 
         current_matches_list = [] 
         for curr_match in current_matches_dict: 
-            for curr_match_value in curr_match.values(): 
+            # for curr_match_value in curr_match.values(): 
                 # print(f'\ncurr_match_value MC567 : {curr_match_value}') 
-                curr_match_tuple = tuple(curr_match_value) 
-                print(f'\ncurr_match_tuple MC569 : {curr_match_tuple}') 
-                self.curr_match_tuple = Match_model(*curr_match_tuple) 
-                current_matches_list.append(self.curr_match_tuple) 
+            curr_match_tuple = tuple(curr_match) 
+            print(f'\ncurr_match_tuple MC569 : {curr_match_tuple}') 
+            self.curr_match_tuple = Match_model(*curr_match_tuple) 
+            current_matches_list.append(self.curr_match_tuple) 
         print(f'\ncurrent_matches_list MC572 : {current_matches_list}')  # [<models.match_model.Match_model object at 0x00000220F74744C0>, <models.match_model.Match_model object at 0x00000220F7437670>, <models.match_model.Match_model object at 0x00000220F74355D0>, <models.match_model.Match_model object at 0x00000220F74358A0>] 
         print(f'\ntype(current_matches_list) MC573 : {type(current_matches_list)}')  # [([6, 0.0], [2, 0.0]), ([8, 0.0], [1, 0.0]), ([4, 0.0], [5, 0.0]), ([3, 0.0], [7, 0.0])] 
         

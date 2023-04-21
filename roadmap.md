@@ -75,7 +75,8 @@ Chaque tournoi doit contenir au moins les informations suivantes :
 ● description pour les remarques générales du directeur du tournoi.  
 
 ## TOURS / MATCHS
-Un match unique doit être stocké sous la forme d'un tuple contenant deux listes, chacune contenant deux éléments : un joueur et un score. Les matchs doivent être stockés sous forme de liste dans l'instance du tour auquel ils appartiennent.
+Un match unique doit être stocké sous la forme d'un tuple contenant deux listes, chacune contenant deux éléments : un joueur et un score. 
+Les matchs doivent être stockés sous forme de liste dans l'instance du tour auquel ils appartiennent.
 En plus de la liste des matchs, chaque instance du tour doit contenir un nom. 
 Actuellement, nous appelons nos tours "Round 1", "Round 2", etc. Elle doit également contenir un champ Date et heure de début et un champ Date et heure de fin, qui doivent tous deux être automatiquement remplis lorsque l'utilisateur crée un tour et le marque comme terminé.
 
@@ -95,11 +96,11 @@ associez-le plutôt au joueur 3.
 ====  
 ## RAPPORTS
 Nous aimerions pouvoir afficher les rapports suivants dans le programme :
-● liste de tous les joueurs par ordre alphabétique ;
-● liste de tous les tournois ;
-● nom et dates d’un tournoi donné ;
-● liste des joueurs du tournoi par ordre alphabétique ;
-● liste de tous les tours du tournoi et de tous les matchs du tour.
+1. liste de tous les joueurs par ordre alphabétique ;
+2. liste de tous les tournois ;
+3. nom et dates d’un tournoi donné ;
+4. liste des joueurs du tournoi par ordre alphabétique ;
+5. liste de tous les tours du tournoi et de tous les matchs du tour.
 Nous aimerions les exporter ultérieurement, mais ce n'est pas nécessaire pour l'instant.
 Les rapports peuvent être en texte brut, à condition qu'ils soient bien formatés et faciles à lire. Vous pouvez même utiliser des modèles HTML !
 

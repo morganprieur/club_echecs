@@ -65,7 +65,7 @@ class Tournament_model(AbstractModel):
         } 
     
     """ comment """ 
-    def serialize_modified_object(self, new):
+    def serialize_object(self, new):
         """ Abstract method for serialize the objects from the models. """ 
         print(f'\ntype(self) TM68 : {type(self)}')
         print(f'\ndir(self) TM69 : {dir(self)}') 

@@ -26,13 +26,18 @@ class Dashboard_view():
     register_menu = [ 
         'Menu "saisir" : ', 
         '1 : Enregistrer un joueur', 
-        # '2 : Enregistrer plusieurs joueurs', 
-        '3 : Enregistrer un nouveau tournoi', 
-        '4 : Clôturer un tournoi', 
-        '5 : Enregistrer un nouveau round', 
-        '6 : Clôturer un round', 
-        '7 : Enregistrer un match',  # à supprimer (auto) 
-        '8 : Enregistrer des scores', 
+        # '2 : Enregistrer plusieurs joueurs',  # TODO 
+        '3 : Enregistrer un nouveau tournoi',  # TODO 
+        '4 : Enregistrer les scores',  # TODO 
+
+        # auto quand on cloture un round et que c'est le 4è round : 
+        # '4 : Clôturer un tournoi', 
+        # auto quand on cloture un round et que c'est PAS le 4è round : 
+        # '5 : Enregistrer un nouveau round', 
+        # auto quand on rentre les scores des matches du 4è round 
+        # '6 : Clôturer un round', 
+        # auto quand on enregistre les scores des matches 
+        # '7 : Enregistrer nouveau un match', 
         '', 
         'Commandes de secours : ', 
         '* Revenir au menu principal', 
@@ -41,18 +46,18 @@ class Dashboard_view():
 
     display_menu = [ 
         'Menu "Afficher" : ', 
-        # A faire + tard : 
-        # '1 : tous les joueurs par ordre chrono', 
-        '1 : Tous les joueurs par ordre alphabétique', 
-        '2 : Tous les joueurs par classement', 
-        # '3 : Les joueurs du tournoi par ordre alphabétique', 
-        # '4 : Les joueurs du tournoi par classement', 
-        # '5 : les résultats du tournoi', 
-        '6 : les tours d\'un tournoi', 
-        '7 : les matches', 
-        '8 : tous les tournois', 
+        '1 : Tous les joueurs par ordre alphabétique',  # TODO 
+        '2 : Tous les joueurs par classement',  # pas demandé mais c'est fait 
+        '3 : Tous les tournois',  # TODO 
+        '4 : Nom et dates d\'un tournoi',  # TODO 
+        # '5 : Les joueurs du tournoi par ordre alphabétique',  # TODO 
+        '6 : Les tours et matches d\'un tournoi',  # TODO 
+        
+        # '4 : Les joueurs du tournoi par classement',  # pas demandé 
+        # '5 : les résultats du tournoi',  # pas demandé
+        # '7 : les matches',  # pas demandé 
         '--------', 
-        # pas demandés : 
+        # pas demandés, pour tests : 
         '9 : test define_first_round', 
         '10 : test define_next_rounds', 
         # '9 : le dernier tournoi', 
