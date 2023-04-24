@@ -20,7 +20,6 @@ class AbstractModel(ABC):
                 # print("The file is not empty.") 
                 return False 
 
-
     # TODO: merge the 2 following methods: 
     def get_registered(self): 
         # print(f'self AM26 : {self}') 
@@ -29,15 +28,16 @@ class AbstractModel(ABC):
         return registered 
 
     @staticmethod 
-    def get_registered_all(table): 
+    def get_registered_dict(table): 
         with open(f'data/{table}.json', 'r') as file: 
             # list of dicts : 
             registered = json.load(file) 
         return registered 
     
-    @staticmethod 
+    @staticmethod  # à corriger ### 
     def select_one_obj(table, obj_id): 
-        objs = AbstractModel.get_registered_all(table) 
+        objs = AbstractModel.get_registered_dict(table) 
+        # objs = AbstractModel.get_registered_all(table) 
         objet = objs[obj_id] 
         return objet  
 
@@ -56,7 +56,7 @@ class AbstractModel(ABC):
             objects = [] 
         objects.append(self.to_dict()) 
         with open(f"data/{self.table}.json", "w") as file: 
-            json.dump(objects, file) 
+            json.dump(objects, file, indent=4) 
 
     # """ comment """ 
     # def serialize_modified_object(self): 

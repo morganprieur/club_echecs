@@ -44,9 +44,8 @@ class Match_model(AbstractModel):
             when adding a new match.""" 
         if not self.check_if_json_empty(): 
             # Get all the data from the tournaments file: 
-            tournaments = self.get_registered() 
+            tournaments = AbstractModel.get_registered_dict('tournaments')  # à vérifier ### 
             # Get the current_tournament 
-            # current_tournament = objects.pop() 
             current_tournament = tournaments[-1] 
             print(f'current_tournament MM44 : {current_tournament}') 
             # Get the rounds from the current_tournament 
@@ -64,8 +63,9 @@ class Match_model(AbstractModel):
                 if 'matches' not in current_round.keys(): 
                     current_round['matches'] = [] 
                 else: 
-                    if new == False: 
-                        current_round['matches'] = current_round['matches'].pop() 
+                    if new == False:  # à corriger ### 
+                        # current_round['matches'] = 
+                        current_round['matches'].pop() 
                     current_round['matches'].append(self.match) 
 
                 print(f'current_round MM59 : {current_round}') 

@@ -3,6 +3,7 @@ from datetime import date
 from prompt_toolkit import PromptSession 
 # to use prompt as an instance 
 session = PromptSession() 
+from datetime import datetime, date 
 
 
 class Input_view(): 
@@ -13,15 +14,32 @@ class Input_view():
         self.today = today 
 
     # print("start input view") 
+    
+    #### ============ P L A Y E R S ============ #### 
 
-    def input_tournament(self): 
-        # print(f'now IV19 : {self.now}') 
+    def input_player(self): 
+        new_player = {} 
+        new_player['firstname'] = session.prompt('\nPrénom : ') 
+        new_player['lastname'] = session.prompt('\nNom : ')  
+        new_player['ine'] = session.prompt('\nI. N. E. : ')  
+        new_player['rank'] = int(session.prompt('\nClassement : ')) 
+        # new_player['global_score'] = float(0)  # auto 
+        return new_player 
+
+    def input_tournament(self):  # ajouter sélection des joueurs ### 
+        # print(f'now IV19 : {now}') 
+        # Boucler (while players_needed) :
+        #   Afficher les joueurs enregistrés 
+        #   Prompt "besoin d'enregistrer de nouveaux joueurs ?" (stocker réponse dans players_needed) 
+        #   Si oui : appelle MC.enter_new_player() 
+        #   Si non : sortir du while 
         new_tournament = {} 
         new_tournament['name'] = session.prompt('\nNom du tournoi : ') 
         new_tournament['site'] = session.prompt('\nLieu : ') 
         new_tournament['start_date'] = str(self.today) 
         new_tournament['end_date'] = '' 
-        # new_tournament['players'] = session.prompt('\nJoueurs (id, séparés par des virgules) : ') 
+        # récupérer les joueurs pour les enregistrer dans le fichier tournaments.json 
+        new_tournament['players'] = session.prompt('\nJoueurs (id, séparés par des virgules) : ') 
         new_tournament['duration'] = session.prompt('\nDurée : ') 
         new_tournament['description'] = session.prompt('\nDescription : ') 
         return new_tournament 
@@ -30,14 +48,6 @@ class Input_view():
         is_tournament_done = session.prompt('\nConfirmer la clôture du tournoi ? (y/N) : ') 
         return is_tournament_done 
 
-    """ Players """ 
-    def input_player(self): 
-        new_player = {} 
-        new_player['lastname'] = session.prompt('\nNom : ')  
-        new_player['firstname'] = session.prompt('\nPrénom : ') 
-        new_player['rank'] = int(session.prompt('\nClassement : ')) 
-        # new_player['global_score'] = float(0) 
-        return new_player 
 
     """ Rounds """ 
     def input_round(self): 

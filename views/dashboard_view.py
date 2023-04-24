@@ -27,7 +27,7 @@ class Dashboard_view():
         'Menu "saisir" : ', 
         '1 : Enregistrer un joueur', 
         # '2 : Enregistrer plusieurs joueurs',  # TODO 
-        '3 : Enregistrer un nouveau tournoi',  # TODO 
+        '3 : Enregistrer un nouveau tournoi',  # TODO: select the players 
         '4 : Enregistrer les scores',  # TODO 
 
         # auto quand on cloture un round et que c'est le 4è round : 

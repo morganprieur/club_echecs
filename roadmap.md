@@ -61,7 +61,7 @@ Le programme utilise les fichiers de données JSON pour la persistance des infor
 ● À la fin du match, les joueurs reçoivent des points selon leurs résultats.
     ○ Le gagnant reçoit 1 point.
     ○ Le perdant reçoit 0 point.
-○ Chaque joueur reçoit 0,5 point si le match se termine par un match nul.  
+    ○ Chaque joueur reçoit 0,5 point si le match se termine par un match nul.  
 
 ### SCHÉMA DES TOURNOIS
 Chaque tournoi doit contenir au moins les informations suivantes :
@@ -107,8 +107,9 @@ Les rapports peuvent être en texte brut, à condition qu'ils soient bien format
 ====  
 ## SAUVEGARDE / CHARGEMENT DES DONNÉES
 Nous devons pouvoir sauvegarder et charger l'état du programme à tout moment entre deux actions de l'utilisateur. Plus tard, nous aimerions utiliser une base de données, mais pour l'instant nous utilisons des fichiers JSON pour garder les choses simples.
-Les fichiers JSON doivent être mis à jour à chaque fois qu'une modification est apportée aux données afin d'éviter toute perte. Le programme doit s'assurer que les objets en mémoire sont toujours synchronisés avec les fichiers JSON. Le programme doit également
-charger toutes ses données à partir des fichiers JSON et **pouvoir restaurer son état entre les exécutions**.   
+Les fichiers JSON doivent être mis à jour à chaque fois qu'une modification est apportée aux données afin d'éviter toute perte. 
+
+Le programme doit s'assurer que **les objets en mémoire sont toujours synchronisés avec les fichiers JSON**. Le programme doit également charger toutes ses données à partir des fichiers JSON et **pouvoir restaurer son état entre les exécutions**.  ? ### 
 
 ====  
 **Si vous avez le choix entre la manipulation de dictionnaires ou d'instances de classe, choisissez toujours des instances de classe pour assurer la conformité avec le modèle de conception MVC.**  

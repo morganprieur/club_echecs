@@ -8,9 +8,34 @@ class Report_view():
     def __init__(self) -> None:
         pass 
 
-    """ 
-    ==== Reports tournaments ==== 
-    """ 
+
+    #### ============ D I S P L A Y   P L A Y E R S ============ #### 
+
+    # @staticmethod  # déplacé sur main_container 
+    # def sort_objects_by_field(objects, field): 
+    #     print() 
+    #     objects.sort(key=attrgetter(field)) 
+    #     for obj in objects: 
+    #         print(f'{obj.firstname} \t{obj.lastname}, \tclassement : {obj.rank}') 
+
+    def display_all_players(self, all_players): 
+        print('\n==== Tous les joueurs ====') 
+
+        for player in all_players: 
+            # print(f'\nJoueur {all_players.index(player)+1} : ') 
+            # print(f"\n\033[1mJoueur {all_players.index(player)+1}\033[0m : ")  # ANSI \033[1m \033[0m  
+            print(f"\n\033[1mJoueur {player.id}\033[0m : ")  # ANSI \033[1m \033[0m  
+
+            # print(f'ID : \t{player.id}') 
+            print(f'nom complet : \t{player.firstname} {player.lastname}') 
+            # print(f'nom : \t') 
+            print(f'I. N. E. : \t{player.ine}') 
+            print(f'classement : \t{player.rank}')  ### à vérifier ### 
+            print(f'score global : \t{player.global_score}') 
+
+        print('\n====\n') 
+
+    #### ============ D I S P L A Y   T O U R N A M E N T S ============ #### 
 
     """ Pas demandés :  
     def display_last_tournament(self, last_tournament): 
@@ -45,40 +70,8 @@ class Report_view():
             # self.display_rounds_one_tournament(t) 
         print('\n====\n') 
 
-    def display_matches_one_tournament(self, tournament): 
-        """ Display all the matches from one tournament. 
+    #### ============ D I S P L A Y   R O U N D S ============ #### 
 
-        Args: 
-            tournament (int): 
-                the ID of the tournament the matches will be getting from. 
-        """ 
-        print(f'\n---- Tous les matches du tournoi {int(tournament.id)} ----') 
-        # print(f'tournament RV85 : {tournament}') 
-        # print(f'tournament RV88 : {round}') 
-
-        rounds = tournament.rounds 
-        ### 
-        # If there isn't any rounds : 
-        if rounds == []: 
-            print(f'\nLe tournoi {tournament.id} n\'a pas encore de rounds') 
-        else:  
-            # Afficher les rounds : 
-            for r in tournament.rounds: 
-
-                print(f'\nID : \t{r.id}') 
-                print(f'Nom : \t{r.round_name}') 
-                print(f'Date et heure de début : \t{r.start_datetime}') 
-        ### 
-                print('matches : ') 
-                for match in r.matches: 
-                    self.display_match(match) 
-                    # print(f'\n\t[{match[0][0]}, {match[0][1]}], [{match[1][0]}, {match[1][1]}]') 
-                    # TODO Afficher le round  
-        print('\n====\n') 
-
-    """ 
-    ==== Reports rounds ==== 
-    """ 
     def display_rounds_one_tournament(self, tournament): 
         """ Display all the rounds from one tournament. 
 
@@ -109,14 +102,7 @@ class Report_view():
                 #         self.display_match(match) 
 
         print('\n====\n') 
-
-    """ 
-    ==== Display ==== 
-    """ 
-    def display_match(self, match): 
-        match_tuple = tuple(match) 
-        print(match_tuple) 
-
+    
     def display_round(self, round): 
         print(f'\tID : \t{round.id}') 
         print(f'\tNom : \t{round.round_name}') 
@@ -127,16 +113,44 @@ class Report_view():
         for match in matches: 
             self.display_match(match) 
 
-    """ 
-    ==== Reports players ==== 
-    """ 
 
-    # @staticmethod 
-    # def sort_objects_by_field(objects, field): 
-    #     print() 
-    #     objects.sort(key=attrgetter(field)) 
-    #     for obj in objects: 
-    #         print(f'{obj.firstname} \t{obj.lastname}, \tclassement : {obj.rank}') 
+    #### ============ D I S P L A Y   M A T C H E S ============ #### 
+
+    def display_match(self, match): 
+        match_tuple = tuple(match) 
+        print(match_tuple) 
+
+
+    def display_matches_one_tournament(self, tournament): 
+        """ Display all the matches from one tournament. 
+
+        Args: 
+            tournament (int): 
+                the ID of the tournament the matches will be getting from. 
+        """ 
+        print(f'\n---- Tous les matches du tournoi {int(tournament.id)} ----') 
+        # print(f'tournament RV85 : {tournament}') 
+        # print(f'tournament RV88 : {round}') 
+
+        rounds = tournament.rounds 
+        ### 
+        # If there isn't any rounds : 
+        if rounds == []: 
+            print(f'\nLe tournoi {tournament.id} n\'a pas encore de rounds') 
+        else:  
+            # Afficher les rounds : 
+            for r in tournament.rounds: 
+
+                print(f'\nID : \t{r.id}') 
+                print(f'Nom : \t{r.round_name}') 
+                print(f'Date et heure de début : \t{r.start_datetime}') 
+        ### 
+                print('matches : ') 
+                for match in r.matches: 
+                    self.display_match(match) 
+                    # print(f'\n\t[{match[0][0]}, {match[0][1]}], [{match[1][0]}, {match[1][1]}]') 
+                    # TODO Afficher le round  
+        print('\n====\n') 
 
 
 """ 

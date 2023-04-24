@@ -43,10 +43,11 @@ class Tournament_model(AbstractModel):
         self.duration = duration 
         self.description = description 
 
-    def __str__(self):  # , roundDicts        
-        tournament_string_start = (f'{self.id}, {self.name}, {self.site}, {self.start_date}, {self.end_date}, players : {self.players}') 
-        tournament_string_end = (f' rounds : \n{self.rounds}, {self.duration}, {self.description}') 
-        return tournament_string_start + tournament_string_end 
+    def __str__(self): 
+        return ( 
+            f'{self.id}, {self.name}, {self.site}, {self.start_date}, {self.end_date}, players : {self.players}  rounds : \n{self.rounds}, {self.duration}, {self.description}' 
+        ) 
+
 
     """ comment """ 
     def to_dict(self): 
@@ -76,17 +77,20 @@ class Tournament_model(AbstractModel):
             t_dicts = self.get_registered() 
             print(f'\nt_dicts TM75 : {t_dicts}') 
             print(f'\ntype(t_dicts) TM76 : {type(t_dicts)}') 
-            # Replace the last tournament with the modified one : 
-            t_dicts[0:-1] += self.to_dict() 
+            if new == False: 
+                # Replace the last tournament with the modified one : 
+                t_dicts.pop() 
+                t_dicts.append(self.to_dict()) 
+                print(f'\nt TM78 : {t}')  #### 
             print(f'\nt_dicts TM79 : {t_dicts}') 
             # t_dicts.pop().append(self.to_dict()) 
             # t_dicts.pop() 
             # serialize the tournaments with the last modified 
             # t_dicts.append(self.to_dict()) 
             # Get the last modified tournament 
-            if new == False: 
-                t = t_dicts[-1] 
-                print(f'\nt TM78 : {t}')  #### 
+            
+            t = t_dicts.pop()  # à vérifier ### 
+
             # Select the rounds 
             rounds_dict = t['rounds'] 
             if len(rounds_dict) > 1: 

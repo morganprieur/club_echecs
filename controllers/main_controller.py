@@ -17,16 +17,16 @@ import random
 
 class Main_controller(): 
 
-    now = datetime.now() 
-    today = date.today() 
+    # now = datetime.now() 
+    # today = date.today()  ### 
 
     def __init__( 
         self, 
         board: Dashboard_view, 
         in_view: Input_view, 
         report_view: Report_view, 
-        now, 
-        today 
+        # now, 
+        # today 
     ): 
         self.board = board 
         self.in_view = in_view 
@@ -35,8 +35,8 @@ class Main_controller():
         # self.last_tournament = None 
         self.player = None 
         self.round = None 
-        self.now = now 
-        self.today = today 
+        # self.now = now 
+        # self.today = today 
 
     """ comment """ 
     def start(self, tourn): 
@@ -216,12 +216,15 @@ class Main_controller():
     """ Register one player """  # à corriger ### 
     def enter_new_player(self): 
         print('\nEnter new player') 
-        player_data = self.in_view.input_player() 
-        last_player_id = int(Player_model.get_registered_all('players')[-1]['id']) 
+        new_player_data = self.in_view.input_player() 
+        last_player_dict = Player_model.get_registered_dict('players')[-1] 
+        # last_player_id = int(Player_model.get_registered_all('players')[-1]['id']) 
+        last_player_id = int(last_player_dict['id']) 
         # print(f'\nlast_player_id MC255 : {last_player_id}')  
-        player_data['id'] = int(last_player_id)+1 
+        new_player_data['id'] = int(last_player_id)+1 
+        new_player_data['global_score'] = float(0.0) 
         # print(f'\nplayer_data MC257 : {player_data}')   
-        self.player = Player_model(**player_data) 
+        self.player = Player_model(**new_player_data) 
         # print(f'self.player MC259 : {self.player}') 
         self.player.serialize_object(True) 
 
@@ -233,7 +236,9 @@ class Main_controller():
 
     """ Display all the players """  # à corriger ### 
     def report_players(self, sort): 
-        players = Player_model.get_registered_all('players') 
+        print('report_players MC239') 
+        # players = Player_model.get_registered_all('players') 
+        players = Player_model.get_registered_dict('players') 
         players_obj = [] 
         for player in players: 
             self.player = Player_model(**player) 
@@ -242,13 +247,11 @@ class Main_controller():
         # Choice of the order (alphabetical or by rank): 
         if sort == 'alphabet': 
             print('\nJoueurs par ordre alphabet : ') 
-            ### à vérifier : ### 
             self.sort_objects_by_field(players_obj, 'firstname') 
-            # self.report_view.sort_objects_by_field(players_obj, 'firstname') 
         if sort == 'rank': 
             print('\nJoueurs par rank : ') 
             self.sort_objects_by_field(players_obj, 'rank') 
-            # self.report_view.sort_objects_by_field(players_obj, 'rank') 
+        self.report_view.display_all_players(players_obj) 
 
         session.prompt('Appuyer sur Entrée pour continuer ') 
         self.start(False) 
@@ -256,15 +259,20 @@ class Main_controller():
 
     #### ============ T O U R N A M E N T S ============ #### 
     
-    """ Create one tournament """  # à corriger ### 
+    """ Create one tournament """  # à corriger : ajouter sélection des joueurs ### 
     def enter_new_tournament(self): 
         print('\nEnter new tournament') 
 
+        # Display registered players to select the current ones: 
+        self.report_players('alphabet') 
+
         # Get the data for the current tournament: 
         tournament_data = self.in_view.input_tournament() 
+        print(f'tournament_data MC271 : {tournament_data}') 
 
         # Get all the registered tournaments: 
-        tournaments = Tournament_model.get_registered_all('tournaments') 
+        # tournaments = Tournament_model.get_registered_all('tournaments') 
+        tournaments = Tournament_model.get_registered_dict('tournaments') 
         
         last_tournament = tournaments.pop() 
         # print(f'last_tournament MC128 : {last_tournament}') 
@@ -329,7 +337,8 @@ class Main_controller():
     def report_tournaments(self): 
         self.board.ask_for_report = None 
 
-        tournaments = Tournament_model.get_registered_all('tournaments') 
+        # tournaments = Tournament_model.get_registered_all('tournaments') 
+        tournaments = Tournament_model.get_registered_dict(('tournaments')) 
         tournaments_obj = [] 
 
         for tournament in tournaments: 
@@ -545,7 +554,8 @@ class Main_controller():
         # new_match = (match_data['player_1'], match_data['player_2']) 
 
         # Get the last tournament, where to register the current round: 
-        tournaments = Tournament_model.get_registered_all('tournaments') 
+        # tournaments = Tournament_model.get_registered_all('tournaments') 
+        tournaments = Tournament_model.get_registered_dict('tournaments') 
         current_tournament = tournaments.pop() 
         print(f'current_tournament MC485 : {current_tournament}') 
         print(f'type(current_tournament) MC486 : {type(current_tournament)}')  # dict 
@@ -812,7 +822,8 @@ class Main_controller():
                 int: the tournament's id 
         """
         # Get all the tournaments from the tournaments data file (list of dicts) : 
-        t_dicts = Tournament_model.get_registered_all('tournaments') 
+        # t_dicts = Tournament_model.get_registered_all('tournaments') 
+        t_dicts = Tournament_model.get_registered_dict('tournaments') 
         # Get the tournament from its id (dict) 
         t_dict = t_dicts[t_id] 
         return t_dict 
@@ -824,7 +835,8 @@ class Main_controller():
                 int: the tournament's id 
         """ 
         # Get all the tournaments from the tournaments data file (list of dicts) : 
-        t_dicts = Tournament_model.get_registered_all('tournaments') 
+        # t_dicts = Tournament_model.get_registered_all('tournaments') 
+        t_dicts = Tournament_model.get_registered_dict('tournaments') 
         # Get the last tournament from t_dicts (dict) 
         t_dict = t_dicts[-1] 
         return t_dict 

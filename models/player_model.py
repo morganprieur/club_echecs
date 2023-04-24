@@ -14,6 +14,7 @@ class Player_model(AbstractModel):
             id:int, 
             lastname:str, 
             firstname:str, 
+            ine:str,  # Identifiant National d'Echecs 
             rank: int, 
             global_score: float 
         ):  # , age, genre, rank 
@@ -21,6 +22,7 @@ class Player_model(AbstractModel):
         self.id = id  
         self.lastname = lastname  
         self.firstname = firstname 
+        self.ine = ine 
         self.rank = rank 
         self.global_score = global_score 
         # self.age = age 
@@ -28,7 +30,7 @@ class Player_model(AbstractModel):
         # players.append(self)   # pas bonnes pratiques 
 
     def __str__(self): 
-        return f'\nJoueur {self.id} : {self.firstname} {self.lastname} classement : {self.rank}, points : {self.global_score}.' 
+        return f'\nJoueur {self.id} : {self.firstname} {self.lastname}, INE {self.ine} classement : {self.rank}, score global : {self.global_score}.' 
 
 
     def to_dict(self): 
@@ -36,10 +38,16 @@ class Player_model(AbstractModel):
             'id': self.id, 
             'lastname': self.lastname, 
             'firstname': self.firstname, 
+            'ine': self.ine, 
             'rank': self.rank, 
-            'points': self.global_score 
+            'global_score': self.global_score 
         } 
-    
+
+    def get_registered(self): 
+        return super().get_registered() 
+
+
+
 """ Enoncé : 
 ## GÉNÉRATION DES PAIRES
 
@@ -55,29 +63,6 @@ class Player_model(AbstractModel):
 ● Un tirage au sort des joueurs définira qui joue en blanc et qui joue en noir ; il n'est donc pas nécessaire de mettre en place un équilibrage des couleurs.
 """ 
     
-
-    ### Python forge : écrire dans fichier JSON : 
-    # import json
-
-    # employee = {
-    #     "nom": "Marie Richardson",
-    #     "id": 1,
-    #     "recrutement": True,
-    #     "department": "Ventes"
-    # }
-
-    # with open('data.json', 'w') as mon_fichier:
-    #     json.dump(employee, mon_fichier) 
-    ### FIN Python forge : écrire dans fichier JSON 
-    
-    ### Python forge : lire un fichier JSON : 
-    # import json
-
-    # with open('data.json') as mon_fichier:
-    #     data = json.load(mon_fichier)
-
-    # print(data) 
-    ### FIN Python forge : lire un fichier JSON 
 
 
 
