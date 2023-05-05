@@ -86,7 +86,7 @@ class Round_model(AbstractModel):
         else: 
             print('Erreur : le fichier tournaments ne peut pas être vide.') 
         with open(f"data/{self.table}.json", "w") as file: 
-            json.dump(objects, file) 
+            json.dump(objects, file, indent=4) 
 
 """ 
 Round = liste des matches 

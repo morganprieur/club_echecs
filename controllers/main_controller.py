@@ -131,13 +131,13 @@ class Main_controller():
             if self.board.ask_for_report == '1': 
                 self.board.ask_for_report = None 
                 # afficher les joueurs : 
-                self.report_players('alphabétique') 
+                self.report_players('firstname') 
 
             # Tous les joueurs par classement 
             if self.board.ask_for_report == '2': 
                 self.board.ask_for_report = None 
                 # afficher les joueurs : 
-                self.report_players('classement') 
+                self.report_players('rank') 
 
             # Tous les tournois 
             if self.board.ask_for_report == '3': 
@@ -228,7 +228,7 @@ class Main_controller():
         # print(f'self.player MC259 : {self.player}') 
         self.player.serialize_object(True) 
 
-        self.report_players('alphabet') 
+        self.report_players('firstname') 
 
     """ TODO """ 
     def enter_many_new_players(self): 

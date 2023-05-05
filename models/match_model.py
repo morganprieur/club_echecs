@@ -73,7 +73,7 @@ class Match_model(AbstractModel):
         else: 
             print('Erreur : la table tournaments ne peut pas être vide.') 
         with open(f'data/{self.table}.json', 'w') as file: 
-            json.dump(tournaments, file) 
+            json.dump(tournaments, file, indent=4) 
 
 
     # """ comment """ 
