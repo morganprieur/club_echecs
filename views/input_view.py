@@ -8,10 +8,11 @@ from datetime import datetime, date
 
 class Input_view(): 
 
-    today = date.today() 
+    # today = date.today() 
 
-    def __init__(self, today): 
-        self.today = today 
+    def __init__(self):  # , today 
+        # self.today = today 
+        pass 
 
     # print("start input view") 
     
@@ -25,8 +26,11 @@ class Input_view():
         new_player['rank'] = int(session.prompt('\nClassement : ')) 
         # new_player['global_score'] = float(0)  # auto 
         return new_player 
+    
+    #### ============ T O U R N A M E N T S ============ #### 
 
     def input_tournament(self):  # ajouter sélection des joueurs ### 
+        today = datetime.today() 
         # print(f'now IV19 : {now}') 
         # Boucler (while players_needed) :
         #   Afficher les joueurs enregistrés 
@@ -36,7 +40,7 @@ class Input_view():
         new_tournament = {} 
         new_tournament['name'] = session.prompt('\nNom du tournoi : ') 
         new_tournament['site'] = session.prompt('\nLieu : ') 
-        new_tournament['start_date'] = str(self.today) 
+        new_tournament['start_date'] = str(today) 
         new_tournament['end_date'] = '' 
         # récupérer les joueurs pour les enregistrer dans le fichier tournaments.json 
         new_tournament['players'] = session.prompt('\nJoueurs (id, séparés par des virgules) : ') 
@@ -48,6 +52,7 @@ class Input_view():
         is_tournament_done = session.prompt('\nConfirmer la clôture du tournoi ? (y/N) : ') 
         return is_tournament_done 
 
+    #### ============ R O U N D S ============ #### 
 
     """ Rounds """ 
     def input_round(self): 
@@ -64,6 +69,8 @@ class Input_view():
     def input_closing_round(self): 
         is_round_done = session.prompt('\nConfirmer la clôture du round ? (y/N)') 
         return is_round_done  
+
+    #### ============ M A T C H E S ============ #### 
 
     """ Matches """ 
     def input_match(self): 

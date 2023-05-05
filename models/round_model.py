@@ -23,7 +23,6 @@ class Round_model(AbstractModel):
             self.matches = [Match_model(*data) for data in matches] 
             # self.matches = [Match_model([1, 1.5], [2, 2.0]) for data in matches] data = ([1, 1.5], [2, 2.0]) 
 
-
         else: 
             self.matches = matches 
         
@@ -32,9 +31,7 @@ class Round_model(AbstractModel):
             end_datetime = self.end_datetime 
         else: 
             end_datetime = '' 
-        round_string_start = (f'ID du round : {self.id}, nom : {self.round_name}, début : {self.start_datetime}, tournament_id : ') 
-        round_string_end = (f', fin : {end_datetime}, {self.tournament_id}, matches : {self.matches}') 
-        return round_string_start + round_string_end 
+        return f'ID du round : {self.id}, nom : {self.round_name}, début : {self.start_datetime}, tournament_id :  , fin : {end_datetime}, {self.tournament_id}, matches : {self.matches}' 
 
     """ comment """ 
     def to_dict(self): 

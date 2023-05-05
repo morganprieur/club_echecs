@@ -166,11 +166,11 @@ class Main_controller():
                 self.report_rounds(ask_for_tournament_id) 
 
             # # pas demandé 
-            # if self.board.ask_for_report == '7': 
-            #     self.board.ask_for_report = None 
-            #     # Choisir un tournoi : 
-            #     ask_for_tournament_id = session.prompt('De quel tournoi voulez-vous les matches ? ') 
-            #     self.report_matches(ask_for_tournament_id) 
+            if self.board.ask_for_report == '7': 
+                self.board.ask_for_report = None 
+                # Choisir un tournoi : 
+                ask_for_tournament_id = session.prompt('De quel tournoi voulez-vous les matches ? ') 
+                self.report_matches(ask_for_tournament_id) 
 
             #### ======== T E S T  M E N U S ======== #### 
 
@@ -213,7 +213,7 @@ class Main_controller():
 
     #### ============ P L A Y E R S ============ #### 
 
-    """ Register one player """  # à corriger ### 
+    """ Register one player """  # ok 
     def enter_new_player(self): 
         print('\nEnter new player') 
         new_player_data = self.in_view.input_player() 
@@ -234,7 +234,7 @@ class Main_controller():
     def enter_many_new_players(self): 
         pass 
 
-    """ Display all the players """  # à corriger ### 
+    """ Display all the players """  # ok 
     def report_players(self, sort): 
         print('report_players MC239') 
         # players = Player_model.get_registered_all('players') 
@@ -300,13 +300,14 @@ class Main_controller():
 
     """ auto """  # à supprimer ### 
     def close_tournament(self): 
+        today = datetime.today() 
         # Select the last tournament 
         last_tournament = self.select_the_last_tournament() 
         # Get the value of input_closing_tournament 
         closing_tournament = self.in_view.input_closing_tournament() 
         if closing_tournament == 'y': 
             # Set the end_date 
-            last_tournament['end_date'] = str(self.today) 
+            last_tournament['end_date'] = str(today) 
             print(f'last_tournament MC199 : {last_tournament}') 
         else: 
             print(f'\nLa clôture du tournoi a été annulée. ') 
@@ -345,13 +346,16 @@ class Main_controller():
             if 'rounds' not in tournament.keys(): 
                 tournament['rounds'] = [] 
             for round in tournament['rounds']: 
-                self.report_one_round(round)
+                # self.report_one_round(round)  # 230425 
+                # pass 
+                print(f'round MC351 : {round}') 
 
                 # round_id = tournament['rounds'].index(round) 
                 # if 'matches' not in tournament['rounds'][round_id].keys(): 
                 #     tournament['rounds'][round_id] = [] 
+            print(f'tournament MC356 : {tournament}') 
             self.tournament = Tournament_model(**tournament) 
-            print(f'self.tournament MC183 : {self.tournament}') 
+            print(f'self.tournament MC358 : {self.tournament}') 
             tournaments_obj.append(self.tournament) 
         self.report_view.display_all_tournaments(tournaments_obj) 
 
@@ -712,6 +716,7 @@ class Main_controller():
         tournament_id = int(ask_for_tournament_id) - 1 
         # tournament object : 
         tournament = self.select_one_tournament(tournament_id) 
+        print(f'tournament dict MC717 : {tournament}') 
 
         if 'rounds' not in tournament.keys(): 
             tournament.rounds = [] 

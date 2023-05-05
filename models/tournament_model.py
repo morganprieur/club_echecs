@@ -36,7 +36,7 @@ class Tournament_model(AbstractModel):
             self.players = players 
         # self.nb_rounds = nb_rounds 
         if rounds and isinstance(rounds[0], dict): 
-            print(f'\nrounds TM26 : {rounds}')  # (list of dicts)
+            print(f'\nrounds TM39 : {rounds}')  # (list of dicts)
             self.rounds = [Round_model(**data) for data in rounds] 
         else: 
             self.rounds = rounds 

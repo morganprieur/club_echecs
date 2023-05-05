@@ -8,17 +8,18 @@ from datetime import datetime, date
 
 """ comment """ 
 if __name__ == "__main__": 
-    now = datetime.now()  # comment 
-    today = date.today() 
+    # now = datetime.now()  # comment 
+    # today = date.today() 
     new_board = Dashboard_view() 
-    new_input_view = Input_view(now)  # comment 
+    # new_input_view = Input_view(now)  # comment 
+    new_input_view = Input_view()  # comment 
     new_reporter = Report_view() 
     new_controller = Main_controller( 
         board=new_board, 
         in_view=new_input_view, 
         report_view=new_reporter, 
-        now=now,  # Besoin ou pas ? ### 
-        today=today 
+        # now=now,  # Besoin ou pas ? ### 
+        # today=today 
     ) 
     restart = True
     while restart: 

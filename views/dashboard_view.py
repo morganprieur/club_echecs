@@ -55,9 +55,9 @@ class Dashboard_view():
         
         # '4 : Les joueurs du tournoi par classement',  # pas demandé 
         # '5 : les résultats du tournoi',  # pas demandé
-        # '7 : les matches',  # pas demandé 
         '--------', 
         # pas demandés, pour tests : 
+        '7 : les matches',  # pas demandé 
         '9 : test define_first_round', 
         '10 : test define_next_rounds', 
         # '9 : le dernier tournoi', 
