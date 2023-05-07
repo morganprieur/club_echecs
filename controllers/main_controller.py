@@ -213,7 +213,7 @@ class Main_controller():
 
     #### ============ P L A Y E R S ============ #### 
 
-    """ Register one player """  # ok 
+    """ Register one player """  # ok 230507 
     def enter_new_player(self): 
         print('\nEnter new player') 
         new_player_data = self.in_view.input_player() 
