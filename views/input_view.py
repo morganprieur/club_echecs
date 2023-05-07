@@ -45,7 +45,7 @@ class Input_view():
         new_tournament['start_date'] = str(today) 
         new_tournament['end_date'] = '' 
         # récupérer les joueurs pour les enregistrer dans le fichier tournaments.json 
-        new_tournament['players_list'] = session.prompt('\nJoueurs (id séparées par des virgules) : ') 
+        new_tournament['players'] = session.prompt('\nJoueurs (id séparées par des virgules) : ') 
         new_tournament['duration'] = session.prompt('\nDurée : ') 
         new_tournament['description'] = session.prompt('\nDescription : ') 
         return new_tournament 

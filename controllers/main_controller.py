@@ -277,7 +277,8 @@ class Main_controller():
 
         # Get the data for the current tournament: 
         tournament_data = self.in_view.input_tournament() 
-
+        
+        tournament_data['players'] = [player for player in tournament_data['players'].split(',')] 
         print(f'tournament_data MC277 : {tournament_data}') 
 
         # Get all the registered tournaments: 
