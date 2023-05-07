@@ -133,11 +133,11 @@ class Main_controller():
                 # afficher les joueurs : 
                 self.report_players('firstname') 
 
-            # Tous les joueurs par classement 
+            # Tous les joueurs par nombre de points 
             if self.board.ask_for_report == '2': 
                 self.board.ask_for_report = None 
                 # afficher les joueurs : 
-                self.report_players('rank') 
+                self.report_players('score') 
 
             # Tous les tournois 
             if self.board.ask_for_report == '3': 
@@ -218,14 +218,14 @@ class Main_controller():
         print('\nEnter new player') 
         new_player_data = self.in_view.input_player() 
         last_player_dict = Player_model.get_registered_dict('players')[-1] 
-        # last_player_id = int(Player_model.get_registered_all('players')[-1]['id']) 
+        print(f'\nlast_player_dict MC221 : {last_player_dict}')  
         last_player_id = int(last_player_dict['id']) 
-        # print(f'\nlast_player_id MC255 : {last_player_id}')  
-        new_player_data['id'] = int(last_player_id)+1 
+        print(f'\nlast_player_id MC223 : {last_player_id}')  
+        new_player_data['id'] = int(last_player_id) + 1 
         new_player_data['global_score'] = float(0.0) 
-        # print(f'\nplayer_data MC257 : {player_data}')   
+        print(f'\nnew_player_data MC226 : {new_player_data}')   
         self.player = Player_model(**new_player_data) 
-        # print(f'self.player MC259 : {self.player}') 
+        print(f'self.player MC228 : {self.player}') 
         self.player.serialize_object(True) 
 
         self.report_players('firstname') 
@@ -244,13 +244,13 @@ class Main_controller():
             self.player = Player_model(**player) 
             players_obj.append(self.player) 
 
-        # Choice of the order (alphabetical or by rank): 
+        # Choice of the order (alphabetical or by score): 
         if sort == 'alphabet': 
             print('\nJoueurs par ordre alphabet : ') 
             self.sort_objects_by_field(players_obj, 'firstname') 
-        if sort == 'rank': 
-            print('\nJoueurs par rank : ') 
-            self.sort_objects_by_field(players_obj, 'rank') 
+        if sort == 'score': 
+            print('\nJoueurs par score : ') 
+            self.sort_objects_by_field(players_obj, 'global_score') 
         self.report_view.display_all_players(players_obj) 
 
         session.prompt('Appuyer sur Entrée pour continuer ') 
@@ -740,8 +740,6 @@ class Main_controller():
     def sort_objects_by_field(objects, field): 
         print() 
         objects.sort(key=attrgetter(field)) 
-        # for obj in objects: 
-        #     print(f'{obj.firstname} \t{obj.lastname}, \tclassement : {obj.rank}') 
         print(f'objects MC655 : {objects}') 
         return objects 
 

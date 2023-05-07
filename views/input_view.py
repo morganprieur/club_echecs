@@ -23,7 +23,7 @@ class Input_view():
         new_player['firstname'] = session.prompt('\nPrénom : ') 
         new_player['lastname'] = session.prompt('\nNom : ')  
         new_player['ine'] = session.prompt('\nI. N. E. : ')  
-        new_player['rank'] = int(session.prompt('\nClassement : ')) 
+        new_player['birthdate'] = str(session.prompt('\nDate de naissance (yyyy-mm-dd) : ')) 
         # new_player['global_score'] = float(0)  # auto 
         return new_player 
     

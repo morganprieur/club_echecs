@@ -11,13 +11,6 @@ class Report_view():
 
     #### ============ D I S P L A Y   P L A Y E R S ============ #### 
 
-    # @staticmethod  # déplacé sur main_container 
-    # def sort_objects_by_field(objects, field): 
-    #     print() 
-    #     objects.sort(key=attrgetter(field)) 
-    #     for obj in objects: 
-    #         print(f'{obj.firstname} \t{obj.lastname}, \tclassement : {obj.rank}') 
-
     def display_all_players(self, all_players): 
         print('\n==== Tous les joueurs ====') 
 
@@ -30,7 +23,6 @@ class Report_view():
             print(f'nom complet : \t{player.firstname} {player.lastname}') 
             # print(f'nom : \t') 
             print(f'I. N. E. : \t{player.ine}') 
-            print(f'classement : \t{player.rank}')  ### à vérifier ### 
             print(f'score global : \t{player.global_score}') 
 
         print('\n====\n') 

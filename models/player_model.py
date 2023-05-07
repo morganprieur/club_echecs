@@ -15,22 +15,20 @@ class Player_model(AbstractModel):
             lastname:str, 
             firstname:str, 
             ine:str,  # Identifiant National d'Echecs 
-            rank: int, 
+            birthdate: str, 
             global_score: float 
-        ):  # , age, genre, rank 
+        ): 
         super().__init__('players') 
         self.id = id  
         self.lastname = lastname  
         self.firstname = firstname 
         self.ine = ine 
-        self.rank = rank 
+        self.birthdate = birthdate 
         self.global_score = global_score 
-        # self.age = age 
-        # self.genre = genre 
         # players.append(self)   # pas bonnes pratiques 
 
     def __str__(self): 
-        return f'\nJoueur {self.id} : {self.firstname} {self.lastname}, INE {self.ine} classement : {self.rank}, score global : {self.global_score}.' 
+        return f'\nJoueur {self.id} : {self.firstname} {self.lastname}, INE {self.ine} date de naissance : {self.birthdate}, score global : {self.global_score}.' 
 
 
     def to_dict(self): 
@@ -39,7 +37,7 @@ class Player_model(AbstractModel):
             'lastname': self.lastname, 
             'firstname': self.firstname, 
             'ine': self.ine, 
-            'rank': self.rank, 
+            'birthdate': self.birthdate, 
             'global_score': self.global_score 
         } 
 
