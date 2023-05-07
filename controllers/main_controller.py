@@ -131,13 +131,13 @@ class Main_controller():
             if self.board.ask_for_report == '1': 
                 self.board.ask_for_report = None 
                 # afficher les joueurs : 
-                self.report_players('firstname') 
+                self.report_players('firstname', True)  # finished 
 
             # Tous les joueurs par nombre de points 
             if self.board.ask_for_report == '2': 
                 self.board.ask_for_report = None 
                 # afficher les joueurs : 
-                self.report_players('score') 
+                self.report_players('score', True)  # finished 
 
             # Tous les tournois 
             if self.board.ask_for_report == '3': 
@@ -218,24 +218,25 @@ class Main_controller():
         print('\nEnter new player') 
         new_player_data = self.in_view.input_player() 
         last_player_dict = Player_model.get_registered_dict('players')[-1] 
-        print(f'\nlast_player_dict MC221 : {last_player_dict}')  
+        # print(f'\nlast_player_dict MC221 : {last_player_dict}') 
         last_player_id = int(last_player_dict['id']) 
-        print(f'\nlast_player_id MC223 : {last_player_id}')  
+        # print(f'\nlast_player_id MC223 : {last_player_id}') 
         new_player_data['id'] = int(last_player_id) + 1 
         new_player_data['global_score'] = float(0.0) 
-        print(f'\nnew_player_data MC226 : {new_player_data}')   
+        # print(f'\nnew_player_data MC226 : {new_player_data}')   
         self.player = Player_model(**new_player_data) 
-        print(f'self.player MC228 : {self.player}') 
+        # print(f'self.player MC228 : {self.player}') 
         self.player.serialize_object(True) 
 
-        self.report_players('firstname') 
+        self.report_players('firstname', True)  # finished 
 
     """ TODO """ 
     def enter_many_new_players(self): 
         pass 
 
-    """ Display all the players """  # ok 
-    def report_players(self, sort): 
+    """ Display all the players """  # ok 230505 
+    # def report_players(self, sort): 
+    def report_players(self, sort, finished): 
         print('report_players MC239') 
         # players = Player_model.get_registered_all('players') 
         players = Player_model.get_registered_dict('players') 
@@ -246,7 +247,7 @@ class Main_controller():
 
         # Choice of the order (alphabetical or by score): 
         if sort == 'alphabet': 
-            print('\nJoueurs par ordre alphabet : ') 
+            print('\nJoueurs par ordre alphabétique : ') 
             self.sort_objects_by_field(players_obj, 'firstname') 
         if sort == 'score': 
             print('\nJoueurs par score : ') 
@@ -254,7 +255,9 @@ class Main_controller():
         self.report_view.display_all_players(players_obj) 
 
         session.prompt('Appuyer sur Entrée pour continuer ') 
-        self.start(False) 
+        if finished == 'yes': 
+            self.start(False) 
+        
 
 
     #### ============ T O U R N A M E N T S ============ #### 
@@ -264,22 +267,28 @@ class Main_controller():
         print('\nEnter new tournament') 
 
         # Display registered players to select the current ones: 
-        self.report_players('alphabet') 
+        self.report_players('alphabet', False)  ### finished 
+
+        # Prompt if needed to regsiter a new player 
+        player_needed = session.prompt('\nEnregistrer un nouveau joueur ? (y/n) ') 
+        # If yes : 
+        if player_needed == 'y': 
+            self.enter_new_player()  # ok 230507 
 
         # Get the data for the current tournament: 
         tournament_data = self.in_view.input_tournament() 
-        print(f'tournament_data MC271 : {tournament_data}') 
+
+        print(f'tournament_data MC277 : {tournament_data}') 
 
         # Get all the registered tournaments: 
-        # tournaments = Tournament_model.get_registered_all('tournaments') 
         tournaments = Tournament_model.get_registered_dict('tournaments') 
-        
+        # Get the last registered tournament, to set the current id to the current tournament 
         last_tournament = tournaments.pop() 
-        # print(f'last_tournament MC128 : {last_tournament}') 
+        print(f'last_tournament MC128 : {last_tournament}') 
 
         # Attribute the id to the current tournament: 
         tournament_data['id'] = int(last_tournament['id']) + 1 
-        # print(f'tournament_data MC130 : {tournament_data}') 
+        print(f'tournament_data MC130 : {tournament_data}') 
 
         # check key 'rounds' 
         if 'rounds' not in tournament_data.keys(): 
@@ -289,7 +298,7 @@ class Main_controller():
         self.tournament = Tournament_model(**tournament_data) 
 
         # print(f'self.tournament MC134 : {self.tournament}') 
-        if self.tournament.serialize() == False: 
+        if self.tournament.serialize_object(True) == False: 
             print('\nUn problème est survenu, merci d\'envoyer un feedback.') 
         else: 
             print(f'\nLe tournoi {self.tournament} a bien été enregistré') 
@@ -740,11 +749,10 @@ class Main_controller():
     def sort_objects_by_field(objects, field): 
         print() 
         objects.sort(key=attrgetter(field)) 
-        print(f'objects MC655 : {objects}') 
+        print(f'objects MC655 : ') 
+        for obj in objects: 
+            print(obj.__str__()) 
         return objects 
-
-    """ comment """ 
-    # def sort_matches_b
 
     """ comment """  # à corriger ### 
     # def define_first_round(self): 

@@ -18,7 +18,7 @@ class Input_view():
     
     #### ============ P L A Y E R S ============ #### 
 
-    def input_player(self): 
+    def input_player(self):  # ok 230507 
         new_player = {} 
         new_player['firstname'] = session.prompt('\nPrénom : ') 
         new_player['lastname'] = session.prompt('\nNom : ')  
@@ -30,11 +30,13 @@ class Input_view():
     #### ============ T O U R N A M E N T S ============ #### 
 
     def input_tournament(self):  # ajouter sélection des joueurs ### 
-        today = datetime.today() 
-        # print(f'now IV19 : {now}') 
+        today = date.today() 
+        print(f'today IV34 : {today}') 
+        # player_needed = str 
         # Boucler (while players_needed) :
-        #   Afficher les joueurs enregistrés 
-        #   Prompt "besoin d'enregistrer de nouveaux joueurs ?" (stocker réponse dans players_needed) 
+        #   Afficher les joueurs enregistrés (MC264) 
+        #   Prompt "besoin d'enregistrer de nouveaux joueurs ?" 
+        #       (stocker réponse dans player_needed) 
         #   Si oui : appelle MC.enter_new_player() 
         #   Si non : sortir du while 
         new_tournament = {} 
@@ -43,7 +45,7 @@ class Input_view():
         new_tournament['start_date'] = str(today) 
         new_tournament['end_date'] = '' 
         # récupérer les joueurs pour les enregistrer dans le fichier tournaments.json 
-        new_tournament['players'] = session.prompt('\nJoueurs (id, séparés par des virgules) : ') 
+        new_tournament['players_list'] = session.prompt('\nJoueurs (id séparées par des virgules) : ') 
         new_tournament['duration'] = session.prompt('\nDurée : ') 
         new_tournament['description'] = session.prompt('\nDescription : ') 
         return new_tournament 
