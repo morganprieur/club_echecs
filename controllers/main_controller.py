@@ -13,6 +13,7 @@ from operator import attrgetter
 from prompt_toolkit import PromptSession 
 session = PromptSession() 
 import random 
+import re 
 
 
 class Main_controller(): 
@@ -282,7 +283,13 @@ class Main_controller():
         # Get the data for the current tournament: 
         tournament_data = self.in_view.input_tournament() 
         
-        tournament_data['players'] = [player for player in tournament_data['players'].split(',')] 
+        # import re
+        # pet_ages = "12, 4, 8, 2, 1, 7"
+        # pet_list = [int(i) for i in re.findall(r'\d+', pet_ages)]
+        # print(pet_list)
+
+        tournament_data['players'] = [int(player) for player in re.findall(r'\d', tournament_data['players'])] 
+        # tournament_data['players'] = [player for player in tournament_data['players'].split(',')]  # list of str 
         print(f'tournament_data MC277 : {tournament_data}') 
 
         # Get all the registered tournaments: 

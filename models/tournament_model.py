@@ -20,7 +20,7 @@ class Tournament_model(AbstractModel):
         end_date: str, 
         players: list, 
         rounds: list, 
-        duration: str, 
+        # duration: str, 
         description: str 
     ):  # ,  nb_rounds:int,  
         super().__init__('tournaments') 
@@ -40,12 +40,12 @@ class Tournament_model(AbstractModel):
             self.rounds = [Round_model(**data) for data in rounds] 
         else: 
             self.rounds = rounds 
-        self.duration = duration 
+        # self.duration = duration 
         self.description = description 
 
     def __str__(self): 
         return ( 
-            f'{self.id}, {self.name}, {self.site}, {self.start_date}, {self.end_date}, players : {self.players}  rounds : \n{self.rounds}, {self.duration}, {self.description}' 
+            f'{self.id}, {self.name}, {self.site}, {self.start_date}, {self.end_date}, players : {self.players}  rounds : \n{self.rounds}, {self.description}' 
         ) 
 
 
@@ -62,7 +62,7 @@ class Tournament_model(AbstractModel):
             # 'players': self.players.id, 
             'players': player_ids, 
             'rounds': self.rounds, 
-            'duration': self.duration, 
+            # 'duration': self.duration, 
             'description': self.description 
         } 
     
@@ -121,17 +121,6 @@ class Tournament_model(AbstractModel):
                         matches.append(one_match.match) 
 
                     print(f'\nmatches TM112 : {matches} \n') 
-                    # matches_obj.pop() 
-                    # unchanged_matches = matches_obj 
-                    # matches = [] 
-                    # Serialize the matches 
-                    # for match in matches_obj: 
-                    #     print(f'\nmatch TM111 : {match} \n') 
-                    #     print(f'\ntype(match) TM112 : {type(match)} \n') 
-                    #     # match_dict = match.to_dict() 
-                    #     matches.pop().append(match) 
-                    #     # matches.append(match.to_dict()) 
-                    # round_dict['matches'] = matches 
                     rounds[-1]['matches'] = matches 
                     # rounds[-1]['matches'] = matches_obj 
                     print(f"\nrounds[-1]['matches'] TM125 : {rounds[-1]['matches']} \n") 
