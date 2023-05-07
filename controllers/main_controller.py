@@ -262,7 +262,11 @@ class Main_controller():
 
     #### ============ T O U R N A M E N T S ============ #### 
     
-    """ Create one tournament """  # à corriger : ajouter sélection des joueurs ### 
+    """ Create one tournament """ 
+    ### TODO: 
+    # - set the 1st empty round 
+    # - define the first matches 
+    # register the first matches 
     def enter_new_tournament(self): 
         print('\nEnter new tournament') 
 
