@@ -60,7 +60,8 @@ class Input_view():
     def input_round(self): 
         new_round = {} 
         # round.id must be automatically defined (into Main_controller): 
-        new_round['tournament_id'] = int(session.prompt('\nID du tournoi : ')) 
+        ### à corriger ### 
+        # new_round['tournament_id'] = int(session.prompt('\nID du tournoi : ')) 
         new_round['round_name'] = session.prompt('\nNom du round : ') 
         # new_round['start_datetime'] = str(self.now) 
         # Date + heure de fin du round quand on démarre un nouveau round : 
