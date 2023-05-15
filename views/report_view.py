@@ -11,12 +11,12 @@ class Report_view():
 
     #### ============ D I S P L A Y   P L A Y E R S ============ #### 
 
-    def display_all_players(self, all_players): 
+    def display_players(self, players_obj): 
         print('\n==== Tous les joueurs ====') 
 
-        for player in all_players: 
-            # print(f'\nJoueur {all_players.index(player)+1} : ') 
-            # print(f"\n\033[1mJoueur {all_players.index(player)+1}\033[0m : ")  # ANSI \033[1m \033[0m  
+        for player in players_obj: 
+            # print(f'\nJoueur {players_obj.index(player)+1} : ') 
+            # print(f"\n\033[1mJoueur {players_obj.index(player)+1}\033[0m : ")  # ANSI \033[1m \033[0m  
             print(f"\n\033[1mJoueur {player.id}\033[0m : ")  # ANSI \033[1m \033[0m  
 
             # print(f'ID : \t{player.id}') 
@@ -33,13 +33,25 @@ class Report_view():
     def display_last_tournament(self, last_tournament): 
         print('\n---- Dernier tournoi ----') 
         print(last_tournament) 
-
-
-    # def display_today_s_tournament(self, tournament): 
-    #     print('\n---- Dernier tournoi ----') 
-    #     print(tournament) 
-    #     print('----') 
     """ 
+
+    def display_today_s_tournament(self, tournament): 
+        # print('\n---- Dernier tournoi ----') 
+        # print(tournament) 
+        print(f'ID : \t{tournament.id}') 
+        print(f'nom : \t{tournament.name}') 
+        print(f'lieu : \t{tournament.site}') 
+        print(f'date début : \t{tournament.start_date}') 
+        print(f'date fin : \t{tournament.end_date}')  ### à vérifier ### 
+        # print(f'durée : {tournament.duration}') 
+        print(f'description : \t{tournament.description}') 
+        print('rounds : \t') 
+
+        rounds = tournament.rounds 
+        for round in rounds: 
+            self.display_round(round) 
+        # print('----') 
+    
 
     def display_all_tournaments(self, all_tournaments): 
         print('\n==== Tous les tournois ====') 
@@ -97,11 +109,11 @@ class Report_view():
     
     def display_round(self, round): 
         print(f'\tID : \t{round.id}') 
-        print(f'\tNom : \t{round.round_name}') 
+        print(f'\tNom : \t{round.round_name}')  ### 230515 
         print(f'\tDate et heure de début : \t{round.start_datetime}') 
         print('\tmatches : ') 
 
-        matches = round.matches 
+        matches = round.matches  ### 230515 
         for match in matches: 
             self.display_match(match) 
 
@@ -110,7 +122,7 @@ class Report_view():
 
     def display_match(self, match): 
         match_tuple = tuple(match) 
-        print(match_tuple) 
+        print(f'\t\t{match_tuple}')  ### 230515 
 
 
     def display_matches_one_tournament(self, tournament): 

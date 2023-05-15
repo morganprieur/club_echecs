@@ -75,7 +75,7 @@ class Input_view():
 
     #### ============ M A T C H E S ============ #### 
 
-    """ Matches """ 
+    """ Matches (automatique) """ ### TODO: supprimer 
     def input_match(self): 
         new_match = {} 
         # match.id must be automatically defined (into Main_controller): 
@@ -104,14 +104,14 @@ class Input_view():
             null_match = session.prompt(f'\nY a-t-il match nul ? (y/n) ') 
             if null_match == 'y': 
                 null_matches.append(matches[i].player_1[0]) 
-                continue 
+                # continue  ### ? 
             else: 
-                winner = session.prompt(f'\nQuel joueur a gagné {matches[i].player_1[0]} ou {matches[i].player_2[0]} ? ')
+                winner = session.prompt(f'\nQuel joueur a gagné {matches[i].player_1[0]} ou {matches[i].player_2[0]} ? (Entrer son id)')
                 winners.append(matches[i].player_1[0]) 
         print(f'\nnull_matches IV90 : {null_matches}') 
         print(f'\nwinners IV91 : {winners}') 
 
-        return (null_matches, winners) 
+        # return (null_matches, winners) 
         
 
             # scores.append(match_result) 
