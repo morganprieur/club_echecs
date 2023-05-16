@@ -508,13 +508,29 @@ class Main_controller():
     """ auto (register_scores) """ # TODO ### 
     def close_round(self, last_round): 
         """ 
-        set end_datetime.  
-        if round.id == 1: 
-            enter_new_matches(first=True) 
-        elif round.id = 4: 
-            call close_tournament() 
-        else: 
-            enter_new_matches(first=False) 
+        -   Enregistrer la date-heure de fin 
+        -   Afficher les matches### pour montrer les scores 
+        -   Voir si round.id == 4 
+        +   Si round.id==4 
+        +       -> cloturer le tournoi 
+        -           Afficher le tournoi 
+        +   Sinon 
+        +       -> Enregistrer nouveau round 
+        -           créer liste de matches = []
+        -           Définir les matches de ce round 
+        -   Afficher les matches 
+
+        -   set end_datetime. 
+        -   Display matches### to show the results 
+        -   Check if round.id == 4 
+        +   if round.id == 4 
+        +       -> Close tournament 
+        -           Display the tournament 
+        +   Else 
+        +       -> Register new round 
+        -           Create empty list of matches 
+        -           Define the matches 
+        -   Display the new matches 
         """ 
         print('\nClôturer un round') 
 
@@ -533,12 +549,12 @@ class Main_controller():
             round.end_datetime = str(datetime.now()) 
             
             # Define what to do according to the round's id 
-            if round.id == 1: 
-                self.enter_new_matches(True) 
-            elif round.id == 4: 
+            if round.id == 4: 
                 self.close_tournament() 
+            elif  round.id == 1: 
+                self.enter_new_matches(True) 
             else: 
-                self.enter_new_matches(False) 
+                self.enter_new_matches() # False ou pas besoin ? 
             
             # # Instantiate the round 
             # self.round = Round_model(**last_round) 
@@ -608,7 +624,7 @@ class Main_controller():
         print(f'\ncurrent_matches_dicts MC607 : {current_matches_dicts}') 
         print(f'\ntype(current_matches_dicts) MC608 : {type(current_matches_dicts)}') # obj ok 
 
-        # Get the matches only, without the "match" key  # à voir ??? 
+        # Get the matches only, without the "match" key  ### à voir ??? 
         current_matches_list = [] 
         for curr_match in current_matches_dicts: 
             # for curr_match_value in curr_match.values(): 
@@ -673,7 +689,7 @@ class Main_controller():
         """ 
         + Clôturer le round : 
         -   Enregistrer la date-heure de fin 
-        -   Afficher les joueurs pour montrer leurs scores 
+        -   Afficher les matches### pour montrer les scores 
         -   Voir si round.id == 4 
         + Si round.id==4 
         +   -> cloturer le tournoi 
@@ -687,7 +703,8 @@ class Main_controller():
         ### 230515 : appeler close_round depuis l'appel du menu ??? 
         self.close_round() 
 
-
+        session.prompt('Appuyer sur Entrée  pour continuer ') 
+        self.start(False) 
 
 
 
@@ -764,41 +781,44 @@ class Main_controller():
 
     """ comment """  # à corriger ### 
     # def define_first_round(self): 
-    def enter_new_matches(self, first):  ### 0511-1931 
+    def enter_new_matches(self, first=False):  ### 0511-1931 
         """ Select the players' ids witch will play against each other during the first round. """ 
         # We have already self.tournament_data 
         print(f'\nself.tournament_data MC6358 : {self.tournament_data}') 
-        players = self.tournament_data['players'] 
+        registered_players = self.tournament_data['players'] 
         
         # Copy the players list to work with 
-        players_copy = list(players) 
+        players_copy = list(registered_players) 
         # Instantiate the players : 
-        self.players = [] 
+        players = [] 
         for p in players_copy: 
             player = Player_model(**p) 
-            self.players.append(player) 
-        print(f"\nself.players objects MC684 : {self.players}") 
+            players.append(player) 
+        print(f"\nplayers objects MC684 : {players}") 
 
         # matches to store into the current round 
-        self.matches = [] 
+        matches = [] 
 
         # Randomly define the pairs of players for 4 matches 
         # if first != True: call the sort_objects_by_field() function 
         print(f"\nfirst MC691 : {first}") 
         if first != True: 
-            sorted_players_by_scores = self.sort_objects_by_field(players_copy, 'global_score') 
-            self.random_matches(sorted_players_by_scores)  # returns matches 
-        else: 
-            self.random_matches(players_copy)  # returns matches 
+            players = self.sort_objects_by_field(players, 'global_score') 
+            # sorted_players_by_scores = self.sort_objects_by_field(players_copy, 'global_score') 
+            # self.random_matches(sorted_players_by_scores)  # returns matches 
+        self.random_matches(players)  # returns matches 
+        # else: 
+        #     self.random_matches(players)  # returns matches 
+        #     # self.random_matches(players_copy)  # returns matches 
         # Check the matches 
-        print(f'\nself.matches MC698 : {self.matches}') 
+        print(f'\nself.matches MC698 : {matches}') 
         
         # Instantiate the matches 
-        self.matches_objects = [] 
-        for m in self.matches: 
+        matches_objects = [] 
+        for m in matches: 
             match = Match_model(**m) 
-            self.matches_objects.append(match) 
-        print(f'\nself.matches_objects MC705 : {self.matches_objects}') 
+            matches_objects.append(match) 
+        print(f'\nmatches_objects MC705 : {matches_objects}') 
         
         # Register the matches into tournament.json 
         if Match_model.serialize_object(True): 
@@ -808,7 +828,7 @@ class Main_controller():
 
 
     """ Random define the pairs of players into each round """  # à corriger ### 
-    def random_matches(self, players_copy): 
+    def random_matches(self, registered_players): 
         """ Select the players' ids for one match. 
             Args:
                 players (list): the list of the players' ids of the last tournament. 
@@ -823,20 +843,21 @@ class Main_controller():
             match = ([], []) 
             # selected = the list of player's id and player's score 
             selected = [] 
+            matches = [] 
             for i in range(int(2)): 
-                print(f'\nplayers_copy MC729 : {players_copy}') 
+                print(f'\nregistered_players MC729 : {registered_players}') 
                 # choice = the randomly chosen player's id 
-                chosen = random.choice(players_copy) 
+                chosen = random.choice(registered_players) 
                 selected.append(chosen) 
-                players_copy.remove(chosen[-1]) 
-                print(f'\nplayers_copy MC411 : {players_copy}') 
+                registered_players.remove(chosen) 
+                print(f'\nregistered_players MC411 : {registered_players}') 
                 print(f'\nchosen MC412 : {chosen}') 
                 print(f'\nchosen MC413 : {selected}') 
             match = ([selected[0], score], [selected[1], score]) 
             print(f'\nmatch MC415 : {match}') 
-            self.matches.append(match) 
-        print(f'\nself.matches MC417 : {self.matches}') 
-        return self.matches 
+            matches.append(match) 
+        print(f'\nmatches MC417 : {matches}') 
+        return matches 
 
 
 

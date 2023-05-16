@@ -28,12 +28,20 @@ work
  |-- project.py (entrée du programme) 
 
 
+## Fonctionnalités 
+
+
+
+
 ## Lancer le programme 
 
 *  Dans le terminal lancer le script : 
-`python ./VP2-work-220624/project.py` 
+`python project.py` 
 
-La console n'affiche aucun retour, pour vérifier que ça fonctionne, il faut ouvrir le dossier `data` pour voir si un fichier `Travel.csv` est créé, puis les suivants. Ouvrir le fichier avec Excel ou LibreOffice pour vérifier son contenu. 
+<!-- La console n'affiche aucun retour, pour vérifier que ça fonctionne, il faut ouvrir le dossier `data` pour voir si un fichier `Travel.csv` est créé, puis les suivants. Ouvrir le fichier avec Excel ou LibreOffice pour vérifier son contenu.  -->
+
+
+
 
 
 
