@@ -52,7 +52,7 @@ class AbstractModel(ABC):
         """ 
         # print(f'self.table AM41 :{self}') 
         # print(f'self.table AM48 :{self.table}') 
-        if not self.check_if_json_empty(): 
+        if not self.check_if_json_empty(self.table):  ### ??? 
             objects = self.get_registered() 
         else: 
             objects = [] 

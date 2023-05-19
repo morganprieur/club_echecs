@@ -74,7 +74,7 @@ class Tournament_model(AbstractModel):
         print(f'\nself.__str__() TM73 : {self.__str__()}') 
         # [6, 0.5] ok : 
         # print(f'\nself.rounds[0].matches[0].player_1 TM70 : {self.rounds[0].matches[0].player_1}')
-        if not self.check_if_json_empty(): 
+        if not self.check_if_json_empty('tournaments'): 
             # Get the tournaments from the JSON file 
             t_dicts = self.get_registered() 
             print(f'\nt_dicts TM79 : {t_dicts}') 

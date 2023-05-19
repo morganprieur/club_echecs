@@ -31,7 +31,7 @@ class Round_model(AbstractModel):
             end_datetime = self.end_datetime 
         else: 
             end_datetime = '' 
-        return f'ID du round : {self.id}, nom : {self.round_name}, début : {self.start_datetime}, tournament_id :  , fin : {end_datetime}, {self.tournament_id}, matches : {self.matches}' 
+        return f'ID du round : {self.id}, nom : {self.round_name}, début : {self.start_datetime}, fin : {end_datetime}, tournament_id : {self.tournament_id}, matches : {self.matches}' 
 
     """ comment """ 
     def to_dict(self): 
@@ -43,9 +43,9 @@ class Round_model(AbstractModel):
         round = { 
             'id': self.id, 
             'round_name': self.round_name, 
-            'tournament_id': self.tournament_id, 
             'start_datetime': self.start_datetime, 
             'end_datetime': end_datetime, 
+            'tournament_id': self.tournament_id, 
             'matches': self.matches 
         } 
         return round 
@@ -74,7 +74,7 @@ class Round_model(AbstractModel):
 
     def serialize_object(self, new): 
         """ Abstract method for serialize the objects from the models. """ 
-        if not self.check_if_json_empty(): 
+        if not self.check_if_json_empty('tournaments'): 
             objects = self.get_registered() 
             # select the last tournament : 
             t_dict = objects[-1] 

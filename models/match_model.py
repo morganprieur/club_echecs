@@ -21,7 +21,8 @@ class Match_model(AbstractModel):
         # self.match = match 
         # self.round_id = round_id 
         # self.match = tuple([self.player_1_id, self.player_1_score], [self.player_2_id, self.player_2_score]) 
-        self.match = [self.player_1, self.player_2] 
+        # self.match = [self.player_1, self.player_2] 
+        self.match = (self.player_1, self.player_2) 
         # self.match = tuple(self.player_1, self.player_2) 
         # self.id_joueur_1 = id_joueur_1 
         # self.score_joueur_1 = score_joueur_1 
@@ -30,10 +31,6 @@ class Match_model(AbstractModel):
 
         # player_1 = [self.id_joueur_1, self.score_joueur_1] 
         # player_2 = [self.id_joueur_2, self.score_joueur_2] 
-
-        # self.match = (self.player_1, self.player_2) 
-        # self.match = ([self.id_joueur_1, self.score_joueur_1], [self.id_joueur_2, self.score_joueur_2]) 
-        # print(f'self.match MM21 : {self.match}') 
 
     def __str__(self): 
         # match1 = self.player_1.strip("'") 
@@ -44,7 +41,8 @@ class Match_model(AbstractModel):
 
     """ comment """ 
     def to_dict(self): 
-        return { ([self.player_1.id, self.player_1.global_score], [self.player_2.id, self.player_2.global_score])} 
+        return self.match 
+        # return { ([self.player_1_id, self.player_1_score], [self.player_2_id, self.player_2_score])} 
         # pass 
 
     """ comment """ 
