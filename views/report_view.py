@@ -17,7 +17,7 @@ class Report_view():
         for player in players_obj: 
             # print(f'\nJoueur {players_obj.index(player)+1} : ') 
             # print(f"\n\033[1mJoueur {players_obj.index(player)+1}\033[0m : ")  # ANSI \033[1m \033[0m  
-            print(f"\n\033[1mJoueur {player.id}\033[0m : ")  # ANSI \033[1m \033[0m  
+            print(f"\n\033[1mJoueur {player.id}\033[0m : ")  # ANSI \033[1m \033[0m --> gras 
 
             # print(f'ID : \t{player.id}') 
             print(f'nom complet : \t{player.firstname} {player.lastname}') 

@@ -30,6 +30,41 @@ work
 
 ## Fonctionnalités 
 
+**Enregistrer** 
+* Enregistrer un joueur 
+* Enregistrer plusieurs joueurs 
+* Enregistrer un nouveau tournoi 
+* Attribuer des joueurs à un tournoi 
+* Définir et enregistrer les matches pour le 1er round 
+* Définir et enregistrer les matches pour les rounds 2 à 4 
+* Clôturer un round 
+* Clôturer un tournoi 
+* Enregistrer des scores 
+
+**Afficher** 
+* Afficher tous les joueurs par ordre alphabétique 
+* Afficher tous les joueurs par nombre de points 
+* Afficher tous les joueurs d'un tournoi par ordre alphabétique 
+* Afficher tous les tournois 
+* Afficher un tournoi désiré 
+* Afficher les nom et date d'un tournoi 
+* Afficher tous les rounds et matches d'un tournoi désiré  
+
+## Menus 
+
+**Menu "Enregistrer"** 
+* Enregistrer un joueur 
+* Enregistrer plusieurs joueurs 
+* Enregistrer un nouveau tournoi 
+* Enregistrer des scores 
+
+**Menu "Afficher"** 
+* Tous les joueurs par ordre alphabétique 
+* Tous les joueurs par classement (pas demandé mais c'est fait) 
+* Tous les tournois 
+* Nom et dates d'un tournoi 
+* Les joueurs du tournoi par ordre alphabétique 
+* Les tours et matches d'un tournoi 
 
 
 

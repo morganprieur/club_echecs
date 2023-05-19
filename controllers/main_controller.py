@@ -227,6 +227,7 @@ class Main_controller():
         # print(f'\nlast_player_id MC223 : {last_player_id}') 
         new_player_data['id'] = int(last_player_id) + 1 
         new_player_data['global_score'] = float(0.0) 
+        new_player_data['match_score'] = float(0.0) 
         # print(f'\nnew_player_data MC226 : {new_player_data}')   
         self.player = Player_model(**new_player_data) 
         # print(f'self.player MC228 : {self.player}') 
@@ -341,25 +342,26 @@ class Main_controller():
         print('Voici les joueurs enregistrés : ') 
         self.report_all_players('firstname', False)  ### finished: False 
         
-        # # Prompt if needed to regsiter a new player  ###TODO 
-        # player_needed = session.prompt('\nEnregistrer un nouveau joueur ? (y/n) ') 
-        # # If yes : 
-        # if player_needed == 'y': 
-        #     self.enter_new_player()  # ok 230507 
+        # Prompt if needed to regsiter a new player  ###TODO 
+        player_needed = session.prompt('\nEnregistrer un nouveau joueur ? (y/n) ') 
+        # If yes : 
+        if player_needed == 'y': 
+            self.enter_new_player()  # ok 230507 
 
         # Get the data for the current tournament: 
         self.tournament_data = self.in_view.input_tournament() 
         
         self.tournament_data['players'] = [int(player) for player in re.findall(r'\d', self.tournament_data['players'])] 
         # tournament_data['players'] = [player for player in tournament_data['players'].split(',')]  # list of str 
-        print(f'self.tournament_data MC292 : {self.tournament_data}') 
+        print(f'self.tournament_data MC355 : {self.tournament_data}') 
 
-        # Set the next id to the current tournament: 
-        all_tournaments = Tournament_model.get_registered_dict('tournaments') 
-        last_tournament = all_tournaments.pop() 
-        print(f'last_tournament MC297 : {last_tournament}') 
-        self.tournament_data['id'] = int(last_tournament['id']) + 1 
-        print(f'self.tournament_data MC299 : {self.tournament_data}')  # id ok 
+        # Set the next id to the last tournament: 
+        self.tournament_data['id'] = int(self.select_one_tournament('last')['id']) + 1 
+        # all_tournaments = Tournament_model.get_registered_dict('tournaments') 
+        # last_tournament = all_tournaments.pop() 
+        # print(f'last_tournament MC297 : {last_tournament}') 
+        # self.tournament_data['id'] = int(last_tournament['id']) + 1 
+        print(f'self.tournament_data MC363 : {self.tournament_data}') 
 
         # Set 'rounds' = [] 
         if 'rounds' not in self.tournament_data.keys(): 
@@ -367,10 +369,10 @@ class Main_controller():
         
         self.enter_new_round() 
         # Check self.round_object 
-        print(f'self.round_object MC308 : {self.round_object}') 
+        print(f'self.round_object MC371 : {self.round_object}') 
 
         self.tournament_data['rounds'].append(self.round_object) 
-        print(f'self.tournament_data MC310 : {self.tournament_data}') 
+        print(f'self.tournament_data MC374 : {self.tournament_data}') 
 
         # Instantiate the current tournament: 
         self.tournament = Tournament_model(**self.tournament_data) 
@@ -467,17 +469,17 @@ class Main_controller():
         print('\nEnter new round') 
 
         # Check the data 
-        print(f'\nself.tournament_data MC317 : {self.tournament_data}') 
+        print(f'\nself.tournament_data MC471 : {self.tournament_data}') 
 
         # Get the prompt data for the current round: 
         round_data = self.in_view.input_round() 
-        print(f'\nround_data MC321 : {round_data}') 
+        print(f'\nround_data MC475 : {round_data}') 
         
         round_data['start_datetime'] = str(datetime.now()) 
         round_data['tournament_id'] = self.tournament_data['id'] 
 
         # Check the data 
-        print(f'self.tournament_data["rounds"] MC327 : {self.tournament_data["rounds"]}') 
+        print(f'self.tournament_data["rounds"] MC481 : {self.tournament_data["rounds"]}') 
         
         # Get the last round's id and attribute the id to the current round: 
         if self.tournament_data['rounds'] == []: 
@@ -485,21 +487,21 @@ class Main_controller():
             self.enter_new_matches(True) 
         else: ### à corriger ? ### 
             round_data['id'] = int(self.tournament_data['rounds'][-1]['id']) + 1 
-            print(f'self.tournament_data["rounds"] MC323 : {self.tournament_data["rounds"]}') 
+            print(f'self.tournament_data["rounds"] MC489 : {self.tournament_data["rounds"]}') 
             # If the round isn't the first one of the tournament 
             #     -> register the end_datetime of the precedent round ###TODO 
             # self.add_ending_round() 
             self.enter_new_matches(False) 
             
         # check the data 
-        print(f'self.matches_objects MC342 : {self.matches_objects}') 
+        print(f'self.peers MC496 : {self.peers}') 
 
-        round_data['matches'] = self.matches_objects 
-        print(f'round_data["matches"] MC349 : {round_data["matches"]}') 
+        round_data['matches'] = self.matches_objects  ### 230519 
+        print(f'round_data["matches"] MC499 : {round_data["matches"]}') 
 
         # Instantiate the courrent round 
         self.round_object = Round_model(**round_data) 
-        print(f'self.round_object MC353 : {self.round_object}') 
+        print(f'self.round_object MC503 : {self.round_object}') 
 
         return self.round_object 
 
@@ -739,8 +741,8 @@ class Main_controller():
         print() 
         objects.sort(key=attrgetter(field)) 
         print(f'objects MC655 : ') 
-        for obj in objects: 
-            print(obj.__str__()) 
+        # for obj in objects: 
+        #     print(obj.__str__()) 
         return objects 
     
     
@@ -784,47 +786,66 @@ class Main_controller():
     def enter_new_matches(self, first=False):  ### 0511-1931 
         """ Select the players' ids witch will play against each other during the first round. """ 
         # We have already self.tournament_data 
-        print(f'\nself.tournament_data MC6358 : {self.tournament_data}') 
-        registered_players = self.tournament_data['players'] 
+        print(f'\nself.tournament_data MC787 : {self.tournament_data}') 
+        tournament_players = self.tournament_data['players'] 
         
         # Copy the players list to work with 
-        players_copy = list(registered_players) 
-        # Instantiate the players : 
-        players = [] 
+        players_copy = list(tournament_players) 
+        print(f'\nplayers_copy MC792 : {players_copy}') 
+        # Get the data of the players_copy from the players.json file 
+        players_dicts = Player_model.get_registered_dict('players') 
+
+        # Instantiate the players :  ### besoin des objets seulement pour classer les joueurs par score pour les rounds 2 à 4 
+        players_obj = [] 
         for p in players_copy: 
-            player = Player_model(**p) 
-            players.append(player) 
-        print(f"\nplayers objects MC684 : {players}") 
+            print(f"\np MC799 : {p}") 
+            p_dict = players_dicts[p-1] 
+            print(f"\np_dict MC801 : {p_dict}") 
+            player_obj = Player_model( 
+                **p_dict 
+            ) 
+            print(f"\nplayer_obj MC805 : {player_obj}") 
+            players_obj.append(player_obj) 
+        print(f"\nplayers_obj MC807 : {players_obj}") 
 
         # matches to store into the current round 
-        matches = [] 
+        # self.matches = [] 
+        self.peers = [] 
 
         # Randomly define the pairs of players for 4 matches 
         # if first != True: call the sort_objects_by_field() function 
         print(f"\nfirst MC691 : {first}") 
-        if first != True: 
-            players = self.sort_objects_by_field(players, 'global_score') 
+        if not first: # != True: 
+            players = self.sort_objects_by_field(players_obj, 'global_score') 
             # sorted_players_by_scores = self.sort_objects_by_field(players_copy, 'global_score') 
             # self.random_matches(sorted_players_by_scores)  # returns matches 
-        self.random_matches(players)  # returns matches 
+        self.random_matches(players_obj)  # returns matches 
         # else: 
         #     self.random_matches(players)  # returns matches 
         #     # self.random_matches(players_copy)  # returns matches 
         # Check the matches 
-        print(f'\nself.matches MC698 : {matches}') 
+        # print(f'\nself.matches MC824 : {self.matches}')  # OK 230519 
+        print(f'\nself.peers MC827 : {self.peers}') # list of lists of objects 
         
         # Instantiate the matches 
-        matches_objects = [] 
-        for m in matches: 
-            match = Match_model(**m) 
-            matches_objects.append(match) 
-        print(f'\nmatches_objects MC705 : {matches_objects}') 
+        # peer = (selected[0], selected[1]) 
+
+        # # Register the matches into the tournament dict 
+        print(f'\nself.tournament_data MC832 : {self.tournament_data}') # dict 
+        # self.tournament_data['rounds'][-1]['matches'] = self.peers ### 
+        # print(f'\nself.tournament_data MC832 : {self.tournament_data}') 
+
         
-        # Register the matches into tournament.json 
-        if Match_model.serialize_object(True): 
-            print(f'\nLes matches ont bien été enregistrés ') 
-        else: 
-            print(f'\nIl y a eu un problème à l\'enregistrement, essayez de recommencer. ') 
+        # # Register the matches into tournament.json 
+        # # if Match_model.serialize_object(new=True): 
+        # print(f'\nEnregistrement des matches ') 
+        # if Match_model.serialize_object(self.peers): 
+        # # Match_model.serialize_object(new=True) 
+
+        # #     print(f'\nnew MC835 : {new}') 
+        #     print(f'\nLes matches ont bien été enregistrés ') 
+        # else: 
+        #     print(f'\nIl y a eu un problème à l\'enregistrement, essayez de recommencer. ') 
 
 
     """ Random define the pairs of players into each round """  # à corriger ### 
@@ -838,26 +859,38 @@ class Main_controller():
         """ 
         for i in range(int(4)): 
             # score = the score at the start of the round (for the first round : 0) 
-            score = float(0)  
+            # score = float(0) 
             # match = the tuple containing 2 lists 'selected_player' 
-            match = ([], []) 
+            # match = ([], []) 
             # selected = the list of player's id and player's score 
             selected = [] 
-            matches = [] 
+            self.peers = [] 
             for i in range(int(2)): 
-                print(f'\nregistered_players MC729 : {registered_players}') 
+                print(f'\nregistered_players MC865 : {registered_players}') 
                 # choice = the randomly chosen player's id 
                 chosen = random.choice(registered_players) 
                 selected.append(chosen) 
                 registered_players.remove(chosen) 
-                print(f'\nregistered_players MC411 : {registered_players}') 
-                print(f'\nchosen MC412 : {chosen}') 
-                print(f'\nchosen MC413 : {selected}') 
-            match = ([selected[0], score], [selected[1], score]) 
-            print(f'\nmatch MC415 : {match}') 
-            matches.append(match) 
-        print(f'\nmatches MC417 : {matches}') 
-        return matches 
+                print(f'\nregistered_players MC871 : {registered_players}') 
+                print(f'\nchosen MC872 : {chosen}') 
+                print(f'\nselected MC873 : {selected}') 
+        #     print(f'\nselected[0].__str__() MC872 : {selected[0].__str__()}') 
+        #     # print(f'\ntype(selected[0]) MC873 : {type(selected[0])}') 
+            player_1 = [selected[0].id, selected[0].global_score] 
+            player_2 = [selected[1].id, selected[1].global_score] 
+            # peer = tuple([selected[0].id, selected[0].global_score], [selected[1].id, selected[0].global_score]) 
+            peer = [player_1, player_2] 
+            print(f'\npeer MC879 : {peer}') 
+            peer_obj = Match_model(*peer) 
+        #     match = ([peer[0].id, peer[0].global_score], [peer[1].id, peer[1].global_score]) 
+        #     # match = ([selected[0], score], [selected[1], score]) 
+        #     print(f'\nmatch MC876 : {match}') 
+        #     self.matches.append(match) 
+        # self.peers.append(peer) 
+        self.peers.append(peer_obj) 
+        # print(f'\nself.matches MC878 : {self.matches}') 
+        print(f'\nself.peers MC888 : {self.peers}') 
+        return self.peers 
 
 
 

@@ -9,10 +9,12 @@ class AbstractModel(ABC):
         self.table = table 
         pass 
 
-    
-    def check_if_json_empty(self): 
+    @staticmethod 
+    def check_if_json_empty(table): 
+    # def check_if_json_empty(self): 
         # print(f'self.table in AM14 : {self.table}') 
-        with open(f"data/{self.table}.json",'rb') as f: 
+        with open(f"data/{table}.json",'rb') as f: 
+        # with open(f"data/{self.table}.json",'rb') as f: 
             if len(f.read()) == 0: 
                 # print("The file is empty.") 
                 return True 
@@ -57,23 +59,6 @@ class AbstractModel(ABC):
         objects.append(self.to_dict()) 
         with open(f"data/{self.table}.json", "w") as file: 
             json.dump(objects, file, indent=4) 
-
-    # """ comment """ 
-    # def serialize_modified_object(self): 
-    #     """ Abstract method for serialize the objects from the models. """ 
-    #     # print(f'self.table AM41 :{self}') 
-    #     # print(f'self.table AM48 :{self.table}') 
-    #     if not self.check_if_json_empty(): 
-    #         objects = self.get_registered() 
-    #     else: 
-    #         objects = [] 
-    #     # objects.pop() 
-    #     # objects.append(self.to_dict()) 
-    #     objects[-1] = self.to_dict()
-    #     with open(f"data/{self.table}.json", "w") as file: 
-    #         json.dump(objects, file) 
-
-
 
     @abstractmethod 
     def to_dict(self): 
