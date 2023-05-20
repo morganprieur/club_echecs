@@ -371,7 +371,7 @@ class Main_controller():
         if 'rounds' not in self.tournament_data.keys(): 
             self.tournament_data['rounds'] = [] 
         
-        self.enter_new_round() 
+        self.enter_new_round(True) 
         # Check self.round_object 
         print(f'self.round_object MC376 : {self.round_object}') 
 
@@ -476,11 +476,20 @@ class Main_controller():
 
     ###TODO ajouter close_precedent_round() et close_current_tournament() 
     """ auto (when register_scores or register_new_tournament)""" 
-    def enter_new_round(self): 
+    def enter_new_round(self, first):  # first = first round 
+        """ Creates a new round, relative to the number of the round. 
+
+        Args:
+            first (boolean): the round is the first or not. 
+        """ 
         print('\nEnter new round') 
 
-        # Check the data 
-        print(f'\nself.tournament_data MC471 : {self.tournament_data}') 
+        if first: 
+            # Check the data 
+            print(f'\nself.tournament_data MC484 : {self.tournament_data}') 
+        else: 
+            self.tournament_data = self.select_one_tournament("last") 
+            print(f'\nself.tournament_data MC486 : {self.tournament_data}') 
 
         # Get the prompt data for the current round: 
         round_data = self.in_view.input_round() 
@@ -491,7 +500,7 @@ class Main_controller():
         round_data['tournament_id'] = self.tournament_data['id'] 
 
         # Check the data 
-        print(f'self.tournament_data["rounds"] MC481 : {self.tournament_data["rounds"]}') 
+        print(f'self.tournament_data["rounds"] MC498 : {self.tournament_data["rounds"]}') 
         
         # Get the last round's id and attribute the id to the current round: 
         if self.tournament_data['rounds'] == []: 
@@ -518,7 +527,7 @@ class Main_controller():
         self.round_object = Round_model(**round_data) 
         print(f'self.round_object MC503 : {self.round_object}') 
 
-        return self.round_object 
+        # return self.round_object 
 
 
     ### 230515 
@@ -566,47 +575,50 @@ class Main_controller():
             round.end_datetime = str(datetime.now()) 
             
             # Define what to do according to the round's id 
-            if round.id == 4: 
-                self.close_tournament() 
-            elif  round.id == 1: 
-                self.enter_new_matches(True) 
-            else: 
-                self.enter_new_matches() # False ou pas besoin ? 
+            # if round.id == 4: 
+            #     self.close_tournament() 
+            # elif  round.id == 1: 
+            #     self.enter_new_matches(True) 
+            # else: 
+            #     self.enter_new_matches() # False ou pas besoin ? 
             
             # # Instantiate the round 
             # self.round = Round_model(**last_round) 
 
-            # Register the round again 
-            if round.serialize_object(False) == False: 
+            # Register the round back 
+            if not round.serialize_object(False): # == False: 
                 print('\nIl y a eu un problème, essayez de recommencer.') 
                 session.prompt('\nAppuyer sur Entrée pour continuer ') 
                 self.start(False) 
             else: 
                 # Tell that the round has been closed 
                 print(f'\nLe round {round.round_name} a été clôturé avec succès.') 
-                if round.id == 4: 
-                    print(f'\nC\'était le dernier round, le tournoi {last_tournament["name"]} a été clôturé avec succès.') 
-                    print(f'\nVoici les résultats du tournoi : ') 
-                    self.report_one_tournament('last') 
-                    print(f'\nEt les nouveaux scores des joueurs : ') 
-                    self.report_players_from_tournament('firstname', False, 'last') 
-                else: 
-                    print(f'\nPour débuter le round {round.id+1}, entrez son nom : ') 
-                    # self.in_view.input_round() 
-                    self.enter_new_round() 
-                    print(f'\nVoici les résultats provisoires du tournoi : ') 
-                    self.report_one_tournament('last') 
-                    print(f'\nEt les nouveaux scores des joueurs : ') 
-                    self.report_players_from_tournament('firstname', False, 'last') 
-                    self.enter_new_matches(False) 
-                    print(f'\nLes matches du round {round.id+1} ont été définis : ') 
-                    self.report_matches('last') 
+            if round.id == 4:  ### corriger 
+                self.close_tournament() 
+                print(f'\nC\'était le dernier round, le tournoi {last_tournament["name"]} a été clôturé avec succès.') 
+                print(f'\nVoici les résultats du tournoi : ') 
+                self.report_one_tournament('last') 
+                print(f'\nEt les nouveaux scores des joueurs : ') 
+                self.report_players_from_tournament('firstname', False, 'last') 
+            else:  ### corriger 
+                # print(f'\nPour débuter le round {round.id+1}, entrez son nom : ') 
+                # self.enter_new_matches() # False ou pas besoin ? 
+                # self.in_view.input_round() 
+                self.enter_new_round(False) 
+                print(f'\nVoici les résultats provisoires du tournoi : ') 
+                self.report_one_tournament('last') 
+                print(f'\nEt les nouveaux scores des joueurs : ') 
+                self.report_players_from_tournament('firstname', False, 'last') 
+                # self.enter_new_matches(False)  # appelé par enter_new_round() 
+                print(f'\nLes matches du round {round.id+1} ont été définis : ') 
+                self.report_matches('last')  ### à implémenter dans report_view 
                 
                 ### mettre dans une méthode : 230515 
                 session.prompt('\nAppuyer sur Entrée pour continuer ') 
                 self.start(False) 
         else: 
             print('Les seules options sont "y" ou "Y" pour oui, "n" ou "N" pour non.') 
+            
             session.prompt('\nAppuyer sur Entrée pour continuer ') 
             self.start(False) 
 
