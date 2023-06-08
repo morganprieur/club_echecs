@@ -6,23 +6,36 @@ import json
 class Match_model(AbstractModel): 
     
     def __init__( 
-        # self, player_1_id: list, player_1_score: list, player_2_id: list, player_2_score: list  
-        self, player_1: list, player_2: list  
-    ): 
+        # self, player_1_id: int, player_1_score: float, player_2_id: int, player_2_score: float 
+        self, player_1: list, player_2: list 
+        # self, player_1_id: str, player_1_score: float, player_2_id: str, player_2_score: float,  
+    ): #  match: tuple, 
         super().__init__('tournaments') 
-        self.player_1_id = player_1[0] 
-        self.player_1_score = player_1[1] 
-        self.player_2_id = player_2[0] 
-        self.player_2_score = player_2[1] 
+        self.match = (player_1, player_2)  # ok 230608 
+        self.player_1 = player_1 
+        self.player_2 = player_2 
+        self.player_1_id = self.player_1[0] 
+        self.player_2_id = self.player_2[0] 
+        self.player_1_score = self.player_1[1] 
+        self.player_2_score = self.player_2[1] 
+        # self.match = ([player_1_id, player_1_score], [player_2_id, player_2_score]) 
+        # self.match = match 
 
-        self.player_1 = [self.player_1_id, self.player_1_score] 
-        self.player_2 = [self.player_2_id, self.player_2_score] 
+        # self.player_1_id = player_1_id 
+        # self.player_1_score = player_1_score 
+        # self.player_2_id = player_2_id 
+        # self.player_1_score = player_2_score 
+
+        # self.player_1 = [self.player_1_id, self.player_1_score] 
+        # self.player_2 = [self.player_2_id, self.player_2_score] 
 
         # self.match = match 
         # self.round_id = round_id 
         # self.match = tuple([self.player_1_id, self.player_1_score], [self.player_2_id, self.player_2_score]) 
         # self.match = [self.player_1, self.player_2] 
-        self.match = (self.player_1, self.player_2) 
+        
+        # self.match = (self.player_1, self.player_2) 
+        
         # self.match = tuple(self.player_1, self.player_2) 
         # self.id_joueur_1 = id_joueur_1 
         # self.score_joueur_1 = score_joueur_1 
@@ -33,6 +46,7 @@ class Match_model(AbstractModel):
         # player_2 = [self.id_joueur_2, self.score_joueur_2] 
 
     def __str__(self): 
+        # return f'([{self.player_1_id}, {self.player_1_score}], [{self.player_2_id}, {self.player_2_score}])'
         # match1 = self.player_1.strip("'") 
         # match2 = self.player_2.strip("'") 
         # match = (match1, match2) 
@@ -41,8 +55,8 @@ class Match_model(AbstractModel):
 
     """ comment """ 
     def to_dict(self): 
-        return self.match 
-        # return { ([self.player_1_id, self.player_1_score], [self.player_2_id, self.player_2_score])} 
+        # return self.match 
+        return f'([{self.player_1_id}, {self.player_1_score}], [{self.player_2_id}, {self.player_2_score}])' 
         # pass 
 
     """ comment """ 
@@ -107,7 +121,7 @@ Actuellement, nous appelons nos tours "Round 1", "Round 2", etc. Elle doit
 de fin, qui doivent tous deux être automatiquement remplis lorsque l'utilisateur 
 crée un tour et le marque comme terminé. 
 
-## GÉNÉRATION DES PAIRES
+## GÉNÉRATION DES PAIRES 
 ● Au début du premier tour, mélangez tous les joueurs de façon aléatoire.
 ● Chaque tour est généré dynamiquement en fonction des résultats des joueurs 
 dans le tournoi en cours.

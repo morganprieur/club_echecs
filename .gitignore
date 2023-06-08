@@ -7,3 +7,5 @@ tuple.py
 *.pyc
 tmp.py 
 main_controller_orig.py 
+utils/noteb.ipynb 
+

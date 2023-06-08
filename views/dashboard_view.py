@@ -26,7 +26,7 @@ class Dashboard_view():
     register_menu = [ 
         'Menu "saisir" : ', 
         '1 : Enregistrer un joueur', 
-        # '2 : Enregistrer plusieurs joueurs',  # TODO 
+        '2 : Enregistrer plusieurs joueurs',  # TODO: à vérifier 
         '3 : Enregistrer un nouveau tournoi',  # TODO: select the players 
         '4 : Enregistrer des scores',  # TODO 
 

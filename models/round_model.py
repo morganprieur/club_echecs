@@ -75,7 +75,8 @@ class Round_model(AbstractModel):
     def serialize_object(self, new): 
         """ Abstract method for serialize the objects from the models. """ 
         if not self.check_if_json_empty('tournaments'): 
-            objects = self.get_registered() 
+            # objects = self.get_registered() 
+            objects = self.get_registered_dict('tournaments')  # à vérifier ### 
             # select the last tournament : 
             t_dict = objects[-1] 
             if new == False: 

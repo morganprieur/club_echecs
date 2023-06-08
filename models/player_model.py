@@ -16,6 +16,7 @@ class Player_model(AbstractModel):
             firstname:str, 
             ine:str,  # Identifiant National d'Echecs 
             birthdate: str, 
+            local_score: float, 
             global_score: float 
         ): 
         super().__init__('players') 
@@ -24,11 +25,12 @@ class Player_model(AbstractModel):
         self.firstname = firstname 
         self.ine = ine 
         self.birthdate = birthdate 
+        self.local_score = local_score 
         self.global_score = global_score 
         # players.append(self)   # pas bonnes pratiques 
 
     def __str__(self): 
-        return f'\nJoueur {self.id} : {self.firstname} {self.lastname}, INE {self.ine} date de naissance : {self.birthdate}, score global : {self.global_score}.' 
+        return f'\nJoueur {self.id} : {self.firstname} {self.lastname}, INE {self.ine} date de naissance : {self.birthdate}, score dans ce tournoi : {self.local_score}, score global : {self.global_score}.' 
 
 
     def to_dict(self): 
@@ -38,11 +40,13 @@ class Player_model(AbstractModel):
             'firstname': self.firstname, 
             'ine': self.ine, 
             'birthdate': self.birthdate, 
+            'local_score': self.local_score, 
             'global_score': self.global_score 
         } 
 
-    def get_registered(self): 
-        return super().get_registered() 
+    # def get_registered(self): 
+    # def get_registered_dict(table): 
+    #     return super().get_registered_dict('players') 
 
 
 

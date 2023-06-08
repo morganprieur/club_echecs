@@ -25,6 +25,7 @@ class Input_view():
         new_player['ine'] = session.prompt('\nI. N. E. : ')  
         new_player['birthdate'] = str(session.prompt('\nDate de naissance (yyyy-mm-dd) : ')) 
         # new_player['global_score'] = float(0)  # auto 
+        # new_player['local_score'] = float(0)  # auto 
         return new_player 
     
     #### ============ T O U R N A M E N T S ============ #### 
@@ -94,24 +95,38 @@ class Input_view():
     """ Matches """ 
     def input_scores(self, matches): 
         # print(f'\nmatches IV76 : {matches}') 
-        scores = [] 
+        # scores = [] 
         null_matches = [] 
         winners = [] 
-        input_matches = [] 
-        for i in range(len(matches)): 
-            print(f'\nMatch IV82 : {matches[i]}') 
+        # input_matches = [] 
+        # for i in range(len(matches)): 
+        for match in matches: 
+            # print(f'\nMatch IV105 : {matches[i]}') 
+            print(f'\nmatch IV105 : {match}') 
+            print(f'\ndir(match) IV106 : {dir(match)}') 
+            print(f'\nmatch.player_1 IV107 : {match.player_1}') 
             # print(f'\nIV83 : {matches[i][0][0]} ou {matches[i][1][0]}') 
             null_match = session.prompt(f'\nY a-t-il match nul ? (y/n) ') 
             if null_match == 'y': 
-                null_matches.append(matches[i].player_1[0]) 
+                print(f'\nmatch IV110 : {match}') 
+                null_matches.append(match) 
+                print(f'\nnull_matches IV112 : {null_matches}') 
                 # continue  ### ? 
             else: 
-                winner = session.prompt(f'\nQuel joueur a gagné {matches[i].player_1[0]} ou {matches[i].player_2[0]} ? (Entrer son id)')
-                winners.append(matches[i].player_1[0]) 
-        print(f'\nnull_matches IV90 : {null_matches}') 
-        print(f'\nwinners IV91 : {winners}') 
+                winner_position = int(session.prompt(f'\nQuel joueur a gagné {match.player_1} ou {match.player_2} ? (Entrer sa place : 1 ou 2) ')) 
+                if winner_position == 1: 
+                    winner = match.player_1  # AttributeError: 'Match_model' object has no attribute 'items' 
+                    # winner = match[winner_id-1]  # AttributeError: 'Match_model' object has no attribute 'items' 
+                else: 
+                    winner = match.player_2 
+                print(f'\nwinner IV122 : {winner}') 
+                winners.append(winner) 
+                # winners.append(matches[i].player_1[0]) 
+                print(f'\nwinners IV125 : {winners}') 
+        print(f'\nnull_matches IV126 : {null_matches}') 
+        print(f'\nwinners IV127 : {winners}') 
 
-        # return (null_matches, winners) 
+        return (null_matches, winners) 
         
 
             # scores.append(match_result) 

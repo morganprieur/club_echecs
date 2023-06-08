@@ -23,11 +23,11 @@ class AbstractModel(ABC):
                 return False 
 
     # TODO: merge the 2 following methods: 
-    def get_registered(self): 
-        # print(f'self AM26 : {self}') 
-        with open(f'data/{self.table}.json', 'r') as file: 
-            registered = json.load(file) 
-        return registered 
+    # def get_registered(self): 
+    #     # print(f'self AM26 : {self}') 
+    #     with open(f'data/{self.table}.json', 'r') as file: 
+    #         registered = json.load(file) 
+    #     return registered 
 
     @staticmethod 
     def get_registered_dict(table): 
@@ -50,9 +50,7 @@ class AbstractModel(ABC):
                 if the object must be added -> True, 
                 if it must be replaced -> False. 
         """ 
-        # print(f'self.table AM41 :{self}') 
-        # print(f'self.table AM48 :{self.table}') 
-        if not self.check_if_json_empty(self.table):  ### ??? 
+        if not self.check_if_json_empty(self.table): 
             objects = self.get_registered() 
         else: 
             objects = [] 
