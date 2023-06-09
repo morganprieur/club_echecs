@@ -55,17 +55,24 @@ class Match_model(AbstractModel):
 
     """ comment """ 
     def to_dict(self): 
-        # return self.match 
-        return f'([{self.player_1_id}, {self.player_1_score}], [{self.player_2_id}, {self.player_2_score}])' 
-        # pass 
+        # return f'([{self.player_1_id}, {self.player_1_score}], [{self.player_2_id}, {self.player_2_score}])' 
+        return ([self.player_1_id, self.player_1_score], [self.player_2_id, self.player_2_score]) 
+        """ 
+        "matches": [
+            "([2, 0.5], [3, 0.5])",
+            "([4, 0.5], [1, 0.5])",
+            "([9, 1.0], [8, 0.0])",
+            "([7, 0.0], [5, 1.0])"
+        ]
+        """ 
 
-    """ comment """ 
+    """ comment """ # à vérifier 
     # def serialize_object(self, new): 
     def serialize_object(self, new=True):  ### self est une liste d'objets, il faut boucler dedans : 
         """ Rewrite method for serialize the match objects into the tournament file 
             when adding a new match.""" 
         # print(f'dir(self) MM46 : {dir(self)}') 
-        print(f'type(self) MM47 : {type(self)}')  # liste de pairs de joueurs objets 
+        # print(f'type(self) MM47 : {type(self)}')  # liste de paires de joueurs objets 
         # for peer_obj in self: 
             # if not self.check_if_json_empty(): 
         if not new: 

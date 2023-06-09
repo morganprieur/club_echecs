@@ -39,7 +39,6 @@ class AbstractModel(ABC):
     @staticmethod  # à corriger ### 
     def select_one_obj(table, obj_id): 
         objs = AbstractModel.get_registered_dict(table) 
-        # objs = AbstractModel.get_registered_all(table) 
         objet = objs[obj_id] 
         return objet  
 
@@ -51,7 +50,7 @@ class AbstractModel(ABC):
                 if it must be replaced -> False. 
         """ 
         if not self.check_if_json_empty(self.table): 
-            objects = self.get_registered() 
+            objects = AbstractModel.get_registered_dict(self.table) 
         else: 
             objects = [] 
         objects.append(self.to_dict()) 

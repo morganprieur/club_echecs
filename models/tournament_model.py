@@ -66,13 +66,6 @@ class Tournament_model(AbstractModel):
             new (boolean): if the object is new: True, 
                 if the data must modify the last entity into the hson: Fale. 
         """ 
-        print(f'\nnew TM73 : {new}') 
-        print(f'\ntype(self) TM74 : {type(self)}') 
-        print(f'\ndir(self) TM75 : {dir(self)}') 
-        print(f'\nself.__str__() TM76 : {self.__str__()}') 
-        print(f'\nself.rounds[0].matches[0].__str__() TM77 : {self.rounds[0].matches[0].__str__()}') 
-        # [6, 0.5] 
-        # print(f'\nself.rounds[0].matches[0].player_1 TM70 : {self.rounds[0].matches[0].player_1}')
         # Check if the data in args is an object or a dict ### 
         # if type(self.tournament_data_obj) == 'model':  ### à corriger 
         #     tournament_data_dict = self.tournament.to_dict() 

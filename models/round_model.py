@@ -50,7 +50,7 @@ class Round_model(AbstractModel):
         } 
         return round 
 
-    # """ comment """ 
+    # """ comment """ # à vérifier 
     # def serialize_new_object(self): 
     #     """ Rewrite method for serialize the round objects into the tournament file. """ 
     #     if not self.check_if_json_empty(): 

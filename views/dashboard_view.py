@@ -29,7 +29,7 @@ class Dashboard_view():
         '2 : Enregistrer plusieurs joueurs',  # TODO: à vérifier 
         '3 : Enregistrer un nouveau tournoi',  # TODO: select the players 
         '4 : Enregistrer des scores',  # TODO 
-
+        '', 
         # auto quand on cloture un round et que c'est le 4è round : 
         # '4 : Clôturer un tournoi', 
         # auto quand on cloture un round et que c'est PAS le 4è round : 
@@ -38,6 +38,7 @@ class Dashboard_view():
         # '6 : Clôturer un round', 
         # auto quand on enregistre les scores des matches 
         # '7 : Enregistrer nouveau un match', 
+        '50 : Mettre à jour les scores des joueurs', 
         '', 
         'Commandes de secours : ', 
         '* Revenir au menu principal', 

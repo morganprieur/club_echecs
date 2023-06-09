@@ -78,6 +78,12 @@ class Main_controller():
                 self.board.ask_for_register = None 
                 # Tester define_next_round : 
                 self.enter_scores() 
+            
+            ### 50 : Mettre à jour les scores des joueurs # TEST  
+            if self.board.ask_for_register == '50': 
+                self.board.ask_for_register = None 
+                # Tester define_next_round : 
+                self.update_players_local_scores()  
 
             # # auto quand on cloture un round et que c'est le 4è round 
             # if self.board.ask_for_register == '4':  # TODO 
@@ -332,12 +338,8 @@ class Main_controller():
          
     ### 230515 
     """ Update the local_scores of the players (json) """ 
-    def update_players_local_scores(self, score): 
+    def update_players_local_scores(self): 
         """ Update the scores into the players.json file. 
-        Args:
-            tournament (string): The score variable : 
-                "local" for the score into the current tournament, 
-                or "global" for the global score of the player. 
         """ 
         # Select the scores of each player into the current match 
         last_tournament = self.select_one_tournament('last') 
@@ -345,7 +347,8 @@ class Main_controller():
         last_tournament_obj = Tournament_model(**last_tournament) 
         # last_round = last_tournament['rounds'].pop() 
         last_round = last_tournament_obj.rounds.pop() 
-        print(f'\ntype(last_round) MC348 : {type(last_round)}') 
+        print(f'\nlast_round MC350 : {last_round}') # input_data 
+        # print(f'\ntype(last_round) MC351 : {type(last_round)}') 
         # Select players local_scores 
         p_dicts = Player_model.get_registered_dict('players') 
         # Try to instantiate the players 
@@ -357,15 +360,25 @@ class Main_controller():
             for match in last_round.matches: 
                 if match[0][0] == player_obj.id: 
                     player_input_score = match[0][1] 
+                    print(f'\nplayer_input_score MC363 : {player_input_score}') # input score 
                     player_last_score += player_input_score 
-            print(f'\nplayer MC361 : {player_obj}') 
+                    player_obj.local_score = player_last_score 
+                elif match[1][0] == player_obj.id: 
+                    player_input_score = match[1][1] 
+                    print(f'\nplayer_input_score MC368 : {player_input_score}') # input score 
+                    player_last_score += player_input_score 
+                    player_obj.local_score = player_last_score 
+            print(f'\nplayer_obj MC365 : {player_obj}') 
 
-        # Register the new scores into players.json 
-        if Player_model.serialize_object(False): 
-            print(f'\nLes nouveaux scores ({score}) des joueurs ont bien été enregistrés. ')
-            # self.report_players()  
-            # self.report_players_from_tournament('firstname', False, 'last')  
+            # Register the new scores into players.json ### à vérifier 
+            if player_obj.serialize_object(False): 
+            # if Player_model.serialize_object(False): 
+                print(f'\nLe nouveau score du joueur {player_obj.firstname} {player_obj.lastname} a bien été enregistré. ') 
+                # print(f'\nLe nouveau score ({self.score}) du joueur {player_obj.firstname} {player_obj.lastname} a bien été enregistré. ') 
+                # self.report_players()  
+                # self.report_players_from_tournament('firstname', False, 'last')  
     
+
     def set_players_scores_to_zero(self):  # à vérifier 
         players_dicts = Player_model.get_registered_dict('players') 
         players_objs = [Player_model(**player_dict) for player_dict in players_dicts] # à vérifier 
@@ -725,109 +738,106 @@ class Main_controller():
         """ 
         # Get the last tournament (dict) 
         last_tournament = self.select_one_tournament('last') 
-        print(f'\nlast_tournament MC727 : {last_tournament}') 
+        # print(f'\nlast_tournament MC727 : {last_tournament}') 
         
-        # Try to instantiate it (obj) 
+        # Instantiate it (obj) 
         self.last_tournament = Tournament_model(**last_tournament) 
-        print(f'\ntype(self.last_tournament) MC732 : {type(self.last_tournament)}') # obj ok 
+        # print(f'\ntype(self.last_tournament) MC732 : {type(self.last_tournament)}') # obj ok 
 
         # Get the last round (object) 
         self.last_round = self.last_tournament.rounds[-1] 
-        print(f'\nself.last_round MC736 : {self.last_round}') # obj ok 
-        print(f'\ntype(self.last_round) MC737 : {type(self.last_round)}') # obj ok 
+        # print(f'\nself.last_round MC736 : {self.last_round}') # obj ok 
+        # print(f'\ntype(self.last_round) MC737 : {type(self.last_round)}') # obj ok 
 
-        # get the matches 
+        # get the matches (list of lists) 
         current_matches_dicts = self.last_round.matches 
-        print(f'\ncurrent_matches_dicts MC741 : {current_matches_dicts}') 
-        print(f'\ntype(current_matches_dicts) MC742 : {type(current_matches_dicts)}') # obj ok 
+        # print(f'\ncurrent_matches_dicts MC741 : {current_matches_dicts}') # list 
+        # print(f'\ntype(current_matches_dicts) MC742 : {type(current_matches_dicts)}') # list 
 
-        # Get the matches only, without the "match" key  ### à voir ??? 
+        # Get the matches (obj as tuples)  
         current_matches_list = [] 
         for curr_match in current_matches_dicts: 
-            # for curr_match_value in curr_match.values(): 
             curr_match_tuple = tuple(curr_match) 
-            print(f'\ncurr_match_tuple MC749 : {curr_match_tuple}') 
+            # print(f'\ncurr_match_tuple MC749 : {curr_match_tuple}') 
             curr_match_obj = Match_model(*curr_match_tuple) 
-            print(f'\ncurr_match_obj MC751 : {curr_match_obj}') 
+            # print(f'\ncurr_match_obj MC751 : {curr_match_obj}') 
             current_matches_list.append(curr_match_obj) 
-        print(f'\ncurrent_matches_list MC753 : {current_matches_list}')  
-        # [<models.match_model.Match_model object at 0x00000220F74744C0>, <models.match_model.Match_model object at 0x00000220F7437670>, <models.match_model.Match_model object at 0x00000220F74355D0>, <models.match_model.Match_model object at 0x00000220F74358A0>] 
-        print(f'\ntype(current_matches_list) MC755 : {type(current_matches_list)}')  # [([6, 0.0], [2, 0.0]), ([8, 0.0], [1, 0.0]), ([4, 0.0], [5, 0.0]), ([3, 0.0], [7, 0.0])] 
+        # print(f'\ncurrent_matches_list MC753 : {current_matches_list}')  
+        # print(f'\ntype(current_matches_list) MC755 : {type(current_matches_list)}')  # [([6, 0.0], [2, 0.0]), ([8, 0.0], [1, 0.0]), ([4, 0.0], [5, 0.0]), ([3, 0.0], [7, 0.0])] 
         
-        # Call the input_scores with the matches as parameter 
+        # Get the input_scores for the registered matches 
         input_results = self.in_view.input_scores(current_matches_list) 
-        print(f'\ninput_results MC759 : {input_results}') 
-        print(f'\ninput_results[0] MC760 : {input_results[0]}') # [<models.match_model.Match_model object at 0x000002AE50975A80>, <models.match_model.Match_model object at 0x000002AE50975E10>] ok 230608 
-        print(f'\ninput_results[1] MC761 : {input_results[1]}') # [[4, 0.0], [5, 0.0]] ok 230608 
+        # print(f'\ninput_results MC759 : {input_results}') 
+        # print(f'\ninput_results[0] MC760 : {input_results[0]}') # [<models.match_model.Match_model object at 0x000002AE50975A80>, <models.match_model.Match_model object at 0x000002AE50975E10>] ok 230608 
+        # print(f'\ninput_results[1] MC761 : {input_results[1]}') # [[4, 0.0], [5, 0.0]] ok 230608 
         print('---------------------') 
-        # Get the first player from the current_matches who is into the input_matches_scores[0] 
+
+        # Get the differentiated data from the input 
         null_matches = input_results[0] 
         winners = input_results[1] 
+
+        # Set the new scores of the matches 
         new_matches = [] 
+        # print(f'\ncurrent_matches_list MC768 : {current_matches_list}')  
 
-        print(f'\ncurrent_matches_list MC768 : {current_matches_list}')  
-
-        # boucler sur null_matches et winners pour mettre à jour les scores des joueurs de current_matches_list 
+        # Loop on null_matches and winners lists to update the scores into the matches (current_matches_list) 
         for null_match in null_matches: 
-            print(f'\nnull_match MC771 : {null_match}') 
-            print(f'\ntype(null_match) MC772 : {type(null_match)}') 
+            # print(f'\nnull_match MC771 : {null_match}') 
+            # print(f'\ntype(null_match) MC772 : {type(null_match)}') 
             for current_match in current_matches_list: 
-                print(f'\ncurrent_match MC774 : {current_match}') 
-                print(f'\ntype(current_match) MC775 : {type(current_match)}') 
+                # print(f'\ncurrent_match MC774 : {current_match}') 
+                # print(f'\ntype(current_match) MC775 : {type(current_match)}') 
                 if current_match.player_1_id == null_match.player_1_id: 
                     current_match.player_1_score += float(0.5) 
                     current_match.player_2_score += float(0.5) 
                     new_matches.append(current_match) 
                     cm_index = current_matches_list.index(current_match) 
                     current_matches_list.pop(cm_index) 
-                    print(f'\ncurrent_matches_list MC782 : {current_matches_list}') 
-                for new in new_matches: 
-                    print(f'\nnew.player_1_id, new.player_1_score, new.player_2_id, new.player_2_score MC785 : {new.player_1_id}, {new.player_1_score}, {new.player_2_id}, {new.player_2_score}') 
-            # print(f'\nnew_matches MC778 : {new_matches}') 
+                    # print(f'\ncurrent_matches_list MC782 : {current_matches_list}') 
+                # for new in new_matches: 
+                #     print(f'\nnew.player_1_id, new.player_1_score, new.player_2_id, new.player_2_score MC785 : {new.player_1_id}, {new.player_1_score}, {new.player_2_id}, {new.player_2_score}') 
         for winner in winners: 
-            print(f'\nwinner MC788 : {winner}') 
-            print(f'\ntype(winner) MC789 : {type(winner)}') 
+            # print(f'\nwinner MC788 : {winner}') 
+            # print(f'\ntype(winner) MC789 : {type(winner)}') 
             for current_match in current_matches_list: 
-                print(f'\ncurrent_match MC791 : {current_match}') 
-                print(f'\ntype(current_match) MC792 : {type(current_match)}') 
+                # print(f'\ncurrent_match MC791 : {current_match}') 
+                # print(f'\ntype(current_match) MC792 : {type(current_match)}') 
                 if current_match.player_1_id == winner[0]: 
                     current_match.player_1_score += float(1) 
                     new_matches.append(current_match) 
                     cm_index = current_matches_list.index(current_match) 
                     current_matches_list.pop(cm_index) 
-                    print(f'\ncurrent_matches_list MC798 : {current_matches_list}') 
-                    for new in new_matches: 
-                        print(f'\nnew.player_1_id, new.player_1_score, new.player_2_id, new.player_2_score MC800 : {new.player_1_id}, {new.player_1_score}, {new.player_2_id}, {new.player_2_score}') 
+                    # print(f'\ncurrent_matches_list MC798 : {current_matches_list}') 
+                    # for new in new_matches: 
+                    #     print(f'\nnew.player_1_id, new.player_1_score, new.player_2_id, new.player_2_score MC800 : {new.player_1_id}, {new.player_1_score}, {new.player_2_id}, {new.player_2_score}') 
                 elif current_match.player_2_id == winner[0]: 
                     current_match.player_2_score += float(1) 
                     new_matches.append(current_match) 
                     cm_index = current_matches_list.index(current_match) 
                     current_matches_list.pop(cm_index) 
-                    print(f'\ncurrent_matches_list MC806 : {current_matches_list}') 
-                    for new in new_matches: 
-                        print(f'\nnew.player_1_id, new.player_1_score, new.player_2_id, new.player_2_score MC808 : {new.player_1_id}, {new.player_1_score}, {new.player_2_id}, {new.player_2_score}') 
-            # print(f'\nnew_matches MC800 : {new_matches}') 
+                    # print(f'\ncurrent_matches_list MC806 : {current_matches_list}') 
+                    # for new in new_matches: 
+                    #     print(f'\nnew.player_1_id, new.player_1_score, new.player_2_id, new.player_2_score MC808 : {new.player_1_id}, {new.player_1_score}, {new.player_2_id}, {new.player_2_score}') 
 
-        print(f'new_matches length : {len(new_matches)}') 
-        for new in new_matches: 
-            print(f'\nnew.player_1_id, new.player_1_score, new.player_2_id, new.player_2_score MC812 : {new.player_1_id}, {new.player_1_score}, {new.player_2_id}, {new.player_2_score}') 
-            print(f'new MC813 : {new}') 
+        # print(f'new_matches length : {len(new_matches)}') 
+        # for new in new_matches: 
+        #     print(f'\nnew.player_1_id, new.player_1_score, new.player_2_id, new.player_2_score MC812 : {new.player_1_id}, {new.player_1_score}, {new.player_2_id}, {new.player_2_score}') 
+        #     print(f'new MC813 : {new}') 
 
         # Put back the rounds and the matches into the round 
         self.last_tournament.rounds[-1].matches = new_matches 
-        print(f'\nself.last_tournament MC867 : {self.last_tournament}') 
-        print(f'\nself.last_tournament.rounds[-1] MC868 : {self.last_tournament.rounds[-1]}') 
-        print(f'\nself.last_tournament.rounds[-1].matches[0] MC869 : {self.last_tournament.rounds[-1].matches[0]}') 
-        print(f'\nself.last_tournament.rounds[-1].matches[0][0].__str__() MC870 : {self.last_tournament.rounds[-1].matches[0].__str__()}') 
-        print(f'\ntype(²self.last_tournament.rounds[-1].matches[0]) MC871 : {type(self.last_tournament.rounds[-1].matches[0])}') 
-        # print(f'\nself.last_tournament.rounds[-1].matches[0].player_1 MC870 : {self.last_tournament.rounds[-1].matches[0].player_1}') 
-
+        # print(f'\nself.last_tournament MC867 : {self.last_tournament}') 
+        # print(f'\nself.last_tournament.rounds[-1] MC868 : {self.last_tournament.rounds[-1]}') 
+        # print(f'\nself.last_tournament.rounds[-1].matches[0] MC869 : {self.last_tournament.rounds[-1].matches[0]}') 
+        # print(f'\nself.last_tournament.rounds[-1].matches[0][0].__str__() MC870 : {self.last_tournament.rounds[-1].matches[0].__str__()}') 
+        # print(f'\ntype(self.last_tournament.rounds[-1].matches[0]) MC871 : {type(self.last_tournament.rounds[-1].matches[0])}') 
+        
         # Serialize the tournament (new=False)  
         self.last_tournament.serialize_object(False) 
 
-        """ - Modifier les scores des joueurs dans players.json """ 
-        # self.update_players_scores()  ### 230515 
-        # self.update_players_local_scores() # TypeError: Main_controller.update_players_local_scores() missing 1 required positional argument: 'score' 230608 
+        """ Update the players' scores into players.json """ 
+        # self.update_players_scores() 
+        self.update_players_local_scores() # TypeError: Main_controller.update_players_local_scores() missing 1 required positional argument: 'score' 230608 
 
         """ 
         + Clôturer le round : 
