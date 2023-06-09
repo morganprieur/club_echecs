@@ -77,6 +77,7 @@ class Player_model(AbstractModel):
 
                         # Replace the registered local score with the new local score 
                         registered_player['local_score'] = self.local_score 
+                        registered_player['global_score'] = self.local_score 
                         print(f'registered_player PM80 : {registered_player}') 
 
                         # Put again the players into the new_players list 
@@ -90,64 +91,6 @@ class Player_model(AbstractModel):
             json.dump(new_players, file, indent=4) 
 
 
-
-    #         if not new: 
-    #             # Get the players' data from the registered 
-    #             for p in p_dicts: 
-    #                 # print(f'p PM66 : {p}') 
-    #                 # player = p_dicts[new_player_id-1] 
-    #                 # player = p_dicts['player'] where p_dicts['id'] = new_player_id 
-    #                 # if "d" in dict.keys(): 
-    #                 if "id" in p.keys(): 
-    #                     print('yes') 
-    #                     if p['id'] == int(new_player_id): 
-    #                         p_dict_player = p 
-    #                         print(f'p PM74 : {p}')  
-    #             # Replace the player's local_score from the registered players with the sent local_score 
-    #                         p['local_score'] = self.local_score 
-                    
-        
-    #                 else: 
-    #                     print('Erreur : le fichier tournaments ne peut pas être vide.') 
-    #                 with open(f"data/{self.table}.json", "w") as file: 
-    #                     json.dump(p, file, indent=4) 
-                
-
-
-    #             # last_t_dict = t_dicts.pop() 
-    #             # print(f'\nt_dicts TM88 : {t_dicts}')  # ok 
-    #             # print(f'\nlast_t_dict TM89 : {last_t_dict}')  ### 
-    #             pass # TODO 
-
-        #     """ 
-        #     last_tournament_dict = self.to_dict() 
-        #     print(f"\nlast_tournament_dict['rounds'][0].matches[0].__str__() TM93 : {last_tournament_dict['rounds'][0].matches[0].__str__()}")  ### 
-
-        #     last_rounds_list = [] 
-        #     for last_round_obj in last_tournament_dict['rounds']: 
-        #         last_round_dict = Round_model.to_dict(last_round_obj) 
-        #         print(f"\nlast_round_dict['rounds'][0]['matches'][0] TM98 : {last_round_dict['matches'][0]}") # [2, 0.5], [3, 0.5] ok 
-
-        #         last_matches_list = [] 
-        #         for last_match_obj in last_round_dict['matches']: 
-        #             print(f'\nlast_match_obj.__str__() TM102 : {last_match_obj.__str__()}')  ### 
-        #             last_match_dict = Match_model.to_dict(last_match_obj) ### 
-        #             print(f'\nlast_match_dict TM104 : {last_match_dict}')  ### 
-
-        #             last_matches_list.append(last_match_dict) 
-        #         last_round_dict['matches'] = last_matches_list 
-
-        #         last_rounds_list.append(last_round_dict) 
-        #     last_tournament_dict['rounds'] = last_rounds_list 
-
-        #     t_dicts.append(last_tournament_dict) 
-        #     print(f't_dicts TM109 : {t_dicts}') 
-                
-        # else: 
-        #     print('Erreur : le fichier tournaments ne peut pas être vide.') 
-        # with open(f"data/{self.table}.json", "w") as file: 
-        #     json.dump(t_dicts, file, indent=4) 
-        #     """ 
 
 """ Enoncé : 
 ## GÉNÉRATION DES PAIRES
