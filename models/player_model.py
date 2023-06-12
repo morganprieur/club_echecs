@@ -89,6 +89,7 @@ class Player_model(AbstractModel):
             print('Erreur : le fichier tournaments ne peut pas être vide.') 
         with open(f"data/{self.table}.json", "w") as file: 
             json.dump(new_players, file, indent=4) 
+        return True 
 
 
 

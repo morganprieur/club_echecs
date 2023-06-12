@@ -77,15 +77,16 @@ class Match_model(AbstractModel):
             # if not self.check_if_json_empty(): 
         if not new: 
         # If new==False -> get all the data from the tournaments file: 
+        ### 230612 à corriger : file empty for the first tournament 
             if not AbstractModel.check_if_json_empty('tournaments'):  ### à changer partout en static 
                 tournaments = AbstractModel.get_registered_dict('tournaments')  # à vérifier ### 
         #         # Get the current_tournament 
-        #         current_tournament = tournaments[-1] 
-        #         print(f'current_tournament MM55 : {current_tournament}') 
+                current_tournament = tournaments.pop() 
+                print(f'current_tournament MM84 : {current_tournament}') 
         #         # Get the rounds from the current_tournament 
-        #         rounds = current_tournament['rounds'] 
+                rounds_dict = current_tournament['rounds'] 
         #         print(f'type(round_id) MM42 : {type(self.round_id)}')  ### list object has no attr 'round_id' 
-        #         print(f'type(round_id) MM42 : {int(self.round_id)}')  
+                print(f'round_dict) MM88 : {int(rounds_dict)}')  
         #         r_id = int(self.round_id) - 1 
         #         if r_id > len(rounds): 
         #             return False 
@@ -111,10 +112,10 @@ class Match_model(AbstractModel):
 
         #             print(f'current_round MM74 : {current_round}') 
         #             # print(f'current_tournament MM60 : {current_tournament}') 
-        # else: 
-        #     print('Erreur : la table tournaments ne peut pas être vide.') 
-        # with open(f'data/{self.table}.json', 'w') as file: 
-        #     json.dump(tournaments, file, indent=4) 
+        else: 
+            print('Erreur : la table tournaments ne peut pas être vide.') 
+        with open(f'data/{self.table}.json', 'w') as file: 
+            json.dump(tournaments, file, indent=4) 
 
 """ 
 ## TOURS / MATCHS

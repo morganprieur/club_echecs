@@ -50,27 +50,34 @@ class Round_model(AbstractModel):
         } 
         return round 
 
-    # """ comment """ # à vérifier 
+    # """ comment """ # à vérifier 230612 
     # def serialize_new_object(self): 
     #     """ Rewrite method for serialize the round objects into the tournament file. """ 
+    #     ### 230612 à coriger : si c'est le 1er tournoi, le fichier est vide 
     #     if not self.check_if_json_empty(): 
-    #         objects = self.get_registered() 
-    #         with open(f'data/{self.table}.json', 'r') as file: 
-    #             t_id = int(self.tournament_id) - 1 
-    #             if t_id > len(objects): 
-    #                 return False 
-    #             else: 
-    #                 t_dict = objects[t_id] 
+    #         # objects = self.get_registered() 
+    #         t_dicts = self.get_registered_dict('tournaments') 
+    #         last_t_dict = t_dicts.pop() 
 
-    #                 if "rounds" not in t_dict.keys(): 
-    #                     # print(f't_obj["rounds"]) n\'existe pas RM57') 
-    #                     t_dict['rounds'] = [] 
-    #                 else: 
-    #                     t_dict['rounds'].append(self.to_dict()) 
+    #         if not last_t_dict['rounds'] == None and not last_t_dict['rounds'] == []: 
+    #             last_t_dict['rounds'].append(self.to_dict)                
+
+    # #         with open(f'data/{self.table}.json', 'r') as file: 
+    # #             t_id = int(self.tournament_id) - 1 
+    # #             if t_id > len(objects): 
+    # #                 return False 
+    # #             else: 
+    # #                 t_dict = objects[t_id] 
+
+    # #                 if "rounds" not in t_dict.keys(): 
+    # #                     # print(f't_obj["rounds"]) n\'existe pas RM57') 
+    # #                     t_dict['rounds'] = [] 
+    # #                 else: 
+    # #                     t_dict['rounds'].append(self.to_dict()) 
     #     else: 
     #         print('Erreur : le fichier tournaments ne peut pas être vide.') 
     #     with open(f"data/{self.table}.json", "w") as file: 
-    #         json.dump(objects, file) 
+    #         json.dump(t_dicts, file, indent=4) 
 
     def serialize_object(self, new): 
         """ Abstract method for serialize the objects from the models. """ 
@@ -80,9 +87,12 @@ class Round_model(AbstractModel):
             # select the last tournament : 
             t_dict = objects[-1] 
             if new == False: 
-                t_dict['rounds'].pop() 
+                last_round_dict = t_dict['rounds'].pop() 
                 # print(f't_dict RM90 : {t_dict}') 
-            t_dict['rounds'].append(self.to_dict()) 
+            if not last_round_dict == None and not last_round_dict == []: 
+                # à corriger : pas de to_dict sur un dictionnaire 
+                # t_dict['rounds'].append(last_round_dict.to_dict()) 
+                pass # à corriger 
             # print(f't_dict["rounds"] RM83 : {t_dict["rounds"]}') 
         else: 
             print('Erreur : le fichier tournaments ne peut pas être vide.') 

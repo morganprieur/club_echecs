@@ -21,11 +21,11 @@ class Report_view():
             print(f"\n\033[1mJoueur {player.id}\033[0m : ")  # ANSI \033[1m \033[0m --> gras 
 
             # print(f'ID : \t{player.id}') 
-            print(f'nom complet : \t{player.firstname} {player.lastname}') 
+            print(f'nom complet : \t\t{player.firstname} {player.lastname}') 
             # print(f'nom : \t') 
-            print(f'I. N. E. : \t{player.ine}') 
+            print(f'I. N. E. : \t\t{player.ine}') 
             print(f'score dans le tournoi : \t{player.local_score}') 
-            print(f'score global : \t{player.global_score}') 
+            print(f'score global : \t\t{player.global_score}') 
 
         print('\n====\n') 
         session.prompt('Appuyer sur une touche pour continuer ') 
