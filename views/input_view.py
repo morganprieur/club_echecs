@@ -45,10 +45,17 @@ class Input_view():
         new_tournament['site'] = session.prompt('\nLieu : ') 
         new_tournament['start_date'] = str(today) 
         new_tournament['end_date'] = '' 
+
+        rounds_number = session.prompt('Nombre de rounds ("Entrée = 4") ') 
+        # if rounds_number == '': 
+        #     rounds_number = 4 
+        new_tournament['rounds_left'] = 4 if rounds_number == '' else int(rounds_number) 
+        
         # récupérer les joueurs pour les enregistrer dans le fichier tournaments.json 
         new_tournament['players'] = session.prompt('\nJoueurs (id séparées par des virgules) : ') 
         # new_tournament['duration'] = session.prompt('\nDurée : ') 
         new_tournament['description'] = session.prompt('\nDescription : ') 
+        
         return new_tournament 
 
     def input_closing_tournament(self): 
@@ -71,7 +78,7 @@ class Input_view():
     
     """ Rounds """ 
     def input_closing_round(self): 
-        is_round_done = session.prompt('\nConfirmer la clôture du round ? (y/N)') 
+        is_round_done = session.prompt('\nConfirmer la clôture du round ? (y/N) ') 
         return is_round_done  
 
     #### ============ M A T C H E S ============ #### 

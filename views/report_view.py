@@ -28,7 +28,7 @@ class Report_view():
             print(f'score global : \t\t{player.global_score}') 
 
         print('\n====\n') 
-        session.prompt('Appuyer sur une touche pour continuer ') 
+        # session.prompt('Appuyer sur une touche pour continuer RV31') # enter_scores 
 
     #### ============ D I S P L A Y   T O U R N A M E N T S ============ #### 
 
@@ -55,10 +55,10 @@ class Report_view():
         for round in rounds: 
             self.display_round(round) 
         # print('----') 
-        session.prompt('Appuyer sur une touche pour continuer ') 
+        # session.prompt('Appuyer sur une touche pour continuer RV58') 
     
 
-    def display_all_tournaments(self, all_tournaments): 
+    def display_tournaments(self, all_tournaments): 
         print('\n==== Tous les tournois ====') 
         # print(f'\ntournois RV57 : {all_tournaments} : ') 
 
@@ -79,10 +79,10 @@ class Report_view():
             #     self.display_round(round) 
             # # self.display_rounds_one_tournament(t) 
         print('\n====\n') 
-        session.prompt('Appuyer sur une touche pour continuer ') 
+        # session.prompt('Appuyer sur une touche pour continuer RV82') 
 
 
-    def report_name_date_tournament(self, tournament): 
+    def display_name_date_tournament(self, tournament): 
         """ Displays the name and dates of the tournament. 
 
         Args:
@@ -94,19 +94,18 @@ class Report_view():
         print(f'date fin : \t{tournament.end_date}')  ### à vérifier ### 
 
         print('----') 
-        session.prompt('Appuyer sur une touche pour continuer ') 
+        # session.prompt('Appuyer sur une touche pour continuer RV97') 
 
 
     #### ============ D I S P L A Y   R O U N D S ============ #### 
 
     def display_rounds_one_tournament(self, tournament): 
         """ Display all the rounds from one tournament. 
-
         Args: 
-            tournament (int): 
+            tournament (object): 
                 the tournament object the rounds must be displayed from. 
         """ 
-        print(f'\n---- Tous les tours du tournoi {int(tournament.id)} ----') 
+        print(f'\n---- Tous les rounds du tournoi {tournament.id} ----') 
         # print(f'tournament RV27 : {tournament}') 
 
         rounds = tournament.rounds 
@@ -115,11 +114,11 @@ class Report_view():
         if rounds == []: 
             print(f'\nLe tournoi {tournament.id} n\'a pas encore de rounds') 
         else:  
-            # Afficher les rounds : 
+            # Display the rounds : 
             for round in rounds: 
                 self.display_round(round) 
         print('\n====\n') 
-        session.prompt('Appuyer sur une touche pour continuer ') 
+        # session.prompt('Appuyer sur une touche pour continuer RV122') 
     
 
     def display_round(self, round): 
@@ -131,7 +130,7 @@ class Report_view():
         matches = round.matches  ### 230515 
         for match in matches: 
             self.display_match(match) 
-        session.prompt('Appuyer sur une touche pour continuer ') 
+        # session.prompt('Appuyer sur une touche pour continuer RV134') 
 
 
     #### ============ D I S P L A Y   M A T C H E S ============ #### 
@@ -139,39 +138,39 @@ class Report_view():
     def display_match(self, match): 
         match_tuple = tuple(match) 
         print(f'\t\t{match_tuple}')  ### 230515 # TODO: à vérifier 
-        session.prompt('Appuyer sur une touche pour continuer ') 
+        # session.prompt('Appuyer sur une touche pour continuer RV142') 
 
-    """ TODO: à corriger """ 
-    def display_matches_one_tournament(self, tournament): 
-        """ Display all the matches from one tournament. 
-        Args: 
-            tournament (int): 
-                the ID of the tournament the matches will be getting from. 
-        """ 
-        print(f'\n---- Tous les matches du tournoi {int(tournament.id)} ----') 
-        # print(f'tournament RV85 : {tournament}') 
-        # print(f'tournament RV88 : {round}') 
+    # """ TODO: à corriger """ 
+    # def display_matches_one_tournament(self, tournament): 
+    #     """ Display all the matches from one tournament. 
+    #     Args: 
+    #         tournament (int): 
+    #             the ID of the tournament the matches will be getting from. 
+    #     """ 
+    #     print(f'\n---- Tous les matches du tournoi {int(tournament.id)} ----') 
+    #     # print(f'tournament RV85 : {tournament}') 
+    #     # print(f'tournament RV88 : {round}') 
 
-        rounds = tournament.rounds 
-        ### 
-        # If there isn't any rounds : 
-        if rounds == []: 
-            print(f'\nLe tournoi {tournament.id} n\'a pas encore de rounds') 
-        else:  
-            # Afficher les rounds : 
-            for r in tournament.rounds: 
+    #     rounds = tournament.rounds 
+    #     ### 
+    #     # If there isn't any rounds : 
+    #     if rounds == []: 
+    #         print(f'\nLe tournoi {tournament.id} n\'a pas encore de rounds') 
+    #     else:  
+    #         # Afficher les rounds : 
+    #         for r in tournament.rounds: 
 
-                print(f'\nID : \t{r.id}') 
-                print(f'Nom : \t{r.round_name}') 
-                print(f'Date et heure de début : \t{r.start_datetime}') 
-        ### 
-                print('matches : ') 
-                for match in r.matches: 
-                    self.display_match(match) 
-                    # print(f'\n\t[{match[0][0]}, {match[0][1]}], [{match[1][0]}, {match[1][1]}]') 
-                    # TODO Afficher le round  
-        print('\n====\n') 
-        session.prompt('Appuyer sur une touche pour continuer ') 
+    #             print(f'\nID : \t{r.id}') 
+    #             print(f'Nom : \t{r.round_name}') 
+    #             print(f'Date et heure de début : \t{r.start_datetime}') 
+    #     ### 
+    #             print('matches : ') 
+    #             for match in r.matches: 
+    #                 self.display_match(match) 
+    #                 # print(f'\n\t[{match[0][0]}, {match[0][1]}], [{match[1][0]}, {match[1][1]}]') 
+    #                 # TODO Afficher le round  
+    #     print('\n====\n') 
+    #     # session.prompt('Appuyer sur une touche pour continuer RV174') 
 
 
 """ 

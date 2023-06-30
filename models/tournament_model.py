@@ -15,6 +15,7 @@ class Tournament_model(AbstractModel):
         site: str, 
         start_date: str, 
         end_date: str, 
+        rounds_left: int, ### ? 
         players: list, 
         rounds: list, 
         description: str 
@@ -25,14 +26,15 @@ class Tournament_model(AbstractModel):
         self.site = site 
         self.start_date = start_date 
         self.end_date = end_date 
+        self.rounds_left = rounds_left ### ? nouveau 
+        # self.rounds_left = 4 ### ? nouveau 
         if players and isinstance(players[0], dict): 
-            print(f'\nplayers TM33 : {players}')  # (list of dicts)
             self.players = [Player_model(**data) for data in players] 
         else: 
             self.players = players 
         # self.nb_rounds = nb_rounds 
         if rounds and isinstance(rounds[0], dict): 
-            print(f'\nrounds TM39 : {rounds}')  # (list of dicts)
+            # print(f'\nrounds TM39 : {rounds}')  # (list of dicts)
             self.rounds = [Round_model(**data) for data in rounds] 
         else: 
             self.rounds = rounds 
@@ -40,7 +42,7 @@ class Tournament_model(AbstractModel):
 
     def __str__(self): 
         return ( 
-            f'{self.id}, {self.name}, {self.site}, {self.start_date}, {self.end_date}, players : {self.players}  rounds : \n{self.rounds}, {self.description}' 
+            f'{self.id}, {self.name}, {self.site}, {self.start_date}, {self.end_date},, nombre de rounds : {self.rounds_left}, joueurs : {self.players}  rounds : \n{self.rounds}, {self.description}' 
         ) 
 
 
@@ -54,6 +56,7 @@ class Tournament_model(AbstractModel):
             'site': self.site, 
             'start_date': self.start_date, 
             'end_date': self.end_date, 
+            'rounds_left': self.rounds_left, 
             'players': player_ids, 
             'rounds': self.rounds, 
             'description': self.description 
@@ -64,26 +67,22 @@ class Tournament_model(AbstractModel):
         """ Abstract method to serialize the object 
         Args:
             new (boolean): if the object is new: True, 
-                if the data must modify the last entity into the hson: Fale. 
+                if the data must modify the last entity into the hson: False. 
         """ 
-        # Check if the data in args is an object or a dict ### 
-        # if type(self.tournament_data_obj) == 'model':  ### à corriger 
-        #     tournament_data_dict = self.tournament.to_dict() 
         if not self.check_if_json_empty('tournaments'): 
             # print(f'\ntype(t_dicts) TM76 : {type(t_dicts)}') 
             # Get the tournaments from the JSON file 
             t_dicts = self.get_registered_dict('tournaments') ### à vérifier ### 
-            print(f'\nt_dicts TM86 : {t_dicts}') # list 
-            # if new == False: 
+            # print(f'\nt_dicts TM86 : {t_dicts}') # list 
             if not new: 
-                ### à supprimer : Replace the last tournament with the modified one : 
-                # Remove the last tournament from le list of dicts from json file : 
+                ### à supprimer : Replaces the last tournament with the modified one : 
+                # Removes the last tournament from le list of dicts from json file : 
                 last_t_dict = t_dicts.pop() 
-                # print(f'\nt_dicts TM88 : {t_dicts}')  # ok 
-                print(f'\nlast_t_dict TM89 : {last_t_dict}')  ### 
+                print(f'\nlast_t_dict TM82 : {last_t_dict}')  ### 
             
             last_tournament_dict = self.to_dict() 
-            print(f"\nlast_tournament_dict['rounds'][0].matches[0].__str__() TM93 : {last_tournament_dict['rounds'][0].matches[0].__str__()}")  ### 
+            ### à vérifier ### 
+            print(f"\nlast_tournament_dict['rounds'][0].matches[0].__str__() TM85 : {last_tournament_dict['rounds'][0].matches[0].__str__()}")  ### 
 
             last_rounds_list = [] 
             for last_round_obj in last_tournament_dict['rounds']: 
@@ -111,11 +110,11 @@ class Tournament_model(AbstractModel):
             json.dump(t_dicts, file, indent=4) 
     #         json.dump(t_dicts, file, default=self.my_callback)  # voir howto callback, dump ne veut pas "my_callback" en defaut 
         
-    # def my_callback(obj): 
-    #     # objs = [] 
-    #     # Effectue une opération sur l'objet avant la sérialisation 
-    #     # objs.append(obj.to_dict) 
-    #     obj.to_dict 
-    #     return obj 
+    def my_callback(obj): 
+        # objs = [] 
+        # Effectue une opération sur l'objet avant la sérialisation 
+        # objs.append(obj.to_dict) 
+        obj.to_dict 
+        return obj 
 
 

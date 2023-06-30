@@ -29,16 +29,19 @@ class Dashboard_view():
         '2 : Enregistrer plusieurs joueurs',  # TODO: à vérifier 
         '3 : Enregistrer un nouveau tournoi',  # TODO: select the players 
         '4 : Enregistrer des scores',  # TODO 
+        '5 : Clôturer un round', 
         '', 
         # auto quand on cloture un round et que c'est le 4è round : 
         # '4 : Clôturer un tournoi', 
         # auto quand on cloture un round et que c'est PAS le 4è round : 
         # '5 : Enregistrer un nouveau round', 
         # auto quand on rentre les scores des matches du 4è round 
-        # '6 : Clôturer un round', 
         # auto quand on enregistre les scores des matches 
-        # '7 : Enregistrer nouveau un match', 
+        'pour tests : ', 
+        '7 : Enregistrer nouveau un match', 
         '50 : Mettre à jour les scores des joueurs', 
+        '9 : test define_first_round', 
+        '10 : test define_next_rounds', 
         '', 
         'Commandes de secours : ', 
         '* Revenir au menu principal', 
@@ -50,17 +53,16 @@ class Dashboard_view():
         '1 : Tous les joueurs par ordre alphabétique',  # TODO 
         '2 : Tous les joueurs par classement',  # pas demandé mais c'est fait 
         '3 : Tous les tournois',  # TODO 
-        '4 : Nom et dates d\'un tournoi',  # TODO 
-        # '5 : Les joueurs du tournoi par ordre alphabétique',  # TODO 
-        '6 : Les tours et matches d\'un tournoi',  # TODO 
+        '4 : Un tournoi',  # TODO 
+        '5 : Nom et dates d\'un tournoi',  # TODO 
+        '6 : Les joueurs du tournoi par ordre alphabétique',  # TODO 
+        '7 : Les tours et matches d\'un tournoi',  # TODO 
         
         # '4 : Les joueurs du tournoi par classement',  # pas demandé 
         # '5 : les résultats du tournoi',  # pas demandé
         '--------', 
         # pas demandés, pour tests : 
-        '7 : les matches',  # pas demandé 
-        '9 : test define_first_round', 
-        '10 : test define_next_rounds', 
+        # '8 : les matches',  # pas demandé 
         # '9 : le dernier tournoi', 
         # '9 : le tournoi du jour', 
         '', 

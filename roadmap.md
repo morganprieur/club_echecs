@@ -89,8 +89,8 @@ V Actuellement, nous appelons nos tours "Round 1", "Round 2", etc. Elle doit ég
     ○ Triez tous les joueurs en fonction de leur nombre total de points dans le tournoi.
     ○ Associez les joueurs dans l’ordre (le joueur 1 avec le joueur 2, le joueur 3 avec le joueur 4 et ainsi de suite.)
     ○ Si plusieurs joueurs ont le même nombre de points, vous pouvez les choisir de façon aléatoire.
---> ○ Lors de la génération des paires, évitez de créer
-    des matchs identiques (c’est-à-dire les mêmes joueurs jouant plusieurs fois l’un contre l’autre).
+X --> ○ Lors de la génération des paires, évitez de créer des matchs identiques (c’est-à-dire les 
+    mêmes joueurs jouant plusieurs fois l’un contre l’autre).
 --> ■ Par exemple, si le joueur 1 a déjà joué contre le
     joueur 2, associez-le plutôt au joueur 3.
 
