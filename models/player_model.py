@@ -44,8 +44,8 @@ class Player_model(AbstractModel):
             'global_score': self.global_score 
         } 
 
-    """ comment """ # à vérifier 
-    def serialize_object(self, new=True): 
+    """ comment """ # TODO à vérifier 
+    def serialize_object(self, new=True): # ??? ### 
     #     # return super().serialize_object(new) 
     #     # self -> score et id d'1 joueur 
         # print(f'dir(self) PM50 : {dir(self)}') 
@@ -53,13 +53,13 @@ class Player_model(AbstractModel):
     
     # Get the list of registered players : 
     #     # if not self.check_if_json_empty('players'): 
-        if not self.check_if_json_empty(self.table): 
+        if not self.check_if_json_empty(self.table): ### à corriger (nouveau fichier) ### 
             # print(f'\ntype(t_dicts) TM76 : {type(t_dicts)}') 
             # Get the tournaments from the JSON file 
             p_dicts = self.get_registered_dict(self.table) 
             # print(f'\np_dicts PM59 : {p_dicts}') # list of dicts 
             
-            new_players = [] 
+            new_players = [] # in order ot register back all the players 
             # if we must replace a registered player 
             if not new: 
                 # Get the player's id from sent data 
@@ -75,18 +75,23 @@ class Player_model(AbstractModel):
                         # print(f'registered_player PM74 : {registered_player}') 
                         # print(f'p_dicts PM72 : {p_dicts}') 
 
-                        # Replace the registered local score with the new local score 
+                        # Replace all the registered different properties with the new local score : 
+                        # ... 
                         registered_player['local_score'] = self.local_score 
                         registered_player['global_score'] = self.local_score 
                         print(f'registered_player PM80 : {registered_player}') 
 
                         # Put again the players into the new_players list 
-                        new_players=p_dicts 
-                        new_players.append(registered_player) 
-            print(f'\nnew_players PM85 : {new_players}') 
-        
-        else: 
-            print('Erreur : le fichier tournaments ne peut pas être vide.') 
+                        # new_players=p_dicts 
+                        p_dicts.append(registered_player) 
+            else: 
+                new_player = p_dicts.append(self.to_dict())  
+                print(f'\nnew_player PM89 : {new_player}') 
+            
+            new_players = p_dicts 
+
+        # else: ### à corriger ### 
+        #     print('Erreur : le fichier players ne peut pas être vide.') 
         with open(f"data/{self.table}.json", "w") as file: 
             json.dump(new_players, file, indent=4) 
         return True 

@@ -12,23 +12,26 @@ class Report_view():
 
     #### ============ D I S P L A Y   P L A Y E R S ============ #### 
 
+    def display_one_player(self, player): 
+
+        print(f"\n\033[1mJoueur {player.id}\033[0m : ")  # ANSI \033[1m \033[0m --> gras 
+
+        # print(f'ID : \t{player.id}') 
+        print(f'nom complet : \t\t{player.firstname} {player.lastname}') 
+        # print(f'nom : \t') 
+        print(f'I. N. E. : \t\t{player.ine}') 
+        print(f'score dans le tournoi : \t{player.local_score}') 
+        print(f'score global : \t\t{player.global_score}') 
+
+
     def display_players(self, players_obj): 
         print('\n==== Tous les joueurs ====') 
 
         for player in players_obj: 
-            # print(f'\nJoueur {players_obj.index(player)+1} : ') 
-            # print(f"\n\033[1mJoueur {players_obj.index(player)+1}\033[0m : ")  # ANSI \033[1m \033[0m  
-            print(f"\n\033[1mJoueur {player.id}\033[0m : ")  # ANSI \033[1m \033[0m --> gras 
-
-            # print(f'ID : \t{player.id}') 
-            print(f'nom complet : \t\t{player.firstname} {player.lastname}') 
-            # print(f'nom : \t') 
-            print(f'I. N. E. : \t\t{player.ine}') 
-            print(f'score dans le tournoi : \t{player.local_score}') 
-            print(f'score global : \t\t{player.global_score}') 
+            self.display_one_player(player) 
 
         print('\n====\n') 
-        # session.prompt('Appuyer sur une touche pour continuer RV31') # enter_scores 
+
 
     #### ============ D I S P L A Y   T O U R N A M E N T S ============ #### 
 
