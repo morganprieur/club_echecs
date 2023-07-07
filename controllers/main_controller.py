@@ -290,8 +290,7 @@ class Main_controller():
                 self.start() # default=False 
 
 
-            # TEST # 
-            # define next rounds # 
+            # TEST # define next rounds # # ok 230707 
             if self.board.ask_for_register == '10': 
                 self.board.ask_for_register = None 
                 # Tester define_next_round : 
@@ -598,12 +597,7 @@ class Main_controller():
     #### ============ T O U R N A M E N T S ============ #### 
     
     """ Create one tournament """ 
-    ### TODO: 
-    # - set the 1st empty round 
-    # - define the first matches 
-    # - register the first matches with scores = 0 
     def enter_new_tournament(self): 
-        # print('\nEnter new tournament') 
 
         # Get the data for the current tournament: 
         self.tournament_data = self.in_view.input_tournament() 
@@ -621,10 +615,7 @@ class Main_controller():
         
         # Instantiate the current tournament: 
         self.tournament_data_obj = Tournament_model(**self.tournament_data) 
-        # print(f'self.tournament_data_obj MC371 : {self.tournament_data_obj}') 
-
-        # session.prompt('\nAppuyer sur une touche pour continuer MC469') 
-
+        
 
     """ auto """ 
     def close_tournament(self): 
@@ -647,7 +638,7 @@ class Main_controller():
             self.report_players_from_tournament('firstname', 'last') 
         else: 
             print(f'\nLa clôture du tournoi a été annulée, vous pourrez la relancer depuis le menu. ') 
-        session.prompt('\nAppuyer sur une touche pour continuer MC507') 
+        # session.prompt('\nAppuyer sur une touche pour continuer MC507') 
         
         print(f'\nself.last_tournament MC509 : {self.last_tournament}') 
 
@@ -931,8 +922,8 @@ class Main_controller():
         """ Select the players' ids witch will play against each other during the round. 
             args (boolean): True if it is the first round, False otherwise.  
         """ 
+        ### TODO: check self.last_tournament with a print() ### 
         last_tournament = self.select_one_tournament('last') 
-        # self.last_tournament = Tournament_model(**last_tournament) ###TODO ??? 
         # We have already self.tournament_data as dict 
         print(f'\nlast_tournament MC881 : {last_tournament}') # obj ?  # dict, ok 
         tournament_players = last_tournament['players']  # list 
@@ -956,6 +947,8 @@ class Main_controller():
         # Instantiate the players :  ### besoin des objets seulement pour classer les joueurs par score pour les rounds 2 à 4 
         # players_obj = [] 
         players_obj = [Player_model(**data) for data in current_players] 
+        
+        # debug : 
         for pl in players_obj:
             print(f'player MC771 : {pl.id}') 
         print(f"\nplayers_obj MC765 : {players_obj}") 
@@ -982,23 +975,16 @@ class Main_controller():
         print(f'\nnew_matches MC945 : {new_matches}') # list of lists 
         # print(f'player 1 str : {peers[0][0].__str__()}') 
 
-        
-        # self.matches = [] 
-        # control: 
+        # debug: 
         for new_match in new_matches: 
             print(f'new_match MC970 : {new_match}') 
             for player in new_match: 
                 print(f'player MC972 : {player}') 
 
-            # (<models.player_model.Player_model object at 0x000001C7E32EB650>, <models.player_model.Player_model object at 0x000001C7E32E8450>)
-            # print(f'[{self.player}]') 
-            # match_1 = [peer[0].id, peer[1].local_score] 
-            # match_2 = [peer[1].id, peer[2].local_score] 
-
-        #     match = Match_model(**peer) 
-        #     self.matches.append(match) 
         self.matches = [Match_model(data) for data in new_matches] # ok 230616 
-        print(f'\nself.matches MC982 : {self.matches}') # obj ? 
+        # print(f'\nself.matches MC982 : {self.matches}') # obj ? 
+
+        # debug 
         for m in self.matches: 
             print(f'\nm MC884 : {m.__str__()}') 
 
@@ -1027,8 +1013,6 @@ class Main_controller():
             Returns:
                 int: the tournament's id 
         """ 
-        # Get all the tournaments from the tournaments data file (list of dicts) : 
-        # t_dicts = Tournament_model.get_registered_all('tournaments') 
         t_dicts = Tournament_model.get_registered_dict('tournaments') 
         # Get the tournament from its id (dict) 
         if t_id == 'last': 
