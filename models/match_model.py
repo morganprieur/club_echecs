@@ -20,7 +20,8 @@ class Match_model(AbstractModel):
         # # self.player_1 = player_1 
         # # self.player_2 = player_2 
         print(f'self.player_1 PM23 : {self.player_1}') 
-        self.player_1_id = self.player_1.id 
+        self.player_1_id = self.player_1[0] 
+        # self.player_1_id = self.player_1.id 
         self.player_2_id = self.player_2[0] 
         self.player_1_score = self.player_1[1] 
         self.player_2_score = self.player_2[1] 

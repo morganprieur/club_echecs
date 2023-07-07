@@ -22,20 +22,18 @@ class AbstractModel(ABC):
                 # print("The file is not empty.") 
                 return False 
 
-    # TODO: merge the 2 following methods: 
-    # def get_registered(self): 
-    #     # print(f'self AM26 : {self}') 
-    #     with open(f'data/{self.table}.json', 'r') as file: 
-    #         registered = json.load(file) 
-    #     return registered 
 
     @staticmethod 
     def get_registered_dict(table): 
         with open(f'data/{table}.json', 'r') as file: 
             # list of dicts : 
-            registered = json.load(file) 
+            try: 
+                registered = json.load(file) 
+            except: 
+                return {} ### 230707 
         return registered 
     
+
     @staticmethod  # à corriger ### 
     def select_one_obj(table, obj_id): 
         objs = AbstractModel.get_registered_dict(table) 

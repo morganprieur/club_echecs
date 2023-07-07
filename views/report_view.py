@@ -1,5 +1,4 @@
 
-# from controllers.main_controller import Main_controller 
 # from operator import attrgetter 
 from prompt_toolkit import PromptSession 
 session = PromptSession() 
@@ -16,9 +15,7 @@ class Report_view():
 
         print(f"\n\033[1mJoueur {player.id}\033[0m : ")  # ANSI \033[1m \033[0m --> gras 
 
-        # print(f'ID : \t{player.id}') 
         print(f'nom complet : \t\t{player.firstname} {player.lastname}') 
-        # print(f'nom : \t') 
         print(f'I. N. E. : \t\t{player.ine}') 
         print(f'score dans le tournoi : \t{player.local_score}') 
         print(f'score global : \t\t{player.global_score}') 
@@ -35,30 +32,25 @@ class Report_view():
 
     #### ============ D I S P L A Y   T O U R N A M E N T S ============ #### 
 
-    """ Pas demandés :  
-    def display_last_tournament(self, last_tournament): 
-        print('\n---- Dernier tournoi ----') 
-        print(last_tournament) 
-    """ 
 
     # def display_today_s_tournament(self, tournament): 
-    def display_one_tournament(self, tournament): 
+    def display_one_tournament(self, one_tournament): 
+        print('\n ==== Un tournoi ==== ') 
         # print('\n---- Dernier tournoi ----') 
         # print(tournament) 
-        print(f'ID : \t{tournament.id}') 
-        print(f'nom : \t{tournament.name}') 
-        print(f'lieu : \t{tournament.site}') 
-        print(f'date début : \t{tournament.start_date}') 
-        print(f'date fin : \t{tournament.end_date}')  ### à vérifier ### 
+        print(f'ID : \t{one_tournament.id}') 
+        print(f'nom : \t{one_tournament.name}') 
+        print(f'lieu : \t{one_tournament.site}') 
+        print(f'date début : \t{one_tournament.start_date}') 
+        print(f'date fin : \t{one_tournament.end_date}')  ### à vérifier ### 
         # print(f'durée : {tournament.duration}') 
-        print(f'description : \t{tournament.description}') 
+        print(f'description : \t{one_tournament.description}') 
         print('rounds : \t') 
 
-        rounds = tournament.rounds 
+        rounds = one_tournament.rounds 
         for round in rounds: 
             self.display_round(round) 
-        # print('----') 
-        # session.prompt('Appuyer sur une touche pour continuer RV58') 
+        # session.prompt('Appuyez sur une touche pour continuer RV55') 
     
 
     def display_tournaments(self, all_tournaments): 
@@ -143,37 +135,6 @@ class Report_view():
         print(f'\t\t{match_tuple}')  ### 230515 # TODO: à vérifier 
         # session.prompt('Appuyer sur une touche pour continuer RV142') 
 
-    # """ TODO: à corriger """ 
-    # def display_matches_one_tournament(self, tournament): 
-    #     """ Display all the matches from one tournament. 
-    #     Args: 
-    #         tournament (int): 
-    #             the ID of the tournament the matches will be getting from. 
-    #     """ 
-    #     print(f'\n---- Tous les matches du tournoi {int(tournament.id)} ----') 
-    #     # print(f'tournament RV85 : {tournament}') 
-    #     # print(f'tournament RV88 : {round}') 
-
-    #     rounds = tournament.rounds 
-    #     ### 
-    #     # If there isn't any rounds : 
-    #     if rounds == []: 
-    #         print(f'\nLe tournoi {tournament.id} n\'a pas encore de rounds') 
-    #     else:  
-    #         # Afficher les rounds : 
-    #         for r in tournament.rounds: 
-
-    #             print(f'\nID : \t{r.id}') 
-    #             print(f'Nom : \t{r.round_name}') 
-    #             print(f'Date et heure de début : \t{r.start_datetime}') 
-    #     ### 
-    #             print('matches : ') 
-    #             for match in r.matches: 
-    #                 self.display_match(match) 
-    #                 # print(f'\n\t[{match[0][0]}, {match[0][1]}], [{match[1][0]}, {match[1][1]}]') 
-    #                 # TODO Afficher le round  
-    #     print('\n====\n') 
-    #     # session.prompt('Appuyer sur une touche pour continuer RV174') 
 
 
 """ 

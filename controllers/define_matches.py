@@ -48,11 +48,14 @@ def make_peers(selected, first_round, tournament):
     print(f'selected DM53 : {selected}') 
     print(f'type(selected[0]) DM54 : {type(selected[0])}') 
 
-    # print(f'current_peer DM60 : {current_peer}') 
-    firsts = rev[::2] 
+    firsts = selected[::2] 
     # print(f'firsts DM62 : {firsts}') 
-    seconds = rev[1::2] 
+    seconds = selected[1::2] 
     # print(f'seconds DM64 : {seconds}') 
+    # firsts = rev[::2] 
+    # # print(f'firsts DM62 : {firsts}') 
+    # seconds = rev[1::2] 
+    # # print(f'seconds DM64 : {seconds}') 
 
     new_matches = [] 
     if first_round: 
@@ -67,8 +70,8 @@ def make_peers(selected, first_round, tournament):
         print(f'rev DM59 : {rev}') 
 
         old_matches = [] 
-        for round in tournament['rounds']: 
-            for match in round['matches']: 
+        for round in tournament.rounds: 
+            for match in round.matches: 
                 print('match DM78 : ', match) 
                 old_matches.append(match) 
         print('old_matches DM80 : ', old_matches) # [[[1, 0.0], [3, 0.0]], [[9, 0.0], [2, 0.0]], [[5, 0.0], [7, 0.0]], [[4, 0.0], [8, 0.0]]]

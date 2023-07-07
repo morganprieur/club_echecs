@@ -105,6 +105,7 @@ class Tournament_model(AbstractModel):
             print(f't_dicts TM109 : {t_dicts}') 
                 
         else: 
+            ### 230707 
             print('Erreur : le fichier tournaments ne peut pas être vide.') 
         with open(f"data/{self.table}.json", "w") as file: 
             json.dump(t_dicts, file, indent=4) 
