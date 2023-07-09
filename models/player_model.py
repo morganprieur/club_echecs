@@ -59,7 +59,7 @@ class Player_model(AbstractModel):
             p_dicts = self.get_registered_dict(self.table) 
             # print(f'\np_dicts PM59 : {p_dicts}') # list of dicts 
             
-            new_players = [] # in order ot register back all the players 
+            new_players = [] # in order to register back all the players 
             # if we must replace a registered player 
             if not new: 
                 # Get the player's id from sent data 

@@ -78,17 +78,19 @@ class Main_controller():
 
                 print('\nEnregistrer plusieurs joueurs') 
                 self.enter_many_new_players() 
-                # not_registered = 0 
-                for self.player in self.new_players: 
-                    if not self.player.serialize_object(True): ### serialize_object() non reconnu ??? ### 
-                        # not_registered += 1 
-                        print('Il y a eu un problème, veuillez recommencer ou envoyer un feedback. merci de votre compréhension. ') 
-                    else: 
-                        print(f'Le joueur {self.player.firstname} {self.player.lastname} a bien été enregistré. ') 
-                # if not_registered == 0: 
-                # self.report_all_players('id') 
+                # check self.new_players : 
+                print(f'\nself.new_players MC81 : {self.new_players} ') 
+                if not self.new_players.serialize_object(True): ### serialize_object() non reconnu ??? ### 
+                    print(f'Il y a eu un problème, veuillez recommencer ou envoyer un feedback. merci de votre compréhension. ') 
+                    # print(f'Il y a eu un problème pour le joueur {player.firstname} {player.lastname}, veuillez recommencer ou envoyer un feedback. merci de votre compréhension. ') 
+                else: 
+                    print(f'Les joueurs ont bien été enregistrés. ') 
+                    # print(f'Le joueur {player.firstname} {player.lastname} a bien été enregistré. ') 
 
-                session.prompt('Appuyer sur une touche pour continuer RMC91') 
+                new_players = self.new_players 
+                self.report_all_players(new_players, 'id', True) 
+
+                session.prompt('Appuyer sur une touche pour continuer RMC93') 
                 self.start() 
 
 
@@ -113,8 +115,7 @@ class Main_controller():
                     self.enter_new_player()  # ok 230507 
                 
                 self.enter_new_tournament() 
-                self.enter_new_round() 
-                # (returns self.round_object) 
+                self.enter_new_round(True) # first_round 
                 # Debug self.round_object : 
                 # print(f'self.round_object MC375 : {self.round_object}') 
 
@@ -136,7 +137,8 @@ class Main_controller():
                 self.start() 
 
 
-            # ==== Register new scores + close round ==== # TODO : à vérifier et nettoyer et nettoyer 
+            # TODO: à vérifier 
+            # ==== Register new scores + close round ====
             if self.board.ask_for_register == '4': 
                 self.board.ask_for_register = None 
 
@@ -152,8 +154,7 @@ class Main_controller():
                 # Get the last round (object) 
                 self.last_round = self.last_tournament.rounds.pop() 
                 # print(f'\nself.last_round MC736 : {self.last_round}') # obj ok 
-                # print(f'\ntype(self.last_round) MC737 : {type(self.last_round)}') # obj ok 
-
+                
                 self.enter_scores() 
 
                 """ Update the players' scores into players.json """ 
@@ -170,11 +171,30 @@ class Main_controller():
                     print('*** La clôture du round a été annulée. Vous pourrez clôturer le round depuis le menu. ***') 
 
                 if self.last_round.id == self.last_tournament.rounds_left: 
-                    self.close_tournament() ### 
+                    self.close_tournament() 
+                    print(f'\nC\'était le dernier round, le tournoi {self.last_tournament["name"]} a été clôturé avec succès.') 
+                    print(f'\nVoici les résultats du tournoi : ') 
+                    self.report_one_tournament('last') 
+                    print(f'\nEt les nouveaux scores des joueurs : ') 
+                    self.report_players_from_tournament('firstname', 'last') 
                 else: 
-                    #TODO: Tester define_next_rounds : 
-                    self.enter_new_round() ### 
-                    self.enter_new_matches() ### 
+                    ### TODO: à vérifier : 
+                    self.enter_new_round(False) 
+                    
+                    ### TODO : vérifier self.round_object 
+                    print(f'self.round_object MC180 : {self.round_object}') 
+                    self.matches = self.round_object.matches 
+                    # check the data 
+                    print(f'self.matches MC183 : {self.matches}') 
+                    # for m in self.matches: 
+                    #     print(f'm str MC616 : {m.__str__()}') 
+                    
+                    ### TODO: à vérifier : 
+                    self.enter_new_matches() 
+                    
+                    ### TODO : vérifier self.matches 
+                    self.new_round.matches.append(self.matches) 
+                    print(f'self.new_round MC195 : {self.new_round}') 
 
                 print(f'\nVoici les résultats provisoires du tournoi : ') 
                 self.report_one_tournament('last') 
@@ -182,34 +202,50 @@ class Main_controller():
                 print(f'\nLes nouveaux scores des joueurs : ') 
                 self.report_players_from_tournament('firstname', 'last') 
 
-                # TODO: à vérifier, peut-être déjà visibles dans report_one_tournament('last) : 
-                print(f'\nLes matches du round {round.id+1} ont été définis : ') 
-
-                session.prompt('Appuyez sur une touche pour continuer MC189') 
-                self.start() # default=False 
+                session.prompt('Appuyez sur une touche pour continuer MC207') 
+                self.start() 
             
 
-            # ==== Clôturer un round ==== # TODO : à vérifier et nettoyer 
+            # TODO : à vérifier et nettoyer 
+            # ==== Clôturer un round ==== 
             # en cas d'incident lors de la clôture automatique 
             if self.board.ask_for_register == '5': 
                 self.board.ask_for_register = None 
 
-                #TODO: Tester define_next_rounds : 
-                print('\nClôturer un round') 
-
-                # close round : define the end_datetime 
+                # close round : define the end_datetime # TODO ### 
+                print('Clôturer le round') 
                 closing_round = self.in_view.input_closing_round() 
                 if (closing_round == 'y') or (closing_round == 'Y'): 
                     self.last_round.end_datetime = str(datetime.now()) 
                 else: 
                     print('*** La clôture du round a été annulée. Vous pourrez clôturer le round depuis le menu. ***') 
-                
+
+                # Pas besoin de vérifier si 1er round, 
                 if self.last_round.id == self.last_tournament.rounds_left: 
-                    self.close_tournament() ### 
+                    self.close_tournament() 
+                    print(f'\nC\'était le dernier round, le tournoi {self.last_tournament["name"]} a été clôturé avec succès.') 
+                    print(f'\nVoici les résultats du tournoi : ') 
+                    self.report_one_tournament('last') 
+                    print(f'\nEt les nouveaux scores des joueurs : ') 
+                    self.report_players_from_tournament('firstname', 'last') 
                 else: 
-                    #TODO: Tester define_next_rounds : 
-                    self.enter_new_round() ### 
-                    self.enter_new_matches() ### 
+                    ### TODO: Vérifier : 
+                    self.enter_new_round(False) # first_round 
+                    
+                    ### TODO : vérifier self.round_object 
+                    print(f'self.round_object MC180 : {self.round_object}') 
+                    self.matches = self.round_object.matches 
+                    # check the data 
+                    print(f'self.matches MC183 : {self.matches}') 
+                    # for m in self.matches: 
+                    #     print(f'm str MC616 : {m.__str__()}') 
+                    
+                    ### TODO: à vérifier : 
+                    self.enter_new_matches() 
+                    
+                    ### TODO : vérifier self.matches 
+                    self.new_round.matches.append(self.matches) 
+                    print(f'self.new_round MC195 : {self.new_round}') 
 
                 print(f'\nVoici les résultats provisoires du tournoi : ') 
                 self.report_one_tournament('last') 
@@ -217,11 +253,8 @@ class Main_controller():
                 print(f'\nLes nouveaux scores des joueurs : ') 
                 self.report_players_from_tournament('firstname', 'last') 
 
-                # TODO: à vérifier, peut-être déjà visibles dans report_one_tournament('last) : 
-                print(f'\nLes matches du round {round.id+1} ont été définis : ') 
-
-                session.prompt('Appuyez sur une touche pour continuer MC224') 
-                self.start() # default=False 
+                session.prompt('Appuyez sur une touche pour continuer MC207') 
+                self.start() 
             
 
             #### ======== T E S T  M E N U S ======== #### 
@@ -242,10 +275,15 @@ class Main_controller():
                     print('*** La clôture du round a été annulée. Vous pourrez clôturer le round depuis le menu. ***') 
 
                 if self.last_round.id == self.last_tournament.rounds_left: 
-                    self.close_tournament() ### 
+                    self.close_tournament() 
+                    print(f'\nC\'était le dernier round, le tournoi {self.last_tournament["name"]} a été clôturé avec succès.') 
+                    print(f'\nVoici les résultats du tournoi : ') 
+                    self.report_one_tournament('last') 
+                    print(f'\nEt les nouveaux scores des joueurs : ') 
+                    self.report_players_from_tournament('firstname', 'last') 
                 else: 
                     #TODO: Tester define_next_rounds : 
-                    self.enter_new_round() ### 
+                    self.enter_new_round(False) # first_round 
                     self.enter_new_matches() ### 
 
                 print(f'\nVoici les résultats provisoires du tournoi : ') 
@@ -268,11 +306,22 @@ class Main_controller():
             if self.board.ask_for_register == '7':  # TODO 
                 self.board.ask_for_register = None 
 
-                print('Enregistrer les nouveaux matches') 
-                self.enter_new_matches() # first_round=False 
+                last_tournament = self.select_one_tournament('last') 
+                self.last_tournament = Tournament_model(**last_tournament) 
+
+                if self.last_tournament.rounds == []: 
+                    self.enter_new_matches(True) # first_round 
+                else: 
+                    self.last_round = self.last_tournament.rounds[-1] 
+
+                    if self.last_round.id == self.tournament.rounds_left: 
+                        print('\nC\'est le dernier round, pas de nouveaux matches') 
+                        session.prompt('Appuyez sur une touche pour continuer MC319') 
+                    else: 
+                        self.enter_new_matches(False) 
 
                 self.report_one_tournament('last') 
-                session.prompt('Appuyez sur une touche pour continuer MC279') 
+                session.prompt('Appuyez sur une touche pour continuer MC324') 
 
                 self.report_players_from_tournament('firstname', 'last') 
                 session.prompt('Appuyez sur une touche pour continuer MC285') 
@@ -471,8 +520,8 @@ class Main_controller():
                 return False 
         
 
-    """ Display all the players """  # ok 230505 # 
-    def report_all_players(self, sort): # , finished retiré 
+    """ Display all the players """  ### TODO: à vérifier 
+    def report_all_players(self, sort, rev): # rev : reverse 
         """ 
             Displays the players from players.json. 
             parameters: 
@@ -488,13 +537,13 @@ class Main_controller():
         # Choice of the order ('firstname' -> alphabetical or 'local_score' -> by score): 
         if sort == 'id': 
             print('\nJoueurs par ordre d\'enregistrement : ') 
-            self.sort_objects_by_field(players_obj, 'id') 
+            self.sort_objects_by_field(players_obj, 'id', rev) 
         if sort == 'firstname': 
             print('\nJoueurs par ordre alphabétique : ') 
-            self.sort_objects_by_field(players_obj, 'firstname') 
+            self.sort_objects_by_field(players_obj, 'firstname', rev) 
         if sort == 'score': 
             print('\nJoueurs par score : ') 
-            self.sort_objects_by_field(players_obj, 'local_score') 
+            self.sort_objects_by_field(players_obj, 'local_score', rev) 
         self.report_view.display_players(players_obj) 
 
         
@@ -534,15 +583,13 @@ class Main_controller():
         self.sort_objects_by_field(players_objs, field) # sort 
         
         self.report_view.display_players(players_objs) 
-        # session.prompt('Appuyer sur une touche pour continuer MC344') 
         
 
     # """ comment """ 
     def report_one_player(self, player_id): 
         self.select_one_player(player_id) 
         self.report_view.display_one_player() 
-        # session.prompt('\nAppuyez sur une touche pour continuer  MC547') 
-
+        
          
     ### 230609 
     """ Update the local_scores of the players (json) """ 
@@ -590,8 +637,7 @@ class Main_controller():
         for player_obj in self.players_objs: 
             player_obj.global_score += player_obj.local_score 
             player_obj.local_score = float(0) 
-        self.players_objs = Player_model.serialize_object(False) ### à vérifier ### 
-            # updated_player = Player_model.serialize_object(False) 
+            player_obj.serialize_object(False) ### à vérifier ### 
 
 
     #### ============ T O U R N A M E N T S ============ #### 
@@ -630,17 +676,10 @@ class Main_controller():
             self.last_tournament.end_date = str(today) 
             print(f'self.last_tournament MC470 : {self.last_tournament}') 
             self.last_tournament.serialize_object(False) 
-            # self.start(False) 
-            print(f'\nC\'était le dernier round, le tournoi {self.last_tournament["name"]} a été clôturé avec succès.') 
-            print(f'\nVoici les résultats du tournoi : ') 
-            self.report_one_tournament('last') 
-            print(f'\nEt les nouveaux scores des joueurs : ') 
-            self.report_players_from_tournament('firstname', 'last') 
         else: 
             print(f'\nLa clôture du tournoi a été annulée, vous pourrez la relancer depuis le menu. ') 
-        # session.prompt('\nAppuyer sur une touche pour continuer MC507') 
         
-        print(f'\nself.last_tournament MC509 : {self.last_tournament}') 
+        # print(f'\nself.last_tournament MC661 : {self.last_tournament}') 
 
 
     """ comment """ # à vérifier 
@@ -714,7 +753,7 @@ class Main_controller():
 
     ###TODO ajouter close_precedent_round() et close_current_tournament() 
     """ auto (when register_scores or register_new_tournament)""" 
-    def enter_new_round(self): # , first=False  # first = first round # TODO: à retirer 
+    def enter_new_round(self, first_round): # first_round = bool 
         """ Auto: when register_scores. 
             Creates a new round, relative to the number of the round. 
             Args:
@@ -722,10 +761,25 @@ class Main_controller():
         """ 
         print('\nEnter new round') 
 
-        # self.tournament_data_obj = self.select_one_tournament("last") 
-        self.tournament_data_dict = self.select_one_tournament("last") 
+        # On a djéà self.last_tournament, et c'est un objet : 
+        # self.tournament_data_dict = self.select_one_tournament("last") 
         # Get the prompt data for the current round: 
         round_data = self.in_view.input_round() 
+
+        # if self.last_tournament.rounds == []: 
+        if first_round: 
+            round_data['id'] = 1 
+            # first_round = True 
+        else: ### TODO: à vérifier ### 
+            round_data['id'] = int(self.last_tournament.rounds[-1]['id']) + 1 
+            if self.last_tournament.rounds[-1].end_datetime == '': 
+                self.last_tournament.rounds[-1].end_datetime = datetime.now() 
+            # first_round = False 
+        round_data['tournament_id'] = int(self.last_tournament.id)+1 # à vérifier 
+
+        self.last_tournament.rounds.append(round_data) ### ? 
+        self.new_round = self.last_tournament.rounds[-1] ### ? 
+        print(f'\nself.new_round MC771 : {self.new_round}') 
 
         # 'id': self.id, 
         # 'round_name': self.round_name, 
@@ -734,60 +788,40 @@ class Main_controller():
         # 'tournament_id': self.tournament_id, 
         # 'matches': self.matches 
 
-        print(f'\nround_data MC576 : {round_data}') 
-        
-        round_data['start_datetime'] = str(datetime.now()) 
-        round_data['end_datetime'] = "" 
-        round_data['matches'] = [] 
-
-
-        # on peut pas, il faut remplir les champs pour l'instancier : 
-        # ### 230612 enregistrer le tournoi "vide" avant de créer les matches ? 
-        # self.tournament = Tournament_model(**self.tournament_data_dict) 
+        ### ? 
+        self.new_round.start_datetime = str(datetime.now()) 
+        self.new_round.end_datetime = "" 
+        self.new_round.matches = [] 
+        # round_data['start_datetime'] = str(datetime.now()) 
+        # round_data['end_datetime'] = "" 
+        # round_data['matches'] = [] 
+        # / ### ? 
 
         # Check the data 
-        print(f'self.tournament_data_dict["rounds"] MC593 : {self.tournament_data_dict["rounds"]}') 
+        print(f'self.last_tournament.rounds MC761 : {self.last_tournament.rounds}') 
         
-        # Get the last round's id and attribute the id to the current round: 
-        if self.tournament_data_dict['rounds'] == []: 
-            round_data['id'] = 1 
-            round_data['tournament_id'] = self.tournament_data['id']+1 # à vérifier 
-            self.enter_new_matches(True) # first_round 
-        else: ### à corriger ? ### 
-            round_data['id'] = int(self.tournament_data_dict['rounds'][-1]['id']) + 1 
-            round_data['tournament_id'] = self.tournament_data_dict['id'] # à vérifier 
-            print(f'self.tournament_data_dict["rounds"] MC608 : {self.tournament_data_dict["rounds"]}') 
-            # If the round isn't the first one of the tournament 
-            #     -> register the end_datetime of the precedent round ###TODO 
-            # self.add_ending_round() 
-            ### à vérifier 
-            if self.tournament_data_dict['rounds'][-1]['end_datetime'] == '': 
-                self.tournament_data_dict['rounds'][-1]['end_datetime'] = datetime.now() 
-            # self.tournament_data_dict['rounds'][-1]['matches'] = [] 
-
-            self.enter_new_matches() # first=False default 
-
-            self.tournament_data_obj = Tournament_model(**self.tournament_data_dict) 
-            print(f'self.tournament_data_obj MC628 : {self.tournament_data_obj["rounds"]}') 
-            
-        # check the data 
-        # print(f'self.peers MC496 : {self.peers}') 
-        print(f'self.matches MC624 : {self.matches}') # list of objs ok 
-        for m in self.matches: 
-            # for p in m: 
-                print(f'm str MC616 : {m.__str__()}') 
+        self.round_object = Round_model(**self.new_round) 
         
-        round_data['matches'].append(self.matches) 
-        print(f'round_data MC619 : {round_data}') 
-
-        self.round_object = self.tournament_data_obj.rounds[-1] 
-        print(f'self.round_object MC652 : {self.round_object}') 
-
-        # TODO: à vérifier 
-        self.report_rounds('last') 
-        session.prompt('\nAppuyez sur une touche pour continuer MC664') 
-
         return self.round_object 
+    
+        # # check the data 
+        # # print(f'self.peers MC496 : {self.peers}') 
+        # print(f'self.matches MC624 : {self.matches}') # list of objs ok 
+        # for m in self.matches: 
+        #     # for p in m: 
+        #         print(f'm str MC616 : {m.__str__()}') 
+        
+        # round_data['matches'].append(self.matches) 
+        # print(f'round_data MC619 : {round_data}') 
+
+        # self.round_object = self.tournament_data_obj.rounds[-1] 
+        # print(f'self.round_object MC652 : {self.round_object}') 
+
+        # # TODO: à vérifier 
+        # self.report_rounds('last') 
+        # session.prompt('\nAppuyez sur une touche pour continuer MC664') 
+
+        # return self.round_object 
 
 
     def report_rounds(self, tournament_id): 
@@ -918,19 +952,21 @@ class Main_controller():
     """ comment """  
     # TODO: différencier les matches à partir du round 2 ### 
     # first = first round 
-    def enter_new_matches(self, first_round=False):  ### 0511-1931 
+    def enter_new_matches(self, first_round): 
         """ Select the players' ids witch will play against each other during the round. 
             args (boolean): True if it is the first round, False otherwise.  
         """ 
-        ### TODO: check self.last_tournament with a print() ### 
-        last_tournament = self.select_one_tournament('last') 
+        ### TODO: à vérifier : 
+        # On l'a déjà, en objet : 
+        # self.last_tournament = self.select_one_tournament('last') 
         # We have already self.tournament_data as dict 
-        print(f'\nlast_tournament MC881 : {last_tournament}') # obj ?  # dict, ok 
-        tournament_players = last_tournament['players']  # list 
-        print(f'\ntournament_players MC889 : {tournament_players}') # list, ok  
+        print(f'\nself.last_tournament MC942 : {self.last_tournament}') # obj ?  # dict, ok 
+        self.tournament_players = self.last_tournament.players  # list of objects 
+        print(f'\nself.tournament_players MC944 : {self.tournament_players}') # list, ok  
         
+        ### TODO: à vérifier : 
         # Copy the players list to work with 
-        players_copy = list(tournament_players) 
+        players_copy = list(self.tournament_players) 
         print(f'\nplayers_copy MC893 : {players_copy}') # list, ok 
         # Get the data of the players_copy from the players.json file 
         players_dicts = Player_model.get_registered_dict('players') # dict 
@@ -956,34 +992,30 @@ class Main_controller():
         # Get the registered tournament to check if the matches are uniques 
         # tournament = self.last_tournament 
 
+        ### TODO: déplacer dans le menu 1-4 Register new scores ? : 
         # Randomly define the pairs of players for the first match  
         # if first != True: call the sort_objects_by_field() method 
         print(f"\nfirst_round MC932 : {first_round}") 
         if first_round: ### True: 
             selected = define_matches.random_matches(players_obj) 
-            # peers = define_matches.make_peers(selected, False, tournament)  # first_round 
-        
         else: ### != True: 
             selected = self.sort_objects_by_field(players_obj, 'local_score', True) 
-            # selected = define_matches.random_matches(sorted_players_obj) 
-            # peers = random_matches(players_obj) 
-        
+
+        last_tournament = self.last_tournament 
         new_matches = define_matches.make_peers(selected, False, last_tournament)  # first_round 
 
         # Check the peers 
-        # print(f'\nself.peers MC827 : {self.peers}') # list of lists of objects 
-        print(f'\nnew_matches MC945 : {new_matches}') # list of lists 
-        # print(f'player 1 str : {peers[0][0].__str__()}') 
+        print(f'\nnew_matches MC988 : {new_matches}') # list of lists 
+        
+        # # debug: 
+        # for new_match in new_matches: 
+        #     print(f'new_match MC992 : {new_match}') 
+        #     for player in new_match: 
+        #         print(f'player MC994 : {player}') 
 
-        # debug: 
-        for new_match in new_matches: 
-            print(f'new_match MC970 : {new_match}') 
-            for player in new_match: 
-                print(f'player MC972 : {player}') 
-
+        ### TODO : vérifier self.matches 
         self.matches = [Match_model(data) for data in new_matches] # ok 230616 
-        # print(f'\nself.matches MC982 : {self.matches}') # obj ? 
-
+        
         # debug 
         for m in self.matches: 
             print(f'\nm MC884 : {m.__str__()}') 
