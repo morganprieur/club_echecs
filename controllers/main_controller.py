@@ -85,13 +85,14 @@ class Main_controller():
                 self.board.ask_for_register = None 
 
                 print('\nEnregistrer un tournoi') 
-                # Set the global_scores to the last local_scores, 
-                # and the local_scores to zero
-                self.set_players_scores_to_zero() 
+                if Tournament_model.get_registered_dict('last') != []: 
+                    # Set the global_scores to the last local_scores, 
+                    # and the local_scores to zero
+                    self.set_players_scores_to_zero() 
 
                 # Display registered players to select the current ones: 
                 print('Voici les joueurs enregistrés : ') 
-                self.report_all_players('id') 
+                self.report_all_players('id', False) 
                 session.prompt('Appuyez sur une touche pour continuer MC95') 
                 
                 # Prompt if needed to register a new player  ###TODO 
@@ -106,13 +107,7 @@ class Main_controller():
                 print('\nEnregistrer un nouveau round') 
                 self.enter_new_round(True) # first_round # object 
                 # returns self.round_object (objects) 
-                # Debug self.round_object : 
-                # print(f'self.round_object MC375 : {self.round_object}') 
-                # self.tournament_obj.rounds.append(self.round_object) # plus bas 
-
-                ### TODO : à vérifier 
-                # self.new_matches = self.round_object.matches 
-                # if self.new_matches == []: 
+                
                 if self.round_object.matches == []: 
                     self.enter_new_matches(True) # first_round 
                     # return self.matches (objects) 
@@ -121,9 +116,7 @@ class Main_controller():
 
                 self.round_object.matches.append(self.matches) 
                 self.tournament_obj.rounds.append(self.round_object) 
-                # print(f'self.tournament_data_obj.rounds MC134 : {self.tournament_data_obj.rounds}') 
-
-                # if self.tournament_obj.serialize_object(True) == False: 
+                
                 if not self.tournament_obj.serialize_object(True): 
                     print('\nUn problème est survenu, merci d\'envoyer un feedback.') 
                 else: 
@@ -567,32 +560,35 @@ class Main_controller():
                 sort (str): 'id', 'firstname' or 'local_score', the name of the field on wich to sort the players. 
                 rev (bool): if we have to reverse the list of objects. 
         """ 
-        players = Player_model.get_registered_dict('players') 
-        players_obj = [] 
-        for player in players: 
-            self.player = Player_model(**player) 
-            players_obj.append(self.player) 
+        if Player_model.get_registered_dict('players') == []: 
+            print(f'Il n\'y a pas de joueur à afficher. ') 
+        else: 
+            players = Player_model.get_registered_dict('players') 
+            players_obj = [] 
+            for player in players: 
+                self.player = Player_model(**player) 
+                players_obj.append(self.player) 
 
-        # Choice of the order ('id' -> chronological, 'firstname' -> alphabetical or 'local_score' -> by score): 
-        if sort == 'id': 
-            print('\nJoueurs par ordre d\'enregistrement : ') 
-            self.sort_objects_by_field(players_obj, 'id', rev) 
-        if sort == 'firstname': 
-            print('\nJoueurs par ordre alphabétique : ') 
-            self.sort_objects_by_field(players_obj, 'firstname', rev) 
-        if sort == 'score': 
-            print('\nJoueurs par score : ') 
-            self.sort_objects_by_field(players_obj, 'local_score', rev) 
+            # Choice of the order ('id' -> chronological, 'firstname' -> alphabetical or 'local_score' -> by score): 
+            if sort == 'id': 
+                print('\n==== Tous les joueurs par ordre d\'enregistrement :  ==== ') 
+                self.sort_objects_by_field(players_obj, 'id', rev) 
+            if sort == 'firstname': 
+                print('\n==== Tous les joueurs par ordre alphabétique :  ==== ') 
+                self.sort_objects_by_field(players_obj, 'firstname', rev) 
+            if sort == 'score': 
+                print('\n==== Tous les joueurs par score :  ==== ') 
+                self.sort_objects_by_field(players_obj, 'local_score', rev) 
         
         self.report_view.display_players(players_obj) 
 
 
     def report_players_from_tournament(self, field, tournament_id): 
         """ Displays the players of one tournament. 
-        Args: 
-            field (string): the field we will sort the players on. 
-            tournament_id (int or 'last'): the id of the tournament. 
-                For the last one, type 'last' ; 
+            Args: 
+                field (string): the field we will sort the players on. 
+                tournament_id (int or 'last'): the id of the tournament. 
+                    For the last one, type 'last' ; 
         """ 
         tournament_dict = self.select_one_tournament(tournament_id) 
         tournament_obj = Tournament_model(**tournament_dict) 
@@ -623,23 +619,26 @@ class Main_controller():
         Args:
             player_id (int or 'last'): the player's id, or for the last one, type 'last'. 
         """ 
-        self.select_one_player(player_id) 
-        self.report_view.display_one_player() 
+        player = self.select_one_player(player_id) 
+        self.report_view.display_one_player(player) 
 
 
     def report_all_tournaments(self): 
         """ Displays all the registered tournaments. 
         """ 
-        tournaments = Tournament_model.get_registered_dict('tournaments') 
-        tournaments_obj = [] 
+        if Tournament_model.get_registered_dict('tournaments') == []: 
+            print(f'Il n\'y a pas de tournoi à afficher. ') 
+        else: 
+            tournaments = Tournament_model.get_registered_dict('tournaments') 
+            tournaments_objs = [] 
 
-        for tournament in tournaments: 
-            if 'rounds' not in tournament.keys(): 
-                tournament['rounds'] = [] 
-            self.tournament = Tournament_model(**tournament) 
-            tournaments_obj.append(self.tournament) 
-        
-        self.report_view.display_tournaments(tournaments_obj) 
+            for tournament in tournaments: 
+                if 'rounds' not in tournament.keys(): 
+                    tournament['rounds'] = [] 
+                self.tournament = Tournament_model(**tournament) 
+                tournaments_objs.append(self.tournament) 
+            
+                self.report_view.display_tournaments(tournaments_objs) 
 
 
     def report_one_tournament(self, tournament_id): 
@@ -676,15 +675,14 @@ class Main_controller():
     """ Register one player """  # ok 230507 
     def enter_new_player(self): 
         new_player_data = self.in_view.input_player() 
-        last_player_dict = Player_model.get_registered_dict('players')[-1] 
-        # print(f'\nlast_player_dict MC221 : {last_player_dict}') 
-        last_player_id = int(last_player_dict['id']) 
-        # print(f'\nlast_player_id MC223 : {last_player_id}') 
-        new_player_data['id'] = int(last_player_id) + 1 
+        if Player_model.get_registered_dict('players') == []: 
+            new_player_data['id'] = 1 
+        else: 
+            new_player_data['id'] = int(Player_model.get_registered_dict('players')[-1]) + 1  
         new_player_data['local_score'] = float(0.0) 
         new_player_data['global_score'] = float(0.0) 
-        new_player_data['match_score'] = float(0.0) 
-        # print(f'\nnew_player_data MC226 : {new_player_data}')   
+        new_player_data['local_score'] = float(0.0) 
+
         self.player = Player_model(**new_player_data) 
 
         if not self.player.serialize_object(True): 
@@ -717,8 +715,8 @@ class Main_controller():
         # Get registered players local_scores 
         p_dicts = Player_model.get_registered_dict('players') 
         # Instantiate the players 
-        self.players_obj = [Player_model(**data) for data in p_dicts] 
-        for self.player_obj in self.players_obj: 
+        self.players_objs = [Player_model(**data) for data in p_dicts] 
+        for self.player_obj in self.players_objs: 
             player_last_score = self.player_obj.local_score 
             # for match in last_round.matches: 
             for match in self.last_round.matches: 
@@ -731,8 +729,8 @@ class Main_controller():
                 player_last_score += player_input_score 
                 self.player_obj.local_score = player_last_score 
 
-            # Register the new scores into players.json # ok 
-            self.player_obj.serialize_object(True) ### à vérifier 
+            # Register the new scores into players.json 
+            self.player_obj.serialize_object(True) 
                 
 
 
@@ -792,35 +790,35 @@ class Main_controller():
     #### ============ R O U N D S ============ #### 
 
     """ T E S T   M E T H O D """ 
-    def define_first_round(self): 
-        registered_players = Player_model.get_registered_dict('players') 
-        selected_players = define_matches.random_matches(registered_players) 
-        print(f'selected_players MC523 : {selected_players}') 
-        self.matches = define_matches.make_peers(selected_players) 
-        # print(f'matches MC525 : {self.matches}') 
+    # def define_first_round(self): 
+    #     registered_players = Player_model.get_registered_dict('players') 
+    #     selected_players = define_matches.random_matches(registered_players) 
+    #     print(f'selected_players MC523 : {selected_players}') 
+    #     self.matches = define_matches.make_peers(selected_players) 
+    #     # print(f'matches MC525 : {self.matches}') 
 
-        # session.prompt('Appuyez sur une touche pour continuer  MC545') 
+    #     # session.prompt('Appuyez sur une touche pour continuer  MC545') 
     
     """ T E S T   M E T H O D """ 
-    def define_next_rounds(self): 
-        last_tournament = self.select_one_tournament('last') 
-        tournament_obj = Tournament_model(**last_tournament) 
+    # def define_next_rounds(self): 
+    #     last_tournament = self.select_one_tournament('last') 
+    #     tournament_obj = Tournament_model(**last_tournament) 
 
-        players_ids = tournament_obj.players 
+    #     players_ids = tournament_obj.players 
 
-        players = [] 
-        for player_id in players_ids: 
-            player = self.select_one_player(player_id) 
-            print(f'player_id MC525 : {player_id}') # player_dict ? 
-            players.append(player) 
-        players_objs = [Player_model(**player) for player in players] 
+    #     players = [] 
+    #     for player_id in players_ids: 
+    #         player = self.select_one_player(player_id) 
+    #         print(f'player_id MC525 : {player_id}') # player_dict ? 
+    #         players.append(player) 
+    #     players_objs = [Player_model(**player) for player in players] 
 
-        # registered_players = Player_model.get_registered_dict('players') 
-        # sorted_players = self.sort_objects_by_field(registered_players, 'local_score', True) ### 230707 
-        sorted_players = self.sort_objects_by_field(players_objs, 'local_score', True) ### 230707 
-        print(f'sorted_players MC719 : {sorted_players}') 
-        self.matches = define_matches.make_peers(sorted_players, False, tournament_obj) 
-        # print(f'self.matches MC535 : {self.matches}') 
+    #     # registered_players = Player_model.get_registered_dict('players') 
+    #     # sorted_players = self.sort_objects_by_field(registered_players, 'local_score', True) ### 230707 
+    #     sorted_players = self.sort_objects_by_field(players_objs, 'local_score', True) ### 230707 
+    #     print(f'sorted_players MC719 : {sorted_players}') 
+    #     self.matches = define_matches.make_peers(sorted_players, False, tournament_obj) 
+    #     # print(f'self.matches MC535 : {self.matches}') 
 
 
     def enter_new_round(self, first_round): # first_round = bool 
@@ -969,12 +967,14 @@ class Main_controller():
             Returns:
                 int: the tournament's id 
         """ 
-        t_dicts = Tournament_model.get_registered_dict('tournaments') 
-        # Get the tournament from its id (dict) 
-        if t_id == 'last': 
-            t_dict = t_dicts.pop() 
+        if Tournament_model.get_registered_dict('tournaments') == []: 
+            print(f'Il n\'y a pas de tournoi à afficher. ') 
         else: 
-            t_dict = t_dicts[t_id-1] ### vérifier 
+            t_dicts = Tournament_model.get_registered_dict('tournaments') 
+            if t_id == 'last': 
+                t_dict = t_dicts.pop() 
+            else: 
+                t_dict = t_dicts[t_id-1] 
         return t_dict 
 
 
@@ -985,10 +985,13 @@ class Main_controller():
             Returns: 
                 int: the player's id 
         """ 
-        players_dicts = Player_model.get_registered_dict('players') 
-        if player_id == 'last': 
-            player = players_dicts.pop() 
+        if Player_model.get_registered_dict('players') == []: 
+            print(f'Il n\'y a pas de joueur à afficher. ') 
         else: 
-            player = players_dicts[player_id-1] 
+            players_dicts = Player_model.get_registered_dict('players') 
+            if player_id == 'last': 
+                player = players_dicts.pop() 
+            else: 
+                player = players_dicts[player_id-1] 
         return player 
 
