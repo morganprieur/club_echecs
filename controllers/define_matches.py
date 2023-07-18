@@ -14,24 +14,12 @@ def random_matches(registered_players):
     """ 
     print('Define matches first round') 
     selected = [] 
-    # for i in range(int(8)): 
     for i in range(len(registered_players)): 
-        # print(f'\nregistered_players DM24 : {registered_players}') 
-        # choice = the randomly chosen player's id 
         chosen = random.choice(registered_players) 
         print(f'\nchosen DM26 : {chosen}') 
         selected.append(chosen) 
         print(f'\nselected DM35 : {selected}') 
-        # print(f'\nchosen DM27 : {chosen}') 
-        # chosen_index = registered_players.index(chosen) 
-        # print(f'\nchosen DM29 : {chosen_index}') 
-        # print(f'\nregistered_players DM31 : {registered_players}') 
         registered_players.remove(chosen) 
-        # print(f'\nregistered_players DM33 : {registered_players}') 
-        # print(f'\nregistered_players DM29 : {registered_players}') 
-        # print(f'\nchosen DM32 : {chosen}') 
-    #     print(f'\nselected[0].__str__() MC872 : {selected[0].__str__()}') 
-    #     # print(f'\ntype(selected[0]) MC873 : {type(selected[0])}') 
     return selected 
 
 

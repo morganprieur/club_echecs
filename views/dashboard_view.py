@@ -30,9 +30,9 @@ class Dashboard_view():
         '3 : Enregistrer un nouveau tournoi',  # TODO: select the players 
         '4 : Enregistrer des scores et clôturer le round',  # TODO 
         '5 : Clôturer un round', 
+        '6 : Clôturer un tournoi', 
         '', 
         # auto quand on cloture un round et que c'est le 4è round : 
-        # '4 : Clôturer un tournoi', 
         # auto quand on cloture un round et que c'est PAS le 4è round : 
         # '5 : Enregistrer un nouveau round', 
         # auto quand on rentre les scores des matches du 4è round 

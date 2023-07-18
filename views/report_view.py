@@ -32,7 +32,7 @@ class Report_view():
 
     #### ============ D I S P L A Y   T O U R N A M E N T S ============ #### 
 
-
+ 
     # def display_today_s_tournament(self, tournament): 
     def display_one_tournament(self, one_tournament): 
         print('\n ==== Un tournoi ==== ') 
@@ -50,8 +50,7 @@ class Report_view():
         rounds = one_tournament.rounds 
         for round in rounds: 
             self.display_round(round) 
-        # session.prompt('Appuyez sur une touche pour continuer RV55') 
-    
+        
 
     def display_tournaments(self, all_tournaments): 
         print('\n==== Tous les tournois ====') 

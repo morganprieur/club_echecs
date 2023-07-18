@@ -11,15 +11,10 @@ class AbstractModel(ABC):
 
     @staticmethod 
     def check_if_json_empty(table): 
-    # def check_if_json_empty(self): 
-        # print(f'self.table in AM14 : {self.table}') 
         with open(f"data/{table}.json",'rb') as f: 
-        # with open(f"data/{self.table}.json",'rb') as f: 
             if len(f.read()) == 0: 
-                # print("The file is empty.") 
                 return True 
             else: 
-                # print("The file is not empty.") 
                 return False 
 
 
@@ -27,10 +22,10 @@ class AbstractModel(ABC):
     def get_registered_dict(table): 
         with open(f'data/{table}.json', 'r') as file: 
             # list of dicts : 
-            try: 
+            try:  
                 registered = json.load(file) 
             except: 
-                return {} ### 230707 
+                return [] 
         return registered 
     
 
