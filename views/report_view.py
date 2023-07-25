@@ -27,34 +27,33 @@ class Report_view():
     def display_players(self, players_obj): 
         # print('\n==== Tous les joueurs ====') 
 
-        if not players_obj: 
-            print('Il n\'y a aucun joueur à afficher.') 
-        else: 
-            for player in players_obj: 
-                self.display_one_player(player) 
+        # if not players_obj: 
+        #     print('Il n\'y a aucun joueur à afficher.') 
+        # else: 
+        for player in players_obj: 
+            self.display_one_player(player) 
 
-        print('\n====\n') 
 
 
     #### ============ D I S P L A Y   T O U R N A M E N T S ============ #### 
 
  
     def display_one_tournament(self, one_tournament): 
-        if not one_tournament: 
-            print('Il n\'y a aucun tournoi à afficher.') 
-        else: 
-            print(f'\n ==== \033[1mTournoi {one_tournament.id} :\033[0m ==== ') 
-            print(f'nom : \t{one_tournament.name}') 
-            print(f'lieu : \t{one_tournament.site}') 
-            print(f'date début : \t{one_tournament.start_date}') 
-            print(f'date fin : \t{one_tournament.end_date}')  ### à vérifier ### 
-            # print(f'durée : {tournament.duration}') 
-            print(f'description : \t{one_tournament.description}') 
-            print('rounds : \t') 
+        # if not one_tournament: 
+        #     print('Il n\'y a aucun tournoi à afficher.') 
+        # else: 
+        print(f'\n ==== \033[1mTournoi {one_tournament.id} :\033[0m ==== ') 
+        print(f'nom : \t{one_tournament.name}') 
+        print(f'lieu : \t{one_tournament.site}') 
+        print(f'date début : \t{one_tournament.start_date}') 
+        print(f'date fin : \t{one_tournament.end_date}')  ### à vérifier ### 
+        # print(f'durée : {tournament.duration}') 
+        print(f'description : \t{one_tournament.description}') 
+        print('rounds : \t') 
 
-            rounds = one_tournament.rounds 
-            for round in rounds: 
-                self.display_round(round) 
+        rounds = one_tournament.rounds 
+        for round in rounds: 
+            self.display_round(round) 
         
 
     def display_tournaments(self, all_tournaments): 

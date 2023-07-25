@@ -65,28 +65,35 @@ class Tournament_model(AbstractModel):
                 if the data modifies the last entity into the json: False. 
         """ 
         t_dicts = self.get_registered_dict('tournaments') 
-        if new: 
+        if not new: 
+            t_dicts.pop()  
             # t_dicts = [] 
-            t_dicts.append(self.to_dict()) 
-        else: 
-            last_t_dict = t_dicts.pop()  
-            last_tournament_dict = self.to_dict() 
+            # t_dicts.append(self.to_dict()) 
+        # else: 
+            # last_t_dict = t_dicts.pop()  
+        new_tournament_dict = self.to_dict() 
+        print(f'new_tournament_dict TM75 : {new_tournament_dict}')
 
-            last_rounds_list = [] 
-            for last_round_obj in last_tournament_dict['rounds']: 
-                last_round_dict = Round_model.to_dict(last_round_obj) 
+        last_rounds_list = [] 
+        # for last_round_dict in new_tournament_dict['rounds']: 
+        for last_round_obj in new_tournament_dict['rounds']: 
+            last_round_dict = Round_model.to_dict(last_round_obj) 
+            print(f'last_round_dict TM81 : {last_round_dict}')
 
-                last_matches_list = [] 
-                for last_match_obj in last_round_dict['matches']: 
-                    last_match_dict = Match_model.to_dict(last_match_obj) ### 
+            last_matches_list = [] 
+            for last_match_obj in last_round_dict['matches']: 
+                last_match_dict = last_match_obj[0].to_dict() 
+                # last_match_dict = Match_model.to_dict(last_match_obj) 
+                print(f'last_match_dict TM86 : {last_match_dict}')
 
-                    last_matches_list.append(last_match_dict) 
-                last_round_dict['matches'] = last_matches_list 
+                last_matches_list.append(last_match_dict) 
+                print(f'matches TM89 : {last_matches_list}') 
+            last_round_dict['matches'] = last_matches_list 
 
-                last_rounds_list.append(last_round_dict) 
-            last_tournament_dict['rounds'] = last_rounds_list 
+            last_rounds_list.append(last_round_dict) 
+        new_tournament_dict['rounds'] = last_rounds_list 
 
-            t_dicts.append(last_tournament_dict) 
+        t_dicts.append(new_tournament_dict) 
         
         with open(f"data/{self.table}.json", "w") as file: 
             json.dump(t_dicts, file, indent=4) 

@@ -1,5 +1,6 @@
 
 from .abstract_model import AbstractModel 
+from .player_model import Player_model 
 import json 
 
 
@@ -23,7 +24,11 @@ class Match_model(AbstractModel):
 
      
     def to_dict(self): 
-        return ([self.player_1_id, self.player_1_score], [self.player_2_id, self.player_2_score]) 
+        return {'match': self.match}
+        # return (self[0].__str__(), self[1].__str__()) 
+        # return ([self[0][0], self[0][1]], [self[1][0], self[1][1]]) 
+        # return ([self.player_1[0], self.player_1[1]], [self.player_2[0], self.player_2[1]]) 
+        # return ([self.player_1_id, self.player_1_score], [self.player_2_id, self.player_2_score]) 
  
 
 

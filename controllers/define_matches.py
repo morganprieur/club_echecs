@@ -23,7 +23,6 @@ def random_matches(registered_players):
     return selected 
 
 
-# TODO: différencier les matches à partir du round 2 
 def make_peers(selected, first_round, tournament): 
     """ groups players by peers, and differenciate the matches regarding the precedent ones, if this is not the first. 
     Args:
@@ -45,11 +44,11 @@ def make_peers(selected, first_round, tournament):
     # seconds = rev[1::2] 
     # # print(f'seconds DM64 : {seconds}') 
 
-    new_matches = [] 
+    next_matches = [] 
     if first_round: 
         for firsts, seconds in zip(firsts, seconds): 
             current_peer = ([firsts.id, firsts.local_score], [seconds.id, seconds.local_score])
-            new_matches.append(current_peer) 
+            next_matches.append(current_peer) 
     else: 
         # sort the players by score 
         selected.sort(key=attrgetter('local_score')) 
@@ -76,12 +75,12 @@ def make_peers(selected, first_round, tournament):
                 if new_match in old_matches: 
                     seconds.append(second) 
                 else: 
-                    new_matches.append(new_match) 
-                    print(f'new_matches DM95 : {new_matches}') 
+                    next_matches.append(new_match) 
+                    print(f'new_matches DM95 : {next_matches}') 
                     break 
-    print(f'new_matches DM97 : {new_matches}') 
+    print(f'next_matches DM81 : {next_matches}') 
     
-    return new_matches 
+    return next_matches 
 
 """ 
 

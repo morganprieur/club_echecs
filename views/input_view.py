@@ -32,21 +32,14 @@ class Input_view():
 
     def input_tournament(self):  # ajouter sélection des joueurs ### 
         today = date.today() 
-        print(f'today IV34 : {today}') 
-        # player_needed = str 
-        # Boucler (while players_needed) :
-        #   Afficher les joueurs enregistrés (MC264) 
-        #   Prompt "besoin d'enregistrer de nouveaux joueurs ?" 
-        #       (stocker réponse dans player_needed) 
-        #   Si oui : appelle MC.enter_new_player() 
-        #   Si non : sortir du while 
+
         new_tournament = {} 
         new_tournament['name'] = session.prompt('\nNom du tournoi : ') 
         new_tournament['site'] = session.prompt('\nLieu : ') 
         new_tournament['start_date'] = str(today) 
         new_tournament['end_date'] = '' 
 
-        rounds_number = session.prompt('Nombre de rounds ("Entrée = 4") ') 
+        rounds_number = session.prompt('\nNombre de rounds ("Entrée = 4") ') 
         # if rounds_number == '': 
         #     rounds_number = 4 
         new_tournament['rounds_left'] = 4 if rounds_number == '' else int(rounds_number) 
