@@ -82,8 +82,8 @@ class Tournament_model(AbstractModel):
 
             last_matches_list = [] 
             for last_match_obj in last_round_dict['matches']: 
-                last_match_dict = last_match_obj[0].to_dict() 
-                # last_match_dict = Match_model.to_dict(last_match_obj) 
+                # last_match_dict = last_match_obj[0].to_dict()  ### à retirer 
+                last_match_dict = Match_model.to_dict(last_match_obj) 
                 print(f'last_match_dict TM86 : {last_match_dict}')
 
                 last_matches_list.append(last_match_dict) 

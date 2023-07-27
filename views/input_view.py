@@ -39,7 +39,7 @@ class Input_view():
         new_tournament['start_date'] = str(today) 
         new_tournament['end_date'] = '' 
 
-        rounds_number = session.prompt('\nNombre de rounds ("Entrée = 4") ') 
+        rounds_number = session.prompt('\nNombre de rounds ("Entrée" = 4) ') 
         # if rounds_number == '': 
         #     rounds_number = 4 
         new_tournament['rounds_left'] = 4 if rounds_number == '' else int(rounds_number) 
@@ -103,8 +103,7 @@ class Input_view():
         for match in matches: 
             # print(f'\nMatch IV105 : {matches[i]}') 
             print(f'\nmatch IV105 : {match}') 
-            print(f'\ndir(match) IV106 : {dir(match)}') 
-            print(f'\nmatch.player_1 IV107 : {match.player_1}') 
+            # print(f'\nmatch.player_1 IV107 : {match.player_1}') 
             # print(f'\nIV83 : {matches[i][0][0]} ou {matches[i][1][0]}') 
             null_match = session.prompt(f'\nY a-t-il match nul ? (y/n) ') 
             if null_match == 'y': 

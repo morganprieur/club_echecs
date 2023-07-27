@@ -104,7 +104,7 @@ class Report_view():
         print(f'\t\033[1mRound {round.id} :\033[0m ') 
         print(f'\tNom : \t{round.round_name}') 
         print(f'\tDate et heure de début : \t{round.start_datetime}') 
-        print('\tmatches : ') 
+        print('\t\033[1mmatches :\033[0m ') 
 
         if round.matches == []: 
             print('Il n\'y a aucun match à afficher.') 
