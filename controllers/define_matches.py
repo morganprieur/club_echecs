@@ -1,10 +1,13 @@
 
 import random 
 from datetime import datetime 
-from models.player_model import Player_model 
 from operator import attrgetter 
 
-""" Random define the pairs of players into each round """  # à corriger ### 
+
+""" Random define the pairs of players into each round 
+""" 
+
+
 def random_matches(registered_players): 
     """ Select the players' ids for one match. 
         Args: 
@@ -61,9 +64,8 @@ def make_peers(selected, first_round, tournament):
             for match in round.matches: 
                 print('match DM78 : ', match) 
                 old_matches.append(match) 
-        print('old_matches DM80 : ', old_matches) # [[[1, 0.0], [3, 0.0]], [[9, 0.0], [2, 0.0]], [[5, 0.0], [7, 0.0]], [[4, 0.0], [8, 0.0]]]
+        print('old_matches DM80 : ', old_matches) 
 
-        # new_matches = [] 
         while firsts: 
             first = firsts.pop(0) 
             print("first", first, firsts) 
@@ -79,71 +81,5 @@ def make_peers(selected, first_round, tournament):
                     print(f'new_matches DM95 : {next_matches}') 
                     break 
     print(f'next_matches DM81 : {next_matches}') 
-    
+
     return next_matches 
-
-""" 
-
-matches = []
-while firsts:
-    first = firsts.pop(0)
-    print("first", first, firsts)
-    while seconds:
-        second = seconds.pop(0)
-
-        print("second", second, seconds)
-        match = (first, second)
-        if match in old_matches:
-            seconds.append(second)
-        else:
-            matches.append(match)
-            print(matches)
-            break
-matches
-
-        # differentiate_matches(firsts, seconds, tournament, current_peer) 
-        # peers = [] 
-        # peer = [] 
-        # print(f'i DM83 : {i}') 
-        # peer.append(([firsts[i].id, firsts[i].local_score], [seconds[i].id, seconds[i].local_score])) 
-        # print(f'peer DM85 : {peer}') 
-        
-        # if peer in tournament['rounds'] round['match']: 
-        
-        # for round in tournament['rounds']: 
-        #     print(f'round DM77 : {round}') 
-        #     for i in range(int(4)): 
-        #     # for first in range(len(firsts)): 
-
-
-
-        #         if not peer == match: 
-        #             peers.append(peer) 
-        #             print(f'peers DM88 : {peers}') 
-        #             # peer = [] 
-        #             print(f'peer DM90 : {peer}') 
-
-
-
-        #             for match in round['matches']: 
-        #                 print(f'match DM79 : {match}') 
-
-        #             else: 
-        #                 # idx1 = l.index('e') 
-        #                 # idx2 = l.index('b') 
-        #                 # l[idx1], l[idx2] = l[idx2], l[idx1] 
-        #                 idx1 = seconds.index[i] 
-        #                 idx2 = seconds.index[i+1] 
-        #                 seconds[idx1], seconds[idx2] = seconds[idx2], seconds[idx1]
-
-        #                 peer.append(([firsts[i].id, firsts[i].local_score], [seconds[i].id, seconds[i].local_score])) 
-        #                 print(f'peer DM102 : {peer}') 
-                    
-        #             peer = [] 
-
-    return peers 
-
-# ma_liste = [[premier, second] for premier, second in zip(a[::2], a[1::2])] 
-
-
-""" 

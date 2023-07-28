@@ -11,12 +11,11 @@ class AbstractModel(ABC):
 
     @staticmethod 
     def check_if_json_empty(table): 
-        with open(f"data/{table}.json",'rb') as f: 
+        with open(f"data/{table}.json", 'rb') as f: 
             if len(f.read()) == 0: 
                 return True 
             else: 
                 return False 
-
 
     @staticmethod 
     def get_registered_dict(table): 
@@ -24,10 +23,10 @@ class AbstractModel(ABC):
             # list of dicts : 
             try:  
                 registered = json.load(file) 
-            except: 
+            # except: 
+            except json.decoder.JSONDecodeError: 
                 return [] 
         return registered 
-    
 
     @staticmethod  # à corriger ### 
     def select_one_obj(table, obj_id): 

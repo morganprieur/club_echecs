@@ -1,6 +1,5 @@
 
-from controllers import define_matches 
-# import define_matches 
+from controllers import define_matches  
 
 from models.match_model import Match_model 
 from models.player_model import Player_model 
@@ -152,7 +151,7 @@ class Main_controller():
                 self.report_players_from_tournament('id', 'last') 
                 session.prompt('\nAppuyez sur une touche pour continuer MC160') 
 
-                # close round : define the end_datetime # TODO ### 
+                # close round : define the end_datetime 
                 print('Clôturer le round') 
                 closing_round = self.in_view.input_closing_round() 
                 if (closing_round == 'y') or (closing_round == 'Y'): 
@@ -588,11 +587,12 @@ class Main_controller():
             player = self.enter_new_player() 
             self.players.append(player) 
             player_needed = session.prompt('\nEnregistrer un nouveau joueur ? (y/n) : ') 
-            if player_needed == "y" or player_needed == "Y": 
-                print(f'player_needed : {player_needed}') 
-                print(f'type(player_needed) : {type(player_needed)}') 
-            #     return True 
-            else: 
+            if not (player_needed == "y" or player_needed == "Y"): 
+                # print(f'player_needed : {player_needed}') 
+                # print(f'type(player_needed) : {type(player_needed)}') 
+                # return True 
+                #     pass 
+                # else: 
                 return False 
         # ==== tuto real python do...while 
         # while True:
