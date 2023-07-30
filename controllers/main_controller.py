@@ -114,7 +114,7 @@ class Main_controller():
                     next_matches = self.enter_new_matches(True)  # first_round 
                     # returns next_matches  (dicts) 
 
-                    starters = define_matches.define_starters(current_players, next_matches) 
+                    self.starters = define_matches.define_starters(current_players, next_matches) 
                 else: 
                     print('\nUn problème est survenu, merci d\'envoyer un feedback.') 
 
@@ -129,12 +129,8 @@ class Main_controller():
                 self.report_one_tournament('last') 
                 session.prompt('\nAppuyez sur une touche pour continuer MC124') 
 
-                # # Displays the last round 
-                # self.report_one_round('last', 'last') 
-                # session.prompt('\nAppuyez sur une touche pour continuer MC128') 
-
                 # Displays the starters 
-                print(f'Les joueurs qui commencent les matches : {starters}') 
+                self.report_starters() 
                 session.prompt('\nAppuyez sur une touche pour continuer MC128') 
 
                 self.start() 
@@ -147,7 +143,7 @@ class Main_controller():
 
                 # Get the last tournament (dict) 
                 last_tournament = self.select_one_tournament('last') 
-                print(f'\nlast_tournament MC150 : {last_tournament}')  # check if there is at least 1 round 
+                # print(f'\nlast_tournament MC150 : {last_tournament}')  # check if there is at least 1 round 
 
                 # Instantiate it (obj) 
                 self.tournament_obj = Tournament_model(**last_tournament) 
@@ -181,7 +177,6 @@ class Main_controller():
                         Merci de votre compréhension. ''') 
                         session.prompt('Appuyez sur une touche pour continuer MC237') 
 
-                    end_of_phrase = 'a été clôturé avec succès.' 
                     print(f'''
                     \nC\'était le dernier round, le tournoi {self.tournament_obj["name"]} a été clôturé avec succès. 
                     ''') 
@@ -204,13 +199,21 @@ class Main_controller():
                     self.enter_new_round(False) 
                     # returns self.round_object 
 
-                    next_matches = self.enter_new_matches(True)  # first_round 
+                    next_matches = self.enter_new_matches(False)  # first_round 
                     # returns next_matches  (dicts) 
 
-                    starters = define_matches.define_starters(current_players, next_matches) 
+                    players = [] 
+                    for player in self.tournament_obj.players: 
+                        player = self.select_one_player(player) 
+                        # print(f'player MC208 : {player}') 
+                        players.append(player) 
+
+                    self.starters = define_matches.define_starters(players, next_matches) 
+
+                    # self.starters_obj = [Player_model(**data) for data in self.starters] 
 
                     # Displays the starters 
-                    print(f'Les joueurs qui commencent les matches : {starters}') 
+                    self.report_starters() 
                     session.prompt('\nAppuyez sur une touche pour continuer MC128') 
 
                     self.matches = [Match_model(data) for data in next_matches] 
@@ -218,11 +221,8 @@ class Main_controller():
                     self.round_object.matches = self.matches 
                     self.tournament_obj.rounds.append(self.round_object) 
 
-                    if not self.tournament_obj.serialize_object(False): 
-                        print('''
-                        Il y a eu un problème. Essayez de recommencer et envoyez un feedback. 
-                        Merci de votre compréhension. ''') 
-                        session.prompt('Appuyez sur une touche pour continuer MC237') 
+                    self.tournament_obj.serialize_object(False) 
+                    # session.prompt('Appuyez sur une touche pour continuer MC237') 
 
                     print('\nVoici les résultats provisoires du tournoi : ') 
                     self.report_rounds('last') 
@@ -231,12 +231,6 @@ class Main_controller():
                     print('\nLes nouveaux scores des joueurs : ') 
                     self.report_players_from_tournament('id', 'last') 
                     session.prompt('Appuyez sur une touche pour continuer MC217') 
-
-                # if not self.tournament_obj.serialize_object(False): 
-                #     print('''
-                #     Il y a eu un problème. Essayez de recommencer et envoyez un feedback. 
-                #     Merci de votre compréhension. ''') 
-                #     session.prompt('Appuyez sur une touche pour continuer MC237') 
 
                 self.start() 
 
@@ -282,10 +276,10 @@ class Main_controller():
 
                     # Get the tournament's players (dicts) 
                     current_players = self.select_tournament_players() 
-                    starters = define_matches.define_starters(current_players, next_matches) 
+                    self.starters = define_matches.define_starters(current_players, next_matches) 
 
                     # Displays the starters 
-                    print(f'Les joueurs qui commencent les matches : {starters}') 
+                    self.report_starters() 
                     session.prompt('\nAppuyez sur une touche pour continuer MC303') 
 
                     self.matches = [Match_model(data) for data in next_matches] 
@@ -445,22 +439,18 @@ class Main_controller():
 
                 self.start()  # default=False 
 
-            # -------------------------------------------- 
-            # Reports one round and matches of one tournament 
+            # --------------- TEST ----------------------------- 
+            # Définir un nouveau match 
             if self.board.ask_for_report == '10': 
                 self.board.ask_for_report = None 
 
-                print('Afficher un round et les matches d\'un tournoi MC406') 
-                session.prompt('Appuyez sur une touche pour continuer MC407') 
+                # tournament_obj 
+                tournament = self.select_one_tournament('last') 
+                self.tournament_obj = Tournament_model(**tournament) 
 
-                tournament_id = session.prompt('''
-                    De quel tournoi voulez-vous les rounds ? 
-                    (son id ou "last" pour le dernier) ''') 
-                round_id = session.prompt('''
-                    Quel round du tournoi voulez-vous afficher ? 
-                    (son id ou "last" pour le dernier) ''') 
+                next_matches = self.enter_new_matches(False) 
+                print(f'next_matches MC448 : {next_matches}') 
 
-                self.report_one_round(tournament_id, round_id) 
                 session.prompt('Appuyez sur une touche pour continuer MC407') 
                 self.start(False) 
 
@@ -625,6 +615,10 @@ class Main_controller():
             tournament_obj = Tournament_model(**tournament) 
             self.report_view.display_rounds_one_tournament(tournament_obj) 
 
+    def report_starters(self): 
+        starters_objs = [Player_model(**data) for data in self.starters] 
+        self.report_view.display_starters(starters_objs) 
+
     # ---------------------------------------------- 
     """ comment """ 
     def report_one_round(self, tournament_id, round_id): 
@@ -757,7 +751,7 @@ class Main_controller():
 
         # Get the prompt data for the current round: 
         round_data = self.in_view.input_round() 
-        print(f'type(round_data) MC882 : {type(round_data)}') 
+
         if first_round: 
             round_data['id'] = 1 
         else: 
@@ -804,7 +798,7 @@ class Main_controller():
         # Loop on null_matches and winners lists to update the scores into the matches (current_matches_list) 
         for null_match in null_matches: 
             for current_match in current_matches_list: 
-                print(f'\ncurrent_match MC948 : {current_match}') 
+                # print(f'\ncurrent_match MC948 : {current_match}') 
                 if current_match.player_1_id == null_match.player_1_id: 
                     current_match.player_1_score += float(0.5) 
                     current_match.player_2_score += float(0.5) 
@@ -827,9 +821,15 @@ class Main_controller():
 
         # Put back the rounds and the matches into the round 
         self.last_round.matches = new_scores 
-        # print(f'\nself.last_round MC952 : {self.last_round}') 
-        # print(f'\nself.last_round.matches MC953 : {self.last_round.matches}') 
+        print(f'\nself.last_round MC824 : {self.last_round}') 
+        print(f'\ntype(self.last_round) MC825 : {type(self.last_round)}') 
+
         self.tournament_obj.rounds.append(self.last_round) 
+        print(f'\nself.tournament_obj.rounds MC828 : {self.tournament_obj.rounds}') 
+        print(f'\ntype(self.tournament_obj.rounds) MC829 : {type(self.tournament_obj.rounds)}') 
+        
+        print(f'\nself.tournament_obj MC831 : {self.tournament_obj}') 
+        print(f'\ntype(self.tournament_obj) MC832 : {type(self.tournament_obj)}') 
 
         # Serialize the tournament (new=False)  
         self.tournament_obj.serialize_object(False) 
@@ -868,12 +868,9 @@ class Main_controller():
             last_tournament = self.tournament_obj 
             next_matches = define_matches.make_peers(selected, False, last_tournament)  # True = first_round 
 
-        # self.matches = [Match_model(data) for data in next_matches] 
-        # # matches = [Match_model(data) for data in next_matches] 
+            print(f'next_matches MC865 : {next_matches}') 
 
         return next_matches 
-        # return self.matches 
-        # return matches 
 
     # ============ U T I L S ============ # 
 
@@ -896,7 +893,6 @@ class Main_controller():
             Returns:
                 int: the tournament's id 
         """ 
-        print(f't_id MC847 : {t_id}') 
         if Tournament_model.get_registered_dict('tournaments') == []: 
             # print(f'Il n\'y a pas de tournoi à afficher. MC974') 
             return {} 

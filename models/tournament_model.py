@@ -78,6 +78,8 @@ class Tournament_model(AbstractModel):
 
             last_matches_list = [] 
             for last_match_obj in last_round_dict['matches']: 
+                print(f'\nmatch TM81 : {last_match_obj}') 
+                print(f'\ntype(match) TM82 : {type(last_match_obj)}') 
                 last_match_dict = Match_model.to_dict(last_match_obj) 
 
                 last_matches_list.append(last_match_dict) 

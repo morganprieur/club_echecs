@@ -24,10 +24,24 @@ class Report_view():
         print('\n====\n') 
 
     def display_players(self, players_obj): 
-        # print('\n==== Tous les joueurs ====') 
+        print('\n\033[1m==== Tous les joueurs ====\033[0m') 
 
         for player in players_obj: 
             self.display_one_player(player) 
+
+    def display_starters(self, starters): 
+        print('\n\033[1m==== Les joueurs qui commencent les matches : ====\033[0m') 
+
+        for starter in starters: 
+            if not starter: 
+                print('Il n\'y a aucun joueur à afficher.') 
+            else: 
+                # self.display_one_player(starter) 
+                print(f"\n\033[1mJoueur {starter.id}\033[0m : ")  # ANSI \033[1m \033[0m --> gras 
+
+                print(f'nom complet : \t\t{starter.firstname} {starter.lastname}') 
+
+        print('\n====\n') 
 
     # ============ D I S P L A Y   T O U R N A M E N T S ============ # 
 

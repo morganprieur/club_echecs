@@ -15,7 +15,7 @@ def random_matches(registered_players):
         Returns: 
             selected (list of ints): the list of the selected players' ids. 
     """ 
-    print('Define matches first round') 
+    print('Define matches first round ') 
     selected = [] 
     for i in range(len(registered_players)): 
         chosen = random.choice(registered_players) 
@@ -34,18 +34,9 @@ def make_peers(selected, first_round, tournament):
     Returns:
         list: the peers of players that make the matches. 
     """ 
-    # print(f'now DM69 : {datetime.now()}') 
-    # print(f'selected DM53 : {selected}') 
-    # print(f'type(selected[0]) DM54 : {type(selected[0])}') 
 
     firsts = selected[::2] 
-    # print(f'firsts DM62 : {firsts}') 
     seconds = selected[1::2] 
-    # print(f'seconds DM64 : {seconds}') 
-    # firsts = rev[::2] 
-    # # print(f'firsts DM62 : {firsts}') 
-    # seconds = rev[1::2] 
-    # # print(f'seconds DM64 : {seconds}') 
 
     next_matches = [] 
     if first_round: 
@@ -55,30 +46,32 @@ def make_peers(selected, first_round, tournament):
     else: 
         # sort the players by score 
         selected.sort(key=attrgetter('local_score')) 
-        print(f'sort DM57 : {selected}') 
-        rev = list(reversed(selected)) 
-        print(f'rev DM59 : {rev}') 
+        # print(f'sort DM57 : {selected}') 
+        list(reversed(selected)) 
+        # rev = list(reversed(selected)) 
+        # print(f'rev DM59 : {rev}') 
 
         old_matches = [] 
         for round in tournament.rounds: 
             for match in round.matches: 
-                print('match DM78 : ', match) 
+                # print('match DM78 : ', match) 
                 old_matches.append(match) 
-        print('old_matches DM80 : ', old_matches) 
+        # print('old_matches DM80 : ', old_matches) 
 
         while firsts: 
             first = firsts.pop(0) 
-            print("first", first, firsts) 
+            # print("first", first, firsts) 
             while seconds: 
                 second = seconds.pop(0) 
-                print("second", second, seconds) 
+                # print("second", second, seconds) 
 
-                new_match = ([first.id, first.local_score], [second.id, second.local_score]) 
+                new_match = ([first.id, float(0.0)], [second.id, float(0.0)]) 
+                # new_match = ([first.id, first.local_score], [second.id, second.local_score]) 
                 if new_match in old_matches: 
                     seconds.append(second) 
                 else: 
                     next_matches.append(new_match) 
-                    print(f'new_matches DM95 : {next_matches}') 
+                    # print(f'new_matches DM95 : {next_matches}') 
                     break 
     print(f'next_matches DM81 : {next_matches}') 
 
@@ -98,7 +91,7 @@ def define_starters(players, matches):
     for match in matches: 
         white = random.choice(match) 
         whites.append(white) 
-    print(whites) 
+    # print(whites) 
 
     starters = [] 
     # Displays who begins  
@@ -106,7 +99,7 @@ def define_starters(players, matches):
         for player in players: 
             if starter[0] == player['id']: 
                 starters.append(player) 
-    print(starters) 
+    # print(starters) 
 
     return starters 
 

@@ -78,6 +78,7 @@ class Input_view():
         null_matches = [] 
         winners = [] 
         for match in matches: 
+            print(f'\n\033[1m{match}\033[0m ') 
             null_match = session.prompt('\nY a-t-il match nul ? (y/n) ') 
             if null_match == 'y': 
                 null_matches.append(match) 
