@@ -41,7 +41,6 @@ class Main_controller():
                 If True -> displays the menu and the welcome message, 
                 else -> displays only the menu. 
         """ 
-        # print("\nStart main controller") 
 
         if new_session: 
             self.board.display_welcome() 
@@ -54,7 +53,7 @@ class Main_controller():
             # menu "saisir" :
             self.board.display_register() 
 
-            # ==== Register one player ==== # 
+            # ==== Registers one player ==== # 
             if self.board.ask_for_register == '1': 
                 self.board.ask_for_register = None 
 
@@ -64,7 +63,7 @@ class Main_controller():
                 session.prompt('Appuyez sur une touche pour continuer MC71') 
                 self.start() 
 
-            # ==== Register many new players ==== # 
+            # ==== Registers many new players ==== # 
             if self.board.ask_for_register == '2': 
                 self.board.ask_for_register = None 
 
@@ -74,7 +73,7 @@ class Main_controller():
                 # session.prompt('Appuyez sur une touche pour continuer MC93') 
                 self.start() 
 
-            # ==== Register new tournament ==== # 
+            # ==== Registers one new tournament ==== # 
             if self.board.ask_for_register == '3': 
                 self.board.ask_for_register = None 
 
@@ -95,11 +94,11 @@ class Main_controller():
                 # Prompt if needed to register a new player 
                 player_needed = session.prompt('\nEnregistrer un nouveau joueur ? (y/n) ') 
                 if player_needed == 'y': 
-                    self.enter_many_new_players()  # object 
-                    # self.enter_new_player()  # object 
+                    self.enter_many_new_players() 
+                    # players = self.enter_many_new_players() 
 
                 self.enter_new_tournament() 
-                # return self.tournament_obj (object) 
+                # returns self.tournament_obj (object) 
 
                 print('\n\033[1mEnregistrer un nouveau round\033[0m') 
                 self.enter_new_round(True)  # first_round # object 
@@ -107,26 +106,40 @@ class Main_controller():
 
                 self.tournament_obj.rounds.append(self.round_object) 
 
+                # Get the tournament's players (dicts) 
+                current_players = self.select_tournament_players() 
+
                 self.round_object = self.tournament_obj.rounds[-1] 
                 if self.round_object.matches == []: 
-                    self.enter_new_matches(True)  # first_round 
-                    # return self.matches (objects) 
+                    next_matches = self.enter_new_matches(True)  # first_round 
+                    # returns next_matches  (dicts) 
+
+                    starters = define_matches.define_starters(current_players, next_matches) 
                 else: 
                     print('\nUn problème est survenu, merci d\'envoyer un feedback.') 
 
+                # players_obj = [Player_model(**data) for data in current_players] 
+                self.matches = [Match_model(data) for data in next_matches] 
+
                 self.round_object.matches = self.matches 
-                # print(f'self.round_object.matches MC126 : {self.round_object.matches}') 
-                # print(f'self.tournament_obj MC127 : {self.tournament_obj}') 
 
                 self.tournament_obj.serialize_object(True)  # True = new tournament 
 
-                # Display the last tournament  
+                # Displays the last tournament  
                 self.report_one_tournament('last') 
+                session.prompt('\nAppuyez sur une touche pour continuer MC124') 
 
-                session.prompt('\nAppuyez sur une touche pour continuer MC132') 
+                # # Displays the last round 
+                # self.report_one_round('last', 'last') 
+                # session.prompt('\nAppuyez sur une touche pour continuer MC128') 
+
+                # Displays the starters 
+                print(f'Les joueurs qui commencent les matches : {starters}') 
+                session.prompt('\nAppuyez sur une touche pour continuer MC128') 
+
                 self.start() 
 
-            # ==== Register new scores + close round ====
+            # ==== Registers new scores + close round ====
             if self.board.ask_for_register == '4': 
                 self.board.ask_for_register = None 
 
@@ -161,8 +174,17 @@ class Main_controller():
 
                 if self.last_round.id == self.tournament_obj.rounds_left: 
                     self.close_tournament() 
+
+                    if not self.tournament_obj.serialize_object(False): 
+                        print('''
+                        Il y a eu un problème. Essayez de recommencer et envoyez un feedback. 
+                        Merci de votre compréhension. ''') 
+                        session.prompt('Appuyez sur une touche pour continuer MC237') 
+
                     end_of_phrase = 'a été clôturé avec succès.' 
-                    print(f'\nC\'était le dernier round, le tournoi {self.tournament_obj["name"]} {end_of_phrase}') 
+                    print(f'''
+                    \nC\'était le dernier round, le tournoi {self.tournament_obj["name"]} a été clôturé avec succès. 
+                    ''') 
                     session.prompt('\nAppuyer sur une touche pour continuer MC178') 
 
                     # Display the results 
@@ -182,11 +204,25 @@ class Main_controller():
                     self.enter_new_round(False) 
                     # returns self.round_object 
 
-                    self.enter_new_matches(False) 
-                    # returns self.matches 
+                    next_matches = self.enter_new_matches(True)  # first_round 
+                    # returns next_matches  (dicts) 
+
+                    starters = define_matches.define_starters(current_players, next_matches) 
+
+                    # Displays the starters 
+                    print(f'Les joueurs qui commencent les matches : {starters}') 
+                    session.prompt('\nAppuyez sur une touche pour continuer MC128') 
+
+                    self.matches = [Match_model(data) for data in next_matches] 
 
                     self.round_object.matches = self.matches 
                     self.tournament_obj.rounds.append(self.round_object) 
+
+                    if not self.tournament_obj.serialize_object(False): 
+                        print('''
+                        Il y a eu un problème. Essayez de recommencer et envoyez un feedback. 
+                        Merci de votre compréhension. ''') 
+                        session.prompt('Appuyez sur une touche pour continuer MC237') 
 
                     print('\nVoici les résultats provisoires du tournoi : ') 
                     self.report_rounds('last') 
@@ -196,9 +232,11 @@ class Main_controller():
                     self.report_players_from_tournament('id', 'last') 
                     session.prompt('Appuyez sur une touche pour continuer MC217') 
 
-                if not self.tournament_obj.serialize_object(False): 
-                    end_of_phrase = 'Merci de votre compréhension.' 
-                    print(f'Il y a eu un problème. Essayez de recommencer et envoyez un feedback. {end_of_phrase} ') 
+                # if not self.tournament_obj.serialize_object(False): 
+                #     print('''
+                #     Il y a eu un problème. Essayez de recommencer et envoyez un feedback. 
+                #     Merci de votre compréhension. ''') 
+                #     session.prompt('Appuyez sur une touche pour continuer MC237') 
 
                 self.start() 
 
@@ -217,6 +255,7 @@ class Main_controller():
                     session.prompt('\nAppuyer sur une touche pour continuer MC227') 
 
                 # Pas besoin de vérifier si 1er round 
+                # If it is the last round, close the tournament 
                 if self.last_round.id == self.tournament_obj.rounds_left: 
                     self.close_tournament() 
                     end_of_phrase = 'a été clôturé avec succès.' 
@@ -236,9 +275,20 @@ class Main_controller():
                     session.prompt('\nAppuyer sur une touche pour continuer MC242') 
                 else: 
                     self.enter_new_round(False)  # first_round 
-                    # ret self.round_object 
+                    # returns self.round_object 
 
-                    self.enter_new_matches(False) 
+                    next_matches = self.enter_new_matches(True)  # first_round 
+                    # returns next_matches  (dicts) 
+
+                    # Get the tournament's players (dicts) 
+                    current_players = self.select_tournament_players() 
+                    starters = define_matches.define_starters(current_players, next_matches) 
+
+                    # Displays the starters 
+                    print(f'Les joueurs qui commencent les matches : {starters}') 
+                    session.prompt('\nAppuyez sur une touche pour continuer MC303') 
+
+                    self.matches = [Match_model(data) for data in next_matches] 
 
                     self.round_object.matches = self.matches 
                     self.tournament_obj.rounds.append(self.round_object) 
@@ -310,7 +360,7 @@ class Main_controller():
             # menu "afficher" : 
             self.board.display_report() 
 
-            # Report all players by firstname 
+            # Reports all players by firstname 
             if self.board.ask_for_report == '1': 
                 self.board.ask_for_report = None 
 
@@ -321,7 +371,7 @@ class Main_controller():
                 session.prompt('Appuyez sur une touche pour continuer MC328') 
                 self.start()  # default=False 
 
-            # Report all players by scores 
+            # Reports all players by scores 
             if self.board.ask_for_report == '2': 
                 self.board.ask_for_report = None 
 
@@ -332,7 +382,7 @@ class Main_controller():
                 session.prompt('Appuyez sur une touche pour continuer MC340') 
                 self.start()  # default=False 
 
-            # Report all tournaments 
+            # Reports all tournaments 
             if self.board.ask_for_report == '3': 
                 self.board.ask_for_report = None 
 
@@ -343,7 +393,7 @@ class Main_controller():
                 session.prompt('Appuyez sur une touche pour continuer MC352') 
                 self.start()  # default=False 
 
-            # Report one tournament 
+            # Reports one tournament 
             if self.board.ask_for_report == '4': 
                 self.board.ask_for_report = None 
 
@@ -355,7 +405,7 @@ class Main_controller():
                 session.prompt('Appuyez sur une touche pour continuer MC365') 
                 self.start()  # default=False 
 
-            # Report name and date of one tournament 
+            # Reports name and date of one tournament 
             if self.board.ask_for_report == '5': 
                 self.board.ask_for_report = None 
 
@@ -368,7 +418,7 @@ class Main_controller():
                 session.prompt('Appuyez sur une touche pour continuer MC388') 
                 self.start()  # default=False 
 
-            # Report all players of one tournament 
+            # Reports all players of one tournament 
             if self.board.ask_for_report == '6': 
                 self.board.ask_for_report = None 
 
@@ -381,18 +431,38 @@ class Main_controller():
                 session.prompt('Appuyez sur une touche pour continuer MC391') 
                 self.start()  # default=False 
 
-            # Report rounds and matches of one tournament 
+            # Reports rounds and matches of one tournament 
             if self.board.ask_for_report == '7': 
                 self.board.ask_for_report = None 
 
                 print('Afficher les rounds et matches d\'un tournoi MC319') 
                 session.prompt('Appuyez sur une touche pour continuer MC400') 
-                end_of_phrase = '(son id ou "last" pour le dernier) ' 
-                tournament_id = session.prompt(f'De quel tournoi voulez-vous les tours ? {end_of_phrase}') 
-                self.report_rounds(tournament_id) 
 
+                tournament_id = session.prompt('''De quel tournoi voulez-vous les tours ? (son id ou "last" 
+                                               pour le dernier) ''') 
+                self.report_rounds(tournament_id) 
                 session.prompt('Appuyez sur une touche pour continuer MC404') 
+
                 self.start()  # default=False 
+
+            # -------------------------------------------- 
+            # Reports one round and matches of one tournament 
+            if self.board.ask_for_report == '10': 
+                self.board.ask_for_report = None 
+
+                print('Afficher un round et les matches d\'un tournoi MC406') 
+                session.prompt('Appuyez sur une touche pour continuer MC407') 
+
+                tournament_id = session.prompt('''
+                    De quel tournoi voulez-vous les rounds ? 
+                    (son id ou "last" pour le dernier) ''') 
+                round_id = session.prompt('''
+                    Quel round du tournoi voulez-vous afficher ? 
+                    (son id ou "last" pour le dernier) ''') 
+
+                self.report_one_round(tournament_id, round_id) 
+                session.prompt('Appuyez sur une touche pour continuer MC407') 
+                self.start(False) 
 
         # ============ COMMANDES DE SECOURS ============ # 
 
@@ -555,6 +625,18 @@ class Main_controller():
             tournament_obj = Tournament_model(**tournament) 
             self.report_view.display_rounds_one_tournament(tournament_obj) 
 
+    # ---------------------------------------------- 
+    """ comment """ 
+    def report_one_round(self, tournament_id, round_id): 
+        self.tournament = self.select_one_tournament(tournament_id) 
+        if round_id == 'last': 
+            round = self.tournament['rounds'].pop() 
+        else: 
+            round = self.tournament[round_id] - 1 
+        one_round = Round_model(**round) 
+
+        self.report_view.display_one_round(one_round) 
+
     # ============ P L A Y E R S ============ # 
 
     """ Register one player """  # ok 230507 
@@ -588,19 +670,7 @@ class Main_controller():
             self.players.append(player) 
             player_needed = session.prompt('\nEnregistrer un nouveau joueur ? (y/n) : ') 
             if not (player_needed == "y" or player_needed == "Y"): 
-                # print(f'player_needed : {player_needed}') 
-                # print(f'type(player_needed) : {type(player_needed)}') 
-                # return True 
-                #     pass 
-                # else: 
                 return False 
-        # ==== tuto real python do...while 
-        # while True:
-        #     number = int(input("Enter a positive number: "))
-        #     print(number)
-        #     if not number > 0:
-        #         break
-        # ==== 
 
     def update_players_local_scores(self): 
         """ Update the scores into the players.json file. 
@@ -611,18 +681,10 @@ class Main_controller():
         self.players_objs = [Player_model(**data) for data in p_dicts] 
         for self.player_obj in self.players_objs: 
             for match in self.last_round.matches: 
-                # print(f'\nmatch MC760 : {match}') 
-                # print(f'\nself.player_obj.id MC764 : {self.player_obj.id}') 
-                # print(f'\nmatch.player_1_id MC765 : {match.player_1_id}') 
-                # print(f'\nmatch.player_2_id MC766 : {match.player_2_id}') 
                 if self.player_obj.id == match.player_1_id: 
-                    # print(f'\nself.player_obj.local_score MC770 : {self.player_obj.local_score}') 
-                    # print(f'\nmatch.player_1_score MC771 : {match.player_1_score}') 
                     self.player_obj.local_score += match.player_1_score 
 
                 elif self.player_obj.id == match.player_2_id: 
-                    # print(f'\nself.player_obj.local_score MC784 : {self.player_obj.local_score}') 
-                    # print(f'\nmatch.player_2_score MC785 : {match.player_2_score}') 
                     self.player_obj.local_score += match.player_2_score 
 
             # Register the new scores into players.json 
@@ -780,10 +842,11 @@ class Main_controller():
             Returns:
                 self.matches (objects): the list of matches to register into the new round. 
         """ 
-        self.tournament_players = self.tournament_obj.players  # list of objects 
+
+        tournament_players = self.tournament_obj.players  # list of objects 
 
         # Copy the players list to work with 
-        players_copy = list(self.tournament_players) 
+        players_copy = list(tournament_players) 
 
         # Get the data of the players_copy from the players.json file 
         players_dicts = Player_model.get_registered_dict('players')  # dict 
@@ -805,10 +868,12 @@ class Main_controller():
             last_tournament = self.tournament_obj 
             next_matches = define_matches.make_peers(selected, False, last_tournament)  # True = first_round 
 
-        self.matches = [Match_model(data) for data in next_matches] 
-        # print(f'\nnext_matches MC979 : {next_matches}')  # list of tuples 
+        # self.matches = [Match_model(data) for data in next_matches] 
+        # # matches = [Match_model(data) for data in next_matches] 
 
-        return self.matches 
+        return next_matches 
+        # return self.matches 
+        # return matches 
 
     # ============ U T I L S ============ # 
 
@@ -831,6 +896,7 @@ class Main_controller():
             Returns:
                 int: the tournament's id 
         """ 
+        print(f't_id MC847 : {t_id}') 
         if Tournament_model.get_registered_dict('tournaments') == []: 
             # print(f'Il n\'y a pas de tournoi à afficher. MC974') 
             return {} 
@@ -861,3 +927,23 @@ class Main_controller():
                 player = players_dicts[player_id - 1] 
         return player 
 
+    def select_tournament_players(self): 
+        self.tournament_players = self.tournament_obj.players  # list of objects 
+
+        # Copy the players list to work with 
+        players_copy = list(self.tournament_players) 
+
+        # Get the data of the players_copy from the players.json file 
+        players_dicts = Player_model.get_registered_dict('players')  # dict 
+        current_players = [] 
+        player_copy_data = {} 
+        for player_copy in players_copy: 
+            for registered_player in players_dicts: 
+                if registered_player['id'] == player_copy: 
+                    player_copy_data = dict(**registered_player) 
+                    current_players.append(player_copy_data) 
+        # self.players_obj = [Player_model(**data) for data in current_players] 
+        # players_obj = [Player_model(**data) for data in current_players] 
+
+        return current_players 
+        # return self.players_obj 

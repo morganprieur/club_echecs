@@ -1,6 +1,6 @@
 
 import random 
-from datetime import datetime 
+# from datetime import datetime 
 from operator import attrgetter 
 
 
@@ -19,9 +19,9 @@ def random_matches(registered_players):
     selected = [] 
     for i in range(len(registered_players)): 
         chosen = random.choice(registered_players) 
-        print(f'\nchosen DM26 : {chosen}') 
+        # print(f'\nchosen DM26 : {chosen}') 
         selected.append(chosen) 
-        print(f'\nselected DM35 : {selected}') 
+        # print(f'\nselected DM35 : {selected}') 
         registered_players.remove(chosen) 
     return selected 
 
@@ -34,9 +34,9 @@ def make_peers(selected, first_round, tournament):
     Returns:
         list: the peers of players that make the matches. 
     """ 
-    print(f'now DM69 : {datetime.now()}') 
-    print(f'selected DM53 : {selected}') 
-    print(f'type(selected[0]) DM54 : {type(selected[0])}') 
+    # print(f'now DM69 : {datetime.now()}') 
+    # print(f'selected DM53 : {selected}') 
+    # print(f'type(selected[0]) DM54 : {type(selected[0])}') 
 
     firsts = selected[::2] 
     # print(f'firsts DM62 : {firsts}') 
@@ -83,3 +83,34 @@ def make_peers(selected, first_round, tournament):
     print(f'next_matches DM81 : {next_matches}') 
 
     return next_matches 
+
+
+def define_starters(players, matches): 
+    """ Defines who plays the whites for each match. 
+        Args: 
+            players_obj (Player_model): all the players 
+            next_matches (list of Math_models): all the matches 
+        Returns: 
+            list of Player_models: only the players who begin the matches. 
+    """ 
+    # Determines the ids of the players who play the whites 
+    whites = [] 
+    for match in matches: 
+        white = random.choice(match) 
+        whites.append(white) 
+    print(whites) 
+
+    starters = [] 
+    # Displays who begins  
+    for starter in whites: 
+        for player in players: 
+            if starter[0] == player['id']: 
+                starters.append(player) 
+    print(starters) 
+
+    return starters 
+
+
+
+
+

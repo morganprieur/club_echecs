@@ -26,9 +26,6 @@ class Report_view():
     def display_players(self, players_obj): 
         # print('\n==== Tous les joueurs ====') 
 
-        # if not players_obj: 
-        #     print('Il n\'y a aucun joueur à afficher.') 
-        # else: 
         for player in players_obj: 
             self.display_one_player(player) 
 
@@ -46,7 +43,7 @@ class Report_view():
 
         rounds = one_tournament.rounds 
         for round in rounds: 
-            self.display_round(round) 
+            self.display_one_round(round) 
 
     def display_tournaments(self, all_tournaments): 
         print('\n==== Tous les tournois ====') 
@@ -86,19 +83,23 @@ class Report_view():
             print(f'\nLe tournoi {tournament.id} n\'a pas encore de rounds') 
         else:  
             for round in rounds: 
-                self.display_round(round) 
+                self.display_one_round(round) 
         print('\n====\n') 
 
-    def display_round(self, round): 
-        print(f'\t\033[1mRound {round.id} :\033[0m ') 
-        print(f'\tNom : \t{round.round_name}') 
-        print(f'\tDate et heure de début : \t{round.start_datetime}') 
+    def display_one_round(self, one_round): 
+        """ Displays the properties of the round. 
+            Args:
+                one_round (Round_model): a Round object to display. 
+        """ 
+        print(f'\t\033[1mRound {one_round.id} :\033[0m ') 
+        print(f'\tNom : \t{one_round.round_name}') 
+        print(f'\tDate et heure de début : \t{one_round.start_datetime}') 
         print('\t\033[1mmatches :\033[0m ') 
 
-        if round.matches == []: 
+        if one_round.matches == []: 
             print('Il n\'y a aucun match à afficher.') 
         else: 
-            matches = round.matches 
+            matches = one_round.matches 
             for match in matches: 
                 self.display_match(match) 
 
