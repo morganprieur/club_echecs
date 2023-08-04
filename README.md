@@ -14,8 +14,8 @@ Windows --> `source env/Scripts/activate` (ne pas taper "python" au début de la
      
 L'invite de commande commence maintenant par `(env)`, ce qui signifie qu'on se trouve bien dans l'environnement virtuel. 
 A noter que dans l'arborescence de l'IDE, les dossiers et fichiers de travail apparaissent au même niveau que le dossier `env`.     
-     
-     
+    
+
 ## Installer les dépendances 
 Taper la commande :     
 `pip install -r requirements.txt` 
@@ -23,49 +23,55 @@ Taper la commande :
 
 ## Arborescence du projet 
 
-work 
- |--> env  
- |-- project.py (entrée du programme) 
+work/ 
+    |-- controllers/
+        |-- define_matches.py 
+        |-- main_controller.py 
+    |-- data/ 
+        |-- players.json 
+        |-- tournaments.json 
+    |-- env_debug/ 
+    |-- flake-report/ 
+        |-- flake8_report-230804_1702/ 
+    |-- models/ 
+        |-- abstract_model.py 
+        |-- match_model.py 
+        |-- player_model.py 
+        |-- round_model.py 
+        |-- tournament_model.py 
+    |-- views/ 
+        |-- dashboard_view.py 
+        |-- input_view.py 
+        |-- report_view.py 
+    |-- .gitignore 
+    |-- project.py (entrée du programme) 
+    |-- README.md 
+    |-- requirements.txt 
+    |-- setup.cfg (config flake8) 
 
 
-## Fonctionnalités 
+## Fonctionnalités / Menus 
 
 **Enregistrer** 
 * Enregistrer un joueur 
 * Enregistrer plusieurs joueurs 
 * Enregistrer un nouveau tournoi 
-* Attribuer des joueurs à un tournoi 
-* Définir et enregistrer les matches pour le 1er round 
-* Définir et enregistrer les matches pour les rounds 2 à 4 
+* Enregistrer des scores et clôturer le round 
 * Clôturer un round 
 * Clôturer un tournoi 
-* Enregistrer des scores 
 
 **Afficher** 
-* Afficher tous les joueurs par ordre alphabétique 
-* Afficher tous les joueurs par nombre de points 
-* Afficher tous les joueurs d'un tournoi par ordre alphabétique 
-* Afficher tous les tournois 
-* Afficher un tournoi désiré 
-* Afficher les nom et date d'un tournoi 
-* Afficher tous les rounds et matches d'un tournoi désiré  
-
-## Menus 
-
-**Menu "Enregistrer"** 
-* Enregistrer un joueur 
-* Enregistrer plusieurs joueurs 
-* Enregistrer un nouveau tournoi 
-* Enregistrer des scores 
-
-**Menu "Afficher"** 
 * Tous les joueurs par ordre alphabétique 
-* Tous les joueurs par classement (pas demandé mais c'est fait) 
+* Tous les joueurs par classement  <!-- pas demandé mais c'est fait --> 
 * Tous les tournois 
-* Nom et dates d'un tournoi 
+* Un tournoi 
+* Nom et dates d\'un tournoi 
 * Les joueurs du tournoi par ordre alphabétique 
-* Les tours et matches d'un tournoi 
+* Les tours et matches d\'un tournoi 
 
+**Commandes de secours** 
+* "*" : revenir au menu principal 
+* "0" : sortir et fermer l'application  
 
 
 ## Lancer le programme 
@@ -73,16 +79,14 @@ work
 *  Dans le terminal lancer le script : 
 `python project.py` 
 
-<!-- La console n'affiche aucun retour, pour vérifier que ça fonctionne, il faut ouvrir le dossier `data` pour voir si un fichier `Travel.csv` est créé, puis les suivants. Ouvrir le fichier avec Excel ou LibreOffice pour vérifier son contenu.  -->
 
-
-
-
+## Feedbacks 
+En cas de mauvais fonctionnement ou si vous voulez suggérer des fonctionnalités, écrivez à morgan@mail.com 
 
 
 ## Flake 8 
 
 Lancer un rapport du projet complet : 
 `flake8 --format=html --htmldir=flake-report/` 
-
+<!-- Ne crée pas de fichier html si pas d'erreur à signaler --> 
 

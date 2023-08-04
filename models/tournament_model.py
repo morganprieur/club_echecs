@@ -72,22 +72,24 @@ class Tournament_model(AbstractModel):
             t_dicts.pop() 
         new_tournament_dict = self.to_dict() 
 
-        last_rounds_list = [] 
-        for last_round_obj in new_tournament_dict['rounds']: 
-            last_round_dict = Round_model.to_dict(last_round_obj) 
+        new_rounds_list = [] 
+        for new_round in new_tournament_dict['rounds']: 
+            print(f'\ntype(new_round) TM76 : {type(new_round)}') 
+            new_round_dict = Round_model.to_dict(new_round) 
 
-            last_matches_list = [] 
-            for last_match_obj in last_round_dict['matches']: 
-                print(f'\nmatch TM81 : {last_match_obj}') 
-                print(f'\ntype(match) TM82 : {type(last_match_obj)}') 
-                last_match_dict = Match_model.to_dict(last_match_obj) 
+            new_matches_list = [] 
+            for new_match in new_round_dict['matches']: 
+                print(f'\nnew_match TM82 : {new_match}') 
+                match_tuple = tuple(new_match) 
+                print(f'\nmatch tuple TM84 : {match_tuple}') 
+                print(f'\nmatch tuple[0][0] TM85 : {match_tuple[0][0]}') 
+                new_match_tuple = Match_model.to_dict(match_tuple) 
 
-                last_matches_list.append(last_match_dict) 
-            last_round_dict['matches'] = last_matches_list 
+                new_matches_list.append(new_match_tuple) 
 
-            last_rounds_list.append(last_round_dict) 
-        new_tournament_dict['rounds'] = last_rounds_list 
+            new_rounds_list.append(new_round_dict) 
 
+            new_tournament_dict['rounds'] = new_rounds_list 
         t_dicts.append(new_tournament_dict) 
 
         with open(f"data/{self.table}.json", "w") as file: 

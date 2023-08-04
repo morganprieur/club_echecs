@@ -178,7 +178,7 @@ class Main_controller():
                         session.prompt('Appuyez sur une touche pour continuer MC237') 
 
                     print(f'''
-                    \nC\'était le dernier round, le tournoi {self.tournament_obj["name"]} a été clôturé avec succès. 
+                    \nLe tournoi {self.tournament_obj["name"]} a été clôturé avec succès. 
                     ''') 
                     session.prompt('\nAppuyer sur une touche pour continuer MC178') 
 
@@ -243,6 +243,11 @@ class Main_controller():
                 print('Clôturer le round') 
                 closing_round = self.in_view.input_closing_round() 
                 if (closing_round == 'y') or (closing_round == 'Y'): 
+                    tournament = self.select_one_tournament('last') 
+                    self.tournament_obj = Tournament_model(**tournament) 
+                    self.last_round = self.tournament_obj.rounds[-1] 
+                    print(f'self.tournament_obj MC249 : {self.tournament_obj}') 
+
                     self.last_round.end_datetime = str(datetime.now()) 
                 else: 
                     print('*** La clôture du round a été annulée. Vous pourrez clôturer le round depuis le menu. ***') 
@@ -250,10 +255,11 @@ class Main_controller():
 
                 # Pas besoin de vérifier si 1er round 
                 # If it is the last round, close the tournament 
+                # if self.tournament_obj.rounds[-1].id == self.tournament_obj.rounds_left: 
                 if self.last_round.id == self.tournament_obj.rounds_left: 
                     self.close_tournament() 
-                    end_of_phrase = 'a été clôturé avec succès.' 
-                    print(f'\nC\'était le dernier round, le tournoi {self.last_tournament["name"]} {end_of_phrase}') 
+                    last_tournament = self.select_one_tournament('last') 
+                    print(f'''\nLe tournoi {last_tournament["name"]} a été clôturé avec succès.''') 
                     session.prompt('\nAppuyer sur une touche pour continuer MC233') 
 
                     # Display the results 
@@ -292,16 +298,16 @@ class Main_controller():
                         print(f'Il y a eu un problème. Essayez de recommencer et envoyez un feedback. {end_of_phrase}') 
                         session.prompt('\nAppuyez sur une touche pour continuer MC254') 
 
-                print('\nVoici les résultats provisoires du tournoi : ') 
-                session.prompt('\nAppuyez sur une touche pour continuer MC257') 
-                self.report_one_tournament('last') 
-                session.prompt('\nAppuyez sur une touche pour continuer MC259') 
+                    print('\nVoici les résultats provisoires du tournoi : ') 
+                    session.prompt('\nAppuyez sur une touche pour continuer MC257') 
+                    self.report_one_tournament('last') 
+                    session.prompt('\nAppuyez sur une touche pour continuer MC259') 
 
-                print('\nLes nouveaux scores des joueurs : ') 
-                session.prompt('\nAppuyez sur une touche pour continuer MC262') 
-                self.report_players_from_tournament('firstname', 'last') 
+                    print('\nLes nouveaux scores des joueurs : ') 
+                    session.prompt('\nAppuyez sur une touche pour continuer MC262') 
+                    self.report_players_from_tournament('firstname', 'last') 
+                    session.prompt('Appuyez sur une touche pour continuer MC265') 
 
-                session.prompt('Appuyez sur une touche pour continuer MC265') 
                 self.start() 
 
             # ==== Clôturer un tournoi ==== # 
@@ -586,11 +592,13 @@ class Main_controller():
                 tournament_id (int or 'last'): the tournament's id, or 'last' for the last one. 
         """ 
         tournament = self.select_one_tournament(tournament_id) 
+        print(f'\ntournament MC596 : {tournament}') 
+        # print(f'\ntournament MC596 : {tournament}') 
         if tournament == {}: 
             print('Il n\'y a pas de tournoi à afficher. MC651') 
         else: 
-            last_tournament = Tournament_model(**tournament) 
-            self.report_view.display_one_tournament(last_tournament) 
+            tournament_obj = Tournament_model(**tournament) 
+            self.report_view.display_one_tournament(tournament_obj) 
 
     def report_name_date_tournament(self, tournament_id): 
         """ Displays the name and the dates of the tournament. 
@@ -736,7 +744,8 @@ class Main_controller():
         if closing_tournament == 'y': 
             # Set the end_date 
             self.tournament_obj.end_date = str(today) 
-            self.tournament_obj.serialize_object(False) 
+            print(f'self.tournament_obj.rounds[-1].matches MC748 : {self.tournament_obj.rounds[-1].matches}') 
+            self.tournament_obj.serialize_object(False)  # matchers ok 
         else: 
             print('\nLa clôture du tournoi a été annulée, vous pourrez la relancer depuis le menu. ') 
 
@@ -827,7 +836,7 @@ class Main_controller():
         self.tournament_obj.rounds.append(self.last_round) 
         print(f'\nself.tournament_obj.rounds MC828 : {self.tournament_obj.rounds}') 
         print(f'\ntype(self.tournament_obj.rounds) MC829 : {type(self.tournament_obj.rounds)}') 
-        
+
         print(f'\nself.tournament_obj MC831 : {self.tournament_obj}') 
         print(f'\ntype(self.tournament_obj) MC832 : {type(self.tournament_obj)}') 
 
@@ -868,7 +877,7 @@ class Main_controller():
             last_tournament = self.tournament_obj 
             next_matches = define_matches.make_peers(selected, False, last_tournament)  # True = first_round 
 
-            print(f'next_matches MC865 : {next_matches}') 
+        print(f'next_matches MC865 : {next_matches}') 
 
         return next_matches 
 

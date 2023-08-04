@@ -4,7 +4,7 @@ import json
 
 
 class AbstractModel(ABC): 
-
+    """ Comment """
     def __init__(self, table) -> None: 
         self.table = table 
         pass 

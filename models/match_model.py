@@ -17,7 +17,12 @@ class Match_model(AbstractModel):
         self.player_2_score = self.player_2[1] 
 
     def __str__(self): 
-        return f'{self.match}' 
+        return f'([{self.player_1_id}, {self.player_1_score}], [{self.player_2_id},{self.player_2_score}])' 
+        # return f'{self.match}' 
 
     def to_dict(self): 
-        return ([self.player_1_id, self.player_1_score], [self.player_2_id, self.player_2_score]) 
+        return ([self[0][0], self[0][1]], [self[1][0], self[1][1]]) 
+        # return ([self.player_1_id, self.player_1_score], [self.player_2_id, self.player_2_score]) 
+        # player_one = [self.player_1_id, self.player_1_score] 
+        # player_two = [self.player_2_id, self.player_2_score] 
+        # return (player_one, player_two) 

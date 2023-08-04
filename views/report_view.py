@@ -107,7 +107,11 @@ class Report_view():
         """ 
         print(f'\t\033[1mRound {one_round.id} :\033[0m ') 
         print(f'\tNom : \t{one_round.round_name}') 
-        print(f'\tDate et heure de début : \t{one_round.start_datetime}') 
+        print(f'\tDate et heure de début : {one_round.start_datetime}') 
+        if one_round.end_datetime: 
+            print(f'\tDate et heure de début : {one_round.start_datetime}') 
+        else: 
+            print('\tDate et heure de début : ') 
         print('\t\033[1mmatches :\033[0m ') 
 
         if one_round.matches == []: 

@@ -43,7 +43,7 @@ class Input_view():
         return new_tournament 
 
     def input_closing_tournament(self): 
-        is_tournament_done = session.prompt('\nConfirmer la clôture du tournoi ? (y/N) : ') 
+        is_tournament_done = session.prompt('\nC\'est le dernier round. Confirmer la clôture du tournoi ? (y/N) : ') 
         return is_tournament_done 
 
     # ============ R O U N D S ============ # 

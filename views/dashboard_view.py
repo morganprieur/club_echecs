@@ -24,7 +24,7 @@ class Dashboard_view():
     ] 
 
     register_menu = [ 
-        '\033[1mMenu "saisir" :\033[0m ', 
+        '\033[1mMenu "enregistrer" :\033[0m ', 
         '1 : Enregistrer un joueur', 
         '2 : Enregistrer plusieurs joueurs', 
         '3 : Enregistrer un nouveau tournoi', 
@@ -51,7 +51,7 @@ class Dashboard_view():
         '--------', 
         '\033[1mCommandes de secours :\033[0m ', 
         '* pour revenir au menu principal', 
-        '0 pour sortir' 
+        '0 pour sortir et fermer l\'application' 
     ] 
 
     def __init__(self): 
