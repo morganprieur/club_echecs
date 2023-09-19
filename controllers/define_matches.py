@@ -73,7 +73,7 @@ def make_peers(selected, first_round, tournament):
                     next_matches.append(new_match) 
                     # print(f'new_matches DM95 : {next_matches}') 
                     break 
-    print(f'next_matches DM81 : {next_matches}') 
+    print(f'next_matches DM76 : {next_matches}') 
 
     return next_matches 
 

@@ -76,17 +76,18 @@ class Tournament_model(AbstractModel):
         for new_round in new_tournament_dict['rounds']: 
             print(f'\ntype(new_round) TM76 : {type(new_round)}') 
             new_round_dict = Round_model.to_dict(new_round) 
+            print(f'\ntype(new_round_dict) TM78 : {type(new_round_dict)}') 
 
             new_matches_list = [] 
             for new_match in new_round_dict['matches']: 
-                print(f'\nnew_match TM82 : {new_match}') 
-                match_tuple = tuple(new_match) 
-                print(f'\nmatch tuple TM84 : {match_tuple}') 
-                print(f'\nmatch tuple[0][0] TM85 : {match_tuple[0][0]}') 
-                new_match_tuple = Match_model.to_dict(match_tuple) 
+                # print(f'\nnew_match TM83 : {new_match}') 
+                # print(f'\ntype(new_match) TM84 : {type(new_match)}') 
+                new_match_tuple = Match_model.to_dict(new_match) 
+                # print(f'\ntype(new_match_tuple) TM90 : {type(new_match_tuple)}') 
 
                 new_matches_list.append(new_match_tuple) 
 
+            new_round_dict['matches'] = new_matches_list 
             new_rounds_list.append(new_round_dict) 
 
             new_tournament_dict['rounds'] = new_rounds_list 
