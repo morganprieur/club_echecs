@@ -1,6 +1,6 @@
 
 # Projet 4 - Développer un programme logiciel en python 
-Logiciel MVC en python pour gestion des tournois d'échecs. 
+Logiciel MVC en python pour gestion de tournois d'échecs. 
 
 
 ## Créer un environnement virtuel 
@@ -30,9 +30,9 @@ work/
     |-- data/ 
         |-- players.json 
         |-- tournaments.json 
-    |-- env_debug/ 
+    |-- env_debug/ (non partagé sur Github) 
     |-- flake-report/ 
-        |-- flake8_report-230804_1702/ 
+        |-- ***  
     |-- models/ 
         |-- abstract_model.py 
         |-- match_model.py 
@@ -81,7 +81,7 @@ work/
 
 
 ## Feedbacks 
-En cas de mauvais fonctionnement ou si vous voulez suggérer des fonctionnalités, écrivez à morgan@mail.com 
+En cas de mauvais fonctionnement ou si vous voulez suggérer des fonctionnalités, écrivez à morg.leen@ouvaton.org 
 
 
 ## Flake 8 

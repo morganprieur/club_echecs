@@ -81,8 +81,14 @@ class Tournament_model(AbstractModel):
             new_matches_list = [] 
             for new_match in new_round_dict['matches']: 
                 # print(f'\nnew_match TM83 : {new_match}') 
-                # print(f'\ntype(new_match) TM84 : {type(new_match)}') 
-                new_match_tuple = Match_model.to_dict(new_match) 
+                # print(f'\ntype(new_match[0]) TM84 : {type(new_match[0])}') 
+                # if players and isinstance(players[0], dict): 
+                if new_match and isinstance(new_match, Match_model): 
+                    print('\nYes, new_match -> object') 
+                    new_match_tuple = Match_model.to_dict(new_match) 
+                else: 
+                    print(f'\nNo, type(new_match) : {type(new_match)}') 
+                    new_match_tuple = new_match 
                 # print(f'\ntype(new_match_tuple) TM90 : {type(new_match_tuple)}') 
 
                 new_matches_list.append(new_match_tuple) 
