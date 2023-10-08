@@ -1,15 +1,13 @@
 
-import random 
-# from datetime import datetime 
+
+from models.player_model import Player_model 
+
 from operator import attrgetter 
-
-
-""" Random define the pairs of players into each round 
-""" 
+import random 
 
 
 def random_matches(registered_players): 
-    """ Select the players' ids for one match. 
+    """ Random define the pairs of players for each round. 
         Args: 
             players (list of objects): the list of the players' ids of the last tournament. 
         Returns: 
@@ -28,13 +26,12 @@ def random_matches(registered_players):
 
 def make_peers(selected, first_round, tournament): 
     """ groups players by peers, and differenciate the matches regarding the precedent ones, if this is not the first. 
-    Args:
-        selected (list): the players for the matches. 
-        first (boolean): is this the first round ? If False: check the precedent matches and blend the players. 
-    Returns:
-        list: the peers of players that make the matches. 
+        Args:
+            selected (list): the players for the matches. 
+            first (boolean): is this the first round ? If False: check the precedent matches and blend the players. 
+        Returns:
+            list: the peers of players that make the matches. 
     """ 
-
     firsts = selected[::2] 
     seconds = selected[1::2] 
 
@@ -46,64 +43,73 @@ def make_peers(selected, first_round, tournament):
     else: 
         # sort the players by score 
         selected.sort(key=attrgetter('local_score')) 
-        # print(f'sort DM57 : {selected}') 
         list(reversed(selected)) 
-        # rev = list(reversed(selected)) 
-        # print(f'rev DM59 : {rev}') 
 
+        # For compare the peers: 
         old_matches = [] 
         for round in tournament.rounds: 
             for match in round.matches: 
-                # print('match DM78 : ', match) 
                 old_matches.append(match) 
-        # print('old_matches DM80 : ', old_matches) 
 
+        # Define peers: 
         while firsts: 
             first = firsts.pop(0) 
-            # print("first", first, firsts) 
             while seconds: 
                 second = seconds.pop(0) 
-                # print("second", second, seconds) 
 
                 new_match = ([first.id, float(0.0)], [second.id, float(0.0)]) 
-                # new_match = ([first.id, first.local_score], [second.id, second.local_score]) 
                 if new_match in old_matches: 
                     seconds.append(second) 
                 else: 
                     next_matches.append(new_match) 
-                    # print(f'new_matches DM95 : {next_matches}') 
                     break 
-    print(f'next_matches DM76 : {next_matches}') 
+    print(f'next_matches h69 : {next_matches}') 
 
+    # List of dicts 
     return next_matches 
 
 
 def define_starters(players, matches): 
     """ Defines who plays the whites for each match. 
         Args: 
-            players_obj (Player_model): all the players 
-            next_matches (list of Math_models): all the matches 
+            players (List of Player_models): all the players of the tournament. 
+            next_matches (list of Match_models): all the new matches. 
         Returns: 
             list of Player_models: only the players who begin the matches. 
     """ 
+    print(f'players : {players}') 
     # Determines the ids of the players who play the whites 
     whites = [] 
     for match in matches: 
         white = random.choice(match) 
         whites.append(white) 
-    # print(whites) 
 
     starters = [] 
     # Displays who begins  
     for starter in whites: 
         for player in players: 
-            if starter[0] == player['id']: 
-                starters.append(player) 
-    # print(starters) 
-
+            # ifnew_match and isinstance(new_match, Match_model): 
+            # ifplayer and isinstance(player, Player_model): 
+            if player and isinstance(player, Player_model) or player and isinstance(player, dict): 
+                if starter[0] == player.id: 
+                    starters.append(player) 
+            # elifplayer and isinstance(player, dict): 
+            #     ifstarter[0] == player['id']: 
+            #         starters.append(player) 
+    # List of Player_models 
     return starters 
 
 
+def sort_objects_by_field(objects, field, reversed=False): 
+    """ Sort the given objects dict by the given field. 
+        Args: 
+            objects (dict): the list of objects to sort. 
+            field (string): the field which sort. 
+            reversed (bool): if we have to reverse the result. Default False. 
+        Returns objects 
+    """ 
+    objects.sort(key=attrgetter(field), reverse=reversed) 
+    return objects 
 
 
 
