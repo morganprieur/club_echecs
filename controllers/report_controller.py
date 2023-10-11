@@ -148,7 +148,7 @@ class Report_controller():
 
     def report_name_date_tournament(self, tournament_id): 
         """ Displays the name and the dates of the tournament. 
-            Args:
+            Args: 
                 tournament_id (int or 'last'): the id of the tournament, or 'last' for the last one. 
         """
         tournament = self.select_one_tournament(tournament_id) 
@@ -160,9 +160,9 @@ class Report_controller():
 
     def report_rounds(self, tournament_id): 
         """ Displays the rounds of a tournament. 
-            Args:
+            Args: 
                 tournament_id (int or 'last'): the tournament's id or 'last' for the last one. 
-        """
+        """ 
         tournament = self.select_one_tournament(tournament_id) 
         if tournament == {}: 
             print('Il n\'y a pas de tournoi à afifcher.') 
@@ -171,8 +171,10 @@ class Report_controller():
             self.report_view.display_rounds_one_tournament(tournament_obj) 
 
     def report_starters(self): 
+        print(f'dir(self) RC174 : {dir(self)}') 
         # starters_objs = [Player_model(**data) for data in self.starters] 
         starters = self.starters 
+        print(f'starters RC177 : {starters}') 
         # problème avec 1-4 : 'Report_view' object has no attribute 'starters', j'essaye la ligne d'en-dessous 
         # self.report_view.display_starters()  
         self.report_view.display_starters(starters) 
