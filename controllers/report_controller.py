@@ -78,6 +78,7 @@ class Report_controller():
             player_obj = Player_model(**player) 
             self.report_view.display_one_player(player_obj) 
 
+
     def report_players_from_tournament(self, field): 
         """ Displays the players of one tournament. 
             Args: 
@@ -88,8 +89,9 @@ class Report_controller():
         if not self.players_objs: 
             print('Il n\'y a pas de joueurs à afficher.') 
         else: 
-            print(f'self.players_objs : {self.players_objs}') 
+            # print(f'self.players_objs : {self.players_objs}') 
 
+            print('======== ') 
             # Choice of the order (id, alphabetical or by score): 
             if field == 'id': 
                 print('\nJoueurs par ordre d\'id : ') 
@@ -98,7 +100,7 @@ class Report_controller():
             if field == 'score': 
                 print('\nJoueurs par score : ') 
             players_objs = self.players_objs 
-            print(f'players_objs : {players_objs}') 
+            # print(f'players_objs : {players_objs}') 
             self.tournament_players_objs = helpers.sort_objects_by_field(players_objs, 'local_score') 
 
             self.report_view.display_players(self.tournament_players_objs) 

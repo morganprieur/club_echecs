@@ -85,16 +85,17 @@ class Register_controller():
         p_dicts = Player_model.get_registered_dict('players') 
         # Instantiate the players 
         self.registered_players_objs = [Player_model(**data) for data in p_dicts] 
+
         for self.registered_player_obj in self.registered_players_objs: 
             for match in self.last_round.matches: 
                 if self.registered_player_obj.id == match.player_1_id: 
-                    self.registered_player_obj.local_score += match.player_1_score 
+                    self.registered_player_obj.global_score += match.player_1_score 
+                    # self.registered_player_obj.local_score += match.player_1_score 
 
                 elif self.registered_player_obj.id == match.player_2_id: 
-                    self.registered_player_obj.local_score += match.player_2_score 
-
-        # players_objs = self.players_objs 
-        # self.sort_objects_by_field(players_objs, 'id') 
+                    self.registered_player_obj.global_score += match.player_2_score 
+                    # self.registered_player_obj.local_score += match.player_2_score 
+                self.registered_player_obj.local_score = 0.0 
 
         # Register the new scores into players.json 
         for self.registered_player_obj in self.registered_players_objs: 
@@ -155,6 +156,7 @@ class Register_controller():
             self.tournament_obj.serialize_object(False)  # matchers ok 
         else: 
             print('\nLa clôture du tournoi a été annulée, vous pourrez la relancer depuis le menu. ') 
+        return True 
 
     # ============ R O U N D S ============ # 
 

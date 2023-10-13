@@ -57,7 +57,7 @@ class Input_view():
 
     """ Rounds """ 
     def input_closing_round(self): 
-        is_round_done = session.prompt('\nConfirmer la clôture du round ? (y/N) ') 
+        is_round_done = session.prompt('Confirmer la clôture du round ? (y/N) ') 
         return is_round_done  
 
     # ============ M A T C H E S ============ # 
@@ -78,7 +78,7 @@ class Input_view():
         null_matches = [] 
         winners = [] 
         for match in matches: 
-            print(f'\n\033[1m{match}\033[0m ') 
+            print(f'\n\033[1mMatch : joueur {match.player_1_id} contre joueur {match.player_2_id}\033[0m ') 
             null_match = session.prompt('\nY a-t-il match nul ? (y/n) ') 
             if null_match == 'y': 
                 null_matches.append(match) 

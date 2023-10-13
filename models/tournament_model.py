@@ -84,7 +84,7 @@ class Tournament_model(AbstractModel):
                     # print('\nYes, new_match -> object') 
                     new_match_tuple = Match_model.to_dict(new_match) 
                 else: 
-                    print(f'\nNo, type(new_match) : {type(new_match)}') 
+                    # print(f'\nNo, type(new_match) : {type(new_match)}') 
                     new_match_tuple = new_match 
 
                 new_matches_list.append(new_match_tuple) 

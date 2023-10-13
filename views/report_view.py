@@ -24,7 +24,7 @@ class Report_view():
         print('\n====\n') 
 
     def display_players(self, players_obj): 
-        print('\n\033[1m==== Tous les joueurs ====\033[0m') 
+        # print('\n\033[1m==== Tous les joueurs ====\033[0m') 
 
         for player in players_obj: 
             self.display_one_player(player) 
@@ -102,6 +102,7 @@ class Report_view():
             for round in rounds: 
                 self.display_one_round(round) 
         print('\n====\n') 
+
 
     def display_one_round(self, one_round): 
         """ Displays the properties of the round. 
