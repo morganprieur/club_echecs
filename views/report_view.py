@@ -29,15 +29,18 @@ class Report_view():
         for player in players_obj: 
             self.display_one_player(player) 
 
+
+    """ def display_starters(self, starters): """ 
+    # def display_starters(self): 
     def display_starters(self, starters): 
         print('\n\033[1m==== Les joueurs qui commencent les matches : ====\033[0m') 
-
+        # print(f'dir(self) RB37 : {dir(self)}') 
         for starter in starters: 
             if not starter: 
                 print('Il n\'y a aucun joueur à afficher.') 
             else: 
-                # self.display_one_player(starter) 
-                print(f"\n\033[1mJoueur {starter.id}\033[0m : ")  # ANSI \033[1m \033[0m --> gras 
+                # ANSI \033[1m Texte en gras \033[0m 
+                print(f"\n\033[1mJoueur {starter.id}, {starter.firstname} {starter.lastname}\033[0m : ") 
 
                 print(f'nom complet : \t\t{starter.firstname} {starter.lastname}') 
 

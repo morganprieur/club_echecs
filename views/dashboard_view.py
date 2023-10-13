@@ -15,7 +15,7 @@ class Dashboard_view():
     main_menu = [ 
         '========', 
         '\033[1mMenu principal :\033[0m ', 
-        '1 : saisir', 
+        '1 : enregistrer', 
         '2 : afficher', 
         '--------', 
         'Commandes de secours : ', 
@@ -39,19 +39,19 @@ class Dashboard_view():
 
     display_menu = [ 
         '\033[1mMenu "Afficher" :\033[0m ', 
-        '1 : Tous les joueurs par ordre alphabétique', 
-        '2 : Tous les joueurs par classement',  # pas demandé mais c'est fait 
-        '3 : Tous les tournois', 
-        '4 : Un tournoi', 
-        '5 : Nom et dates d\'un tournoi', 
-        '6 : Les joueurs du tournoi par ordre alphabétique', 
-        '7 : Les tours et matches d\'un tournoi', 
+        '1 : Tous les joueurs par ordre alphabétique (par prénom) ', 
+        '2 : Tous les joueurs par classement ',  # pas demandé mais c'est fait 
+        '3 : Tous les tournois ', 
+        '4 : Un tournoi ', 
+        '5 : Nom et dates d\'un tournoi ', 
+        '6 : Les joueurs d\'un tournoi par ordre alphabétique ', 
+        '7 : Les tours et matches d\'un tournoi ', 
         '----', 
-        '10: définir un nouveau match', 
+        '10: définir un nouveau match ', 
         '--------', 
         '\033[1mCommandes de secours :\033[0m ', 
-        '* pour revenir au menu principal', 
-        '0 pour sortir et fermer l\'application' 
+        '* pour revenir au menu principal ', 
+        '0 pour sortir et fermer l\'application ' 
     ] 
 
     def __init__(self): 

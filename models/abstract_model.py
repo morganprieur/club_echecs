@@ -28,11 +28,11 @@ class AbstractModel(ABC):
                 return [] 
         return registered 
 
-    @staticmethod  # à corriger ### 
-    def select_one_obj(table, obj_id): 
-        objs = AbstractModel.get_registered_dict(table) 
-        objet = objs[obj_id] 
-        return objet  
+    # @staticmethod  # à corriger ### 
+    # def select_one_obj(table, obj_id): 
+    #     objs = AbstractModel.get_registered_dict(table) 
+    #     objet = objs[obj_id] 
+    #     return objet 
 
     def serialize_object(self, new=True): 
         """ Abstract method for serialize the objects from the models 

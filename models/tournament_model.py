@@ -74,22 +74,18 @@ class Tournament_model(AbstractModel):
 
         new_rounds_list = [] 
         for new_round in new_tournament_dict['rounds']: 
-            print(f'\ntype(new_round) TM76 : {type(new_round)}') 
+            # print(f'\ntype(new_round) TM76 : {type(new_round)}') 
             new_round_dict = Round_model.to_dict(new_round) 
-            print(f'\ntype(new_round_dict) TM78 : {type(new_round_dict)}') 
+            # print(f'\ntype(new_round_dict) TM78 : {type(new_round_dict)}') 
 
             new_matches_list = [] 
             for new_match in new_round_dict['matches']: 
-                # print(f'\nnew_match TM83 : {new_match}') 
-                # print(f'\ntype(new_match[0]) TM84 : {type(new_match[0])}') 
-                # if players and isinstance(players[0], dict): 
                 if new_match and isinstance(new_match, Match_model): 
-                    print('\nYes, new_match -> object') 
+                    # print('\nYes, new_match -> object') 
                     new_match_tuple = Match_model.to_dict(new_match) 
                 else: 
                     print(f'\nNo, type(new_match) : {type(new_match)}') 
                     new_match_tuple = new_match 
-                # print(f'\ntype(new_match_tuple) TM90 : {type(new_match_tuple)}') 
 
                 new_matches_list.append(new_match_tuple) 
 
@@ -101,3 +97,5 @@ class Tournament_model(AbstractModel):
 
         with open(f"data/{self.table}.json", "w") as file: 
             json.dump(t_dicts, file, indent=4) 
+        return True 
+
