@@ -77,7 +77,6 @@ def define_starters(players, matches):
         Returns: 
             list of Player_models: only the players who begin the matches. 
     """ 
-    print(f'players : {players}') 
     # Determines the ids of the players who play the whites 
     whites = [] 
     for match in matches: 
@@ -89,13 +88,13 @@ def define_starters(players, matches):
     for starter in whites: 
         for player in players: 
             # ifnew_match and isinstance(new_match, Match_model): 
-            # ifplayer and isinstance(player, Player_model): 
-            if player and isinstance(player, Player_model) or player and isinstance(player, dict): 
+            # if player and isinstance(player, Player_model) or player and isinstance(player, dict): 
+            if player and isinstance(player, Player_model): 
                 if starter[0] == player.id: 
                     starters.append(player) 
-            # elifplayer and isinstance(player, dict): 
-            #     ifstarter[0] == player['id']: 
-            #         starters.append(player) 
+            elif player and isinstance(player, dict): 
+                if starter[0] == player['id']: 
+                    starters.append(player) 
     # List of Player_models 
     return starters 
 

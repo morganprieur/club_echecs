@@ -171,14 +171,8 @@ class Report_controller():
             self.report_view.display_rounds_one_tournament(tournament_obj) 
 
     def report_starters(self): 
-        print(f'dir(self) RC174 : {dir(self)}') 
-        # starters_objs = [Player_model(**data) for data in self.starters] 
         starters = self.starters 
-        print(f'starters RC177 : {starters}') 
-        # problème avec 1-4 : 'Report_view' object has no attribute 'starters', j'essaye la ligne d'en-dessous 
-        # self.report_view.display_starters()  
         self.report_view.display_starters(starters) 
-        # self.report_view.display_starters(self.starters) 
 
     # ---------------------------------------------- 
     """ comment """ 

@@ -34,8 +34,8 @@ class Report_view():
     # def display_starters(self): 
     def display_starters(self, starters): 
         print('\n\033[1m==== Les joueurs qui commencent les matches : ====\033[0m') 
-        print(f'dir(self) RB37 : {dir(self)}') 
-        for starter in self.starters: 
+        # print(f'dir(self) RB37 : {dir(self)}') 
+        for starter in starters: 
             if not starter: 
                 print('Il n\'y a aucun joueur à afficher.') 
             else: 

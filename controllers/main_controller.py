@@ -98,6 +98,7 @@ class Main_controller():
                 last_tournament = self.select_one_tournament('last') 
                 tournament = Tournament_model(**last_tournament) 
 
+                # à changer : ### 
                 if last_tournament != {}: 
                     self.register_controller.set_players_scores_to_zero(self, tournament) 
 
@@ -129,15 +130,12 @@ class Main_controller():
                     next_matches = self.register_controller.enter_new_matches(self, True)  # first_round 
                     # returns next_matches  (list of dicts) 
 
-                    self.starters = helpers.define_starters(players_objs, next_matches) 
-                    # self.starters = helpers.define_starters(current_players, next_matches) 
+                    selected = self.selected 
+                    self.starters = helpers.define_starters(selected, next_matches) 
                 else: 
                     print('\nUn problème est survenu, merci d\'envoyer un feedback.') 
 
-                # players_obj = [Player_model(**data) for data in current_players] 
-                self.matches = [Match_model(data) for data in next_matches] 
-
-                self.round_object.matches = self.matches 
+                self.round_object.matches = next_matches  
 
                 self.tournament_obj.serialize_object(True)  # True = new tournament 
 
@@ -589,7 +587,7 @@ class Main_controller():
                 list of Player_models: Returns a list of objects Player, stored in Main_controller. 
         """
         # ---- 
-        print(f'self.tournament_obj : {self.tournament_obj}') 
+        print(f'self.tournament_obj MC504 : {self.tournament_obj}') 
         players_ids = self.tournament_obj.players 
         # ---- récupérer les joueurs et les instancier ---- # 
         players = [] 
