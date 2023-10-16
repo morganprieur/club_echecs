@@ -5,5 +5,7 @@ roadmap.md
 *.pyc
 env_debug/ 
 match_to_dict.ipynb 
+flake-report-231013/
+utils/flake_report/
 # models/__pycache__ 
 # views/__pycache__ 

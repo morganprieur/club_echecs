@@ -1,5 +1,4 @@
 
-# from models.match_model import Match_model 
 from models.player_model import Player_model 
 from models.round_model import Round_model 
 from models.tournament_model import Tournament_model 
@@ -15,7 +14,6 @@ class Report_controller():
 
     def __init__( 
         self, 
-        # match_model: Match_model, 
         player_model: Player_model, 
         round_model: Round_model, 
         tournament_model: Tournament_model, 
@@ -27,12 +25,10 @@ class Report_controller():
         self.round_model 
         self.tournament_model 
 
-        # self.register_controller = register_controller 
-
         self.in_view = in_view 
         self.report_view = report_view 
 
-    # def report_all_players(self, rev=False):  # rev : reverse 
+
     def report_all_players(self, sort, rev=True):  # rev : reverse 
         """ 
             Displays the players from players.json. 
@@ -46,9 +42,7 @@ class Report_controller():
             players = Player_model.get_registered_dict('players') 
             players_obj = [] 
             for player in players: 
-                # self.player = Player_model(**player) 
                 player_obj = Player_model(**player) 
-                # players_obj.append(self.player) 
                 players_obj.append(player_obj) 
 
             # Choice of the order ('id' -> chronological, 'firstname' -> alphabetical or 'local_score' -> by score): 
@@ -89,7 +83,6 @@ class Report_controller():
         if not self.players_objs: 
             print('Il n\'y a pas de joueurs à afficher.') 
         else: 
-            # print(f'self.players_objs : {self.players_objs}') 
 
             print('======== ') 
             # Choice of the order (id, alphabetical or by score): 
@@ -100,22 +93,10 @@ class Report_controller():
             if field == 'score': 
                 print('\nJoueurs par score : ') 
             players_objs = self.players_objs 
-            # print(f'players_objs : {players_objs}') 
             self.tournament_players_objs = helpers.sort_objects_by_field(players_objs, 'local_score') 
 
             self.report_view.display_players(self.tournament_players_objs) 
 
-    # def report_one_player(self, player_id): 
-    #     """ Displays one player from its id. 
-    #         Args:
-    #             player_id (int or 'last'): the player's id, or for the last one, type 'last'. 
-    #     """ 
-    #     player = self.select_one_player(player_id) 
-    #     if player == {}: 
-    #         print('Il n\'y a pas de joueur à aficher.') 
-    #     else: 
-    #         player_obj = Player_model(**player) 
-    #         self.report_view.display_one_player(player_obj) 
 
     def report_all_tournaments(self): 
         """ Displays all the registered tournaments. 

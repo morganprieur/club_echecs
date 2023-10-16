@@ -1,5 +1,4 @@
 
-
 from models.player_model import Player_model 
 
 from operator import attrgetter 
@@ -17,9 +16,7 @@ def random_matches(registered_players):
     selected = [] 
     for i in range(len(registered_players)): 
         chosen = random.choice(registered_players) 
-        # print(f'\nchosen DM26 : {chosen}') 
         selected.append(chosen) 
-        # print(f'\nselected DM35 : {selected}') 
         registered_players.remove(chosen) 
     return selected 
 
@@ -45,7 +42,7 @@ def make_peers(selected, first_round, tournament):
         selected.sort(key=attrgetter('local_score')) 
         list(reversed(selected)) 
 
-        # For compare the peers: 
+        # For comparing the peers: 
         old_matches = [] 
         for round in tournament.rounds: 
             for match in round.matches: 
@@ -63,8 +60,6 @@ def make_peers(selected, first_round, tournament):
                 else: 
                     next_matches.append(new_match) 
                     break 
-    print(f'next_matches h69 : {next_matches}') 
-
     # List of dicts 
     return next_matches 
 
@@ -87,8 +82,6 @@ def define_starters(players, matches):
     # Displays who begins  
     for starter in whites: 
         for player in players: 
-            # ifnew_match and isinstance(new_match, Match_model): 
-            # if player and isinstance(player, Player_model) or player and isinstance(player, dict): 
             if player and isinstance(player, Player_model): 
                 if starter[0] == player.id: 
                     starters.append(player) 
@@ -109,6 +102,4 @@ def sort_objects_by_field(objects, field, reversed=False):
     """ 
     objects.sort(key=attrgetter(field), reverse=reversed) 
     return objects 
-
-
 

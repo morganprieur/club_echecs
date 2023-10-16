@@ -21,7 +21,6 @@ class Round_model(AbstractModel):
         self.end_datetime = end_datetime 
         self.tournament_id = tournament_id 
         if matches and isinstance(matches[0], tuple): 
-            print(f'\nmatches RM21 : {matches}') 
             self.matches = [Match_model(*data) for data in matches] 
         else: 
             self.matches = matches 

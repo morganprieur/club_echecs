@@ -30,7 +30,7 @@ class Player_model(AbstractModel):
             \nJoueur {self.id} : {self.firstname} {self.lastname}, 
             INE {self.ine} date de naissance : {self.birthdate}, 
             score dans ce tournoi : {self.local_score}, 
-            score global : {self.global_score}.''' 
+            score global : {self.global_score}. ''' 
 
     def to_dict(self): 
         return { 

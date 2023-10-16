@@ -10,9 +10,11 @@ class Input_view():
     def __init__(self): 
         pass 
 
+
     # ============ P L A Y E R S ============ # 
 
-    def input_player(self):  # ok 230507 
+
+    def input_player(self): 
         new_player = {} 
         new_player['firstname'] = session.prompt('\nPrénom : ') 
         new_player['lastname'] = session.prompt('\nNom : ')  
@@ -20,9 +22,11 @@ class Input_view():
         new_player['birthdate'] = str(session.prompt('\nDate de naissance (yyyy-mm-dd) : ')) 
         return new_player 
 
+
     # ============ T O U R N A M E N T S ============ # 
 
-    def input_tournament(self):  # ajouter sélection des joueurs ### 
+
+    def input_tournament(self): 
         today = date.today() 
 
         new_tournament = {} 
@@ -34,38 +38,40 @@ class Input_view():
         rounds_number = session.prompt('\nNombre de rounds ("Entrée" = 4) ') 
         new_tournament['rounds_left'] = 4 if rounds_number == '' else int(rounds_number) 
 
-        # récupérer les joueurs pour les enregistrer dans le fichier tournaments.json 
+        # récupérer les joueurs pour enregistrer leur id dans le fichier tournaments.json 
         new_tournament['players'] = session.prompt('\nJoueurs (id séparées par des virgules) : ') 
 
-        # new_tournament['duration'] = session.prompt('\nDurée : ') 
         new_tournament['description'] = session.prompt('\nDescription : ') 
 
         return new_tournament 
+
 
     def input_closing_tournament(self): 
         is_tournament_done = session.prompt('\nC\'est le dernier round. Confirmer la clôture du tournoi ? (y/N) : ') 
         return is_tournament_done 
 
+
     # ============ R O U N D S ============ # 
 
-    """ Rounds """ 
+
     def input_round(self): 
         new_round = {} 
-        # round.id is automatically defined (into Main_controller): 
+        # round.id is automatically defined into Register_controller): 
         new_round['round_name'] = session.prompt('\nNom du round : ') 
         return new_round 
 
-    """ Rounds """ 
+
     def input_closing_round(self): 
         is_round_done = session.prompt('Confirmer la clôture du round ? (y/N) ') 
         return is_round_done  
 
+
     # ============ M A T C H E S ============ # 
 
-    """ Matches (automatique) """  # TODO: supprimer ??? ### 
+
     def input_match(self): 
         new_match = {} 
-        # match.id is automatically defined (into Main_controller): 
+        # match.id is automatically defined (into Register_controller): 
         new_match['round_id'] = int(session.prompt('\nID du round : '))  # to define automatically ### 
         new_match['id_joueur_1'] = int(session.prompt('\nID du joueur n°1 : ')) 
         new_match['score_joueur_1'] = float(session.prompt('\nScore du joueur n°1 : ')) 
@@ -73,13 +79,13 @@ class Input_view():
         new_match['score_joueur_2'] = float(session.prompt('\nScore du joueur n°2 : ')) 
         return new_match 
 
-    """ Matches """ 
+
     def input_scores(self, matches): 
         null_matches = [] 
         winners = [] 
         for match in matches: 
             print(f'\n\033[1mMatch : joueur {match.player_1_id} contre joueur {match.player_2_id}\033[0m ') 
-            null_match = session.prompt('\nY a-t-il match nul ? (y/n) ') 
+            null_match = session.prompt('\nY a-t-il eu match nul ? (y/n) ') 
             if null_match == 'y': 
                 null_matches.append(match) 
             else: 

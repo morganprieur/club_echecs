@@ -5,7 +5,6 @@ from controllers.report_controller import Report_controller
 
 from models.match_model import Match_model 
 from models.player_model import Player_model 
-# from models.round_model import Round_model 
 from models.tournament_model import Tournament_model 
 
 from views.dashboard_view import Dashboard_view 
@@ -40,6 +39,7 @@ class Main_controller():
         self.player = None 
         self.round = None 
         self.tournament = None 
+
 
     def start(self, new_session=False): 
         """ Displays the menus 
@@ -376,7 +376,6 @@ class Main_controller():
                 session.prompt('Appuyez sur entrée pour continuer MC444') 
 
                 self.report_controller.report_all_players(self, 'score')  # rev=True default 
-                # self.report_controller.report_all_players(self, 'score', True) 
 
                 session.prompt('Appuyez sur entrée pour continuer ') 
                 self.start()  # default=False 
@@ -415,7 +414,7 @@ class Main_controller():
                 session.prompt('Appuyez sur entrée pour continuer MC388') 
                 self.start()  # default=False 
 
-            # Reports all players from one tournament  # ok 231010 
+            # Reports all players from one tournament 
             if self.board.ask_for_report == '6': 
                 self.board.ask_for_report = None 
 
@@ -463,20 +462,17 @@ class Main_controller():
                 self.board.ask_for_report = None 
                 Main_controller.close_the_app() 
 
-        # corriger la commande "*" partout 
         """ Command to return to the main menu """ 
         if self.board.ask_for_menu_action == '*': 
             self.board.ask_for_menu_action = None 
             self.start(False) 
 
-            # return True # <-- ça fait quoi ça ? ### 
 
         """ Command to quit the application """ 
         if self.board.ask_for_menu_action == '0': 
             self.board.ask_for_menu_action = None 
             Main_controller.close_the_app() 
 
-            # return False # <-- ça fait quoi ça ? ### 
 
     """ Command to quit the application """ 
     @staticmethod 
@@ -494,13 +490,11 @@ class Main_controller():
             Returns: 
                 int: the player's id 
         """ 
-        # if self.player.get_registered_dict('players') == []: 
         if Player_model.get_registered_dict('players') == []: 
             print('Il n\'y a pas de joueur à afficher. ') 
             return {} 
         else: 
             players_dicts = Player_model.get_registered_dict('players') 
-            # players_dicts = self.player.get_registered_dict('players') 
             if player_id == 'last': 
                 player = players_dicts.pop() 
             else: 
@@ -515,11 +509,8 @@ class Main_controller():
             Returns:
                 list of Player_models: Returns a list of objects Player, stored in Main_controller. 
         """
-        # ---- 
-        # print(f'self.tournament_obj MC504 : {self.tournament_obj}') 
         players_ids = self.tournament_obj.players 
 
-        # ---- récupérer les joueurs et les instancier ---- # 
         players = [] 
         for player_id in players_ids: 
             player = self.select_one_player(player_id) 
@@ -544,6 +535,5 @@ class Main_controller():
                 t_dict = t_dicts.pop() 
             else: 
                 t_dict = t_dicts[int(t_id) - 1] 
-                # t_dict = t_dicts[t_id - 1] 
             return t_dict 
 
