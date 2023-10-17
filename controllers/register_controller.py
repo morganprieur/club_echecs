@@ -56,7 +56,7 @@ class Register_controller():
             print('Il y a eu un problème, veuillez recommencer ou envoyer un feedback. merci de votre compréhension. ') 
         else: 
             print('\nLe joueur a bien été enregistré. ') 
-            self.report_controller.report_one_player(self, 'last')  
+            self.report_controller.report_one_player('last')  
 
 
     def enter_many_new_players(self): 
