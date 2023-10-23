@@ -51,10 +51,25 @@ class AbstractModel(ABC):
         """
             A common method for building each model. 
         """ 
-        pass 
+        print('to_dict method') 
+        # pass 
         # ... 
 
 
+""" 
+from abc import ABC, abstractmethod
 
+class AbstractClassExample(ABC):
+
+    @abstractmethod
+    def do_something(self):
+        print("Some implementation!")
+
+class AnotherSubclass(AbstractClassExample):
+
+  def do_something(self):
+      super().do_something()
+      print("The subclass is doing something")
+""" 
 
 

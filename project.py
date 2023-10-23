@@ -9,8 +9,8 @@ from views.input_view import Input_view
 """ Executes the program """ 
 if __name__ == "__main__": 
     new_board = Dashboard_view() 
-    new_register_controller = Register_controller 
-    new_report_controller = Report_controller 
+    new_register_controller = Register_controller  # 
+    new_report_controller = Report_controller  # 
     new_input_view = Input_view() 
     new_reporter = Report_view() 
     new_controller = Main_controller( 
@@ -18,7 +18,7 @@ if __name__ == "__main__":
         register_controller=new_register_controller, 
         report_controller=new_report_controller, 
         in_view=new_input_view, 
-        report_view=new_reporter, 
+        # report_view=new_reporter, 
     ) 
     restart = True
     while restart: 

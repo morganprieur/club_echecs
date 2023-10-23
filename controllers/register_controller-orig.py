@@ -6,6 +6,9 @@ from models.player_model import Player_model
 from models.round_model import Round_model 
 from models.tournament_model import Tournament_model 
 
+from views.input_view import Input_view 
+# from views.report_view import Report_view 
+
 import re 
 from datetime import datetime, date 
 from prompt_toolkit import PromptSession 
@@ -14,25 +17,20 @@ session = PromptSession()
 
 class Register_controller(): 
 
-    player_model = Player_model 
-    round_model = Round_model 
-    tournament_model = Tournament_model 
-
     def __init__( 
-        # self, 
-        # player_model: Player_model, 
-        # round_model: Round_model, 
-        # tournament_model: Tournament_model, 
+        self, 
+        player_model: Player_model, 
+        round_model: Round_model, 
+        tournament_model: Tournament_model, 
 
-        # in_view: Input_view, 
+        in_view: Input_view, 
         # report_view: Report_view, 
     ): 
-        pass 
-        # self.player_model 
-        # self.round_model 
-        # self.tournament_model 
+        self.player_model 
+        self.round_model 
+        self.tournament_model 
 
-        # self.in_view = in_view 
+        self.in_view = in_view 
         # self.report_view = report_view 
 
 
@@ -115,6 +113,19 @@ class Register_controller():
             player_obj.serialize_object(False) 
 
         return self.updated_players_objs 
+
+    # def set_players_scores_to_zero(self, tournament):  # retirer tournament ### 
+    #     """ At the begining of a tournament, set the global_scores to 0. 
+    #     """ 
+    #     # players_dicts = Player_model.get_registered_dict('players') 
+    #     players_dicts = 
+    #     self.players_objs = [Player_model(**player_dict) for player_dict in players_dicts] 
+
+    #     for player_obj in self.players_objs: 
+    #         player_obj.global_score += player_obj.local_score 
+    #         player_obj.local_score = float(0) 
+
+    #         player_obj.serialize_object(False) 
 
 
     # ============ T O U R N A M E N T S ============ # 

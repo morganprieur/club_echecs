@@ -19,6 +19,7 @@ class Tournament_model(AbstractModel):
         players: list, 
         rounds: list, 
         description: str 
+        # rounds_left: 4->int, 
     ): 
         super().__init__('tournaments') 
         self.id = id 
@@ -50,6 +51,7 @@ class Tournament_model(AbstractModel):
 
 
     def to_dict(self): 
+        super().to_dict() 
         player_ids = [player for player in self.players] 
         return { 
             'id': self.id, 
@@ -62,6 +64,7 @@ class Tournament_model(AbstractModel):
             'rounds': self.rounds, 
             'description': self.description 
         } 
+
 
     def serialize_object(self, new):
         """ Abstract method to serialize the object 
@@ -97,3 +100,19 @@ class Tournament_model(AbstractModel):
             json.dump(t_dicts, file, indent=4) 
         return True 
 
+
+    """ Decorator @abstractmethod 
+    from abc import ABC, abstractmethod
+
+    class AbstractClassExample(ABC):
+
+        @abstractmethod
+        def do_something(self):
+            print("Some implementation!")
+
+    class AnotherSubclass(AbstractClassExample):
+
+    def do_something(self):
+        super().do_something()
+        print("The subclass is doing something")
+    """ 

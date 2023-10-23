@@ -31,7 +31,7 @@ class Report_view():
     def display_players(self, players_obj): 
 
         for player in players_obj: 
-            self.display_one_player(player) 
+            self.report_view.display_one_player(self, player) 
 
 
     def display_starters(self, starters): 
@@ -43,7 +43,7 @@ class Report_view():
             else: 
                 print(f"\n\033[1mJoueur {starter.id}, {starter.firstname} {starter.lastname}\033[0m : ") 
 
-                print(f'nom complet : \t\t{starter.firstname} {starter.lastname}') 
+                # print(f'nom complet : \t\t{starter.firstname} {starter.lastname}') 
 
         print('\n====\n') 
 
@@ -64,7 +64,7 @@ class Report_view():
 
         rounds = one_tournament.rounds 
         for round in rounds: 
-            self.display_one_round(round) 
+            self.report_view.display_one_round(self, round) 
 
 
     def display_tournaments(self, all_tournaments): 
@@ -72,7 +72,7 @@ class Report_view():
 
         for tournament in all_tournaments: 
             print(f'\ntournoi {all_tournaments.index(tournament)+1} : ') 
-            self.display_one_tournament(tournament) 
+            self.report_view.display_one_tournament(self, tournament) 
 
         print('\n====\n') 
 
@@ -109,7 +109,7 @@ class Report_view():
             print(f'\nLe tournoi {tournament.id} n\'a pas encore de rounds') 
         else:  
             for round in rounds: 
-                self.display_one_round(round) 
+                self.report_view.display_one_round(self, round) 
         print('\n====\n') 
 
 
@@ -134,7 +134,7 @@ class Report_view():
         else: 
             matches = one_round.matches 
             for match in matches: 
-                self.display_match(match) 
+                self.report_view.display_match(self, match) 
 
 
     # ============ D I S P L A Y   M A T C H E S ============ # 

@@ -40,7 +40,7 @@ class Dashboard_view():
     display_menu = [ 
         '\033[1mMenu "Afficher" :\033[0m ', 
         '1 : Tous les joueurs par ordre alphabétique (par prénom) ', 
-        '2 : Tous les joueurs par classement ',  # pas demandé mais c'est fait 
+        '2 : Tous les joueurs par classement INE ',  # pas demandé mais c'est fait 
         '3 : Tous les tournois ', 
         '4 : Un tournoi ', 
         '5 : Nom et dates d\'un tournoi ', 
