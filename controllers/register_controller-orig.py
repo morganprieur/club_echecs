@@ -19,16 +19,16 @@ class Register_controller():
 
     def __init__( 
         self, 
-        player_model: Player_model, 
-        round_model: Round_model, 
-        tournament_model: Tournament_model, 
+        # player_model: Player_model, 
+        # round_model: Round_model, 
+        # tournament_model: Tournament_model, 
 
         in_view: Input_view, 
         # report_view: Report_view, 
     ): 
-        self.player_model 
-        self.round_model 
-        self.tournament_model 
+        # self.player_model 
+        # self.round_model 
+        # self.tournament_model 
 
         self.in_view = in_view 
         # self.report_view = report_view 
@@ -56,7 +56,7 @@ class Register_controller():
             print('Il y a eu un problème, veuillez recommencer ou envoyer un feedback. merci de votre compréhension. ') 
         else: 
             print('\nLe joueur a bien été enregistré. ') 
-            self.report_controller.report_one_player(self, 'last')  
+            self.report_controller.report_one_player('last')  
 
 
     def enter_many_new_players(self): 
@@ -65,7 +65,7 @@ class Register_controller():
         """ 
         self.players = [] 
         while True: 
-            player = self.register_controller.enter_new_player(self) 
+            player = self.enter_new_player() 
             self.players.append(player) 
             player_needed = session.prompt('\nEnregistrer un nouveau joueur ? (y/n) : ') 
             if not (player_needed == "y" or player_needed == "Y"): 
@@ -96,7 +96,7 @@ class Register_controller():
         return self.registered_players_objs 
 
 
-    def set_players_scores_to_zero(self):  # retirer tournament ### 
+    def set_players_scores_to_zero(self): 
         """ At the begining of a tournament, set the global_scores to 0. 
             param: 
                 list of objects: the players of the tournament. 
@@ -113,19 +113,6 @@ class Register_controller():
             player_obj.serialize_object(False) 
 
         return self.updated_players_objs 
-
-    # def set_players_scores_to_zero(self, tournament):  # retirer tournament ### 
-    #     """ At the begining of a tournament, set the global_scores to 0. 
-    #     """ 
-    #     # players_dicts = Player_model.get_registered_dict('players') 
-    #     players_dicts = 
-    #     self.players_objs = [Player_model(**player_dict) for player_dict in players_dicts] 
-
-    #     for player_obj in self.players_objs: 
-    #         player_obj.global_score += player_obj.local_score 
-    #         player_obj.local_score = float(0) 
-
-    #         player_obj.serialize_object(False) 
 
 
     # ============ T O U R N A M E N T S ============ # 
@@ -270,10 +257,11 @@ class Register_controller():
             Returns:
                 self.matches (objects): the list of matches to register into the new round. 
         """ 
-        if first_round: 
-            # selected = helpers.random_matches(self.players_obj) 
+        if first_round:  # envoyer players_objs en-dehors de self ### 
+            selected = helpers.random_matches(self.players_obj) 
             last_tournament = self.tournament_obj 
-            next_matches = helpers.make_peers(self.selected, True, last_tournament)  # True = first_round 
+            next_matches = helpers.make_peers(selected, True, last_tournament)  # True = first_round 
+            # next_matches = helpers.make_peers(self.selected, True, last_tournament)  # True = first_round 
         else: 
             last_tournament = self.tournament_obj 
             next_matches = helpers.make_peers(self.selected, False, last_tournament)  # True = first_round 

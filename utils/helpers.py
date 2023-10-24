@@ -1,5 +1,6 @@
 
 from models.player_model import Player_model 
+from models.tournament_model import Tournament_model 
 
 from operator import attrgetter 
 import random 
@@ -70,7 +71,7 @@ def define_starters(players, matches):
             players (List of Player_models): all the players of the tournament. 
             next_matches (list of Match_models): all the new matches. 
         Returns: 
-            list of Player_models: only the players who begin the matches. 
+            starters (list of Player_models): only the players who begin the matches. 
     """ 
     # Determines the ids of the players who play the whites 
     whites = [] 
@@ -90,6 +91,80 @@ def define_starters(players, matches):
                     starters.append(player) 
     # List of Player_models 
     return starters 
+
+
+# ============ U T I L S ============ # 
+
+
+def select_one_player(player_id): 
+    """ Select one player object from its id, from the players.json file. 
+        Args:
+            player_id (int): the player's id 
+        Returns: 
+            player (object): player object 
+    """ 
+    if Player_model.get_registered_dict('players') == []: 
+        print('Il n\'y a pas de joueur à afficher. ') 
+        return {} 
+    else: 
+        players_dicts = Player_model.get_registered_dict('players') 
+        players_objs = [Player_model(**data) for data in players_dicts] 
+
+        for player in players_objs: 
+            if player.id == player_id: 
+                return player 
+
+
+def select_tournament_players(tournament_id): 
+    # """ Selects the players of the `self.tournament_obj` 
+    """ Selects the players of the `tournament_id` tournament 
+        already selected into the precedent method. 
+
+        Returns:
+            list of Player_models: Returns a list of objects Player, stored in Main_controller. 
+    """ 
+    # if tournament_id == 'last': 
+    #     tournament = select_one_tournament('last') 
+    # else: 
+    #     tournament = select_one_tournament(tournament_id) 
+    tournament_obj = select_one_tournament(tournament_id) 
+    # tournament_obj = Tournament_model(**tournament) 
+    players_ids = tournament_obj.players 
+
+    players_objs = [] 
+    for player_id in players_ids: 
+        player = select_one_player(player_id) 
+        # player = self.select_one_player(player_id) 
+        players_objs.append(player) 
+    # self.players_objs = [Player_model(**player) for player in players] 
+    return players_objs  # list of objects 
+
+
+def select_one_tournament(tournament_id): 
+    """ Select one tournament from its id, from the tournaments.json file. 
+        Args:
+            tournament_id (int): the tournament's id 
+        Returns:
+            t_obj (Object): the tournament object 
+    """ 
+    if Tournament_model.get_registered_dict('tournaments') == []: 
+        t_obj = None  
+    else: 
+        t_dicts = Tournament_model.get_registered_dict('tournaments') 
+        t_objs = [Tournament_model(**data) for data in t_dicts] 
+
+        if tournament_id == 'last': 
+            id = 0 
+            for tourn in t_objs: 
+                if tourn.id > id: 
+                    id = tourn.id 
+                if tourn.id == id: 
+                    t_obj = tourn 
+        else: 
+            for tourn in t_objs: 
+                if tourn.id == int(tournament_id): 
+                    t_obj = tourn 
+        return t_obj 
 
 
 def sort_objects_by_field(objects, field, reversed=False): 

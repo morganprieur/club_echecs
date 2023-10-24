@@ -6,6 +6,10 @@ from models.player_model import Player_model
 from models.round_model import Round_model 
 from models.tournament_model import Tournament_model 
 
+from views.input_view import Input_view 
+from views.report_view import Report_view 
+from controllers.report_controller import Report_controller 
+
 import re 
 from datetime import datetime, date 
 from prompt_toolkit import PromptSession 
@@ -14,25 +18,21 @@ session = PromptSession()
 
 class Register_controller(): 
 
-    player_model = Player_model 
-    round_model = Round_model 
-    tournament_model = Tournament_model 
-
     def __init__( 
-        # self, 
+        self, 
         # player_model: Player_model, 
         # round_model: Round_model, 
         # tournament_model: Tournament_model, 
 
-        # in_view: Input_view, 
+        in_view: Input_view, 
         # report_view: Report_view, 
     ): 
-        pass 
         # self.player_model 
         # self.round_model 
         # self.tournament_model 
+        self.report_controller = Report_controller(Report_view) 
 
-        # self.in_view = in_view 
+        self.in_view = in_view 
         # self.report_view = report_view 
 
 
@@ -58,7 +58,7 @@ class Register_controller():
             print('Il y a eu un problème, veuillez recommencer ou envoyer un feedback. merci de votre compréhension. ') 
         else: 
             print('\nLe joueur a bien été enregistré. ') 
-            self.report_controller.report_one_player(self, 'last')  
+            self.report_controller.report_one_player('last')  
 
 
     def enter_many_new_players(self): 
@@ -67,7 +67,7 @@ class Register_controller():
         """ 
         self.players = [] 
         while True: 
-            player = self.register_controller.enter_new_player(self) 
+            player = self.enter_new_player() 
             self.players.append(player) 
             player_needed = session.prompt('\nEnregistrer un nouveau joueur ? (y/n) : ') 
             if not (player_needed == "y" or player_needed == "Y"): 
@@ -257,15 +257,27 @@ class Register_controller():
             Args:
                 first_round (bool): if there is the matches of the first round. 
             Returns:
-                self.matches (objects): the list of matches to register into the new round. 
+                next_matches (objects): the list of matches to register into the new round. 
         """ 
-        if first_round: 
-            # selected = helpers.random_matches(self.players_obj) 
-            last_tournament = self.tournament_obj 
-            next_matches = helpers.make_peers(self.selected, True, last_tournament)  # True = first_round 
+        # print(f'dir(self) RGC263 : {dir(self)}') 
+
+        # players = Player_model.get_registered_dict('players') 
+        # players_objs = [Player_model(**data) for data in players] 
+
+        # last_tournament_dict = Tournament_model.get_registered_dict('tournaments') 
+        # last_tournament = Tournament_model(**last_tournament_dict) 
+
+        last_tournament = helpers.select_one_tournament('last') 
+        players_objs = helpers.select_tournament_players('last') 
+
+        if first_round:  # envoyer players_objs en-dehors de self ### 
+            selected = helpers.random_matches(players_objs) 
+            next_matches = helpers.make_peers(selected, True, last_tournament)  # True = first_round 
         else: 
-            last_tournament = self.tournament_obj 
-            next_matches = helpers.make_peers(self.selected, False, last_tournament)  # True = first_round 
+            selected = players_objs 
+            next_matches = helpers.make_peers(selected, False, last_tournament)  # True = first_round 
+
+        print(f'next_matches RGC282 : {next_matches}') 
 
         return next_matches 
 

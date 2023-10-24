@@ -16,19 +16,19 @@ class Report_controller():
 
     def __init__( 
         self, 
-        player_model: Player_model, 
-        round_model: Round_model, 
-        tournament_model: Tournament_model, 
+        # player_model: Player_model, 
+        # round_model: Round_model, 
+        # tournament_model: Tournament_model, 
 
         # in_view: Input_view, 
-        # report_view: Report_view, 
+        report_view: Report_view, 
     ): 
-        self.player_model 
-        self.round_model 
-        self.tournament_model 
+        # self.player_model 
+        # self.round_model 
+        # self.tournament_model 
 
         # self.in_view = in_view 
-        # self.report_view = report_view 
+        self.report_view = report_view 
 
 
     def report_all_players(self, sort, rev=True):  # rev : reverse 
@@ -64,7 +64,7 @@ class Report_controller():
                 sorted_players = helpers.sort_objects_by_field(players_obj, 'score', rev) 
                 # sorted_players = helpers.sort_objects_by_field(players_obj, 'global_score', rev) 
 
-        self.report_view.display_players(self, sorted_players) 
+        self.report_view.display_players(sorted_players) 
         # self.report_view.display_players(sorted_players) 
 
 
@@ -78,7 +78,7 @@ class Report_controller():
             print('Il n\'y a pas de joueur à aficher.') 
         else: 
             player_obj = Player_model(**player) 
-            self.report_view.display_one_player(self, player_obj) 
+            self.report_view.display_one_player(player_obj) 
 
 
     def report_players_from_tournament(self, field): 
@@ -107,7 +107,7 @@ class Report_controller():
                     players_objs, 'global_score', reversed=True 
                 ) 
 
-            self.report_view.display_players(self, self.tournament_players_objs) 
+            self.report_view.display_players(self.tournament_players_objs) 
 
             return self.tournament_players_objs 
 
@@ -127,7 +127,7 @@ class Report_controller():
                 self.tournament = Tournament_model(**tournament) 
                 tournaments_objs.append(self.tournament) 
 
-                self.report_view.display_tournaments(self, tournaments_objs) 
+                self.report_view.display_tournaments(tournaments_objs) 
 
 
     def report_one_tournament(self, tournament_id): 
@@ -140,7 +140,7 @@ class Report_controller():
             print('Il n\'y a pas de tournoi à afficher.') 
         else: 
             tournament_obj = Tournament_model(**tournament) 
-            self.report_view.display_one_tournament(self, tournament_obj) 
+            self.report_view.display_one_tournament(tournament_obj) 
 
 
     def report_name_date_tournament(self, tournament_id): 
@@ -153,7 +153,7 @@ class Report_controller():
             print('Il n\'y a pas de tournoi à afficher.') 
         else: 
             tournament_obj = Tournament_model(**tournament) 
-            self.report_view.display_name_date_tournament(self, tournament_obj) 
+            self.report_view.display_name_date_tournament(tournament_obj) 
 
 
     def report_rounds(self, tournament_id): 
@@ -166,11 +166,11 @@ class Report_controller():
             print('Il n\'y a pas de tournoi à afifcher.') 
         else: 
             tournament_obj = Tournament_model(**tournament) 
-            self.report_view.display_rounds_one_tournament(self, tournament_obj) 
+            self.report_view.display_rounds_one_tournament(tournament_obj) 
 
     def report_starters(self): 
         starters = self.starters 
-        self.report_view.display_starters(self, starters) 
+        self.report_view.display_starters(starters) 
 
     # ---------------------------------------------- 
     """ comment """ 
@@ -182,6 +182,6 @@ class Report_controller():
             round = self.tournament[round_id] - 1 
         one_round = Round_model(**round) 
 
-        self.report_view.display_one_round(self, one_round) 
+        self.report_view.display_one_round(one_round) 
 
 
