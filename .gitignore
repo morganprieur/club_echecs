@@ -1,12 +1,17 @@
 
-env/
-data/
-roadmap.md
-*.pyc
-env_debug/ 
-match_to_dict.ipynb 
+.pytest_cache/ 
+.vscode/
 flake-report-231013/
-utils/flake_report/
+*.pyc
+
+match_to_dict.ipynb 
+
+env_debug/ 
+
+data/
 models/__pycache__ 
 views/__pycache__ 
-containers/register_container-orig.py
+controllers/register_controller-orig.py
+
+roadmap.md
+

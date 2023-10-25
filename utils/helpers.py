@@ -123,10 +123,6 @@ def select_tournament_players(tournament_id):
         Returns:
             list of Player_models: Returns a list of objects Player, stored in Main_controller. 
     """ 
-    # if tournament_id == 'last': 
-    #     tournament = select_one_tournament('last') 
-    # else: 
-    #     tournament = select_one_tournament(tournament_id) 
     tournament_obj = select_one_tournament(tournament_id) 
     # tournament_obj = Tournament_model(**tournament) 
     players_ids = tournament_obj.players 
@@ -147,24 +143,27 @@ def select_one_tournament(tournament_id):
         Returns:
             t_obj (Object): the tournament object 
     """ 
-    if Tournament_model.get_registered_dict('tournaments') == []: 
-        t_obj = None  
-    else: 
-        t_dicts = Tournament_model.get_registered_dict('tournaments') 
-        t_objs = [Tournament_model(**data) for data in t_dicts] 
+    # Vérifier check_if_json_empty(table) : ### 
+    if not Tournament_model.check_if_json_empty('tournaments'): 
 
-        if tournament_id == 'last': 
-            id = 0 
-            for tourn in t_objs: 
-                if tourn.id > id: 
-                    id = tourn.id 
-                if tourn.id == id: 
-                    t_obj = tourn 
+        if Tournament_model.get_registered_dict('tournaments') == []: 
+            t_obj = None  
         else: 
-            for tourn in t_objs: 
-                if tourn.id == int(tournament_id): 
-                    t_obj = tourn 
-        return t_obj 
+            t_dicts = Tournament_model.get_registered_dict('tournaments') 
+            t_objs = [Tournament_model(**data) for data in t_dicts] 
+
+            if tournament_id == 'last': 
+                id = 0 
+                for tourn in t_objs: 
+                    if tourn.id > id: 
+                        id = tourn.id 
+                    if tourn.id == id: 
+                        t_obj = tourn 
+            else: 
+                for tourn in t_objs: 
+                    if tourn.id == int(tournament_id): 
+                        t_obj = tourn 
+            return t_obj 
 
 
 def sort_objects_by_field(objects, field, reversed=False): 

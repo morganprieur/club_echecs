@@ -135,11 +135,12 @@ class Report_controller():
             Args: 
                 tournament_id (int or 'last'): the tournament's id, or 'last' for the last one. 
         """ 
-        tournament = self.select_one_tournament(tournament_id) 
-        if tournament == {}: 
+        tournament_obj = helpers.select_one_tournament(tournament_id) 
+
+        # if tournament == {}: 
+        if not tournament_obj or not isinstance(tournament_obj, Tournament_model): 
             print('Il n\'y a pas de tournoi à afficher.') 
         else: 
-            tournament_obj = Tournament_model(**tournament) 
             self.report_view.display_one_tournament(tournament_obj) 
 
 
@@ -148,11 +149,11 @@ class Report_controller():
             Args: 
                 tournament_id (int or 'last'): the id of the tournament, or 'last' for the last one. 
         """
-        tournament = self.select_one_tournament(tournament_id) 
-        if tournament == {}: 
+        tournament_obj = helpers.select_one_tournament(tournament_id) 
+        # if tournament_obj == {}: 
+        if not tournament_obj or not isinstance(tournament_obj, Tournament_model): 
             print('Il n\'y a pas de tournoi à afficher.') 
         else: 
-            tournament_obj = Tournament_model(**tournament) 
             self.report_view.display_name_date_tournament(tournament_obj) 
 
 
@@ -161,11 +162,11 @@ class Report_controller():
             Args: 
                 tournament_id (int or 'last'): the tournament's id or 'last' for the last one. 
         """ 
-        tournament = self.select_one_tournament(tournament_id) 
-        if tournament == {}: 
+        tournament_obj = helpers.select_one_tournament(tournament_id) 
+        # if tournament == {}: 
+        if not tournament_obj or not isinstance(tournament_obj, Tournament_model): 
             print('Il n\'y a pas de tournoi à afifcher.') 
         else: 
-            tournament_obj = Tournament_model(**tournament) 
             self.report_view.display_rounds_one_tournament(tournament_obj) 
 
     def report_starters(self): 
@@ -175,13 +176,20 @@ class Report_controller():
     # ---------------------------------------------- 
     """ comment """ 
     def report_one_round(self, tournament_id, round_id): 
-        self.tournament = self.select_one_tournament(tournament_id) 
-        if round_id == 'last': 
-            round = self.tournament['rounds'].pop() 
+        tournament_obj = helpers.select_one_tournament(tournament_id) 
+        if tournament_obj.rounds and not isinstance(tournament_obj.rounds[0], Round_model): 
+            rounds = [Round_model(**data) for data in tournament_obj.rounds] 
         else: 
-            round = self.tournament[round_id] - 1 
-        one_round = Round_model(**round) 
+            rounds = tournament_obj.rounds 
 
-        self.report_view.display_one_round(one_round) 
+        if round_id == 'last': 
+            round_obj = rounds.pop() 
+            # round = self.tournament['rounds'].pop() 
+        else: 
+            round_obj = int(rounds.round_id) 
+            # round = self.tournament[round_id] - 1 
+
+        self.report_view.display_one_round(round_obj) 
+        # self.report_view.display_one_round(one_round) 
 
 
