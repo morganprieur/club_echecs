@@ -90,6 +90,9 @@ En cas de mauvais fonctionnement ou si vous voulez suggérer des fonctionnalité
 ## Flake 8 
 
 Lancer un rapport du projet complet : 
-`flake8 --format=html --htmldir=flake-report/` 
-<!-- Ne crée pas de fichier html si pas d'erreur à signaler --> 
+`flake8 --format=html --htmldir=flake-report/` ou 
+`flake8 path/to/the/file.py` ou 
+`flake8 path/to/the/folder` 
+[Doc](https://flake8.pycqa.org/en/latest/)
+<!-- Ne crée pas de fichier html si pas d'erreur à signaler, crée le dossier avec des fichiers de mise en page --> 
 

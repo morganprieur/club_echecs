@@ -7,7 +7,6 @@ class AbstractModel(ABC):
     """ Comment """
     def __init__(self, table) -> None: 
         self.table = table 
-        # pass 
 
     @staticmethod 
     def check_if_json_empty(table): 
@@ -16,6 +15,7 @@ class AbstractModel(ABC):
                 return True 
             else: 
                 return False 
+
 
     @staticmethod 
     def get_registered_dict(table): 
@@ -28,11 +28,6 @@ class AbstractModel(ABC):
                 return [] 
         return registered 
 
-    # @staticmethod  # à corriger ### 
-    # def select_one_obj(table, obj_id): 
-    #     objs = AbstractModel.get_registered_dict(table) 
-    #     objet = objs[obj_id] 
-    #     return objet 
 
     def serialize_object(self, new=True): 
         """ Abstract method for serialize the objects from the models 
@@ -49,15 +44,31 @@ class AbstractModel(ABC):
         with open(f"data/{self.table}.json", "w") as file: 
             json.dump(objects, file, indent=4) 
 
+
     @abstractmethod 
     def to_dict(self): 
         """
             A common method for building each model. 
         """ 
-        pass 
+        print('to_dict method') 
+        # pass 
         # ... 
 
 
+""" 
+from abc import ABC, abstractmethod
 
+class AbstractClassExample(ABC):
+
+    @abstractmethod
+    def do_something(self):
+        print("Some implementation!")
+
+class AnotherSubclass(AbstractClassExample):
+
+  def do_something(self):
+      super().do_something()
+      print("The subclass is doing something")
+""" 
 
 

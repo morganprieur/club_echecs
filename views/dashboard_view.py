@@ -40,7 +40,7 @@ class Dashboard_view():
     display_menu = [ 
         '\033[1mMenu "Afficher" :\033[0m ', 
         '1 : Tous les joueurs par ordre alphabétique (par prénom) ', 
-        '2 : Tous les joueurs par classement ',  # pas demandé mais c'est fait 
+        '2 : Tous les joueurs par classement INE ',  # pas demandé mais c'est fait 
         '3 : Tous les tournois ', 
         '4 : Un tournoi ', 
         '5 : Nom et dates d\'un tournoi ', 
@@ -54,14 +54,15 @@ class Dashboard_view():
         '0 pour sortir et fermer l\'application ' 
     ] 
 
+
     def __init__(self): 
         pass 
 
-    """ comment """ 
+
     def display_welcome(self): 
         print(self.welcome) 
 
-    """ comment """ 
+
     def display_first_menu(self): 
         print('\n* * * * * * * * * * * * * * * * *') 
         for m in self.main_menu: 
@@ -70,7 +71,7 @@ class Dashboard_view():
         print('') 
         return self.ask_for_menu_action 
 
-    """ comment """ 
+
     def display_register(self): 
         print('\n* * * * * * * * * * * * * * * * *') 
         for i in range(len(self.register_menu)): 
@@ -79,7 +80,7 @@ class Dashboard_view():
         print('') 
         return self.ask_for_register 
 
-    """ comment """ 
+
     def display_report(self): 
         print('\n* * * * * * * * * * * * * * * * *') 
         for i in range(len(self.display_menu)): 
