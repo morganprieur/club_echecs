@@ -27,17 +27,14 @@ class Main_controller():
         board: Dashboard_view, 
         in_view: Input_view, 
         report_view: Report_view, 
-
-        # report_controller: Report_controller, 
-        register_controller: Register_controller(Input_view), 
+        report_controller: Report_controller, 
+        register_controller: Register_controller, 
     ): 
         self.board = board 
         self.in_view = in_view 
         self.report_view = report_view 
-
-        self.report_controller = Report_controller(report_view) 
+        self.report_controller = report_controller 
         self.register_controller = register_controller 
-        # self.register_controller = Register_controller(in_view) 
 
         self.match = None 
         self.player = None 
@@ -390,7 +387,7 @@ class Main_controller():
 
             if self.board.ask_for_register == '*': 
                 self.board.ask_for_register = None 
-                self.start(False) 
+                self.start() 
                 return True 
 
             if self.board.ask_for_register == '0': 
@@ -498,7 +495,7 @@ class Main_controller():
             """ Emergency command to return to the main menu """ 
             if self.board.ask_for_report == '*': 
                 self.board.ask_for_report = None 
-                self.start(False) 
+                self.start() 
                 return True 
 
             """ Command to quit the application """ 
@@ -509,7 +506,7 @@ class Main_controller():
         """ Command to return to the main menu """ 
         if self.board.ask_for_menu_action == '*': 
             self.board.ask_for_menu_action = None 
-            self.start(False) 
+            self.start() 
 
 
         """ Command to quit the application """ 

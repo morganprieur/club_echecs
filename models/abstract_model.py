@@ -8,7 +8,6 @@ class AbstractModel(ABC):
     def __init__(self, table) -> None: 
         self.table = table 
 
-
     @staticmethod 
     def check_if_json_empty(table): 
         with open(f"data/{table}.json", 'rb') as f: 
