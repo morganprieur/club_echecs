@@ -19,6 +19,7 @@ class Tournament_model(AbstractModel):
         players: list, 
         rounds: list, 
         description: str 
+        # rounds_left: 4->int, 
     ): 
         super().__init__('tournaments') 
         self.id = id 
@@ -37,6 +38,7 @@ class Tournament_model(AbstractModel):
             self.rounds = rounds 
         self.description = description 
 
+
     def __str__(self): 
         return (f'''
             \n{self.id}, {self.name}, {self.site}, 
@@ -47,7 +49,9 @@ class Tournament_model(AbstractModel):
             rounds : \n{self.rounds}, 
             {self.description}''') 
 
+
     def to_dict(self): 
+        super().to_dict() 
         player_ids = [player for player in self.players] 
         return { 
             'id': self.id, 
@@ -60,6 +64,7 @@ class Tournament_model(AbstractModel):
             'rounds': self.rounds, 
             'description': self.description 
         } 
+
 
     def serialize_object(self, new):
         """ Abstract method to serialize the object 
@@ -74,17 +79,13 @@ class Tournament_model(AbstractModel):
 
         new_rounds_list = [] 
         for new_round in new_tournament_dict['rounds']: 
-            # print(f'\ntype(new_round) TM76 : {type(new_round)}') 
             new_round_dict = Round_model.to_dict(new_round) 
-            # print(f'\ntype(new_round_dict) TM78 : {type(new_round_dict)}') 
 
             new_matches_list = [] 
             for new_match in new_round_dict['matches']: 
                 if new_match and isinstance(new_match, Match_model): 
-                    # print('\nYes, new_match -> object') 
                     new_match_tuple = Match_model.to_dict(new_match) 
                 else: 
-                    print(f'\nNo, type(new_match) : {type(new_match)}') 
                     new_match_tuple = new_match 
 
                 new_matches_list.append(new_match_tuple) 
@@ -99,3 +100,19 @@ class Tournament_model(AbstractModel):
             json.dump(t_dicts, file, indent=4) 
         return True 
 
+
+    """ Decorator @abstractmethod 
+    from abc import ABC, abstractmethod
+
+    class AbstractClassExample(ABC):
+
+        @abstractmethod
+        def do_something(self):
+            print("Some implementation!")
+
+    class AnotherSubclass(AbstractClassExample):
+
+    def do_something(self):
+        super().do_something()
+        print("The subclass is doing something")
+    """ 

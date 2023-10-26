@@ -28,9 +28,9 @@ class Player_model(AbstractModel):
     def __str__(self): 
         return f'''
             \nJoueur {self.id} : {self.firstname} {self.lastname}, 
-            INE {self.ine} date de naissance : {self.birthdate}, 
-            score dans ce tournoi : {self.local_score}, 
-            score global : {self.global_score}.''' 
+            INE {self.ine}, date de naissance : {self.birthdate}, 
+            score dans ce round : {self.local_score}, 
+            score dans ce tournoi : {self.global_score}. ''' 
 
     def to_dict(self): 
         return { 

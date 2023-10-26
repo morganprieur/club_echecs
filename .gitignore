@@ -1,9 +1,17 @@
 
-env/
-data/
-roadmap.md
+.pytest_cache/ 
+.vscode/
+flake-report-231013/
 *.pyc
-env_debug/ 
+
 match_to_dict.ipynb 
-# models/__pycache__ 
-# views/__pycache__ 
+
+env_debug/ 
+
+data/
+models/__pycache__ 
+views/__pycache__ 
+controllers/register_controller-orig.py
+
+roadmap.md
+
