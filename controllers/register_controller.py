@@ -262,13 +262,13 @@ class Register_controller():
                 self.matches (objects): the list of matches to register into the new round. 
         """ 
         if first_round: 
-            # selected = helpers.random_matches(self.players_obj) 
+            selected = helpers.random_matches(self.players_obj) 
             last_tournament = self.tournament_obj 
-            next_matches = helpers.make_peers(self.selected, True, last_tournament)  # True = first_round 
+            next_matches = helpers.make_peers(selected, True, last_tournament)  # True = first_round 
         else: 
-            # selected = self.sort_objects_by_field(self.players_obj, 'local_score', True) 
+            selected = self.sort_objects_by_field(self.players_obj, 'local_score', True) 
             last_tournament = self.tournament_obj 
-            next_matches = helpers.make_peers(self.selected, False, last_tournament)  # True = first_round 
+            next_matches = helpers.make_peers(selected, False, last_tournament)  # True = first_round 
             # next_matches = helpers.make_peers(self.selected, False, last_tournament)  # True = first_round 
 
         return next_matches 

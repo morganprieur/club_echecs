@@ -1,9 +1,5 @@
 
-env/
 data/
 roadmap.md
 *.pyc
-env_debug/ 
-match_to_dict.ipynb 
-# models/__pycache__ 
-# views/__pycache__ 
+env/ 

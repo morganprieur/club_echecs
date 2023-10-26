@@ -7,7 +7,7 @@ class AbstractModel(ABC):
     """ Comment """
     def __init__(self, table) -> None: 
         self.table = table 
-        pass 
+        # pass 
 
     @staticmethod 
     def check_if_json_empty(table): 
