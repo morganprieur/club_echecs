@@ -46,8 +46,6 @@ class Dashboard_view():
         '5 : Nom et dates d\'un tournoi ', 
         '6 : Les joueurs d\'un tournoi par ordre alphabétique ', 
         '7 : Les tours et matches d\'un tournoi ', 
-        '----', 
-        '10: définir un nouveau match ', 
         '--------', 
         '\033[1mCommandes de secours :\033[0m ', 
         '* pour revenir au menu principal ', 

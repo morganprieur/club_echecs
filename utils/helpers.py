@@ -1,4 +1,5 @@
 
+
 from models.player_model import Player_model 
 from models.tournament_model import Tournament_model 
 
@@ -103,16 +104,26 @@ def select_one_player(player_id):
         Returns: 
             player (object): player object 
     """ 
-    if Player_model.get_registered_dict('players') == []: 
+    if not Player_model.check_if_json_empty: 
         print('Il n\'y a pas de joueur à afficher. ') 
-        return {} 
+        return False 
     else: 
         players_dicts = Player_model.get_registered_dict('players') 
         players_objs = [Player_model(**data) for data in players_dicts] 
 
-        for player in players_objs: 
-            if player.id == player_id: 
-                return player 
+        if player_id == 'last': 
+            ids = [] 
+            for player in players_objs: 
+                ids.append(player.id) 
+            last_player_id = max(ids) 
+            # print(f'last_player_id H122 : {last_player_id}') 
+            for player in players_objs: 
+                if player.id == last_player_id: 
+                    return player 
+        else: 
+            for player in players_objs: 
+                if player.id == player_id: 
+                    return player 
 
 
 def select_tournament_players(tournament_id): 
@@ -130,9 +141,7 @@ def select_tournament_players(tournament_id):
     players_objs = [] 
     for player_id in players_ids: 
         player = select_one_player(player_id) 
-        # player = self.select_one_player(player_id) 
         players_objs.append(player) 
-    # self.players_objs = [Player_model(**player) for player in players] 
     return players_objs  # list of objects 
 
 
@@ -174,6 +183,9 @@ def sort_objects_by_field(objects, field, reversed=False):
             reversed (bool): if we have to reverse the result. Default False. 
         Returns objects 
     """ 
-    objects.sort(key=attrgetter(field), reverse=reversed) 
+    if field == 'score': 
+        objects.sort(key=attrgetter('ine'), reverse=reversed) 
+    else: 
+        objects.sort(key=attrgetter(field), reverse=reversed) 
     return objects 
 

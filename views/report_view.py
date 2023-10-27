@@ -13,7 +13,7 @@ class Report_view():
 
 
     """ ANSI \033[1m \033[0m --> gras """ 
-    def display_one_player(player): 
+    def display_one_player(self, player): 
         if not player: 
             print('Il n\'y a aucun joueur à afficher.') 
         else: 
@@ -21,9 +21,10 @@ class Report_view():
                 \n\033[1mJoueur {player.id}\033[0m :   
 
                 nom complet : \t\t{player.firstname} {player.lastname} 
+                date de naissance : \t{player.birthdate} 
                 I. N. E. : \t\t{player.ine} 
-                score dans le tournoi : {player.local_score} 
-                score global : \t\t{player.global_score} 
+                score du round : \t{player.local_score} 
+                score du tournoi : \t{player.global_score} 
             ''')  
         print('\n====\n') 
 
@@ -35,15 +36,13 @@ class Report_view():
 
 
     def display_starters(self, starters): 
-        print('\n\033[1m==== Les joueurs qui commencent les matches : ====\033[0m') 
+        print('\n\033[1m==== Les joueurs qui ont les blancs : ====\033[0m') 
 
         for starter in starters: 
             if not starter: 
                 print('Il n\'y a aucun joueur à afficher.') 
             else: 
                 print(f"\n\033[1mJoueur {starter.id}, {starter.firstname} {starter.lastname}\033[0m : ") 
-
-                # print(f'nom complet : \t\t{starter.firstname} {starter.lastname}') 
 
         print('\n====\n') 
 
@@ -124,13 +123,13 @@ class Report_view():
             \tDate et heure de début : {one_round.start_datetime} 
         ''') 
         if one_round.end_datetime: 
-            print(f'\tDate et heure de début : {one_round.start_datetime}') 
+            print(f'\t\tDate et heure de fin : {one_round.start_datetime}') 
         else: 
-            print('\tDate et heure de début : ') 
-        print('\t\033[1mmatches :\033[0m ') 
+            print('\t\tDate et heure de fin : ') 
+        print('\t\t\t\033[1mmatches :\033[0m ') 
 
         if one_round.matches == []: 
-            print('Il n\'y a aucun match à afficher.') 
+            print('\t\t\tIl n\'y a aucun match à afficher.') 
         else: 
             matches = one_round.matches 
             for match in matches: 
@@ -142,5 +141,5 @@ class Report_view():
 
     def display_match(self, match): 
         match_tuple = tuple(match) 
-        print(f'\t\t{match_tuple}') 
+        print(f'\t\t\t{match_tuple}') 
 

@@ -72,33 +72,34 @@ class Tournament_model(AbstractModel):
                 new (boolean): if the object is new: True, 
                 if the data modifies the last entity into the json: False. 
         """ 
-        t_dicts = self.get_registered_dict('tournaments') 
-        if not new: 
-            t_dicts.pop() 
-        new_tournament_dict = self.to_dict() 
+        if not super().check_if_json_empty('tournaments'): 
+            t_dicts = self.get_registered_dict('tournaments') 
+            if not new: 
+                t_dicts.pop() 
+            new_tournament_dict = self.to_dict() 
 
-        new_rounds_list = [] 
-        for new_round in new_tournament_dict['rounds']: 
-            new_round_dict = Round_model.to_dict(new_round) 
+            new_rounds_list = [] 
+            for new_round in new_tournament_dict['rounds']: 
+                new_round_dict = Round_model.to_dict(new_round) 
 
-            new_matches_list = [] 
-            for new_match in new_round_dict['matches']: 
-                if new_match and isinstance(new_match, Match_model): 
-                    new_match_tuple = Match_model.to_dict(new_match) 
-                else: 
-                    new_match_tuple = new_match 
+                new_matches_list = [] 
+                for new_match in new_round_dict['matches']: 
+                    if new_match and isinstance(new_match, Match_model): 
+                        new_match_tuple = Match_model.to_dict(new_match) 
+                    else: 
+                        new_match_tuple = new_match 
 
-                new_matches_list.append(new_match_tuple) 
+                    new_matches_list.append(new_match_tuple) 
 
-            new_round_dict['matches'] = new_matches_list 
-            new_rounds_list.append(new_round_dict) 
+                new_round_dict['matches'] = new_matches_list 
+                new_rounds_list.append(new_round_dict) 
 
-            new_tournament_dict['rounds'] = new_rounds_list 
-        t_dicts.append(new_tournament_dict) 
+                new_tournament_dict['rounds'] = new_rounds_list 
+            t_dicts.append(new_tournament_dict) 
 
-        with open(f"data/{self.table}.json", "w") as file: 
-            json.dump(t_dicts, file, indent=4) 
-        return True 
+            with open(f"data/{self.table}.json", "w") as file: 
+                json.dump(t_dicts, file, indent=4) 
+            return True 
 
 
     """ Decorator @abstractmethod 

@@ -5,6 +5,9 @@ import json
 
 class Player_model(AbstractModel): 
 
+    local_score = float(0) 
+    global_score = float(0) 
+
     def __init__( 
         self, 
         id: int, 
@@ -12,8 +15,8 @@ class Player_model(AbstractModel):
         firstname: str, 
         ine: str,  # Identifiant National d'Echecs 
         birthdate: str, 
-        local_score: float, 
-        global_score: float 
+        local_score: local_score, 
+        global_score: global_score 
     ): 
         super().__init__('players') 
         self.id = id  
@@ -44,19 +47,19 @@ class Player_model(AbstractModel):
         } 
 
     def serialize_object(self, new=True): 
+        if not super().check_if_json_empty('players'): 
+            p_dicts = self.get_registered_dict(self.table) 
+            if new: 
+                new_players = p_dicts.append(self.to_dict())  
+            if p_dicts != []: 
+                new_player_id = int(self.id) 
+                for p in p_dicts: 
+                    if p['id'] == new_player_id: 
+                        registered_player = p_dicts.pop(p_dicts.index(p)) 
+                        registered_player = self.to_dict() 
+                        p_dicts.append(registered_player) 
+            new_players = p_dicts 
 
-        p_dicts = self.get_registered_dict(self.table) 
-        if new: 
-            new_players = p_dicts.append(self.to_dict())  
-        if p_dicts != []: 
-            new_player_id = int(self.id) 
-            for p in p_dicts: 
-                if p['id'] == new_player_id: 
-                    registered_player = p_dicts.pop(p_dicts.index(p)) 
-                    registered_player = self.to_dict() 
-                    p_dicts.append(registered_player) 
-        new_players = p_dicts 
-
-        with open(f"data/{self.table}.json", "w") as file: 
-            json.dump(new_players, file, indent=4) 
-        return True 
+            with open(f"data/{self.table}.json", "w") as file: 
+                json.dump(new_players, file, indent=4) 
+            return True 

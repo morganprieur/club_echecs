@@ -2,4 +2,7 @@
 data/
 roadmap.md
 *.pyc
-env/ 
+env/
+data/
+utils/__pycache__
+

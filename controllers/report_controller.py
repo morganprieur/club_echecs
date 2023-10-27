@@ -12,8 +12,6 @@ from utils import helpers
 
 class Report_controller(): 
 
-    report_view = Report_view 
-
     def __init__( 
         self, 
         # player_model: Player_model, 
@@ -21,14 +19,14 @@ class Report_controller():
         # tournament_model: Tournament_model, 
 
         # in_view: Input_view, 
-        report_view: Report_view, 
+        new_reporter: Report_view(), 
     ): 
         # self.player_model 
         # self.round_model 
         # self.tournament_model 
 
         # self.in_view = in_view 
-        self.report_view = report_view 
+        self.report_view = new_reporter 
 
 
     def report_all_players(self, sort, rev=True):  # rev : reverse 
@@ -39,6 +37,7 @@ class Report_controller():
                     the name of the field on wich to sort the players. 
                 rev (bool): if we have to reverse the list of objects. 
         """ 
+        # print(Main_controller.test) 
         if Player_model.get_registered_dict('players') == []: 
             print('Il n\'y a pas de joueur à afficher. ') 
         else: 
@@ -61,7 +60,7 @@ class Report_controller():
                 sorted_players = helpers.sort_objects_by_field(players_obj, 'firstname', rev) 
             if sort == 'score': 
                 # print('\n==== Tous les joueurs par score INE :  ==== ') 
-                sorted_players = helpers.sort_objects_by_field(players_obj, 'score', rev) 
+                sorted_players = helpers.sort_objects_by_field(players_obj, 'ine', rev) 
                 # sorted_players = helpers.sort_objects_by_field(players_obj, 'global_score', rev) 
 
         self.report_view.display_players(sorted_players) 
@@ -73,43 +72,44 @@ class Report_controller():
             Args:
                 player_id (int or 'last'): the player's id, or for the last one, type 'last'. 
         """ 
-        player = self.select_one_player(player_id) 
-        if player == {}: 
+        # print(f'self RPC74 : {self}') 
+        # print(f'dir(self) RPC75 : {dir(self)}') 
+        player_obj = helpers.select_one_player(player_id) 
+        if player_obj is None: 
             print('Il n\'y a pas de joueur à aficher.') 
         else: 
-            player_obj = Player_model(**player) 
             self.report_view.display_one_player(player_obj) 
 
 
-    def report_players_from_tournament(self, field): 
+    def report_players_from_tournament(self, tournament_id): 
         """ Displays the players of one tournament. 
             Args: 
                 field (string): the field we will sort the players on. 
                 # tournament_id (int or 'last'): the id of the tournament. 
                     For the last one, type 'last' ;  ### 
         """ 
-        # print(f'dir(self) RPC105 : {dir(self)}') 
-        if not self.players_objs: 
+        print(f'dir(self) RPC90 : {dir(self)}') 
+        players_objs = helpers.select_tournament_players('last') 
+        if not players_objs: 
             print('Il n\'y a pas de joueurs à afficher.') 
         else: 
-            players_objs = self.players_objs 
             print('======== ') 
             # Choice of the order (id, alphabetical or by INE score): 
-            if field == 'id': 
-                print('\nJoueurs par ordre d\'enregistrement : ') 
-                self.tournament_players_objs = helpers.sort_objects_by_field(players_objs, 'id') 
-            if field == 'firstname': 
-                print('\nJoueurs par ordre alphabétique : ') 
-                self.tournament_players_objs = helpers.sort_objects_by_field(players_objs, 'firstname') 
-            if field == 'score': 
-                print('\nJoueurs par score : ') 
-                self.tournament_players_objs = helpers.sort_objects_by_field( 
-                    players_objs, 'global_score', reversed=True 
-                ) 
+            # if field == 'id': 
+            #     print('\nJoueurs par ordre d\'enregistrement : ') 
+            #     self.tournament_players_objs = helpers.sort_objects_by_field(players_objs, 'id') 
+            # if field == 'firstname': 
+            #     print('\nJoueurs par ordre alphabétique : ') 
+            #     self.tournament_players_objs = helpers.sort_objects_by_field(players_objs, 'firstname') 
+            # if field == 'score': 
+            print('\nJoueurs par score : ') 
+            tournament_players_objs = helpers.sort_objects_by_field( 
+                players_objs, 'ine', reversed=False 
+            ) 
 
-            self.report_view.display_players(self.tournament_players_objs) 
+            self.report_view.display_players(tournament_players_objs) 
 
-            return self.tournament_players_objs 
+            return tournament_players_objs 
 
 
     def report_all_tournaments(self): 
@@ -169,9 +169,9 @@ class Report_controller():
         else: 
             self.report_view.display_rounds_one_tournament(tournament_obj) 
 
-    def report_starters(self): 
-        starters = self.starters 
-        self.report_view.display_starters(starters) 
+    def report_starters(self, starters): 
+        # starters = self.starters 
+        self.report_view.display_starters(starters)  # ? ### 
 
     # ---------------------------------------------- 
     """ comment """ 
