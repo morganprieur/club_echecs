@@ -148,12 +148,12 @@ class Register_controller():
         tournament_data['rounds'] = [] 
 
         # Instantiate the current tournament: 
-        self.tournament_obj = Tournament_model(**tournament_data) 
+        tournament_obj = Tournament_model(**tournament_data) 
         # self.tournament_obj = Tournament_model(**tournament_data) 
 
         # return True 
-        # return tournament_obj 
-        return self.tournament_obj 
+        return tournament_obj 
+        # return self.tournament_obj 
 
 
     def close_tournament(self): 
@@ -176,7 +176,7 @@ class Register_controller():
     # ============ R O U N D S ============ # 
 
 
-    def enter_new_round(self, first_round):  # first_round = bool 
+    def enter_new_round(self, first_round, tournament_obj):  # first_round = bool 
         """ Register a new round with its data. 
             Args: 
                 first_round (bool): if it is the first round. 
@@ -189,20 +189,20 @@ class Register_controller():
         if first_round: 
             round_data['id'] = 1 
         else: 
-            round_data['id'] = int(self.tournament_obj.rounds[-1].id) + 1 
-            if self.tournament_obj.rounds[-1].end_datetime == '': 
-                self.tournament_obj.rounds[-1].end_datetime = datetime.now() 
-        round_data['tournament_id'] = int(self.tournament_obj.id) 
+            round_data['id'] = int(tournament_obj.rounds[-1].id) + 1 
+            if tournament_obj.rounds[-1].end_datetime == '': 
+                tournament_obj.rounds[-1].end_datetime = datetime.now() 
+        round_data['tournament_id'] = int(tournament_obj.id) 
 
         round_data['start_datetime'] = str(datetime.now()) 
         round_data['end_datetime'] = "" 
         round_data['matches'] = [] 
 
         # round_object = Round_model(**round_data) 
-        self.round_object = Round_model(**round_data) 
+        round_object = Round_model(**round_data) 
 
         # return round_object 
-        return self.round_object 
+        return round_object 
 
 
     # ============ M A T C H E S ============ # 
