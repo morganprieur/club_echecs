@@ -66,7 +66,7 @@ class Tournament_model(AbstractModel):
         } 
 
 
-    def serialize_object(self, new):
+    def serialize_object(self, new): 
         """ Abstract method to serialize the object 
             Args:
                 new (boolean): if the object is new: True, 

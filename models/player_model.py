@@ -5,9 +5,6 @@ import json
 
 class Player_model(AbstractModel): 
 
-    local_score = float(0) 
-    global_score = float(0) 
-
     def __init__( 
         self, 
         id: int, 
@@ -15,8 +12,8 @@ class Player_model(AbstractModel):
         firstname: str, 
         ine: str,  # Identifiant National d'Echecs 
         birthdate: str, 
-        local_score: local_score, 
-        global_score: global_score 
+        round_score: float, 
+        tournament_score: float 
     ): 
         super().__init__('players') 
         self.id = id  
@@ -24,16 +21,16 @@ class Player_model(AbstractModel):
         self.firstname = firstname 
         self.ine = ine 
         self.birthdate = birthdate 
-        self.local_score = local_score 
-        self.global_score = global_score 
+        self.round_score = round_score 
+        self.tournament_score = tournament_score 
         # players.append(self)   # pas bonne pratique ### 
 
     def __str__(self): 
         return f'''
             \nJoueur {self.id} : {self.firstname} {self.lastname}, 
             INE {self.ine}, date de naissance : {self.birthdate}, 
-            score dans ce round : {self.local_score}, 
-            score dans ce tournoi : {self.global_score}. ''' 
+            score dans ce round : {self.round_score}, 
+            score dans ce tournoi : {self.tournament_score}. ''' 
 
     def to_dict(self): 
         return { 
@@ -42,8 +39,8 @@ class Player_model(AbstractModel):
             'firstname': self.firstname, 
             'ine': self.ine, 
             'birthdate': self.birthdate, 
-            'local_score': self.local_score, 
-            'global_score': self.global_score 
+            'round_score': self.round_score, 
+            'tournament_score': self.tournament_score 
         } 
 
     def serialize_object(self, new=True): 

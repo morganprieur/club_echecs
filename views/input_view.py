@@ -69,22 +69,27 @@ class Input_view():
     # ============ M A T C H E S ============ # 
 
 
-    def input_match(self): 
-        new_match = {} 
-        # match.id is automatically defined (into Register_controller): 
-        new_match['round_id'] = int(session.prompt('\nID du round : '))  # to define automatically ### 
-        new_match['id_joueur_1'] = int(session.prompt('\nID du joueur n°1 : ')) 
-        new_match['score_joueur_1'] = float(session.prompt('\nScore du joueur n°1 : ')) 
-        new_match['id_joueur_2'] = int(session.prompt('\nID du joueur n°2 : ')) 
-        new_match['score_joueur_2'] = float(session.prompt('\nScore du joueur n°2 : ')) 
-        return new_match 
+    # def input_match(self): 
+    #     new_match = {} 
+    #     # match.id is automatically defined (into Register_controller): 
+    #     new_match['round_id'] = int(session.prompt('\nID du round : '))  # to define automatically ### 
+    #     new_match['id_joueur_1'] = int(session.prompt('\nID du joueur n°1 : ')) 
+    #     new_match['score_joueur_1'] = float(session.prompt('\nScore du joueur n°1 : ')) 
+    #     new_match['id_joueur_2'] = int(session.prompt('\nID du joueur n°2 : ')) 
+    #     new_match['score_joueur_2'] = float(session.prompt('\nScore du joueur n°2 : ')) 
+    #     return new_match 
 
 
-    def input_scores(self, matches): 
+    def input_scores(self, matches, players_objs): 
         null_matches = [] 
         winners = [] 
         for match in matches: 
-            print(f'\n\033[1mMatch : joueur {match.player_1_id} contre joueur {match.player_2_id}\033[0m ') 
+            for player in players_objs: 
+                if match.player_1_id == player.id: 
+                    player1 = f'{player.firstname} {player.lastname}' 
+                elif match.player_2_id == player.id: 
+                    player2 = f'{player.firstname} {player.lastname}'
+            print(f'\nMatch : joueur \033[1m{match.player_1_id} {player1}\033[0m contre joueur \033[1m{match.player_2_id} {player2}\033[0m ') 
             null_match = session.prompt('\nY a-t-il eu match nul ? (y/n) ') 
             if null_match == 'y': 
                 null_matches.append(match) 
@@ -99,3 +104,4 @@ class Input_view():
                 winners.append(winner) 
 
         return (null_matches, winners) 
+

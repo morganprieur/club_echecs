@@ -23,8 +23,8 @@ class Report_view():
                 nom complet : \t\t{player.firstname} {player.lastname} 
                 date de naissance : \t{player.birthdate} 
                 I. N. E. : \t\t{player.ine} 
-                score du round : \t{player.local_score} 
-                score du tournoi : \t{player.global_score} 
+                score du dernier round : \t{player.round_score} 
+                score du tournoi : \t{player.tournament_score} 
             ''')  
         print('\n====\n') 
 
@@ -42,9 +42,27 @@ class Report_view():
             if not starter: 
                 print('Il n\'y a aucun joueur à afficher.') 
             else: 
-                print(f"\n\033[1mJoueur {starter.id}, {starter.firstname} {starter.lastname}\033[0m : ") 
+                print(f"\n\033[1mJoueur {starter.id}, {starter.firstname} {starter.lastname}\033[0m ") 
 
         print('\n====\n') 
+
+
+    """def display_round_results(self, last_round, matches_objs, players_objs): """ 
+    def display_matches_results(self, matches_objs, players_objs): 
+
+        print('\033[1mRésultats des matches :\033[0m ') 
+
+        if matches_objs == []: 
+            print('\t\t\tIl n\'y a aucun match à afficher.') 
+        else: 
+            for match in matches_objs: 
+                print(f'''\nMatch : {match.player_1_id} contre {match.player_2_id} :''') 
+                for player in players_objs:
+                    if match.player_1_id == player.id: 
+                        print(f'''joueur {player.id} : {player.firstname} {player.lastname}, score : {player.round_score}''') 
+                    elif match.player_2_id == player.id: 
+                        print(f'''joueur {player.id} : {player.firstname} {player.lastname}, score : {player.round_score}''') 
+
 
 
     # ============ D I S P L A Y   T O U R N A M E N T S ============ # 

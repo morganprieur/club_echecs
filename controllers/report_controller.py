@@ -1,5 +1,6 @@
 
 from models.player_model import Player_model 
+from models.match_model import Match_model 
 from models.round_model import Round_model 
 from models.tournament_model import Tournament_model 
 
@@ -61,7 +62,7 @@ class Report_controller():
             if sort == 'score': 
                 # print('\n==== Tous les joueurs par score INE :  ==== ') 
                 sorted_players = helpers.sort_objects_by_field(players_obj, 'ine', rev) 
-                # sorted_players = helpers.sort_objects_by_field(players_obj, 'global_score', rev) 
+                # sorted_players = helpers.sort_objects_by_field(players_obj, 'tournament_score', rev) 
 
         self.report_view.display_players(sorted_players) 
         # self.report_view.display_players(sorted_players) 
@@ -81,35 +82,50 @@ class Report_controller():
             self.report_view.display_one_player(player_obj) 
 
 
-    def report_players_from_tournament(self, tournament_id): 
+    def report_players_from_tournament(self, field, tournament_id): 
         """ Displays the players of one tournament. 
             Args: 
                 field (string): the field we will sort the players on. 
                 # tournament_id (int or 'last'): the id of the tournament. 
                     For the last one, type 'last' ;  ### 
         """ 
-        print(f'dir(self) RPC90 : {dir(self)}') 
-        players_objs = helpers.select_tournament_players('last') 
+        # print(f'dir(self) RPC90 : {dir(self)}') 
+        players_objs = helpers.select_tournament_players(tournament_id) 
         if not players_objs: 
             print('Il n\'y a pas de joueurs à afficher.') 
         else: 
             print('======== ') 
             # Choice of the order (id, alphabetical or by INE score): 
-            # if field == 'id': 
-            #     print('\nJoueurs par ordre d\'enregistrement : ') 
-            #     self.tournament_players_objs = helpers.sort_objects_by_field(players_objs, 'id') 
-            # if field == 'firstname': 
-            #     print('\nJoueurs par ordre alphabétique : ') 
-            #     self.tournament_players_objs = helpers.sort_objects_by_field(players_objs, 'firstname') 
-            # if field == 'score': 
-            print('\nJoueurs par score : ') 
-            tournament_players_objs = helpers.sort_objects_by_field( 
-                players_objs, 'ine', reversed=False 
-            ) 
+            if field == 'id': 
+                print('\nJoueurs par ordre d\'enregistrement : ') 
+                self.tournament_players_objs = helpers.sort_objects_by_field(players_objs, 'id') 
+            if field == 'firstname': 
+                print('\nJoueurs par ordre alphabétique : ') 
+                self.tournament_players_objs = helpers.sort_objects_by_field(players_objs, 'firstname') 
+            if field == 'score': 
+                print('\nJoueurs par score : ') 
+                self.tournament_players_objs = helpers.sort_objects_by_field( 
+                    players_objs, 'ine', reversed=False 
+                ) 
+            if field == 'tournament_score': 
+                print('\nJoueurs par score dans le tournoi : ') 
+                self.tournament_players_objs = helpers.sort_objects_by_field( 
+                    players_objs, 'tournament_score', reversed=False 
+                ) 
 
-            self.report_view.display_players(tournament_players_objs) 
+            self.report_view.display_players(self.tournament_players_objs) 
 
-            return tournament_players_objs 
+            return self.tournament_players_objs 
+
+
+    def report_round_results(self, tournament_id): 
+        last_round = helpers.select_one_tournament(tournament_id).rounds[-1] 
+        matches = last_round.matches 
+        [tuple(match) for match in matches] 
+        matches_objs = [Match_model(data) for data in last_round.matches] 
+        players_objs = helpers.select_tournament_players(tournament_id) 
+
+        self.report_view.display_matches_results(matches_objs, players_objs) 
 
 
     def report_all_tournaments(self): 

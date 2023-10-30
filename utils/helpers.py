@@ -37,11 +37,11 @@ def make_peers(selected, first_round, tournament):
     next_matches = [] 
     if first_round: 
         for firsts, seconds in zip(firsts, seconds): 
-            current_peer = ([firsts.id, firsts.local_score], [seconds.id, seconds.local_score])
+            current_peer = ([firsts.id, firsts.round_score], [seconds.id, seconds.round_score])
             next_matches.append(current_peer) 
     else: 
         # sort the players by score 
-        selected.sort(key=attrgetter('local_score')) 
+        selected.sort(key=attrgetter('round_score')) 
         list(reversed(selected)) 
 
         # For comparing the peers: 
@@ -104,7 +104,7 @@ def select_one_player(player_id):
         Returns: 
             player (object): player object 
     """ 
-    if not Player_model.check_if_json_empty: 
+    if Player_model.check_if_json_empty('players'): 
         print('Il n\'y a pas de joueur à afficher. ') 
         return False 
     else: 
@@ -127,7 +127,6 @@ def select_one_player(player_id):
 
 
 def select_tournament_players(tournament_id): 
-    # """ Selects the players of the `self.tournament_obj` 
     """ Selects the players of the `tournament_id` tournament 
         already selected into the precedent method. 
 
@@ -135,7 +134,6 @@ def select_tournament_players(tournament_id):
             list of Player_models: Returns a list of objects Player, stored in Main_controller. 
     """ 
     tournament_obj = select_one_tournament(tournament_id) 
-    # tournament_obj = Tournament_model(**tournament) 
     players_ids = tournament_obj.players 
 
     players_objs = [] 

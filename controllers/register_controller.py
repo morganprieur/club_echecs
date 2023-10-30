@@ -46,8 +46,9 @@ class Register_controller():
     def enter_new_player(self): 
         new_player_data = self.in_view.input_player() 
         # new_player = Player_model(**new_player_data) 
-        # print(f'self RGC45 : {self}') 
-        # print(f'dir(self) RGC46 : {dir(self)}') 
+        print(f'self RGC49 : {self}') 
+        print(f'dir(self) RGC50 : {dir(self)}') 
+        print(f'new_player_data RGC51 : {new_player_data}') 
         registered_player = helpers.select_one_player('last') 
         # if Player_model.get_registered_dict('players') == []: 
         if registered_player and not isinstance(registered_player, Player_model): 
@@ -56,11 +57,10 @@ class Register_controller():
         else: 
             # last_player_id = Player_model.get_registered_dict('players')[-1]['id'] 
             new_player_data['id'] = int(registered_player.id) + 1  
-            # new_player_data['id'] = last_player_id + 1  
-        # new_player_data['local_score'] = float(0) 
-        # new_player_data['global_score'] = float(0) 
+        # new_player_data['round_score'] = float(0) 
+        # new_player_data['tournament_score'] = float(0) 
 
-        player = Player_model(**new_player_data, local_score=float(0), global_score=float(0)) 
+        player = Player_model(**new_player_data, round_score=float(0), tournament_score=float(0)) 
 
         if not player.serialize_object(True): 
             print('Il y a eu un problème, veuillez recommencer ou envoyer un feedback. Merci de votre compréhension. ') 
@@ -82,31 +82,45 @@ class Register_controller():
                 return False 
 
 
-    def update_players_local_scores(self, tournament_obj): 
-        """ Updates the scores into the players.json file. 
+    def update_players_tournament_scores(self, tournament_obj): 
+        """ Updates the current tournament's scores into the players.json file. 
         """ 
-        # Get registered players local_scores 
-        # p_dicts = Player_model.get_registered_dict('players') 
         curr_players = helpers.select_tournament_players(tournament_obj.id) 
-        matches = tournament_obj.rounds.pop().matches 
+        # matches = tournament_obj.rounds[-1].matches 
 
         for player_obj in curr_players: 
+            player_obj.tournament_score == player_obj.round_score 
+
+        for player_obj in curr_players: 
+            player_obj.serialize_object(False) 
+        return curr_players  # list of objects  
+
+
+    def update_players_round_scores(self, tournament_obj): 
+        """ Updates the current round's scores into the players.json file. 
+        """ 
+        # Get registered players round_score 
+        # p_dicts = Player_model.get_registered_dict('players') 
+        curr_players = helpers.select_tournament_players(tournament_obj.id) 
+        matches = tournament_obj.rounds[-1].matches 
+
+        for player_obj in curr_players: 
+            player_obj.round_score == 0.0 
             for match in matches: 
                 if player_obj.id == match.player_1_id: 
-                    player_obj.global_score += match.player_1_score 
+                    player_obj.round_score += match.player_1_score 
 
                 elif player_obj.id == match.player_2_id: 
-                    player_obj.global_score += match.player_2_score 
-                player_obj.local_score = 0.0 
+                    player_obj.round_score += match.player_2_score 
+                # player_obj.round_score = 0.0 
 
-        # Register the new scores into players.json 
         for player_obj in curr_players: 
             player_obj.serialize_object(False) 
         return curr_players  # list of objects  
 
 
     def set_players_scores_to_zero(self, tournament_obj):  # retirer tournament ### 
-        """ At the begining of a tournament, set the global_scores to 0. 
+        """ At the begining of a tournament, set the tournament_scores to 0. 
             param: 
                 list of objects: the players of the tournament. 
             returns: 
@@ -116,8 +130,8 @@ class Register_controller():
         players_objs = helpers.select_tournament_players(tournament_obj.id) 
         updated_players_objs = [] 
         for player_obj in players_objs: 
-            player_obj.global_score = float(0) 
-            player_obj.local_score = float(0) 
+            player_obj.tournament_score = float(0) 
+            player_obj.round_score = float(0) 
             updated_players_objs.append(player_obj) 
 
             player_obj.serialize_object(False) 
@@ -211,7 +225,7 @@ class Register_controller():
     def enter_scores(self, tournament_obj): 
         """ Get the scores from the terminal and register them into the matches. 
         """ 
-        last_round = tournament_obj.rounds.pop() 
+        last_round = tournament_obj.rounds[-1] 
         current_matches = last_round.matches 
 
         # Get the matches (obj as tuples)  
@@ -221,7 +235,9 @@ class Register_controller():
             curr_match_obj = Match_model(curr_match_tuple) 
             current_matches_list.append(curr_match_obj) 
 
-        input_results = self.in_view.input_scores(current_matches_list) 
+        players_objs = helpers.select_tournament_players(tournament_obj.id) 
+
+        input_results = self.in_view.input_scores(current_matches_list, players_objs) 
         print('---------------------') 
 
         # Get the differentiated data from the input 
@@ -257,15 +273,15 @@ class Register_controller():
         # Put back the rounds and the matches into the round 
         last_round.matches = new_scores 
 
+        tournament_obj.rounds.pop() 
         tournament_obj.rounds.append(last_round) 
 
         # Serialize the tournament (new=False)  
         tournament_obj.serialize_object(False)  # à vérifier ? ### 
-        # A vérifier : ### 
+
         return tournament_obj 
 
 
-    """ comment """  
     def enter_new_matches(self, first_round, last_tournament):  # , last_tournament ### 
         """ Defines and registers the new matches. 
             Args:
@@ -273,11 +289,6 @@ class Register_controller():
             Returns:
                 next_matches (objects): the list of matches to register into the new round. 
         """ 
-        print(f'dir(self) RGC262 : {dir(self)}') 
-        print(f'self RGC277 : {self}') 
-        print(f'last_tournament.id RGC278 : {last_tournament.id}') 
-
-        # last_tournament = helpers.select_one_tournament('last') 
         players_objs = helpers.select_tournament_players('last') 
 
         if first_round: 
@@ -286,8 +297,6 @@ class Register_controller():
         else: 
             selected = players_objs 
             next_matches = helpers.make_peers(selected, False, last_tournament)  # True = first_round 
-
-        print(f'next_matches RGC282 : {next_matches}') 
 
         return next_matches 
 
