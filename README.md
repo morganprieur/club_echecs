@@ -17,6 +17,14 @@ L'invite de commande commence maintenant par
 A noter que dans l'arborescence de l'IDE, les dossiers et fichiers de travail apparaissent au même niveau que le dossier `<nom_env_virtuel>`. 
 
 
+## Fichiers des données 
+*  Créer un dossier `data` 
+*  A l'intérieur créer 2 fichiers json : 
+    - `players.json` 
+    - `tournaments.json` 
+*  Dans chacun des fichiers, ajouter une liste vide : `[]`, qui recevra les données enregistrées. 
+
+
 ## Installer les dépendances 
 Taper la commande :     
 `pip install -r requirements.txt` 
@@ -24,7 +32,7 @@ Taper la commande :
 
 ## Arborescence du projet 
 
-work/ 
+<racine du projet>/ 
     |-- controllers/
         |-- main_controller.py 
         |-- register_controller.py 
@@ -47,10 +55,10 @@ work/
         |-- input_view.py 
         |-- report_view.py 
     |-- .gitignore 
-    |-- project.py  <-- entrée du programme 
+    |-- project.py          <-- entrée du programme 
     |-- README.md 
     |-- requirements.txt 
-    |-- setup.cfg  # config flake8 
+    |-- setup.cfg  <!-- config flake8 --> 
 
 
 ## Fonctionnalités / Menus 
@@ -78,7 +86,6 @@ work/
 
 
 ## Lancer le programme 
-
 *  Dans le terminal lancer le script : 
 `python project.py` 
 
@@ -88,11 +95,11 @@ En cas de mauvais fonctionnement ou si vous voulez suggérer des fonctionnalité
 
 
 ## Flake 8 
-
 Lancer un rapport du projet complet : 
 `flake8 --format=html --htmldir=flake-report/` ou 
 `flake8 path/to/the/file.py` ou 
 `flake8 path/to/the/folder` 
 [Doc](https://flake8.pycqa.org/en/latest/)
-<!-- Ne crée pas de fichier html si pas d'erreur à signaler, crée le dossier avec des fichiers de mise en page --> 
+
+*Ne crée pas de fichier html si pas d'erreur à signaler, crée le dossier avec uniquement des fichiers de mise en page* 
 

@@ -81,7 +81,7 @@ def define_starters(players, matches):
         whites.append(white) 
 
     starters = [] 
-    # Displays who begins  
+    # Defines who begins  
     for starter in whites: 
         for player in players: 
             if player and isinstance(player, Player_model): 

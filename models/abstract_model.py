@@ -31,7 +31,7 @@ class AbstractModel(ABC):
 
     def serialize_object(self, new=True): 
         """ Abstract method for serialize the objects from the models 
-            when adding a new one. 
+            when adding or changing a new one. 
             new (boolean): 
                 if the object must be added -> True, 
                 if it must be replaced -> False. 

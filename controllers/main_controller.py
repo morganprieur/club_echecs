@@ -7,8 +7,6 @@ from controllers.register_controller import Register_controller
 from controllers.report_controller import Report_controller 
 
 from models.match_model import Match_model 
-# from models.player_model import Player_model 
-# from models.tournament_model import Tournament_model 
 
 from views.dashboard_view import Dashboard_view 
 from views.input_view import Input_view 
@@ -27,12 +25,14 @@ class Main_controller():
         board: Dashboard_view, 
         in_view: Input_view, 
         report_view: Report_view, 
+
         register_controller: Register_controller, 
         report_controller: Report_controller, 
     ): 
         self.board = board 
         self.in_view = in_view 
         self.report_view = report_view 
+
         self.register_controller = register_controller 
         self.report_controller = report_controller 
 
@@ -56,10 +56,20 @@ class Main_controller():
 
         # ======== "R E G I S T E R"  M E N U S ======== # 
 
+        # ==== menu "enregistrer" ==== # 
         if self.board.ask_for_menu_action == '1': 
             self.board.ask_for_menu_action = None 
-            # menu "saisir" :
-            self.board.display_register() 
+            # new_session = False 
+            # print(new_session) 
+
+            if new_session: 
+                self.board.display_register([0, 1, 2, 3]) 
+            else: 
+                items = [] 
+                items.append(0) 
+                for i in range(4, 7): 
+                    items.append(i) 
+                self.board.display_register(items) 
 
             # ==== Registers one player ==== # 
             if self.board.ask_for_register == '1': 
@@ -67,8 +77,9 @@ class Main_controller():
 
                 print('\nEnregistrer un joueur') 
                 self.register_controller.enter_new_player() 
+                # serialize player 
 
-                session.prompt('Appuyez sur entrée pour continuer MC71') 
+                self.press_enter_to_continue() 
                 self.start() 
 
             # ==== Registers many new players ==== # 
@@ -77,6 +88,7 @@ class Main_controller():
 
                 print('\nEnregistrer plusieurs joueurs') 
                 self.register_controller.enter_many_new_players() 
+                # serialize each new player 
 
                 self.start() 
 
@@ -84,16 +96,17 @@ class Main_controller():
             if self.board.ask_for_register == '3': 
                 self.board.ask_for_register = None 
 
-                print('\n\033[1mEnregistrer un tournoi\033[0m') 
+                print('\n\033[1mEnregistrer un nouveau tournoi\033[0m') 
 
                 # Sets the players' scores of the last tournament to zero. 
                 last_tournament_obj = helpers.select_one_tournament('last') 
                 if last_tournament_obj is not None: 
                     self.register_controller.set_players_scores_to_zero() 
+                    # serialize each player 
 
                 # Displays registered players to select the current ones: 
                 print('\033[1mVoici les joueurs enregistrés :\033[0m ') 
-                self.report_controller.report_all_players('id', False) 
+                self.report_controller.report_all_players('id')  # rev=False 
 
                 # Prompt if needed to register a new player 
                 player_needed = session.prompt('\nEnregistrer un nouveau joueur ? (y/n) ') 
@@ -118,9 +131,6 @@ class Main_controller():
                         Il y a eu un problème, veuillez recommencer ou envoyer un feedback. 
                         Merci de votre compréhension. 
                     ''') 
-                # else: 
-                #     print('\nLe tournoi a bien été enregistré. ') 
-                #     self.report_controller.report_one_tournament('last') 
 
                 # Get the tournament's players (objects) 
                 players_objs = helpers.select_tournament_players('last') 
@@ -147,50 +157,46 @@ class Main_controller():
                     print('\nLe tournoi a bien été enregistré. ') 
                     # Displays the last tournament  
                     self.report_controller.report_one_tournament('last') 
-                    session.prompt('\nAppuyez sur entrée pour continuer ') 
+                    self.press_enter_to_continue() 
 
                     # à vérifier ### 
                     self.report_controller.report_players_from_tournament('id', tournament_obj.id) 
 
                     # Displays the starters 
                     self.report_controller.report_starters(starters) 
-                    session.prompt('\nAppuyez sur entrée pour continuer ') 
+                    self.press_enter_to_continue() 
 
                 self.start() 
 
             # ==== Enregistrer les scores ====
-            if self.board.ask_for_register == '4': 
+            if self.board.ask_for_register == '4':  # à retester ### 
                 """ Registers new scores, 
                     closes round, 
                     opens new round 
                     & defines new matches. 
+                    Closes tournament if needed. 
                 """ 
                 self.board.ask_for_register = None 
-
-                # self.report_controller.report_all_players('id') 
 
                 print('Enregistrer les scores') 
 
                 # Get the last tournament (obj) 
                 tournament_obj = helpers.select_one_tournament('last') 
-                # last_tournament_obj = helpers.select_one_tournament('last') 
 
                 # if last_tournament_obj is not None: 
                 if tournament_obj is not None: 
                     self.register_controller.enter_scores(tournament_obj) 
-                    # serialize tournament  
+                    # serializes tournament  
 
                     # Register the players scores  
                     self.register_controller.update_players_tournament_scores(tournament_obj) 
-                    # serialize players 
+                    # serializes players 
                     players_objs = self.register_controller.update_players_round_scores(tournament_obj) 
-                    # serialize players 
+                    # serializes players 
 
                     # Report the players scores for the last round 
                     self.report_controller.report_round_results('last') 
-
-                    # Report the players 
-                    session.prompt('\nAppuyez sur entrée pour continuer ') 
+                    self.press_enter_to_continue() 
 
                     # close round : define the end_datetime 
                     print('\nClôturer le round') 
@@ -207,31 +213,25 @@ class Main_controller():
                     # if this is the last round: 
                     if last_round.id == tournament_obj.rounds_left: 
                         self.register_controller.close_tournament() 
+                        # serializes tournament 
 
-                        if not tournament_obj.serialize_object(False): 
-                            print('''
-                                Il y a eu un problème. Essayez de recommencer et envoyez un feedback. 
-                                Merci de votre compréhension. 
-                            ''') 
-                            session.prompt('Appuyez sur entrée pour continuer ') 
-                        else: 
-                            print(f'''
-                                \nLe tournoi {tournament_obj.name} a été clôturé avec succès. 
-                            ''') 
+                        # if not tournament_obj.serialize_object(False): 
+                        #     print('''
+                        #         Il y a eu un problème. Essayez de recommencer et envoyez un feedback. 
+                        #         Merci de votre compréhension. 
+                        #     ''') 
+                        #     self.press_enter_to_continue() 
+                        # else: 
+                        #     print(f'''
+                        #         \nLe tournoi {tournament_obj.name} a été clôturé avec succès. 
+                        #     ''') 
 
                         # Display the results 
                         print('\nVoici les résultats du tournoi : ') 
+                        self.report_controller.report_one_tournament('last') 
                         session.prompt('\nAppuyer sur entrée pour continuer ') 
 
-                        # self.report_controller.report_rounds('last') 
-
-                        # Display the scores 
-                        # print('\nLes nouveaux scores des joueurs : ') 
-                        # session.prompt('\nAppuyer sur entrée pour continuer ') 
-                        # self.report_controller.report_players_from_tournament('firstname', tournament_obj.id) 
-                        # session.prompt('\nAppuyer sur entrée pour continuer ') 
                     else: 
-                        # print(f'tournament_obj.rounds[0].end_datet. MC224 : {tournament_obj.rounds[0].end_datetime}') 
                         tournament_obj.serialize_object(False) 
                         print('\nLe round a bien été clôturé, création d\'un nouveau round : ') 
                         self.register_controller.enter_new_round(False, tournament_obj) 
@@ -244,14 +244,7 @@ class Main_controller():
                         # Display the new matches 
                         print('\n\033[1mLes prochains matches : \033[0m ') 
                         for next in next_matches: 
-                            print(f'{next[1][0]} contre {next[0][0]}')
-                            # print(f'et : {next[0][0]} contre {next[1][0]}')
-
-                        starters = helpers.define_starters(selected, next_matches) 
-
-                        # Displays the starters 
-                        self.report_controller.report_starters(starters) 
-                        session.prompt('\nAppuyez sur entrée pour continuer ') 
+                            print(f'{next[1][0]} contre {next[0][0]}') 
 
                         if next_matches and not isinstance(next_matches[0], Match_model): 
                             matches = [Match_model(data) for data in next_matches] 
@@ -261,6 +254,17 @@ class Main_controller():
                             last_round.matches = matches 
                             tournament_obj.rounds.append(last_round) 
 
+                        # à tester ### 
+                        tournament_obj.serialize_object(False) 
+
+                        # à tester ### 
+                        starters = helpers.define_starters(selected, tournament_obj.rounds[-1].matches) 
+                        # starters = helpers.define_starters(selected, next_matches) 
+
+                        # Displays the starters 
+                        self.report_controller.report_starters(starters) 
+                        self.press_enter_to_continue() 
+
                 self.start() 
 
             # ==== Clôturer un round ==== 
@@ -269,11 +273,10 @@ class Main_controller():
                 self.board.ask_for_register = None 
 
                 # close round : define the end_datetime 
-                print('\nClôturer le dernier round') 
+                print('\nClôturer le round en cours') 
                 closing_round = self.in_view.input_closing_round() 
                 tournament_obj = helpers.select_one_tournament('last') 
                 if (closing_round == 'y') or (closing_round == 'Y'): 
-                    # self.tournament_obj = Tournament_model(**tournament) 
                     self.last_round = tournament_obj.rounds[-1] 
 
                     self.last_round.end_datetime = str(datetime.now()) 
@@ -282,17 +285,18 @@ class Main_controller():
                     session.prompt('\nAppuyer sur entrée pour continuer MC227') 
 
                 # No need to check if this is the first round. 
+
                 # If it is the last round: close the tournament 
                 if self.last_round.id == tournament_obj.rounds_left: 
                     self.register_controller.close_tournament() 
+                    # serializes tournament_obj 
                     print(f'''\nLe tournoi {tournament_obj.name} a été clôturé avec succès.''') 
                     session.prompt('\nAppuyer sur entrée pour continuer MC281') 
 
-                    # Display the results 
+                    # Displays the results 
                     print('\nVoici les résultats du tournoi : ') 
                     session.prompt('\nAppuyer sur entrée pour continuer MC285') 
-
-                    self.report_one_tournament('last') 
+                    self.report_controller.report_one_tournament('last') 
                     session.prompt('\nAppuyer sur entrée pour continuer MC237') 
 
                     print('\nEt les nouveaux scores des joueurs : ') 
@@ -301,38 +305,35 @@ class Main_controller():
                     session.prompt('\nAppuyer sur entrée pour continuer MC242') 
                 else: 
                     round_object = self.enter_new_round(False)  # first_round 
-                    # returns object 
+                    # serializes tournament 
 
                     next_matches = self.enter_new_matches(True, tournament_obj)  # first_round 
-                    # returns next_matches  (list of objs) 
-
-                    starters = helpers.define_starters(players_objs, next_matches) 
-
-                    # Displays the starters 
-                    helpers.report_starters(starters) 
-                    session.prompt('\nAppuyez sur entrée pour continuer MC303') 
-
-                    matches = [Match_model(data) for data in next_matches] 
+                    # does not serialize tournament 
 
                     round_object.matches = matches 
                     tournament_obj.rounds.append(round_object) 
 
-                    if not self.tournament_obj.serialize_object(False): 
+                    if not tournament_obj.serialize_object(False): 
                         print('''\n
                             Il y a eu un problème. Essayez de recommencer et envoyez un feedback. 
                             Merci de votre compréhension. 
                         ''') 
-                        session.prompt('\nAppuyez sur entrée pour continuer MC254') 
+                        self.press_enter_to_continue() 
+
+                    # à tester ### 
+                    starters = helpers.define_starters(players_objs, tournament_obj.rounds[-1].matches) 
+
+                    # Displays the starters 
+                    self.report_controller.report_starters(starters) 
+                    self.press_enter_to_continue() 
 
                     print('\nVoici les résultats provisoires du tournoi : ') 
-                    session.prompt('\nAppuyez sur entrée pour continuer MC257') 
+                    self.press_enter_to_continue() 
                     self.report_one_tournament('last') 
-                    session.prompt('\nAppuyez sur entrée pour continuer MC259') 
+                    self.press_enter_to_continue() 
 
                     print('\nLes nouveaux scores des joueurs : ') 
-                    session.prompt('\nAppuyez sur entrée pour continuer MC262') 
-                    self.report_players_from_tournament('firstname', tournament_obj.id) 
-                    session.prompt('Appuyez sur entrée pour continuer MC265') 
+                    self.press_enter_to_continue() 
 
                 self.start() 
 
@@ -350,7 +351,7 @@ class Main_controller():
 
                 if (closing_tournament != 'y') or (closing_tournament != 'Y'): 
                     print('*** La clôture du tournoi a été annulée. ***') 
-                    session.prompt('Appuyez sur entrée pour continuer MC265') 
+                    self.press_enter_to_continue() 
                 else: 
                     self.tournament_obj.end_date = str(date.today()) 
 
@@ -358,46 +359,16 @@ class Main_controller():
                         print('Un problème est survenu, veuillez envoyer un feedback. Désolé pour les désagréments. ') 
                     else: 
                         print('Le tournoi a bien été clôturé. ') 
-                        session.prompt('Appuyez sur entrée pour continuer MC292') 
+                        self.press_enter_to_continue() 
 
                     print('Voici les résultats du tournoi : ') 
-                    session.prompt('Appuyez sur entrée pour continuer MC295') 
+                    self.press_enter_to_continue() 
                     self.report_one_tournament('last') 
 
-                session.prompt('Appuyez sur entrée pour continuer MC298') 
+                self.press_enter_to_continue() 
                 self.start() 
 
-            # ============ COMMANDES DE TESTS ============ # 
 
-            # ==== TEST : mettre tous les scores à 0 ==== # 
-            if self.board.ask_for_register == '10': 
-                self.board.ask_for_register = None 
-
-                self.tournament_obj = helpers.select_one_tournament('last') 
-
-                self.players_objs = self.select_tournament_players() 
-
-                self.updated_players = self.register_controller.set_players_scores_to_zero() 
-
-                self.report_controller.report_players_from_tournament('id', tournament_obj.id) 
-
-                self.start() 
-
-            # ==== TEST : enter_new_matches TEST ==== # 
-            if self.board.ask_for_register == '11': 
-                self.board.ask_for_register = None 
-
-                # print(f'dir(self) MC378 : {dir(self)}') 
-                first = session.prompt('1er round ? Y/n ') 
-
-                self.tournament_obj = helpers.select_one_tournament('last') 
-
-                if (first == 'y') | (first == 'Y') | (first == ''): 
-                    self.register_controller.enter_new_matches(True, self.tournament_obj) 
-                if (first == 'n') | (first == 'N'): 
-                    self.register_controller.enter_new_matches(False, self.tournament_obj) 
-
-                self.start() 
 
             # ============ COMMANDES DE SECOURS ============ # 
 
@@ -423,13 +394,13 @@ class Main_controller():
                 self.board.ask_for_report = None 
 
                 print('Afficher les joueurs par prénom') 
-                session.prompt('Appuyez sur entrée pour continuer MC432') 
+                self.press_enter_to_continue() 
 
                 # self.test = 'test' 
 
                 self.report_controller.report_all_players('firstname', False) 
 
-                session.prompt('Appuyez sur entrée pour continuer ') 
+                self.press_enter_to_continue() 
                 self.start()  # default=False 
 
             # Reports all players by INE scores 
@@ -437,11 +408,11 @@ class Main_controller():
                 self.board.ask_for_report = None 
 
                 print('Afficher les joueurs par score INE') 
-                session.prompt('Appuyez sur entrée pour continuer ') 
+                self.press_enter_to_continue() 
 
                 self.report_controller.report_all_players('score')  # rev=True default 
 
-                session.prompt('Appuyez sur entrée pour continuer ') 
+                self.press_enter_to_continue() 
                 self.start()  # default=False 
 
             # Reports all tournaments 
@@ -451,7 +422,7 @@ class Main_controller():
                 print('Afficher les tournois') 
                 self.report_controller.report_all_tournaments() 
 
-                session.prompt('Appuyez sur entrée pour continuer MC352') 
+                self.press_enter_to_continue() 
                 self.start()  # default=False 
 
             # Reports one tournament 
@@ -463,7 +434,7 @@ class Main_controller():
                 self.report_controller.report_one_tournament(tournament_id) 
 
 
-                session.prompt('Appuyez sur entrée pour continuer MC365') 
+                self.press_enter_to_continue() 
                 self.start()  # default=False 
 
             # Reports name and date of one tournament 
@@ -475,7 +446,7 @@ class Main_controller():
                     (pour le dernier, tapez "last")''') 
                 self.report_controller.report_name_date_tournament(tournament_id) 
 
-                session.prompt('Appuyez sur entrée pour continuer MC388') 
+                self.press_enter_to_continue() 
                 self.start()  # default=False 
 
             # Reports all players from one tournament 
@@ -491,7 +462,7 @@ class Main_controller():
                 self.registered_players_objs = helpers.select_tournament_players(self.tournament_obj.id) 
                 self.report_controller.report_players_from_tournament('id', tournament_id) 
 
-                session.prompt('Appuyez sur entrée pour continuer ') 
+                self.press_enter_to_continue() 
                 self.start()  # default=False 
 
             # Reports rounds and matches of one tournament 
@@ -503,21 +474,10 @@ class Main_controller():
                 tournament_id = session.prompt('''De quel tournoi voulez-vous les tours ? (son id ou "last" 
                                                pour le dernier) ''') 
                 self.report_controller.report_rounds(tournament_id) 
-                session.prompt('Appuyez sur entrée pour continuer ') 
+                self.press_enter_to_continue() 
 
                 self.start()  # default=False 
 
-
-        # ============ TESTS ============ # 
-            # TEST : Reports one player TEST #  
-            if self.board.ask_for_report == '10': 
-                self.board.ask_for_report = None 
-
-                print('Le dernier joueur enregistré : ') 
-                self.report_controller.report_one_player('last') 
-
-                session.prompt('Appuyez sur entrée pour continuer ') 
-                self.start()  # default=False 
 
 
         # ============ COMMANDES DE SECOURS ============ # 
@@ -544,6 +504,65 @@ class Main_controller():
             self.board.ask_for_menu_action = None 
             Main_controller.close_the_app() 
 
+        # ============ COMMANDES DE TESTS - REGISTER ============ # 
+
+        # ==== TEST : mettre tous les scores à 0 - TEST ==== # 
+        if self.board.ask_for_register == '10': 
+            self.board.ask_for_register = None 
+
+            self.tournament_obj = helpers.select_one_tournament('last') 
+
+            self.players_objs = self.select_tournament_players() 
+
+            self.updated_players = self.register_controller.set_players_scores_to_zero() 
+
+            self.report_controller.report_players_from_tournament('id', tournament_obj.id) 
+
+            self.start() 
+
+        # ==== TEST : enter_new_matches  TEST ==== # 
+        if self.board.ask_for_register == '11': 
+            self.board.ask_for_register = None 
+
+            # print(f'dir(self) MC378 : {dir(self)}') 
+            first = session.prompt('1er round ? Y/n ') 
+
+            self.tournament_obj = helpers.select_one_tournament('last') 
+
+            if (first == 'y') | (first == 'Y') | (first == ''): 
+                self.register_controller.enter_new_matches(True, self.tournament_obj) 
+            if (first == 'n') | (first == 'N'): 
+                self.register_controller.enter_new_matches(False, self.tournament_obj) 
+
+            self.start() 
+
+        # ============ COMMANDES DE TESTS - REPORTS ============ # 
+
+        # TEST : Reports one player  TEST #  
+        if self.board.ask_for_report == '20': 
+            self.board.ask_for_report = None 
+
+            print('Le dernier joueur enregistré : ') 
+            self.report_controller.report_one_player('last') 
+
+            self.press_enter_to_continue() 
+            self.start()  # default=False 
+
+
+        # ==== TEST : report_all_players  TEST ==== # 
+        if self.board.ask_for_report == '21': 
+            self.board.ask_for_register = None 
+
+            self.report_controller.report_all_players('id', False) 
+            self.press_enter_to_continue() 
+
+            self.start() 
+
+
+    """ Command to action for continuing """ 
+    @staticmethod 
+    def press_enter_to_continue(): 
+        session.prompt('Appuyez sur entrée pour continuer ') 
 
     """ Command to quit the application """ 
     @staticmethod 

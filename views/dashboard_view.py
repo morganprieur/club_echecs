@@ -16,11 +16,7 @@ class Dashboard_view():
         '========', 
         '\033[1mMenu principal :\033[0m ', 
         '1 : enregistrer', 
-        '2 : afficher', 
-        '--------', 
-        'Commandes de secours : ', 
-        '* pour revenir au menu principal', 
-        '0 pour sortir' 
+        '2 : afficher' 
     ] 
 
     register_menu = [ 
@@ -30,11 +26,7 @@ class Dashboard_view():
         '3 : Enregistrer un nouveau tournoi', 
         '4 : Enregistrer des scores et clôturer le round', 
         '5 : Clôturer un round', 
-        '6 : Clôturer un tournoi', 
-        '--------', 
-        '\033[1mCommandes de secours :\033[0m ', 
-        '* Revenir au menu principal', 
-        '0 Sortir' 
+        '6 : Clôturer un tournoi' 
     ] 
 
     display_menu = [ 
@@ -45,7 +37,10 @@ class Dashboard_view():
         '4 : Un tournoi ', 
         '5 : Nom et dates d\'un tournoi ', 
         '6 : Les joueurs d\'un tournoi par ordre alphabétique ', 
-        '7 : Les tours et matches d\'un tournoi ', 
+        '7 : Les tours et matches d\'un tournoi ' 
+    ] 
+
+    display_rescue = [ 
         '--------', 
         '\033[1mCommandes de secours :\033[0m ', 
         '* pour revenir au menu principal ', 
@@ -65,15 +60,23 @@ class Dashboard_view():
         print('\n* * * * * * * * * * * * * * * * *') 
         for m in self.main_menu: 
             print(m) 
+        for r in self.display_rescue: 
+            print(r) 
         self.ask_for_menu_action = session.prompt('\nChoisir une action : ') 
         print('') 
         return self.ask_for_menu_action 
 
 
-    def display_register(self): 
+    def display_register(self, items: list): 
         print('\n* * * * * * * * * * * * * * * * *') 
-        for i in range(len(self.register_menu)): 
-            print(self.register_menu[i]) 
+        # print(items) 
+        for item in items: 
+            print(self.register_menu[item]) 
+        for r in self.display_rescue: 
+            print(r) 
+        # print(self.register_menu[item] for item in items)  # ? ### 
+        # ==> <generator object Dashboard_view.display_register.<locals>.<genexpr> at 0x00000217075E4B80> 
+        # list(ch(string.printable))  (sof) 
         self.ask_for_register = session.prompt('\nChoisir quoi enregistrer : ') 
         print('') 
         return self.ask_for_register 
@@ -83,6 +86,8 @@ class Dashboard_view():
         print('\n* * * * * * * * * * * * * * * * *') 
         for i in range(len(self.display_menu)): 
             print(self.display_menu[i]) 
+        for r in self.display_rescue: 
+            print(r) 
         self.ask_for_report = session.prompt('\nChoisir un rapport : ') 
         print('') 
         return self.ask_for_report 

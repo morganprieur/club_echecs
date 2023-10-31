@@ -23,7 +23,7 @@ class Report_view():
                 nom complet : \t\t{player.firstname} {player.lastname} 
                 date de naissance : \t{player.birthdate} 
                 I. N. E. : \t\t{player.ine} 
-                score du dernier round : \t{player.round_score} 
+                score du dernier round : {player.round_score} 
                 score du tournoi : \t{player.tournament_score} 
             ''')  
         print('\n====\n') 
@@ -59,9 +59,13 @@ class Report_view():
                 print(f'''\nMatch : {match.player_1_id} contre {match.player_2_id} :''') 
                 for player in players_objs:
                     if match.player_1_id == player.id: 
-                        print(f'''joueur {player.id} : {player.firstname} {player.lastname}, score : {player.round_score}''') 
+                        print(f''' 
+                            joueur {player.id} : {player.firstname} {player.lastname}, score : {player.round_score} 
+                        ''') 
                     elif match.player_2_id == player.id: 
-                        print(f'''joueur {player.id} : {player.firstname} {player.lastname}, score : {player.round_score}''') 
+                        print(f''' 
+                            joueur {player.id} : {player.firstname} {player.lastname}, score : {player.round_score} 
+                        ''') 
 
 
 
