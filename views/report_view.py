@@ -60,11 +60,13 @@ class Report_view():
                 for player in players_objs:
                     if match.player_1_id == player.id: 
                         print(f''' 
-                            joueur {player.id} : {player.firstname} {player.lastname}, score : {player.round_score} 
+                            joueur {player.id} : {player.firstname} {player.lastname}, \
+                                score : {player.round_score} 
                         ''') 
                     elif match.player_2_id == player.id: 
                         print(f''' 
-                            joueur {player.id} : {player.firstname} {player.lastname}, score : {player.round_score} 
+                            joueur {player.id} : {player.firstname} {player.lastname}, \
+                                score : {player.round_score} 
                         ''') 
 
 

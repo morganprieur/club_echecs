@@ -47,7 +47,7 @@ class Input_view():
 
 
     def input_closing_tournament(self): 
-        is_tournament_done = session.prompt('\nC\'est le dernier round. Confirmer la clôture du tournoi ? (y/N) : ') 
+        is_tournament_done = session.prompt('\nC\'est le dernier round. Confirmer la clôture du tournoi ? (y/n) : ') 
         return is_tournament_done 
 
 
@@ -96,4 +96,17 @@ class Input_view():
                 winners.append(winner) 
 
         return (null_matches, winners) 
+
+
+    # ============ U T I L S ============ # 
+
+
+    def input_object_id(self, object): 
+        id = session.prompt(f'\nQuelle ID du {object} ? (pour le dernier, tapez "last")') 
+        return id 
+
+
+    def input_yes_or_no(self, question): 
+        choice = session.prompt(f'\n{question} (y/n) : ') 
+        return choice 
 

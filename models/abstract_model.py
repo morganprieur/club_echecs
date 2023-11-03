@@ -4,29 +4,9 @@ import json
 
 
 class AbstractModel(ABC): 
-    """ Comment """
+    """ Abstract method to extend by the model classes. """ 
     def __init__(self, table) -> None: 
         self.table = table 
-
-    @staticmethod 
-    def check_if_json_empty(table): 
-        with open(f"data/{table}.json", 'rb') as f: 
-            if len(f.read()) == 0: 
-                return True 
-            else: 
-                return False 
-
-
-    @staticmethod 
-    def get_registered_dict(table): 
-        with open(f'data/{table}.json', 'r') as file: 
-            # list of dicts : 
-            try:  
-                registered = json.load(file) 
-            # except: 
-            except json.decoder.JSONDecodeError: 
-                return [] 
-        return registered 
 
 
     def serialize_object(self, new=True): 
@@ -53,6 +33,31 @@ class AbstractModel(ABC):
         # print('to_dict method') 
         # pass 
         # ... 
+
+
+
+    @staticmethod 
+    def check_if_json_empty(table): 
+        with open(f"data/{table}.json", 'rb') as f: 
+            if len(f.read()) == 0: 
+                return True 
+            else: 
+                return False 
+
+
+    @staticmethod 
+    def get_registered_dict(table): 
+        with open(f'data/{table}.json', 'r') as file: 
+            # list of dicts : 
+            try:  
+                registered = json.load(file) 
+            # except: 
+            except json.decoder.JSONDecodeError: 
+                return [] 
+        return registered 
+
+
+
 
 
 """ 

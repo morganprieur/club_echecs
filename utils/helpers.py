@@ -106,40 +106,56 @@ def select_one_player(player_id):
     """ 
     if Player_model.check_if_json_empty('players'): 
         print('Il n\'y a pas de joueur à afficher. ') 
-        return False 
+        # à tester ### 
+        player = None 
+        # return False 
     else: 
-        players_dicts = Player_model.get_registered_dict('players') 
-        players_objs = [Player_model(**data) for data in players_dicts] 
-
-        if player_id == 'last': 
-            ids = [] 
-            for player in players_objs: 
-                ids.append(player.id) 
-            last_player_id = max(ids) 
-            # print(f'last_player_id H122 : {last_player_id}') 
-            for player in players_objs: 
-                if player.id == last_player_id: 
-                    return player 
+        # à tester ### 
+        if len(Player_model.get_registered_dict('players')) == 0: 
+            player = None 
         else: 
-            for player in players_objs: 
-                if player.id == player_id: 
-                    return player 
+            players_dicts = Player_model.get_registered_dict('players') 
+            players_objs = [Player_model(**data) for data in players_dicts] 
+
+            if player_id == 'last': 
+                ids = [] 
+                for player in players_objs: 
+                    ids.append(player.id) 
+                last_player_id = max(ids) 
+                for player in players_objs: 
+                    if player.id == last_player_id: 
+                        return player 
+            else: 
+                for player in players_objs: 
+                    if player.id == player_id: 
+                        return player 
+
+
+def select_all_players(): 
+    """ Get all the players and instantiate them. 
+        Returns list of objects (Player) 
+    """ 
+    players_dict = Player_model.get_registered_dict('players') 
+    players_objs = [Player_model(**data) for data in players_dict] 
+
+    return players_objs 
 
 
 def select_tournament_players(tournament_id): 
-    """ Selects the players of the `tournament_id` tournament 
-        already selected into the precedent method. 
+    """ Selects the players of the `tournament_id` tournament. 
 
         Returns:
-            list of Player_models: Returns a list of objects Player, stored in Main_controller. 
+            players_objs: list of Player_models. 
     """ 
     tournament_obj = select_one_tournament(tournament_id) 
     players_ids = tournament_obj.players 
 
-    players_objs = [] 
-    for player_id in players_ids: 
-        player = select_one_player(player_id) 
-        players_objs.append(player) 
+    # à tester ### 
+    players_objs = [select_one_player(player_id) for player_id in players_ids] 
+    # players_objs = [] 
+    # for player_id in players_ids: 
+    #     player = select_one_player(player_id) 
+    #     players_objs.append(player) 
     return players_objs  # list of objects 
 
 
@@ -153,8 +169,9 @@ def select_one_tournament(tournament_id):
     # Vérifier check_if_json_empty(table) : ### 
     if not Tournament_model.check_if_json_empty('tournaments'): 
 
-        if Tournament_model.get_registered_dict('tournaments') == []: 
-            t_obj = None  
+        # à tester ### 
+        if len(Tournament_model.get_registered_dict('tournaments')) == 0: 
+            t_obj = None 
         else: 
             t_dicts = Tournament_model.get_registered_dict('tournaments') 
             t_objs = [Tournament_model(**data) for data in t_dicts] 
@@ -170,7 +187,18 @@ def select_one_tournament(tournament_id):
                 for tourn in t_objs: 
                     if tourn.id == int(tournament_id): 
                         t_obj = tourn 
-            return t_obj 
+        return t_obj 
+
+
+def select_all_tournaments(): 
+    """ Get all the tournaments from the tournamnets json file 
+        and instantiate them. 
+        returns list of objects (Tournament) 
+    """ 
+    tournaments_dict = Tournament_model.get_registered_dict('tournaments') 
+    tournaments_objs = [Tournament_model(**data) for data in tournaments_dict] 
+
+    return tournaments_objs 
 
 
 def sort_objects_by_field(objects, field, reversed=False): 
@@ -178,7 +206,8 @@ def sort_objects_by_field(objects, field, reversed=False):
         Args: 
             objects (dict): the list of objects to sort. 
             field (string): the field which sort. 
-            reversed (bool): if we have to reverse the result. Default False. 
+            reversed (bool): if we have to reverse the result. 
+                            Default False. 
         Returns objects 
     """ 
     if field == 'score': 

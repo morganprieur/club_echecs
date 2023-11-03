@@ -40,7 +40,7 @@ Taper la commande :
     |-- data/ 
         |-- players.json 
         |-- tournaments.json 
-    |-- flake-report/ 
+    |-- flake-reports/ 
         |-- ***  
     |-- models/ 
         |-- abstract_model.py 
@@ -96,9 +96,10 @@ En cas de mauvais fonctionnement ou si vous voulez suggérer des fonctionnalité
 
 ## Flake 8 
 Lancer un rapport du projet complet : 
-`flake8 --format=html --htmldir=flake-report/` ou 
-`flake8 path/to/the/file.py` ou 
-`flake8 path/to/the/folder` 
+`flake8 --format=html --htmldir=flake-report/` (AttributeError) ou 
+`flake8 path/to/the/file.py` (ne retourne rien) ou 
+`flake8 path/to/the/folder` (ne retourne rien) ou 
+`flake8` sans paramètres  
 [Doc](https://flake8.pycqa.org/en/latest/)
 
 *Ne crée pas de fichier html si pas d'erreur à signaler, crée le dossier avec uniquement des fichiers de mise en page* 

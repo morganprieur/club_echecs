@@ -19,7 +19,6 @@ class Tournament_model(AbstractModel):
         players: list, 
         rounds: list, 
         description: str 
-        # rounds_left: 4->int, 
     ): 
         super().__init__('tournaments') 
         self.id = id 
@@ -100,6 +99,9 @@ class Tournament_model(AbstractModel):
             with open(f"data/{self.table}.json", "w") as file: 
                 json.dump(t_dicts, file, indent=4) 
             return True 
+
+
+
 
 
     """ Decorator @abstractmethod 

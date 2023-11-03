@@ -1,4 +1,6 @@
 
+import this  # PEP 20 
+
 from controllers.main_controller import Main_controller 
 from controllers.register_controller import Register_controller 
 from controllers.report_controller import Report_controller 
@@ -11,8 +13,13 @@ if __name__ == "__main__":
     new_board = Dashboard_view() 
     new_input_view = Input_view() 
     new_reporter = Report_view() 
-    new_register_controller = Register_controller(new_input_view, new_reporter)  # 
-    new_report_controller = Report_controller(new_reporter)  # 
+    new_register_controller = Register_controller( 
+        new_input_view, 
+        new_reporter 
+    ) 
+    new_report_controller = Report_controller( 
+        new_reporter 
+    ) 
     new_controller = Main_controller( 
         board=new_board, 
         register_controller=new_register_controller, 
@@ -20,7 +27,10 @@ if __name__ == "__main__":
         in_view=new_input_view, 
         report_view=new_reporter, 
     ) 
+    new_controller.start() 
+
+
     restart = True
     while restart: 
-        restart = new_controller.start(True)
+        restart = new_controller.start() 
 
