@@ -61,6 +61,7 @@ class Report_controller():
                 tournament_id (int or 'last'): the id of the tournament. 
                     For the last one, type 'last' 
         """ 
+        reversed = False 
         players_objs = helpers.select_tournament_players(tournament_id) 
         if not players_objs: 
             print('Il n\'y a pas de joueurs à afficher.') 

@@ -98,7 +98,7 @@ class Register_controller():
         return curr_players  # list of objects  
 
 
-    def set_players_scores_to_zero(self, tournament_obj):  # retirer tournament ### 
+    def set_players_scores_to_zero(self, tournament_obj): 
         """ At the begining of a tournament, 
             sets the players tournament_scores to 0. 
             param: 
@@ -182,6 +182,7 @@ class Register_controller():
                 first_round (bool): if it is the first round. 
             Returns: round_object (object) 
         """ 
+        print(f'first_round RGC185 : {first_round}') 
         # Get the prompt data for the current round: 
         round_data = self.in_view.input_round() 
 
@@ -198,7 +199,7 @@ class Register_controller():
         round_data['matches'] = [] 
 
         round_object = Round_model(**round_data) 
-        # à tester 
+        tournament_obj.rounds.append(round_object) 
         tournament_obj.serialize_object(False)  # not new object 
 
         return round_object 

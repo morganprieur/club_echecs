@@ -27,7 +27,7 @@ class Main_controller():
         report_view: Report_view, 
 
         register_controller: Register_controller, 
-        report_controller: Report_controller(new_reporter=Report_view()), 
+        report_controller: Report_controller, 
     ): 
         self.board = board 
         self.in_view = in_view 
@@ -109,12 +109,15 @@ class Main_controller():
                 # Sets the players' scores of the last tournament to zero. 
                 last_tournament_obj = helpers.select_one_tournament('last') 
                 if last_tournament_obj is not None: 
-                    self.register_controller.set_players_scores_to_zero() 
+                    self.register_controller.set_players_scores_to_zero(last_tournament_obj) 
                     # serializes each player 
+                last_tournament_obj = None 
+
+                all_players = helpers.select_all_players() 
 
                 # Displays registered players to select the current ones: 
                 print('\033[1mVoici les joueurs enregistrés :\033[0m ') 
-                self.report_controller.report_all_players('id')  # rev=False 
+                self.report_controller.report_all_players(all_players, 'id')  # rev=False 
 
                 # Prompt if needed to register a new player 
                 player_needed = self.in_view.input_yes_or_no('Enregistrer un nouveau joueur ?') 
@@ -134,8 +137,7 @@ class Main_controller():
 
                 tournament_obj.rounds.append(round_object) 
 
-                # Supprimer le rapport ### 
-                if not tournament_obj.serialize_object(True): 
+                if not tournament_obj.serialize_object(False): 
                     print(''' 
                         Il y a eu un problème, veuillez recommencer ou envoyer un feedback. 
                         Merci de votre compréhension. 
@@ -146,6 +148,7 @@ class Main_controller():
 
                 # Adds the matches to the tournament 
                 if round_object.matches == []: 
+                    print('Define matches first round ') 
                     selected = helpers.random_matches(players_objs) 
                     next_matches = self.register_controller.enter_new_matches(True, tournament_obj)  # first_round 
                     # returns next_matches  (list of objects) 
@@ -169,8 +172,7 @@ class Main_controller():
                     new_tournament_obj = self.report_controller.report_one_tournament('last') 
                     self.press_enter_to_continue() 
 
-                    # à tester ### 
-                    self.report_controller.report_players_from_tournament('id', new_tournament_obj.id) 
+                    self.report_controller.report_players_from_tournament('tournament_score', new_tournament_obj.id) 
 
                     # Displays the starters 
                     self.report_controller.report_starters(starters) 
@@ -240,14 +242,14 @@ class Main_controller():
                     else: 
                         tournament_obj.serialize_object(False) 
                         print('\nLe round a bien été clôturé, création d\'un nouveau round : ') 
-                        self.register_controller.enter_new_round(False, tournament_obj) 
+                        round_obj = self.register_controller.enter_new_round(False, tournament_obj) 
 
                         """ Sort the players by tournament_score to define the next matches """ 
                         selected = helpers.sort_objects_by_field(players_objs, 'tournament_score', True) 
                         next_matches = self.register_controller.enter_new_matches(False, tournament_obj) 
                         # False : first_round 
 
-                        # Display the new matches 
+                        # Displays the new matches 
                         print('\n\033[1mLes prochains matches : \033[0m ') 
                         for next in next_matches: 
                             print(f'{next[1][0]} contre {next[0][0]}') 
@@ -257,15 +259,13 @@ class Main_controller():
                         else: 
                             matches = next_matches 
 
-                            last_round.matches = matches 
-                            tournament_obj.rounds.append(last_round) 
+                        round_obj.matches = matches 
 
-                        # à tester ### 
                         tournament_obj.serialize_object(False) 
 
-                        # à tester ### 
-                        starters = helpers.define_starters(selected, tournament_obj.rounds[-1].matches) 
-                        # starters = helpers.define_starters(selected, next_matches) 
+                        last_tournament = helpers.select_one_tournament('last') 
+                        new_matches = last_tournament.rounds[-1].matches 
+                        starters = helpers.define_starters(selected, new_matches) 
 
                         # Displays the starters 
                         self.report_controller.report_starters(starters) 
@@ -550,6 +550,29 @@ class Main_controller():
 
             self.start() 
 
+
+        # ==== TEST : enter_new_round  TEST ==== # 
+        if self.board.ask_for_menu_action == '12': 
+            self.board.ask_for_menu_action = None 
+
+            # print(f'dir(self) MC562 : {dir(self)}') 
+            first = session.prompt('1er round ? Y/n ') 
+            tournament_obj = helpers.select_one_tournament('last') 
+            if (first == 'y') | (first == 'Y') | (first == ''): 
+                tournament_obj = self.register_controller.enter_new_round(True, tournament_obj) 
+            else: 
+                tournament_obj = self.register_controller.enter_new_round(False, tournament_obj) 
+            print(f'last_tournament MC566 : {last_tournament}') 
+            last_tournament = helpers.select_one_tournament('last') 
+            print(f'tournament_obj MC568 : {tournament_obj}') 
+
+            if (first == 'y') | (first == 'Y') | (first == ''): 
+                self.register_controller.enter_new_matches(True, tournament_obj) 
+            if (first == 'n') | (first == 'N'): 
+                self.register_controller.enter_new_matches(False, tournament_obj) 
+
+            self.start() 
+
         # ============ COMMANDES DE TESTS - REPORTS ============ # 
 
         # TEST : Reports one player  TEST #  
@@ -572,6 +595,15 @@ class Main_controller():
 
             self.start() 
 
+
+        # ==== TEST : report_tournament_players  TEST ==== # 
+        if self.board.ask_for_menu_action == '22': 
+            self.board.ask_for_menu_action = None 
+
+            self.report_controller.report_players_from_tournament('id', 'last') 
+            self.press_enter_to_continue() 
+
+            self.start() 
 
     """ Command to action for continuing """ 
     @staticmethod 

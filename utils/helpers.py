@@ -14,7 +14,7 @@ def random_matches(registered_players):
         Returns: 
             selected (list of ints): the list of the selected players' ids. 
     """ 
-    print('Define matches first round ') 
+    # print('Define matches first round ') 
     selected = [] 
     for i in range(len(registered_players)): 
         chosen = random.choice(registered_players) 
@@ -77,7 +77,7 @@ def define_starters(players, matches):
     # Determines the ids of the players who play the whites 
     whites = [] 
     for match in matches: 
-        white = random.choice(match) 
+        white = random.choice(match)  # object of type 'Match_model' has no len ### 
         whites.append(white) 
 
     starters = [] 
@@ -108,7 +108,6 @@ def select_one_player(player_id):
         print('Il n\'y a pas de joueur à afficher. ') 
         # à tester ### 
         player = None 
-        # return False 
     else: 
         # à tester ### 
         if len(Player_model.get_registered_dict('players')) == 0: 
@@ -150,7 +149,6 @@ def select_tournament_players(tournament_id):
     tournament_obj = select_one_tournament(tournament_id) 
     players_ids = tournament_obj.players 
 
-    # à tester ### 
     players_objs = [select_one_player(player_id) for player_id in players_ids] 
     # players_objs = [] 
     # for player_id in players_ids: 

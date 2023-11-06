@@ -30,7 +30,7 @@ if __name__ == "__main__":
     new_controller.start() 
 
 
-    restart = True
-    while restart: 
-        restart = new_controller.start() 
+    # restart = True
+    # while restart: 
+    #     restart = new_controller.start() 
 
