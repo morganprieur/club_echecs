@@ -14,6 +14,10 @@ class Report_view():
 
     """ ANSI \033[1m \033[0m --> gras """ 
     def display_one_player(self, player): 
+        """ Displays one player. 
+            Args:
+                player (Player_model instance): the player to display. 
+        """ 
         if not player: 
             print('\nIl n\'y a aucun joueur à afficher.') 
         else: 
@@ -29,13 +33,21 @@ class Report_view():
         print('\n====\n') 
 
 
-    def display_players(self, players_obj): 
+    def display_players(self, players_objs): 
+        """ Displays many players. 
+            Args:
+                players_objs (list of Player_model instances): the players to display. 
+        """ 
 
-        for player in players_obj: 
+        for player in players_objs: 
             self.display_one_player(player) 
 
 
     def display_starters(self, starters): 
+        """ Displays the players with the white team. 
+            Args:
+                starters (list of Player_model instances): the players who begin the matches. 
+        """ 
         print('\n\033[1m==== Les joueurs qui ont les blancs : ====\033[0m') 
 
         for starter in starters: 
@@ -47,8 +59,12 @@ class Report_view():
         print('\n====\n') 
 
 
-    """def display_round_results(self, last_round, matches_objs, players_objs): """ 
     def display_matches_results(self, matches_objs, players_objs): 
+        """ Displays the results of one round. 
+            Args:
+                matches_objs (list of Match_model instances): the matches of the round. 
+                players_objs (list of Player_model instances): the players who have played the round. 
+        """ 
 
         print('\n\033[1mRésultats des matches :\033[0m ') 
 
@@ -71,6 +87,10 @@ class Report_view():
 
 
     def display_one_tournament(self, one_tournament): 
+        """ Displays one tournament. 
+            Args:
+                one_tournament (Tournament_model instance): the tournament to display. 
+        """ 
 
         print(f'''\n ==== \033[1mTournoi {one_tournament.id} :\033[0m ====  
             nom : \t{one_tournament.name} 
@@ -78,7 +98,7 @@ class Report_view():
             date début : {one_tournament.start_date} 
             date fin : \t{one_tournament.end_date} 
             description : {one_tournament.description} 
-            rounds : \t 
+            rounds : 
         ''') 
 
         rounds = one_tournament.rounds 
@@ -87,10 +107,14 @@ class Report_view():
 
 
     def display_tournaments(self, all_tournaments): 
+        """ Displays the tournaments. 
+            Args:
+                all_tournaments (list of Tournament_model instances): the tournaments to display. 
+        """ 
         print('\n==== Tous les tournois ====') 
 
         for tournament in all_tournaments: 
-            print(f'\ntournoi {all_tournaments.index(tournament)+1} : ') 
+            print(f'\ntournoi {tournament.id} : ') 
             self.display_one_tournament(tournament) 
 
         print('\n====\n') 
@@ -99,7 +123,7 @@ class Report_view():
     def display_name_date_tournament(self, tournament): 
         """ Displays the name and dates of the tournament. 
             Args:
-                tournament (object): the tournament from wich will be displayed the name and dates. 
+                tournament (Tournament_model instance): the tournament from wich will be displayed the name and dates. 
         """ 
         print(f'''
             \n---- \033[1mNom et dates du tournoi {tournament.id} :\033[0m ---- 
@@ -116,7 +140,7 @@ class Report_view():
     def display_rounds_one_tournament(self, tournament): 
         """ Display all the rounds from one tournament. 
             Args: 
-                tournament (object): 
+                tournament (Tournament_model instance): 
                     the tournament object the rounds must be displayed from. 
         """ 
         print(f'\n---- \033[1mTous les rounds du tournoi {tournament.id} : \033[0m ----') 
@@ -133,9 +157,9 @@ class Report_view():
 
 
     def display_one_round(self, one_round): 
-        """ Displays the properties of the round. 
+        """ Displays a round. 
             Args:
-                one_round (Round_model): a Round object to display. 
+                one_round (Round_model): the Round object to display. 
         """ 
         print(f''' 
             \t\033[1mRound {one_round.id} :\033[0m  
@@ -160,6 +184,10 @@ class Report_view():
 
 
     def display_match(self, match): 
+        """ Displays one match. 
+            Args:
+                match (Match_model): the match to display. 
+        """ 
         match_tuple = tuple(match) 
         print(f'\t\t\t{match_tuple}') 
 

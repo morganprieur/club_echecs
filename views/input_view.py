@@ -38,7 +38,8 @@ class Input_view():
         rounds_number = session.prompt('\nNombre de rounds ("Entrée" = 4) ') 
         new_tournament['rounds_left'] = 4 if rounds_number == '' else int(rounds_number) 
 
-        # récupérer les joueurs pour enregistrer leur id dans le fichier tournaments.json 
+        # Get the players' ids for registering them into the tournaments.json file 
+        # We'll get the players later. 
         new_tournament['players'] = session.prompt('\nJoueurs (id séparées par des virgules) : ') 
 
         new_tournament['description'] = session.prompt('\nDescription : ') 
@@ -56,7 +57,6 @@ class Input_view():
 
     def input_round(self): 
         new_round = {} 
-        # round.id is automatically defined into Register_controller): 
         new_round['round_name'] = session.prompt('\nNom du round : ') 
         return new_round 
 

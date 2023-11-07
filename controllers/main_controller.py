@@ -128,7 +128,6 @@ class Main_controller():
 
                 # Prompt if needed to register a new player 
                 player_needed = self.in_view.input_yes_or_no('Enregistrer un nouveau joueur ?') 
-                # player_needed = session.prompt('\nEnregistrer un nouveau joueur ? (y/n) ') 
                 if player_needed == 'y' or player_needed == 'Y': 
                     self.register_controller.enter_many_new_players() 
 
