@@ -57,6 +57,9 @@ class Dashboard_view():
 
 
     def display_first_menu(self): 
+        """ Display the menu for chosing if the user wants to register 
+            or display data. 
+        """ 
         print('\n* * * * * * * * * * * * * * * * *') 
         for m in self.main_menu: 
             print(m) 
@@ -68,22 +71,19 @@ class Dashboard_view():
 
 
     def display_register(self, items: list): 
+        """ Displays the "register" menu """ 
         print('\n* * * * * * * * * * * * * * * * *') 
-        # print(items) 
         for item in items: 
             print(self.register_menu[item]) 
         for r in self.display_rescue: 
             print(r) 
-        # question technique : ### 
-        # print(self.register_menu[item] for item in items)  # ? ### 
-        # ==> <generator object Dashboard_view.display_register.<locals>.<genexpr> at 0x00000217075E4B80> 
-        # list(ch(string.printable))  (sof) 
         self.ask_for_register = session.prompt('\nChoisir quoi enregistrer : ') 
         print('') 
         return self.ask_for_register 
 
 
     def display_report(self): 
+        """ Displays the "report" menu. """
         print('\n* * * * * * * * * * * * * * * * *') 
         for i in range(len(self.display_menu)): 
             print(self.display_menu[i]) 

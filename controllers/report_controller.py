@@ -1,12 +1,8 @@
 
 from models.match_model import Match_model 
-# from models.round_model import Round_model 
-# from models.tournament_model import Tournament_model 
 
-# from views.input_view import Input_view 
 from views.report_view import Report_view 
 
-# Voir si c'est possible : 
 from utils import helpers 
 
 
@@ -131,7 +127,6 @@ class Report_controller():
                 tournament_id (int or 'last'): the id of the tournament, or 'last' for the last one. 
         """
         tournament_obj = helpers.select_one_tournament(tournament_id) 
-        # if tournament_obj == {}: 
         if not tournament_obj: 
             print('\nIl n\'y a pas de tournoi à afficher.') 
         else: 
