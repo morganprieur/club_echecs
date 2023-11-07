@@ -48,6 +48,7 @@ class Input_view():
 
     def input_closing_tournament(self): 
         is_tournament_done = session.prompt('\nC\'est le dernier round. Confirmer la clôture du tournoi ? (y/n) : ') 
+        # print(f'is_tournament_done IV51 : |{is_tournament_done}|') 
         return is_tournament_done 
 
 
@@ -62,7 +63,7 @@ class Input_view():
 
 
     def input_closing_round(self): 
-        is_round_done = session.prompt('Confirmer la clôture du round ? (y/N) ') 
+        is_round_done = session.prompt('Confirmer la clôture du round ? (y/n) ') 
         return is_round_done  
 
 

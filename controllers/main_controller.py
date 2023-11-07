@@ -205,10 +205,6 @@ class Main_controller():
                     self.register_controller.enter_scores(tournament_obj) 
                     # serializes tournament  
 
-                    # Register the players tournament scores  
-                    self.register_controller.update_players_tournament_scores(tournament_obj) 
-                    # serializes players 
-
                     # Register the players round scores 
                     players_objs = self.register_controller.update_players_round_scores(tournament_obj) 
                     # serializes players 
@@ -216,6 +212,10 @@ class Main_controller():
                     # Report the players scores for the last round 
                     self.report_controller.report_round_results('last') 
                     self.press_enter_to_continue() 
+
+                    # Register the players tournament scores  
+                    self.register_controller.update_players_tournament_scores(tournament_obj) 
+                    # serializes players 
 
                     # close round : define the end_datetime 
                     print('\nClôturer le round') 
@@ -228,6 +228,15 @@ class Main_controller():
                             La clôture du round a été annulée. Vous pourrez clôturer le round depuis le menu. *** 
                             ''') 
                     tournament_obj.rounds.append(last_round) 
+                    if not tournament_obj.serialize_object(False): 
+                        print(''' 
+                            Il y a eu un problème. Essayez de recommencer et envoyez un feedback. 
+                            Merci de votre compréhension. 
+                        ''') 
+                    else: 
+                        print(f'''
+                            \nLe round {tournament_obj.rounds[-1].round_name} a été clôturé avec succès. 
+                        ''') 
 
                     # if this is the last round: 
                     if last_round.id == tournament_obj.rounds_left: 

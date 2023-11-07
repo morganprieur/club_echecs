@@ -69,7 +69,8 @@ class Register_controller():
         curr_players = helpers.select_tournament_players(tournament_obj.id) 
 
         for player_obj in curr_players: 
-            player_obj.tournament_score == player_obj.round_score 
+            player_obj.tournament_score += player_obj.round_score 
+            player_obj.round_score = float(0) 
 
         for player_obj in curr_players: 
             player_obj.serialize_object(False) 
@@ -85,7 +86,7 @@ class Register_controller():
         matches = tournament_obj.rounds[-1].matches 
 
         for player_obj in curr_players: 
-            player_obj.round_score == 0.0 
+            player_obj.round_score = 0.0 
             for match in matches: 
                 if player_obj.id == match.player_1_id: 
                     player_obj.round_score += match.player_1_score 
@@ -156,11 +157,13 @@ class Register_controller():
 
         closing_tournament = self.in_view.input_closing_tournament() 
         if not (closing_tournament == 'y') or (closing_tournament == 'Y'): 
+            # print(f'closing_tournament RGC159 : |{closing_tournament}|') 
+            # print(f'type(closing_tournament) RGC160 : {type(closing_tournament)}') 
             print('\nLa clôture du tournoi a été annulée, vous pourrez la relancer depuis le menu. ') 
         else: 
             # Set the end_date 
             tournament_obj.end_date = str(today) 
-            if not self.tournament_obj.serialize_object(False): 
+            if not tournament_obj.serialize_object(False): 
                 print('''
                     Il y a eu un problème. Essayez de recommencer et envoyez un feedback. 
                     Merci de votre compréhension. 
@@ -182,7 +185,6 @@ class Register_controller():
                 first_round (bool): if it is the first round. 
             Returns: round_object (object) 
         """ 
-        print(f'first_round RGC185 : {first_round}') 
         # Get the prompt data for the current round: 
         round_data = self.in_view.input_round() 
 

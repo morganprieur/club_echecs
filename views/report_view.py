@@ -79,9 +79,9 @@ class Report_view():
         print(f'''\n ==== \033[1mTournoi {one_tournament.id} :\033[0m ====  
             nom : \t{one_tournament.name} 
             lieu : \t{one_tournament.site} 
-            date début : \t{one_tournament.start_date} 
+            date début : {one_tournament.start_date} 
             date fin : \t{one_tournament.end_date} 
-            description : \t{one_tournament.description} 
+            description : {one_tournament.description} 
             rounds : \t 
         ''') 
 
