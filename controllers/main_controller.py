@@ -43,7 +43,7 @@ class Main_controller():
 
 
     def start(self, new_session=False): 
-        """ Displays the menus 
+        """ Displays the menus and manages the logic of the application.  
             Args:
                 new_session (boolean), default=False. 
                     If True -> displays the menu and the welcome message, 

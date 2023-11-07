@@ -7,7 +7,7 @@ from models.round_model import Round_model
 from models.tournament_model import Tournament_model 
 
 from views.input_view import Input_view 
-from views.report_view import Report_view 
+
 from controllers.report_controller import Report_controller 
 
 import re 
@@ -17,24 +17,26 @@ session = PromptSession()
 
 
 class Register_controller(): 
-
+    """ This class has to get the data from the Input_view class, 
+        validate and formate them, 
+        and send them to the Model classes to register them. 
+    """ 
 
     def __init__( 
         self, 
 
-        in_view: Input_view(), 
-        new_reporter: Report_view() 
+        in_view: Input_view, 
+        report_controller: Report_controller 
     ): 
         self.in_view = in_view 
-        self.report_view = new_reporter 
-        self.report_controller = Report_controller(new_reporter) 
+        self.report_controller = report_controller 
 
 
     # ============ P L A Y E R S ============ # 
 
 
-    """ Register one player """ 
     def enter_new_player(self): 
+        """ Registers one player """ 
         new_player_data = self.in_view.input_player() 
         registered_player = helpers.select_one_player('last') 
         if not registered_player: 
@@ -53,7 +55,7 @@ class Register_controller():
 
     def enter_many_new_players(self): 
         """ Calls the `enter_new_player` for each new player. """ 
-        self.players = []  # !self? ### 
+        self.players = [] 
         while True: 
             player = self.enter_new_player() 
             self.players.append(player) 
@@ -65,6 +67,12 @@ class Register_controller():
     def update_players_tournament_scores(self, tournament_obj): 
         """ Updates the current tournament's scores 
             into the players.json file. 
+
+            Args: 
+                tournament_obj (Tournament_model instance): the tournament which to select the players from. 
+
+            Returns: 
+                curr_players (list of Player_model instances): the players of the tournament. 
         """ 
         curr_players = helpers.select_tournament_players(tournament_obj.id) 
 
@@ -80,6 +88,12 @@ class Register_controller():
     def update_players_round_scores(self, tournament_obj): 
         """ Updates the current round's scores 
             into the players.json file. 
+
+            Args: 
+                tournament_obj (Tournament_model instance): the tournament which to update the players' scores from. 
+
+            Returns: 
+                curr_players (list of Player_model instances): the players of the tournament. 
         """ 
         # Get registered players round_score 
         curr_players = helpers.select_tournament_players(tournament_obj.id) 
@@ -101,11 +115,11 @@ class Register_controller():
 
     def set_players_scores_to_zero(self, tournament_obj): 
         """ At the begining of a tournament, 
-            sets the players tournament_scores to 0. 
+            sets the players round_scores and tournament_scores to 0. 
             param: 
-                tournamenr (object): the tournament from which to set the players scores to zero. 
+                tournament (Tournament_model instances): the tournament from which to set the players scores to zero. 
             returns: 
-                updated_players_objs: a list of the updated players (objects). 
+                updated_players_objs: a list of the updated players (Player_model instances). 
         """ 
         players_objs = helpers.select_tournament_players(tournament_obj.id) 
         updated_players_objs = [] 
@@ -124,7 +138,10 @@ class Register_controller():
 
     def enter_new_tournament(self, last_tournament_obj): 
         """ Register a new tournament with the data entered by the user. 
-            returns: tournament_obj(object) 
+            Args: 
+                last_tournament_obj (Tournament_model instance): the tournament to register. 
+            returns: 
+                tournament_obj(Tournament_model instance) 
         """ 
         # Get the data for the current tournament: 
         tournament_data = self.in_view.input_tournament() 
@@ -149,7 +166,11 @@ class Register_controller():
 
 
     def close_tournament(self, tournament_obj): 
-        """ Assigns the date value to the end_date of the tournament. 
+        """ Assigns the date value to the end_date of the tournament. Serializes the tournament. 
+            Args: 
+                tournament_obj (Tournament_model instance): the tournament to close. 
+            returns: 
+                tournament_obj (Tournament_model instance): the closed tournament. 
         """ 
         today = date.today() 
         if not tournament_obj: 
@@ -180,10 +201,12 @@ class Register_controller():
 
 
     def enter_new_round(self, first_round, tournament_obj):  # first_round = bool 
-        """ Register a new round with its data. 
+        """ Registers a new round with its data. Serializes the tournament. 
             Args: 
                 first_round (bool): if it is the first round. 
-            Returns: round_object (object) 
+                tournament_obj (Tournament_model instance): the tournament which to get the round from. 
+            Returns: 
+                round_object (Round_model instance): the new round, registered. 
         """ 
         # Get the prompt data for the current round: 
         round_data = self.in_view.input_round() 
@@ -211,11 +234,12 @@ class Register_controller():
 
 
     def enter_new_matches(self, first_round, last_tournament): 
-        """ Defines and registers the new matches. 
+        """ Defines the new matches. They will be registered into the main_container. 
             Args:
-                first_round (bool): if there is the matches of the first round. 
-            Returns:
-                next_matches (objects): the list of matches to register into the new round. 
+                first_round (bool): if this is the first round. 
+                last_tournament (Tournament_model instance): the tournament which contains the round. 
+            Returns: 
+                next_matches (list of Match_model instances): the matches to register. 
         """ 
         players_objs = helpers.select_tournament_players(last_tournament.id) 
 
@@ -229,8 +253,11 @@ class Register_controller():
 
 
     def enter_scores(self, tournament_obj): 
-        """ Get the scores from the terminal and register them 
-            into the matches. 
+        """ Get the scores from the terminal and register them into the tournaments.json. 
+            Args: 
+                tournament_obj (Tournament_model instance): the tournament to update the scores. 
+            Returns: 
+                tournament_obj (Tournament_model instance): the updated tournament. 
         """ 
         last_round = tournament_obj.rounds.pop() 
         current_matches = last_round.matches 
