@@ -74,6 +74,7 @@ class Dashboard_view():
             print(self.register_menu[item]) 
         for r in self.display_rescue: 
             print(r) 
+        # question technique : ### 
         # print(self.register_menu[item] for item in items)  # ? ### 
         # ==> <generator object Dashboard_view.display_register.<locals>.<genexpr> at 0x00000217075E4B80> 
         # list(ch(string.printable))  (sof) 
