@@ -15,9 +15,9 @@ class Report_view():
     """ ANSI \033[1m \033[0m --> gras """ 
     def display_one_player(self, player): 
         if not player: 
-            print('Il n\'y a aucun joueur à afficher.') 
+            print('\nIl n\'y a aucun joueur à afficher.') 
         else: 
-            print(f'''
+            print(f''' 
                 \n\033[1mJoueur {player.id}\033[0m :   
 
                 nom complet : \t\t{player.firstname} {player.lastname} 
@@ -40,7 +40,7 @@ class Report_view():
 
         for starter in starters: 
             if not starter: 
-                print('Il n\'y a aucun joueur à afficher.') 
+                print('\nIl n\'y a aucun joueur à afficher.') 
             else: 
                 print(f"\n\033[1mJoueur {starter.id}, {starter.firstname} {starter.lastname}\033[0m ") 
 
@@ -50,24 +50,20 @@ class Report_view():
     """def display_round_results(self, last_round, matches_objs, players_objs): """ 
     def display_matches_results(self, matches_objs, players_objs): 
 
-        print('\033[1mRésultats des matches :\033[0m ') 
+        print('\n\033[1mRésultats des matches :\033[0m ') 
 
         if matches_objs == []: 
             print('\t\t\tIl n\'y a aucun match à afficher.') 
         else: 
             for match in matches_objs: 
-                print(f'''\nMatch : {match.player_1_id} contre {match.player_2_id} :''') 
+                print(f'\nMatch : {match.player_1_id} contre {match.player_2_id} : ') 
                 for player in players_objs:
                     if match.player_1_id == player.id: 
-                        print(f''' 
-                            joueur {player.id} : {player.firstname} {player.lastname}, \
-                                score : {player.round_score} 
-                        ''') 
+                        print(f' joueur {player.id} : {player.firstname} {player.lastname}, \
+                            score : {player.round_score} ') 
                     elif match.player_2_id == player.id: 
-                        print(f''' 
-                            joueur {player.id} : {player.firstname} {player.lastname}, \
-                                score : {player.round_score} 
-                        ''') 
+                        print(f'joueur {player.id} : {player.firstname} {player.lastname}, \
+                            score : {player.round_score} ') 
 
 
 

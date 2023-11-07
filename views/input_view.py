@@ -48,7 +48,6 @@ class Input_view():
 
     def input_closing_tournament(self): 
         is_tournament_done = session.prompt('\nC\'est le dernier round. Confirmer la clôture du tournoi ? (y/n) : ') 
-        # print(f'is_tournament_done IV51 : |{is_tournament_done}|') 
         return is_tournament_done 
 
 
@@ -79,17 +78,15 @@ class Input_view():
                     player1 = f'{player.firstname} {player.lastname}' 
                 elif match.player_2_id == player.id: 
                     player2 = f'{player.firstname} {player.lastname}'
-            print(f'''
-                \nMatch : joueur \033[1m{match.player_1_id} {player1}\033[0m 
-                contre joueur \033[1m{match.player_2_id} {player2}\033[0m 
-            ''') 
+            print(f'\nMatch : joueur \033[1m{match.player_1_id} {player1}\033[0m \
+                contre joueur \033[1m{match.player_2_id} {player2}\033[0m ') 
+
             null_match = session.prompt('\nY a-t-il eu match nul ? (y/n) ') 
             if null_match == 'y': 
                 null_matches.append(match) 
             else: 
-                winner_position = int(session.prompt(f'''
-                                                     \nQuel joueur a gagné {match.player_1} ou {match.player_2} ? 
-                                                     (Entrer sa place dans la liste : 1 ou 2) ''')) 
+                winner_position = int(session.prompt(f'\nQuel joueur a gagné {match.player_1} ou {match.player_2} ? \
+                    (Entrer sa place dans la liste : 1 ou 2) ')) 
                 if winner_position == 1: 
                     winner = match.player_1 
                 else: 

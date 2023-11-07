@@ -155,19 +155,19 @@ class Register_controller():
         if not tournament_obj: 
             tournament_obj = helpers.select_one_tournament('last') 
 
+        if tournament_obj.end_date != '': 
+            print(f'Le tournoi {tournament_obj.name} est déjà clôturé. ') 
+
+
         closing_tournament = self.in_view.input_closing_tournament() 
         if not (closing_tournament == 'y') or (closing_tournament == 'Y'): 
-            # print(f'closing_tournament RGC159 : |{closing_tournament}|') 
-            # print(f'type(closing_tournament) RGC160 : {type(closing_tournament)}') 
             print('\nLa clôture du tournoi a été annulée, vous pourrez la relancer depuis le menu. ') 
         else: 
             # Set the end_date 
             tournament_obj.end_date = str(today) 
             if not tournament_obj.serialize_object(False): 
-                print('''
-                    Il y a eu un problème. Essayez de recommencer et envoyez un feedback. 
-                    Merci de votre compréhension. 
-                ''') 
+                print('\nIl y a eu un problème. Essayez de recommencer et envoyez un feedback. \
+                    Merci de votre compréhension. ') 
             else: 
                 print(f'''
                     \nLe tournoi {tournament_obj.name} a été clôturé avec succès. 
@@ -218,7 +218,6 @@ class Register_controller():
                 next_matches (objects): the list of matches to register into the new round. 
         """ 
         players_objs = helpers.select_tournament_players(last_tournament.id) 
-        # players_objs = helpers.select_tournament_players('last') 
 
         if first_round: 
             selected = helpers.random_matches(players_objs) 
@@ -233,7 +232,7 @@ class Register_controller():
         """ Get the scores from the terminal and register them 
             into the matches. 
         """ 
-        last_round = tournament_obj.rounds[-1] 
+        last_round = tournament_obj.rounds.pop() 
         current_matches = last_round.matches 
 
         # Get the matches (obj as tuples)  
@@ -281,7 +280,6 @@ class Register_controller():
         # Put back the rounds and the matches into the round 
         last_round.matches = new_scores 
 
-        tournament_obj.rounds.pop() 
         tournament_obj.rounds.append(last_round) 
 
         # Serialize the tournament (new=False)  

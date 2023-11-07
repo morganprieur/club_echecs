@@ -25,8 +25,8 @@ class Dashboard_view():
         '2 : Enregistrer plusieurs joueurs', 
         '3 : Enregistrer un nouveau tournoi', 
         '4 : Enregistrer des scores et clôturer le round', 
-        '5 : Clôturer un round', 
-        '6 : Clôturer un tournoi' 
+        '5 : Clôturer un round (suite mauvaise manip.) ', 
+        '6 : Clôturer un tournoi (suite mauvaise manip.) ' 
     ] 
 
     display_menu = [ 

@@ -49,7 +49,7 @@ class Report_controller():
         """ 
         player_obj = helpers.select_one_player(player_id) 
         if player_obj is None: 
-            print('Il n\'y a pas (ou plus) de joueur à aficher.') 
+            print('\nIl n\'y a pas (ou plus) de joueur à aficher.') 
         else: 
             self.report_view.display_one_player(player_obj) 
 
@@ -64,7 +64,7 @@ class Report_controller():
         reversed = False 
         players_objs = helpers.select_tournament_players(tournament_id) 
         if not players_objs: 
-            print('Il n\'y a pas de joueurs à afficher.') 
+            print('\nIl n\'y a pas de joueurs à afficher.') 
         else: 
             print('======== ') 
             # Choice of the order (id, alphabetical, tournament_score or by INE score): 
@@ -118,7 +118,7 @@ class Report_controller():
         tournament_obj = helpers.select_one_tournament(tournament_id) 
 
         if not tournament_obj: 
-            print('Il n\'y a pas de tournoi à afficher.') 
+            print('\nIl n\'y a pas de tournoi à afficher.') 
         else: 
             self.report_view.display_one_tournament(tournament_obj) 
 
@@ -133,7 +133,7 @@ class Report_controller():
         tournament_obj = helpers.select_one_tournament(tournament_id) 
         # if tournament_obj == {}: 
         if not tournament_obj: 
-            print('Il n\'y a pas de tournoi à afficher.') 
+            print('\nIl n\'y a pas de tournoi à afficher.') 
         else: 
             self.report_view.display_name_date_tournament(tournament_obj) 
 
@@ -147,7 +147,7 @@ class Report_controller():
         """ 
         tournament_obj = helpers.select_one_tournament(tournament_id) 
         if not tournament_obj: 
-            print('Il n\'y a pas de tournoi à afifcher.') 
+            print('\nIl n\'y a pas de tournoi à afifcher.') 
         else: 
             self.report_view.display_rounds_one_tournament(tournament_obj) 
 
@@ -156,21 +156,4 @@ class Report_controller():
 
     def report_starters(self, starters): 
         self.report_view.display_starters(starters) 
-
-    # ---------------------------------------------- 
-    # """ comment """ 
-    # def report_one_round(self, tournament_id, round_id): 
-    #     tournament_obj = helpers.select_one_tournament(tournament_id) 
-    #     if tournament_obj.rounds and not isinstance(tournament_obj.rounds[0], Round_model): 
-    #         rounds = [Round_model(**data) for data in tournament_obj.rounds] 
-    #     else: 
-    #         rounds = tournament_obj.rounds 
-
-    #     if round_id == 'last': 
-    #         round_obj = rounds[-1] 
-    #     else: 
-    #         round_obj = int(rounds.round_id) 
-
-    #     self.report_view.display_one_round(round_obj) 
-
 
