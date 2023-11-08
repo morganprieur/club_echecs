@@ -25,6 +25,7 @@ class Round_model(AbstractModel):
         else: 
             self.matches = matches 
 
+
     def __str__(self): 
         if self.end_datetime: 
             end_datetime = self.end_datetime 
@@ -36,6 +37,7 @@ class Round_model(AbstractModel):
             fin : {end_datetime}, 
             tournament_id : {self.tournament_id}, 
             matches : {self.matches}''' 
+
 
     def to_dict(self): 
         if self.end_datetime: 
