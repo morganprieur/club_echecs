@@ -124,7 +124,7 @@ class Main_controller():
 
                 # Displays registered players to select the current ones: 
                 print('\033[1mVoici les joueurs enregistrés :\033[0m ') 
-                self.report_controller.report_all_players(all_players, 'id')  # rev=False 
+                self.report_controller.report_many_players(all_players, 'id') 
 
                 # Prompt if needed to register a new player 
                 player_needed = self.in_view.input_yes_or_no('Enregistrer un nouveau joueur ?') 
@@ -171,7 +171,8 @@ class Main_controller():
                     new_tournament_obj = self.report_controller.report_one_tournament('last') 
                     self.press_enter_to_continue() 
 
-                    self.report_controller.report_players_from_tournament('tournament_score', new_tournament_obj.id) 
+                    new_players_objs = helpers.select_tournament_players(new_tournament_obj.id) 
+                    self.report_controller.report_many_players(new_players_objs, 'tournament_score') 
 
                     # Displays the starters 
                     self.report_controller.report_starters(starters) 
@@ -316,8 +317,9 @@ class Main_controller():
 
                         print('\nEt les nouveaux scores des joueurs : ') 
                         self.press_enter_to_continue() 
-                        self.report_controller.report_players_from_tournament( 
-                            'tournament_score', last_tournament_obj.id 
+                        new_players_objs = helpers.select_tournament_players(last_tournament_obj.id) 
+                        self.report_controller.report_many_players( 
+                            new_players_objs, 'tournament_score' 
                         ) 
                         self.press_enter_to_continue() 
                     else: 
@@ -325,11 +327,12 @@ class Main_controller():
                         # serializes tournament 
 
                         next_matches = self.enter_new_matches(True, tournament_obj)  # first_round 
-                        # does not serialize tournament 
+                        # does not serialize tournament (below) 
 
                         round_object.matches = matches 
                         tournament_obj.rounds.append(round_object) 
 
+                        # Serialization of tournament 
                         if not tournament_obj.serialize_object(False): 
                             print('\nIl y a eu un problème. Essayez de recommencer et envoyez un feedback. \
                                 Merci de votre compréhension. ') 
@@ -348,7 +351,8 @@ class Main_controller():
 
                         print('\nLes nouveaux scores des joueurs : ') 
                         self.press_enter_to_continue() 
-                        self.report_controller.report_players_from_tournament('tournament_score', 'last') 
+                        new_players_objs = helpers.select_tournament_players(tournament_obj.id) 
+                        self.report_controller.report_many_players(new_players_objs, 'tournament_score') 
                         self.press_enter_to_continue() 
 
                 self.start() 
@@ -416,7 +420,7 @@ class Main_controller():
                 print('\nAfficher les joueurs par prénom') 
                 self.press_enter_to_continue() 
 
-                self.report_controller.report_all_players(None, 'firstname') 
+                self.report_controller.report_many_players(None, 'firstname') 
 
                 self.press_enter_to_continue() 
                 self.start()  # default=False 
@@ -429,7 +433,7 @@ class Main_controller():
                 print('\nAfficher les joueurs par score INE') 
                 self.press_enter_to_continue() 
 
-                self.report_controller.report_all_players(None, 'score') 
+                self.report_controller.report_many_players(None, 'score') 
 
                 self.press_enter_to_continue() 
                 self.start()  # default=False 
@@ -477,7 +481,8 @@ class Main_controller():
                 print('\nAfficher les joueurs d\'un tournoi') 
                 tournament_id = self.in_view.input_object_id('tournoi') 
 
-                self.report_controller.report_players_from_tournament('id', tournament_id) 
+                players_objs = helpers.select_tournament_players(tournament_id) 
+                self.report_controller.report_many_players(players_objs, 'id') 
 
                 self.press_enter_to_continue() 
                 self.start()  # default=False 
@@ -531,7 +536,8 @@ class Main_controller():
 
             self.register_controller.set_players_scores_to_zero(tournament_obj) 
 
-            self.report_controller.report_players_from_tournament('id', tournament_obj.id) 
+            players_objs = helpers.select_tournament_players(tournament_obj.id) 
+            self.report_controller.report_many_players(players_objs, 'id') 
 
             self.start() 
 
@@ -583,21 +589,25 @@ class Main_controller():
             self.start()  # default=False 
 
 
-        # ==== TEST : report_all_players  TEST ==== # 
+        # ==== TEST : report all players  TEST ==== # 
         if self.board.ask_for_menu_action == '21': 
             self.board.ask_for_menu_action = None 
 
-            self.report_controller.report_all_players(None, 'id', False) 
+            print('Afficher tous les joueurs (test) ') 
+
+            self.report_controller.report_many_players(None, 'id') 
             self.press_enter_to_continue() 
 
             self.start() 
 
 
-        # ==== TEST : report_tournament_players  TEST ==== # 
+        # ==== TEST : report_tournament_players (last tournament)  TEST ==== # 
         if self.board.ask_for_menu_action == '22': 
             self.board.ask_for_menu_action = None 
 
-            self.report_controller.report_players_from_tournament('id', 'last') 
+            tournament_obj = helpers.select_one_tournament('last') 
+            players_objs = helpers.select_tournament_players(tournament_obj.id) 
+            self.report_controller.report_many_players(players_objs, 'id') 
             self.press_enter_to_continue() 
 
             self.start() 
