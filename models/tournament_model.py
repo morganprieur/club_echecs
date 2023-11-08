@@ -66,10 +66,14 @@ class Tournament_model(AbstractModel):
 
 
     def serialize_object(self, new): 
-        """ Abstract method to serialize the object 
+        """ Implementation to modify the abstract method, 
+            to serialize the object 
+            and register the dict into the tournaments.json file.  
             Args:
                 new (boolean): if the object is new: True, 
-                if the data modifies the last entity into the json: False. 
+                if the data modifies an entity into the json: False. 
+            returns: 
+                bool: flag to indicate if the data has been registered of not. 
         """ 
         if not super().check_if_json_empty('tournaments'): 
             t_dicts = self.get_registered_dict('tournaments') 
@@ -100,22 +104,3 @@ class Tournament_model(AbstractModel):
                 json.dump(t_dicts, file, indent=4) 
             return True 
 
-
-
-
-
-    """ Decorator @abstractmethod 
-    from abc import ABC, abstractmethod
-
-    class AbstractClassExample(ABC):
-
-        @abstractmethod
-        def do_something(self):
-            print("Some implementation!")
-
-    class AnotherSubclass(AbstractClassExample):
-
-    def do_something(self):
-        super().do_something()
-        print("The subclass is doing something")
-    """ 

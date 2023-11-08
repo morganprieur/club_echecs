@@ -44,6 +44,13 @@ class Player_model(AbstractModel):
         } 
 
     def serialize_object(self, new=True): 
+        """ Serializes the Plyayer_model instance (into self) 
+            and registers it into the players.json file. 
+            Args:
+                new (bool, optional): if it is a new object to register or not. Defaults to True.
+            Returns:
+                bool: True if the data has been registered, False if not. 
+        """ 
         if not super().check_if_json_empty('players'): 
             p_dicts = self.get_registered_dict(self.table) 
             if new: 
