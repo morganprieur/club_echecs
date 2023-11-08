@@ -15,29 +15,6 @@ class Report_controller():
         self.report_view = new_reporter 
 
 
-    def report_all_players(self, players_objs, field, rev=False):  # rev : reverse 
-        """ Displays the players from players.json. 
-            parameters: 
-                sort (str): 'id', 'firstname' or 'score', 
-                    the name of the field on wich to sort the players. 
-                rev (bool): if we have to reverse the list of objects. 
-        """ 
-        if not players_objs: 
-            players_objs = helpers.select_all_players() 
-
-        # Choice of the order : 
-        if field == 'id': 
-            print('\n==== Tous les joueurs par ordre d\'enregistrement :  ==== ') 
-        if field == 'firstname': 
-            print('\n==== Tous les joueurs par ordre alphabétique :  ==== ') 
-        if field == 'score': 
-            rev = True 
-            print('\n==== Tous les joueurs par score INE décroissant :  ==== ') 
-        sorted_players = helpers.sort_objects_by_field(players_objs, field, rev) 
-
-        self.report_view.display_players(sorted_players) 
-
-
     def report_one_player(self, player_id): 
         """ Displays one player from its id. 
             Args:
@@ -55,8 +32,6 @@ class Report_controller():
             Args: 
                 players_objs (list of Player_model instances): the players to display. 
                 field (string): the field we will sort the players on. 
-            Returns: 
-                players_objs (list of Player_model instances) 
         """ 
         reversed = False 
         if players_objs == []: 
@@ -85,10 +60,13 @@ class Report_controller():
 
             self.report_view.display_players(players_objs) 
 
-            return players_objs 
-
 
     def report_round_results(self, tournament_id): 
+        """ Report the players and their round_scores. 
+
+            Args:
+                tournament_id (int or str for 'last'): the id for getting the Tournament_model instance. 
+        """ 
         last_round = helpers.select_one_tournament(tournament_id).rounds[-1] 
         matches = last_round.matches 
         [tuple(match) for match in matches] 
@@ -100,19 +78,19 @@ class Report_controller():
 
     def report_all_tournaments(self, tournaments_objs): 
         """ Displays all the registered tournaments. 
+            Args: 
+                tournaments_objs (list of Tournament_model instances): the instances of tournament to dispaly. 
         """ 
         if not tournaments_objs: 
             tournaments_objs = helpers.select_all_tournaments() 
 
         self.report_view.display_tournaments(tournaments_objs) 
 
-        return tournaments_objs 
-
 
     def report_one_tournament(self, tournament_id): 
         """ Displays one tournament from its id. 
             Args: 
-                tournament_id (int or 'last'): the tournament's id, or 'last' for the last one. 
+                tournament_id (int or 'last'): the tournament's id, or 'last' for the last one, to display. 
         """ 
         tournament_obj = helpers.select_one_tournament(tournament_id) 
 
@@ -120,8 +98,6 @@ class Report_controller():
             print('\nIl n\'y a pas de tournoi à afficher.') 
         else: 
             self.report_view.display_one_tournament(tournament_obj) 
-
-        return tournament_obj 
 
 
     def report_name_date_tournament(self, tournament_id): 
@@ -135,8 +111,6 @@ class Report_controller():
         else: 
             self.report_view.display_name_date_tournament(tournament_obj) 
 
-        return tournament_obj 
-
 
     def report_rounds(self, tournament_id): 
         """ Select the tournament to display the rounds from. 
@@ -149,9 +123,11 @@ class Report_controller():
         else: 
             self.report_view.display_rounds_one_tournament(tournament_obj) 
 
-        return tournament_obj 
-
 
     def report_starters(self, starters): 
+        """ Reports the players who play the white team. 
+            Args:
+                starters (list of Player_model instances): the players to display. 
+        """
         self.report_view.display_starters(starters) 
 
