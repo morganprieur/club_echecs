@@ -100,7 +100,7 @@ class Input_view():
 
 
     def input_object_id(self, object): 
-        id = session.prompt(f'\nQuelle ID du {object} ? (pour le dernier, tapez "last")') 
+        id = session.prompt(f'\nQuelle ID du {object} ? (pour le dernier, tapez "last") : ') 
         return id 
 
 

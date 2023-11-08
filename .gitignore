@@ -4,6 +4,4 @@ roadmap.md
 *.pyc
 env/
 data/
-utils/__pycache__
-display_round_scores.ipynb
 

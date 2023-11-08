@@ -32,7 +32,7 @@ class Report_controller():
             print('\n==== Tous les joueurs par ordre alphabétique :  ==== ') 
         if field == 'score': 
             rev = True 
-            print('\n==== Tous les joueurs par score INE :  ==== ') 
+            print('\n==== Tous les joueurs par score INE décroissant :  ==== ') 
         sorted_players = helpers.sort_objects_by_field(players_objs, field, rev) 
 
         self.report_view.display_players(sorted_players) 
