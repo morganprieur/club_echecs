@@ -168,10 +168,10 @@ class Main_controller():
                     print('\nLe tournoi a bien été enregistré. ') 
 
                     # Displays the last tournament  
-                    new_tournament_obj = self.report_controller.report_one_tournament('last') 
+                    self.report_controller.report_one_tournament('last') 
                     self.press_enter_to_continue() 
 
-                    new_players_objs = helpers.select_tournament_players(new_tournament_obj.id) 
+                    new_players_objs = helpers.select_tournament_players(tournament_obj.id) 
                     self.report_controller.report_many_players(new_players_objs, 'tournament_score') 
 
                     # Displays the starters 
