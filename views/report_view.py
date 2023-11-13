@@ -72,7 +72,7 @@ class Report_view():
             print('\t\t\tIl n\'y a aucun match à afficher.') 
         else: 
             for match in matches_objs: 
-                print(f'\nMatch : {match.player_1_id} contre {match.player_2_id} : ') 
+                print(f'\n\033[1mMatch : {match.player_1_id} contre {match.player_2_id} :\033[0m ') 
                 for player in players_objs:
                     if match.player_1_id == player.id: 
                         print(f' joueur {player.id} : {player.firstname} {player.lastname}, \

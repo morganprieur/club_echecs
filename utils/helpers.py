@@ -106,10 +106,8 @@ def select_one_player(player_id):
     """ 
     if Player_model.check_if_json_empty('players'): 
         print('Il n\'y a pas de joueur à afficher. ') 
-        # à tester ### 
         player = None 
     else: 
-        # à tester ### 
         if len(Player_model.get_registered_dict('players')) == 0: 
             player = None 
         else: 
