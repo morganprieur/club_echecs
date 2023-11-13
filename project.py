@@ -13,12 +13,12 @@ if __name__ == "__main__":
     new_board = Dashboard_view() 
     new_input_view = Input_view() 
     new_reporter = Report_view() 
-    new_register_controller = Register_controller( 
-        new_input_view, 
-        new_reporter 
-    ) 
     new_report_controller = Report_controller( 
         new_reporter 
+    ) 
+    new_register_controller = Register_controller( 
+        new_input_view, 
+        new_report_controller 
     ) 
     new_controller = Main_controller( 
         board=new_board, 
