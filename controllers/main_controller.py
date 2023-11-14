@@ -57,8 +57,10 @@ class Main_controller():
         # then set the new_session to False, 
         # else set it to True. 
         last_tournament = helpers.select_one_tournament('last') 
-        if last_tournament.end_date == '': 
-            new_session = False 
+
+        if last_tournament: 
+            if last_tournament.end_date == '': 
+                new_session = False 
         else: 
             new_session = True 
             last_tournament = None 
@@ -234,6 +236,8 @@ class Main_controller():
                         print(f'\nLe round {tournament_obj.rounds[-1].round_name} a été clôturé avec succès. ') 
 
                     # if this is the last round: 
+                    print(f'last_round.id : {last_round.id}') 
+                    print(f'tournament_obj.rounds_left : {tournament_obj.rounds_left}') 
                     if last_round.id == tournament_obj.rounds_left: 
                         self.register_controller.close_tournament(tournament_obj) 
                         # serializes tournament 
