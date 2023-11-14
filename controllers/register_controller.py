@@ -179,7 +179,6 @@ class Register_controller():
         if tournament_obj.end_date != '': 
             print(f'Le tournoi {tournament_obj.name} est déjà clôturé. ') 
 
-
         closing_tournament = self.in_view.input_closing_tournament() 
         if not (closing_tournament == 'y') or (closing_tournament == 'Y'): 
             print('\nLa clôture du tournoi a été annulée, vous pourrez la relancer depuis le menu. ') 
