@@ -17,6 +17,8 @@ L'invite de commande commence maintenant par
 A noter que dans l'arborescence de l'IDE, les dossiers et fichiers de travail apparaissent au même niveau que le dossier `<nom_env_virtuel>`. 
 
 
+
+
 ## Fichiers des données 
 *  Créer un dossier `data` 
 *  A l'intérieur créer 2 fichiers json : 

@@ -61,6 +61,8 @@ class Main_controller():
         if last_tournament: 
             if last_tournament.end_date == '': 
                 new_session = False 
+            else: 
+                new_session = True 
         else: 
             new_session = True 
             last_tournament = None 
