@@ -70,6 +70,14 @@ class Input_view():
 
 
     def input_scores(self, matches, players_objs): 
+        """ Get the scores of the last matches. 
+            Args:
+                matches (array):  the match_model instances 
+                players_objs (array): the player_model instances. 
+            Returns:
+                tuple: (array of the null matches (match_model instances), 
+                        array of the winners (Player_model instances)). 
+        """ 
         null_matches = [] 
         winners = [] 
         for match in matches: 
@@ -81,12 +89,25 @@ class Input_view():
             print(f'\nMatch : joueur \033[1m{match.player_1_id} {player1}\033[0m \
                 contre joueur \033[1m{match.player_2_id} {player2}\033[0m ') 
 
+            # Check if the user's answer is correct, else repeat the question.  
             null_match = session.prompt('\nY a-t-il eu match nul ? (y/n) ') 
-            if null_match == 'y': 
+            while (null_match not in ['y', 'Y', 'n', 'N']): 
+                print('Vous devez taper "y" ou "n" pour indiquer si le match a un résultat nul ou pas. ') 
+                null_match = session.prompt('\nY a-t-il eu match nul ? (y/n) ') 
+            if (null_match == 'y') | (null_match == 'Y'): 
                 null_matches.append(match) 
-            else: 
-                winner_position = int(session.prompt(f'\nQuel joueur a gagné {match.player_1} ou {match.player_2} ? \
-                    (Entrer sa place dans la liste : 1 ou 2) ')) 
+            elif (null_match == 'n') | (null_match == 'N'): 
+                winner_position = session.prompt(f'\nQuel joueur a gagné {match.player_1} ou {match.player_2} ? \
+                    (Entrer sa place dans la liste : 1 ou 2) ') 
+
+                # Check if the user's answer is correct, else repeat the question. 
+                while (winner_position not in [1, 2]): 
+                    print('Vous devez indiquer si c\'est le joueur en position 1 ou celui en position 2 qui a gagné \
+                le match . ') 
+                    winner_position = int(session.prompt(f'\nQuel joueur a gagné {match.player_1} ou \
+                {match.player_2} ? \
+                        (Entrer sa place dans la liste : 1 ou 2) ')) 
+
                 if winner_position == 1: 
                     winner = match.player_1 
                 else: 
