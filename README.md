@@ -16,7 +16,7 @@ L'invite de commande commence maintenant par
 `(<nom_env_virtuel>)`, ce qui signifie qu'on se trouve bien dans l'environnement virtuel. 
 A noter que dans l'arborescence de l'IDE, les dossiers et fichiers de travail apparaissent au même niveau que le dossier `<nom_env_virtuel>`. 
 
-zebboudjalexandre@gmail.com
+
 
 
 ## Fichiers des données 
